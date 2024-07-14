@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2023-09-08T03:24:47.460Z</updated>
+  <updated>2024-07-13T14:58:43.000Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>5W2H | 关于写博客的七点反思</title>
-    <link href="localhost/2020/01/14/5w2h-godweiyang/"/>
-    <id>localhost/2020/01/14/5w2h-godweiyang/</id>
-    <published>2020-01-14T07:27:31.000Z</published>
-    <updated>2023-09-08T03:24:47.460Z</updated>
+    <title>second</title>
+    <link href="localhost/2024/06/29/second/"/>
+    <id>localhost/2024/06/29/second/</id>
+    <published>2024-06-29T23:30:41.000Z</published>
+    <updated>2024-07-13T14:58:43.000Z</updated>
     
     <summary type="html">
     
@@ -29,13 +29,25 @@
       
         
         
-          &lt;blockquote&gt;
-&lt;p&gt;关注公众号【算法码上来】，每日算法干货马上就来！&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;img src=&quot;/medias/contact.jpg&quot; alt&gt;&lt;/p&gt;
-&lt;h2 id=&quot;When？什么时候开始写的？&quot;&gt;&lt;a
+          &lt;p&gt;如果要在你的系统上监控网络，那么使用命令行工具是非常实用的，并且对于 Linux 用户来说，有着许许多多现成的工具可以使用，如： nethogs, ntopng, nload, iftop, iptraf, bmon, slurm, tcptrack, cbm,
         
       
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="localhost/2023/11/10/first/"/>
+    <id>localhost/2023/11/10/first/</id>
+    <published>2023-11-10T15:27:31.000Z</published>
+    <updated>2023-11-10T07:40:01.000Z</updated>
+    
+    <summary type="html">
     
     </summary>
     
