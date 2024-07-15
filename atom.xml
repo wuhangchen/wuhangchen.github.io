@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2024-07-13T14:58:43.000Z</updated>
+  <updated>2024-07-15T14:17:31.000Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>second</title>
+    <title>Linux 网络工具</title>
     <link href="localhost/2024/06/29/second/"/>
     <id>localhost/2024/06/29/second/</id>
     <published>2024-06-29T23:30:41.000Z</published>
-    <updated>2024-07-13T14:58:43.000Z</updated>
+    <updated>2024-07-15T14:17:31.000Z</updated>
     
     <summary type="html">
     
@@ -34,6 +34,8 @@
       
     
     </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
     
     
       <category term="Linux" scheme="localhost/tags/Linux/"/>
