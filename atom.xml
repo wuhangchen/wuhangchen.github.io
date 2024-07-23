@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2024-07-20T10:20:08.599Z</updated>
+  <updated>2024-07-23T13:52:05.360Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -17,11 +17,63 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>three</title>
+    <title>Linux 命令行神器推荐</title>
+    <link href="localhost/2024/07/23/five/"/>
+    <id>localhost/2024/07/23/five/</id>
+    <published>2024-07-23T13:48:40.000Z</published>
+    <updated>2024-07-23T13:52:05.360Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;• ag：比grep、ack更快的递归搜索文件内容。&lt;br&gt;• jq: json文件处理以及格式化显示，支持高亮，可以替换python -m json.tool。&lt;br&gt;• ncdu：可视化的空间分析程序&lt;br&gt;你发现有人把 /home
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux shell变量含义</title>
+    <link href="localhost/2024/07/23/four/"/>
+    <id>localhost/2024/07/23/four/</id>
+    <published>2024-07-23T13:41:30.000Z</published>
+    <updated>2024-07-23T13:48:27.380Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;$$               Shell本身的PID（ProcessID）&lt;br&gt;$!               Shell最后运行的后台Process的PID&lt;br&gt;$?               最后运行的命令的结束代码（返回值）&lt;br&gt;$-         
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux系统目录结构</title>
     <link href="localhost/2024/07/20/three/"/>
     <id>localhost/2024/07/20/three/</id>
     <published>2024-07-20T09:51:06.000Z</published>
-    <updated>2024-07-20T10:20:08.599Z</updated>
+    <updated>2024-07-20T11:25:35.059Z</updated>
     
     <summary type="html">
     
@@ -47,7 +99,7 @@
     <link href="localhost/2024/06/29/second/"/>
     <id>localhost/2024/06/29/second/</id>
     <published>2024-06-29T23:30:41.000Z</published>
-    <updated>2024-07-20T09:56:05.159Z</updated>
+    <updated>2024-07-23T13:40:33.360Z</updated>
     
     <summary type="html">
     

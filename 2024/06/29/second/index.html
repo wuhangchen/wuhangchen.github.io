@@ -266,7 +266,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -446,10 +446,10 @@
             <div id="articleContent">
                 <p>如果要在你的系统上监控网络，那么使用命令行工具是非常实用的，并且对于 Linux 用户来说，有着许许多多现成的工具可以使用，<br>如： nethogs, ntopng, nload, iftop, iptraf, bmon, slurm,<br>tcptrack, cbm, netwatch, collectl, trafshow, cacti, etherape, ipband, jnettop, netspeed 以及 speedometer。<br>鉴于世上有着许多的 Linux 专家和开发者，显然还存在其他的网络监控工具，但在教程中，<br>我不打算将它们所有包括在内。<br>上面列出的工具都有着自己的独特之处，但归根结底，它们都做着监控网络流量的工作，<br>只是通过各种不同的方法。例如 nethogs 可以被用来展示每个进程的带宽使用情况，<br>以防你想知道究竟是哪个应用在消耗了你的整个网络资源；</p>
 <pre><code>iftop 可以被用来展示每个套接字连接的带宽使用情况，
-nload 这类的工具可以帮助你得到有关整个带宽的信息。</code></pre><h1 id="nethogs"><a href="#nethogs" class="headerlink" title="nethogs"></a>nethogs</h1><p>nethogs 是一个免费的工具，当要查找哪个 PID (注：即 process identifier，进程 ID) 给你的网络流量带来了麻烦时，它是非常方便的。<br>它按每个进程来分组带宽，而不是像大多数的工具那样按照每个协议或每个子网来划分流量。它功能丰富，同时支持 IPv4 和 IPv6，<br>并且我认为，若你想在你的 Linux 主机上确定哪个程序正消耗着你的全部带宽，它是来做这件事的最佳的程序。<br>一个 Linux 用户可以使用 nethogs 来显示每个进程的 TCP 下载和上传速率，可以使用命令 nethogs eth0 来监控一个指定的设备，<br>上面的 eth0 是那个你想获取信息的设备的名称，你还可以得到有关正在传输的数据的传输速率信息。对我而言， nethogs 是非常容易使用的，<br>或许是因为我非常喜欢它，以至于我总是在我的 Ubuntu 12.04 LTS 机器中使用它来监控我的网络带宽。例如要想使用混杂模式来嗅探，可以像下面展示的命令那样使用选项 -p：</p>
+nload 这类的工具可以帮助你得到有关整个带宽的信息。</code></pre><h1 id="nethogs"><a href="#nethogs" class="headerlink" title="nethogs"></a>nethogs</h1><p>nethogs 是一个免费的工具，当要查找哪个 PID (注：即 process identifier，进程 ID) 给你的网络流量带来了麻烦时，它是非常方便的。<br>它按每个进程来分组带宽，而不是像大多数的工具那样按照每个协议或每个子网来划分流量。它功能丰富，同时支持 IPv4 和 IPv6，<br>并且我认为，若你想在你的 Linux 主机上确定哪个程序正消耗着你的全部带宽，它是来做这件事的最佳的程序。<br>一个 Linux 用户可以使用 nethogs 来显示每个进程的 TCP 下载和上传速率，可以使用命令 nethogs eth0 来监控一个指定的设备，<br>上面的 eth0 是那个你想获取信息的设备的名称，你还可以得到有关正在传输的数据的传输速率信息。对我而言， nethogs 是非常容易使用的，<br>或许是因为我非常喜欢它，以至于我总是在我的 Ubuntu 12.04 LTS 机器中使用它来监控我的网络带宽。例如要想使用混杂模式来嗅探，<br>可以像下面展示的命令那样使用选项 -p：</p>
 <pre><code>nethogs -p wlan0</code></pre><p>假如你想更多地了解 nethogs 并深入探索它，那么请毫不犹豫地阅读我们做的关于这个网络带宽监控工具的整个教程。</p>
 <h1 id="nload"><a href="#nload" class="headerlink" title="nload"></a>nload</h1><p>nload 是一个控制台应用，可以被用来实时地监控网络流量和带宽使用情况，它还通过提供两个简单易懂的图表来对流量进行可视化。<br>这个绝妙的网络监控工具还可以在监控过程中切换被监控的设备，而这可以通过按左右箭头来完成。<br>正如你在上面的截图中所看到的那样，由 nload 提供的图表是非常容易理解的。nload 提供了有用的信息，<br>也展示了诸如被传输数据的总量和最小/最大网络速率等信息。而更酷的是你只需要直接运行 nload 这个工具就行，这个命令是非常的短小且易记的：</p>
-<h1 id="slurm"><a href="#slurm" class="headerlink" title="slurm"></a>slurm</h1><p>slurm 是另一个 Linux 网络负载监控工具，它以一个不错的 ASCII 图来显示结果，它还支持许多按键用以交互，例如 c 用来切换到经典模式， s 切换到分图模式， r 用来重绘屏幕， L 用来启用 TX/RX 灯（注：TX，发送流量；RX，接收流量） ，m 用来在经典分图模式和大图模式之间进行切换， q 退出 slurm。<br>在网络负载监控工具 slurm 中，还有许多其它的按键可用，你可以很容易地使用下面的命令在 man 手册中学习它们。</p>
+<h1 id="slurm"><a href="#slurm" class="headerlink" title="slurm"></a>slurm</h1><p>slurm 是另一个 Linux 网络负载监控工具，它以一个不错的 ASCII 图来显示结果，它还支持许多按键用以交互，例如 c 用来切换到经典模式，<br>s 切换到分图模式， r 用来重绘屏幕， L 用来启用 TX/RX 灯（注：TX，发送流量；RX，接收流量） ，<br>m 用来在经典分图模式和大图模式之间进行切换， q 退出 slurm。在网络负载监控工具 slurm 中，还有许多其它的按键可用，<br>你可以很容易地使用下面的命令在 man 手册中学习它们。</p>
 <pre><code>man slurm</code></pre><p>slurm 在 Ubuntu 和 Debian 的官方软件仓库中可以找到，所以使用这些发行版本的用户可以像下面展示的那样，<br>使用 apt-get 安装命令来轻松地下载它：</p>
 <pre><code>sudo apt-get install slurm</code></pre><p>我们已经在一个教程中对 slurm 的使用做了介绍，不要忘记和其它使用 Linux 的朋友分享这些知识。</p>
 <h1 id="iftop"><a href="#iftop" class="headerlink" title="iftop"></a>iftop</h1><p>当你想显示连接到网卡上的各个主机的带宽使用情况时，iftop 是一个非常有用的工具。根据 man 手册，<br>iftop 在一个指定的接口或在它可以找到的第一个接口（假如没有任何特殊情况，它应该是一个对外的接口）上监听网络流量，<br>并且展示出一个表格来显示当前的一对主机间的带宽使用情况。<br>通过在虚拟终端中使用下面的命令，Ubuntu 和 Debian 用户可以在他们的机器中轻易地安装 iftop：</p>
@@ -880,9 +880,9 @@ sudo make install</code></pre><p>这样，在你的 Debian 或 Ubuntu 系统上�
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="three">
+                        <img src="/medias/featureimages/24.jpg" class="responsive-img" alt="Linux系统目录结构">
                         
-                        <span class="card-title">three</span>
+                        <span class="card-title">Linux系统目录结构</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -929,7 +929,7 @@ sudo make install</code></pre><p>这样，在你的 Debian 或 Ubuntu 系统上�
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="first">
+                        <img src="/medias/featureimages/28.jpg" class="responsive-img" alt="first">
                         
                         <span class="card-title">first</span>
                     </div>
@@ -1135,7 +1135,7 @@ sudo make install</code></pre><p>这样，在你的 Debian 或 Ubuntu 系统上�
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">5.1k</span>
+            <span class="white-color">5.8k</span>
             
 
             <br>
