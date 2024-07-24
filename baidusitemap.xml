@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>localhost/2024/07/24/eleven/</loc>
+    <lastmod>2024-07-24</lastmod>
+  </url>  <url>
+    <loc>localhost/2024/07/24/ten/</loc>
+    <lastmod>2024-07-24</lastmod>
+  </url>  <url>
+    <loc>localhost/2024/07/24/nine/</loc>
+    <lastmod>2024-07-24</lastmod>
+  </url>  <url>
+    <loc>localhost/2023/11/10/first/</loc>
+    <lastmod>2024-07-24</lastmod>
+  </url>  <url>
+    <loc>localhost/2024/07/24/eight/</loc>
+    <lastmod>2024-07-24</lastmod>
+  </url>  <url>
     <loc>localhost/2024/07/23/five/</loc>
+    <lastmod>2024-07-23</lastmod>
+  </url>  <url>
+    <loc>localhost/2024/07/23/six/</loc>
     <lastmod>2024-07-23</lastmod>
   </url>  <url>
     <loc>localhost/2024/07/23/four/</loc>
@@ -12,8 +30,5 @@
   </url>  <url>
     <loc>localhost/2024/07/20/three/</loc>
     <lastmod>2024-07-20</lastmod>
-  </url>  <url>
-    <loc>localhost/2023/11/10/first/</loc>
-    <lastmod>2024-07-15</lastmod>
   </url>
 </urlset>
