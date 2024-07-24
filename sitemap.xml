@@ -2,9 +2,51 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>localhost/2024/07/24/eleven/</loc>
+    
+    <lastmod>2024-07-24T13:08:58.719Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>localhost/2024/07/24/ten/</loc>
+    
+    <lastmod>2024-07-24T12:46:10.249Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>localhost/2024/07/24/nine/</loc>
+    
+    <lastmod>2024-07-24T12:32:41.499Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>localhost/2023/11/10/first/</loc>
+    
+    <lastmod>2024-07-24T12:25:47.229Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>localhost/2024/07/24/eight/</loc>
+    
+    <lastmod>2024-07-24T12:21:30.909Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>localhost/2024/07/23/five/</loc>
     
-    <lastmod>2024-07-23T13:52:05.360Z</lastmod>
+    <lastmod>2024-07-23T14:00:34.390Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>localhost/2024/07/23/six/</loc>
+    
+    <lastmod>2024-07-23T14:00:02.880Z</lastmod>
     
   </url>
   
@@ -26,13 +68,6 @@
     <loc>localhost/2024/07/20/three/</loc>
     
     <lastmod>2024-07-20T11:25:35.059Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>localhost/2023/11/10/first/</loc>
-    
-    <lastmod>2024-07-15T14:49:38.000Z</lastmod>
     
   </url>
   

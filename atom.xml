@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2024-07-23T13:52:05.360Z</updated>
+  <updated>2024-07-24T13:08:58.719Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -17,11 +17,151 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Linux 删除大量文件效率对比</title>
+    <link href="localhost/2024/07/24/eleven/"/>
+    <id>localhost/2024/07/24/eleven/</id>
+    <published>2024-07-24T12:48:03.000Z</published>
+    <updated>2024-07-24T13:08:58.719Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;首先建立50万个文件&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;for i in $(seq 1 500000);do echo text &amp;gt;&amp;gt;$i.txt;done&lt;/code&gt;&lt;/pre&gt;&lt;h1 id=&quot;rm删除&quot;&gt;&lt;a href=&quot;#rm删除&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux 系统查找大文件</title>
+    <link href="localhost/2024/07/24/ten/"/>
+    <id>localhost/2024/07/24/ten/</id>
+    <published>2024-07-24T12:32:53.000Z</published>
+    <updated>2024-07-24T12:46:10.249Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;在Windows系统中，我们可以使用TreeSize工具查找一些大文件或文件夹，非常的方便高效，在Linux系统中，&lt;br&gt;如何去搜索一些比较大的文件呢？下面我整理了一下在Linux系统中如何查找大文件或文件夹的方法。&lt;/p&gt;
+&lt;h1 id=&quot;如何查找大文件？&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux 终端诡异家伙</title>
+    <link href="localhost/2024/07/24/nine/"/>
+    <id>localhost/2024/07/24/nine/</id>
+    <published>2024-07-24T12:21:42.000Z</published>
+    <updated>2024-07-24T12:32:41.499Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;这篇文章，我们一起来到 Linux 的诡异的一面……你知道吗？在我们日常使用的 Unix（和 Linux ）及其各种各样的分支系统中，&lt;br&gt;存在着一些诡异的命令或进程，它们让人毛骨悚然，有些确实是有害，但也有些却是有益的。下面就来简单介绍一下这些家伙吧。&lt;/p&gt;
+&lt;h1
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux Make 三连</title>
+    <link href="localhost/2024/07/24/eight/"/>
+    <id>localhost/2024/07/24/eight/</id>
+    <published>2024-07-24T12:16:57.000Z</published>
+    <updated>2024-07-24T12:21:30.909Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Unix 开发过程中，经常性的操作是从源码编译安装相应库文件，所以下面三个命令便是家常便饭，俗称三连：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;./configure
+make
+make install&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;下面来看看这三步分别做了什么。&lt;/p&gt;
+&lt;h1
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ubuntu 完全卸载一个软件包</title>
+    <link href="localhost/2024/07/23/six/"/>
+    <id>localhost/2024/07/23/six/</id>
+    <published>2024-07-23T13:57:51.000Z</published>
+    <updated>2024-07-23T14:00:02.880Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;今天卸载一个软件，老是有配置残留，网上找到了解决方案：&lt;br&gt;查看已安装的软件：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;dpkg -l |grep 软件名
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;找到一大堆相关的包，然后卸载核心的包：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Linux 命令行神器推荐</title>
     <link href="localhost/2024/07/23/five/"/>
     <id>localhost/2024/07/23/five/</id>
     <published>2024-07-23T13:48:40.000Z</published>
-    <updated>2024-07-23T13:52:05.360Z</updated>
+    <updated>2024-07-23T14:00:34.390Z</updated>
     
     <summary type="html">
     
@@ -121,11 +261,11 @@
   </entry>
   
   <entry>
-    <title>first</title>
+    <title>随想</title>
     <link href="localhost/2023/11/10/first/"/>
     <id>localhost/2023/11/10/first/</id>
     <published>2023-11-10T15:27:31.000Z</published>
-    <updated>2024-07-15T14:49:38.000Z</updated>
+    <updated>2024-07-24T12:25:47.229Z</updated>
     
     <summary type="html">
     
