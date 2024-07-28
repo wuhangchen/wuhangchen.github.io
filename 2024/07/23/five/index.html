@@ -266,7 +266,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -444,7 +444,15 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>• ag：比grep、ack更快的递归搜索文件内容。<br>• jq: json文件处理以及格式化显示，支持高亮，可以替换python -m json.tool。<br>• ncdu：可视化的空间分析程序<br>你发现有人把 /home 空间撑爆了，影响了大家的工作，你愤怒了一层层的 du，一层层的 cd，整个过程就像刨垃圾堆一样的恶心，后来发现了 ncdu 这个基于 ncurses 的空间分析程序：不但能用光标上下键移动，回车还可以进入对应目录又可以查看最新的占用，很快就揪出了占用空间最大的罪魁祸首。<br>• shellcheck：shell脚本静态检查工具，能够识别语法错误以及不规范的写法。<br>• fzf：命令行下模糊搜索工具，能够交互式智能搜索并选取文件或者内容，配合终端ctrl-r历史命令搜索简直完美。<br>• PathPicker(fpp): 在命令行输出中自动识别目录和文件，支持交互式，配合git非常有用。运行以下命令：<br>git diff HEAD~8 –stat | fpp<br>• htop: 提供更美观、更方便的进程监控工具，替代top命令。<br>• glances：更强大的 htop / top 代替者。htop 代替 top，glances 代替 htop：<br>信息比 htop 丰富了不少，更全了，对吧？除了命令行查看外，glances 还提供页面服务，让你从页面上随时查看某服务器的状态。<br>• axel：多线程下载工具，下载文件时可以替代curl、wget。<br>axel -n 20 <a href="http://centos.ustc.edu.cn/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1511.iso" target="_blank" rel="noopener">http://centos.ustc.edu.cn/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1511.iso</a><br>• sz/rz：交互式文件传输，在多重跳板机下传输文件非常好用，不用一级一级传输。<br>• cloc：代码统计工具，能够统计代码的空行数、注释行、编程语言。<br>• tmux：终端复用工具，替代screen、nohup。<br>• script/scriptreplay:  终端会话录制。<br>// 录制<br>script -t 2&gt;time.txt session.typescript<br>// your commands<br>// 录制结束<br>exit<br>// 回放<br>scriptreplay -t time.txt session.typescript<br>• multitail：多重 tail。通常你不止一个日志文件要监控，怎么办？终端软件里开多个 tab 太占地方，可以试试这个工具：</p>
+                <p>• ag：比grep、ack更快的递归搜索文件内容。<br>• jq: json文件处理以及格式化显示，支持高亮，可以替换python -m json.tool。<br>• ncdu：可视化的空间分析程序<br>你发现有人把 /home 空间撑爆了，影响了大家的工作，你愤怒了一层层的 du，一层层的 cd，整个过程就像刨垃圾堆一样的恶心，后来发现了 ncdu 这个基于 ncurses 的空间分析程序：不但能用光标上下键移动，回车还可以进入对应目录又可以查看最新的占用，很快就揪出了占用空间最大的罪魁祸首。<br>• shellcheck：shell脚本静态检查工具，能够识别语法错误以及不规范的写法。<br>• fzf：命令行下模糊搜索工具，能够交互式智能搜索并选取文件或者内容，配合终端ctrl-r历史命令搜索简直完美。<br>• PathPicker(fpp): 在命令行输出中自动识别目录和文件，支持交互式，配合git非常有用。运行以下命令：</p>
+<pre><code>git diff HEAD~8 --stat | fpp</code></pre><p>• htop: 提供更美观、更方便的进程监控工具，替代top命令。<br>• glances：更强大的 htop / top 代替者。htop 代替 top，glances 代替 htop：<br>信息比 htop 丰富了不少，更全了，对吧？除了命令行查看外，glances 还提供页面服务，让你从页面上随时查看某服务器的状态。<br>• axel：多线程下载工具，下载文件时可以替代curl、wget。</p>
+<pre><code>axel -n 20 http://centos.ustc.edu.cn/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1511.iso</code></pre><p>• sz/rz：交互式文件传输，在多重跳板机下传输文件非常好用，不用一级一级传输。<br>• cloc：代码统计工具，能够统计代码的空行数、注释行、编程语言。<br>• tmux：终端复用工具，替代screen、nohup。<br>• script/scriptreplay:  终端会话录制。<br>// 录制</p>
+<pre><code>script -t 2&gt;time.txt session.typescript
+// your commands
+// 录制结束
+// 回放
+scriptreplay -t time.txt session.typescript
+exit</code></pre><p>• multitail：多重 tail。通常你不止一个日志文件要监控，怎么办？终端软件里开多个 tab 太占地方，可以试试这个工具：</p>
 
             </div>
             <hr />
@@ -813,7 +821,7 @@
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="Ubuntu 完全卸载一个软件包">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Ubuntu 完全卸载一个软件包">
                         
                         <span class="card-title">Ubuntu 完全卸载一个软件包</span>
                     </div>
@@ -865,7 +873,7 @@ sudo apt-get remove --purge 软件包名继续grep，直到找不到相
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="Linux shell变量含义">
+                        <img src="/medias/featureimages/24.jpg" class="responsive-img" alt="Linux shell变量含义">
                         
                         <span class="card-title">Linux shell变量含义</span>
                     </div>
