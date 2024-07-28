@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2024-07-28T12:42:43.091Z</updated>
+  <updated>2024-07-28T13:21:48.981Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -15,6 +15,58 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux 10个危险的命令</title>
+    <link href="localhost/2024/07/28/fourteen/"/>
+    <id>localhost/2024/07/28/fourteen/</id>
+    <published>2024-07-28T13:08:55.000Z</published>
+    <updated>2024-07-28T13:21:48.981Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Linux命令行佷有用、很高效，也很有趣，但有时候也很危险，尤其是在你不确定你自己在正在做什么时候。&lt;br&gt;这篇文章将会向你介绍十条命令，但你最好不要尝试着去使用。&lt;br&gt;当然，以下命令通常都是在root权限下才能将愚蠢发挥到无可救药；在普通用户身份下，破坏的只是自己的一亩
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux Shell一些快捷键</title>
+    <link href="localhost/2024/07/28/thirteen/"/>
+    <id>localhost/2024/07/28/thirteen/</id>
+    <published>2024-07-28T13:06:35.000Z</published>
+    <updated>2024-07-28T13:08:27.051Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;ctrl+a:光标移到行首。&lt;br&gt;ctrl+e:光标移到行尾。&lt;br&gt;ctrl+b:光标左移一个字母, 向行首移动一个字符&lt;br&gt;ctrl+f:光标右移,向行尾移动一个字符&lt;br&gt;ctrl+c:杀死当前进程。&lt;br&gt;ctrl+d:退出当前
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>Linux history 显示命令执行的时间</title>
