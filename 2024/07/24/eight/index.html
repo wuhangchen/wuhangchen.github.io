@@ -425,7 +425,7 @@ configure执行 ./configure">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    364
+                    501
                 </div>
                 
 
@@ -454,7 +454,9 @@ make
 make install</code></pre><p>下面来看看这三步分别做了什么。</p>
 <h1 id="configure"><a href="#configure" class="headerlink" title="configure"></a>configure</h1><p>执行 ./configure 文件一般是进行正式编译前的一些环境准备，准备编译需要的依赖项等。比如检测当前的系统平台，<br>检测需要的编译器是否存在如何调用，配置和生成相应编译所需文件。</p>
 <h1 id="make"><a href="#make" class="headerlink" title="make"></a>make</h1><p>前期准备工作完成无误后，就可能调用 make 来执行编译了。实际执行的是 Makefile 文件中定义的任务来从源码进行项目的编译。<br>通常情况下下载下来的 tar 包中可能没有包含正式的 Makefile 文件，而是另外形式呈现的临时文件，<br>比如 Makefile.in，Makefile.am,Makefile.MSVC 等，然后在执行 ./configure 的时候根据相应环境来生成最终需要的 Makefile 文件。</p>
-<h1 id="make-install"><a href="#make-install" class="headerlink" title="make install"></a>make install</h1><p>项目编译正常后，会生成相应的产出，可执行文件，so 或 o 文件或 DLL 动态链接文件等。最后一步就是将生成的文件复制到相应的系统目录，<br>这个过程便是安装。比如将可执行文件复制到系统 PATH 能取到的地方，帮助文档复制到 MANPATH，其他文件复制到对应目录下。</p>
+<h1 id="make-install"><a href="#make-install" class="headerlink" title="make install"></a>make install</h1><p>项目编译正常后，会生成相应的产出，可执行文件，so 或 o 文件或 DLL 动态链接文件等。最后一步就是将生成的文件复制到相应的系统目录，<br>这个过程便是安装。比如将可执行文件复制到系统 PATH 能取到的地方，帮助文档复制到 MANPATH，其他文件复制到对应目录下。<br>这种默认安装路径的话，会把可执行文件拷贝到/usr/local/bin，如果没有sudo权限的话是会失败的，有两种方法指定安装路径。 一种是在./configure的时候指定路径</p>
+<pre><code>./configure --prefix=安装路径
+make install DESTDIR=安装路径</code></pre><h1 id="pip-install"><a href="#pip-install" class="headerlink" title="pip install"></a>pip install</h1><p>在Linux下直接用pip install packageName，有些文件会被放到根目录下，如果没有sudo权限的话，是会安装失败的。这个以后我们就需要指定安装的目录了。<br>pip install –install-option=”–prefix=绝对路径” packageName</p>
 
             </div>
             <hr />
@@ -1080,7 +1082,7 @@ sudo apt-get remove --purge 软件包名继续grep，直到找不到相
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">9.9k</span>
+            <span class="white-color">10k</span>
             
 
             <br>
