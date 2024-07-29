@@ -421,7 +421,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    831
+                    823
                 </div>
                 
 
@@ -444,12 +444,12 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Linux系统下文件数据储存在”块”中，文件的元信息，例如文件的创建者、文件的创建日期、文件的大小等。<br>这种储存文件元信息的区域就叫做inode，中文译名为”索引节点”。<br>inode也占用硬盘空间，硬盘格式化的时候，操作系统自动将硬盘分成两个区域。一个是数据区，存放文件数据；<br>另一个是inode区（inode table），存放inode所包含的信息。<br>每个inode节点的大小，一般是128字节或256字节。inode节点的总数，在格式化时就给定，一般是每1KB或每2KB就设置一个inode。<br>假定在一块1GB的硬盘中，每个inode节点的大小为128字节，每1KB就设置一个inode，那么inode table的大小就会达到128MB，<br>占整块硬盘的12.8%。<br>inodes使用完与存储空间使用完相似，都是创建不了文件或无法正常执行一些命令。inodes使用完，存储空间可能还有，<br>这种情况一般是生成了大量的小文件，把inode table占满。<br>一般情况下存储空间使用完，inodes往往才使用百分之几，所以容易忽视对inodes使用情况的监控。<br>借用网图来说明inodes用尽，而磁盘空间还未用完的情况：<br>查看磁盘空间使用情况，使用df命令<br>查看inodess使用情况，使用df -i命令<br>上述两个命令可以使用-h参数，命令为df -h和df -hi。从图中看见磁盘空间使用71%，但是inodes使用100%。<br>inodes的大小在磁盘格式化分区时确定，跟分区的大小相关，分区越大，inodes越大，反之亦然。<br>linux操作系统根目录一般分区比较小，如果有定时性的小文件产生而又未及时清理，则很容易造成inodes占满。<br>inodes占满解决步骤：<br>（1）查看文件最多的目录</p>
-<pre><code>for i in /*; do echo $i; find $i | wc -l; done</code></pre><p>如果确定目录范围，把/*写的具体点<br>最终发现是/var/spool/postfix/maildrop目录下小文件过多，原因如下：<br>由于linux在执行cron时，会将cron执行脚本中的output和warning信息，都会以邮件的形式发送给cron所有者。<br>由于客户环境中的sendmail和postfix没有正常运行，邮件发送不成功，导致全部小文件都堆积在maildrop目录下，<br>另由于缺乏自动清理的机制，故此目录下堆积了大量的文件。<br>经过排查root用户下发现有个每分钟进行一次时钟同步的定时任务，该定时任务每分钟产生一个小文件。<br>（2）删除大量文件</p>
-<pre><code>ls | xargs -n 1000 rm -rf</code></pre><p>需要使用xargs命令，不然会删除失败。<br>（1）设置方面<br>在crontab -e 第一行增加MAILTO=”” ，就没有文件产生啦<br>（2）重定向<br>对定时任务设置定向输出文件，不需要日志输出的定时任务可以将日志重定向到/dev/null，如下：</p>
-<pre><code>*/10 * * * * /tmp/test.sh &gt;/dev/null 2&gt;&amp;1</code></pre><p>（3）定时清理文件</p>
-<pre><code>find 目录 -type f -mtime +30 | xargs -n 1000 rm -f
-</code></pre><p>（4）监控inodes的使用<br>备注：应注意crontab的写法和产生的文件的定时清理</p>
+                <p>Linux系统下文件数据储存在”块”中，文件的元信息，例如文件的创建者、文件的创建日期、文件的大小等。<br>这种储存文件元信息的区域就叫做inode，中文译名为”索引节点”。<br>inode也占用硬盘空间，硬盘格式化的时候，操作系统自动将硬盘分成两个区域。一个是数据区，存放文件数据；<br>另一个是inode区（inode table），存放inode所包含的信息。<br>每个inode节点的大小，一般是128字节或256字节。inode节点的总数，在格式化时就给定，一般是每1KB或每2KB就设置一个inode。<br>假定在一块1GB的硬盘中，每个inode节点的大小为128字节，每1KB就设置一个inode，那么inode table的大小就会达到128MB，<br>占整块硬盘的12.8%。inodes使用完与存储空间使用完相似，都是创建不了文件或无法正常执行一些命令。inodes使用完，存储空间可能还有，<br>这种情况一般是生成了大量的小文件，把inode table占满。<br>一般情况下存储空间使用完，inodes往往才使用百分之几，所以容易忽视对inodes使用情况的监控。<br>借用网图来说明inodes用尽，而磁盘空间还未用完的情况：<br>查看磁盘空间使用情况，使用df命令<br>查看inodess使用情况，使用df -i命令<br>上述两个命令可以使用-h参数，命令为df -h和df -hi。从图中看见磁盘空间使用71%，但是inodes使用100%。<br>inodes的大小在磁盘格式化分区时确定，跟分区的大小相关，分区越大，inodes越大，反之亦然。<br>linux操作系统根目录一般分区比较小，如果有定时性的小文件产生而又未及时清理，则很容易造成inodes占满。<br>inodes占满解决步骤：</p>
+<h1 id="查看文件最多的目录"><a href="#查看文件最多的目录" class="headerlink" title="查看文件最多的目录"></a>查看文件最多的目录</h1><pre><code>for i in /*; do echo $i; find $i | wc -l; done</code></pre><p>如果确定目录范围，把/*写的具体点<br>最终发现是/var/spool/postfix/maildrop目录下小文件过多，原因如下：<br>由于linux在执行cron时，会将cron执行脚本中的output和warning信息，都会以邮件的形式发送给cron所有者。<br>由于客户环境中的sendmail和postfix没有正常运行，邮件发送不成功，导致全部小文件都堆积在maildrop目录下，<br>另由于缺乏自动清理的机制，故此目录下堆积了大量的文件。<br>经过排查root用户下发现有个每分钟进行一次时钟同步的定时任务，该定时任务每分钟产生一个小文件。</p>
+<h1 id="删除大量文件"><a href="#删除大量文件" class="headerlink" title="删除大量文件"></a>删除大量文件</h1><pre><code>ls | xargs -n 1000 rm -rf</code></pre><p>需要使用xargs命令，不然会删除失败。</p>
+<h2 id="设置方面"><a href="#设置方面" class="headerlink" title="设置方面"></a>设置方面</h2><p>在crontab -e 第一行增加MAILTO=”” ，就没有文件产生啦</p>
+<h2 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h2><p>对定时任务设置定向输出文件，不需要日志输出的定时任务可以将日志重定向到/dev/null，如下：</p>
+<pre><code>*/10 * * * * /tmp/test.sh &gt;/dev/null 2&gt;&amp;1</code></pre><h1 id="定时清理文件"><a href="#定时清理文件" class="headerlink" title="定时清理文件"></a>定时清理文件</h1><pre><code>find 目录 -type f -mtime +30 | xargs -n 1000 rm -f</code></pre><h1 id="监控inodes的使用"><a href="#监控inodes的使用" class="headerlink" title="监控inodes的使用"></a>监控inodes的使用</h1><p>备注：应注意crontab的写法和产生的文件的定时清理</p>
 
             </div>
             <hr />
