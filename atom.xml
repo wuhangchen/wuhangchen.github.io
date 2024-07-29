@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2024-07-29T13:05:23.862Z</updated>
+  <updated>2024-07-29T13:33:13.712Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux 技巧</title>
+    <link href="localhost/2024/07/29/seventeen/"/>
+    <id>localhost/2024/07/29/seventeen/</id>
+    <published>2024-07-29T13:07:20.000Z</published>
+    <updated>2024-07-29T13:33:13.712Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;如果要谨慎使用 rm 命令，可以为它设置一个别名，在删除文件之前需要进行确认才能删除。有些系统管理员会默认使用这个别名，&lt;br&gt;对于这种情况，你可能需要看看下一个技巧。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ rm -i    &amp;lt;==
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>Linux inode资源耗尽问题</title>
