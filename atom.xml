@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2024-07-28T13:21:48.981Z</updated>
+  <updated>2024-07-29T13:05:23.862Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -15,6 +15,59 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux inode资源耗尽问题</title>
+    <link href="localhost/2024/07/29/sixteen/"/>
+    <id>localhost/2024/07/29/sixteen/</id>
+    <published>2024-07-29T12:57:32.000Z</published>
+    <updated>2024-07-29T13:05:23.862Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Linux系统下文件数据储存在”块”中，文件的元信息，例如文件的创建者、文件的创建日期、文件的大小等。&lt;br&gt;这种储存文件元信息的区域就叫做inode，中文译名为”索引节点”。&lt;br&gt;inode也占用硬盘空间，硬盘格式化的时候，操作系统自动将硬盘分成两个区域。一个是数据区，
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux grep 文本查找</title>
+    <link href="localhost/2024/07/29/fifteen/"/>
+    <id>localhost/2024/07/29/fifteen/</id>
+    <published>2024-07-29T12:12:04.000Z</published>
+    <updated>2024-07-29T12:57:07.862Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;之前介绍过很多linux下查找相关的命令，而对文件内容搜索的命令似乎还没有涉及，因此本文介绍文本搜索命令–grep。&lt;br&gt;常见用法&lt;br&gt;我们会经常结合管道符（|）来使用它，即在前面命令执行的结果中查找包含相关字符串的内容。例如：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ ps
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>Linux 10个危险的命令</title>

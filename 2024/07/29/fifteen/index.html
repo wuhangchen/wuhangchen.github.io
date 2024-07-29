@@ -4,13 +4,12 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Linux history 显示命令执行的时间, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="Linux grep 文本查找, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="显示历史命令之行时间
-echo &amp;quot;export HISTTIMEFORMAT=&amp;quot;%F %T  &amp;quot;&amp;quot; &amp;gt;&amp;gt; ~/.bashrc一次会话的话先执行
-export HISTTIMEFORMAT=">
+    <meta name="description" content="之前介绍过很多linux下查找相关的命令，而对文件内容搜索的命令似乎还没有涉及，因此本文介绍文本搜索命令–grep。常见用法我们会经常结合管道符（|）来使用它，即在前面命令执行的结果中查找包含相关字符串的内容。例如：
+$ ps -ef|gr">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +17,7 @@ export HISTTIMEFORMAT=">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Linux history 显示命令执行的时间 | 吴杭沉的博客</title>
+    <title>Linux grep 文本查找 | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -268,13 +267,13 @@ export HISTTIMEFORMAT=">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/26.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/28.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Linux history 显示命令执行的时间
+                        Linux grep 文本查找
                     </div>
                 </div>
             </div>
@@ -409,7 +408,7 @@ export HISTTIMEFORMAT=">
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-07-28
+                    2024-07-29
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -423,14 +422,14 @@ export HISTTIMEFORMAT=">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    47
+                    1.8k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    7 分
                 </div>
                 
                 
@@ -446,9 +445,67 @@ export HISTTIMEFORMAT=">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>显示历史命令之行时间</p>
-<pre><code>echo &quot;export HISTTIMEFORMAT=&quot;%F %T  &quot;&quot; &gt;&gt; ~/.bashrc</code></pre><p>一次会话的话先执行</p>
-<pre><code>export HISTTIMEFORMAT=&quot;%F %T&quot;</code></pre><p>然后使用history 命令就行了</p>
+                <p>之前介绍过很多linux下查找相关的命令，而对文件内容搜索的命令似乎还没有涉及，因此本文介绍文本搜索命令–grep。<br>常见用法<br>我们会经常结合管道符（|）来使用它，即在前面命令执行的结果中查找包含相关字符串的内容。例如：</p>
+<pre><code>$ ps -ef|grep redis</code></pre><p>ps -ef用于查看系统进程情况，但是它列出的结果很多，如果我们只想看到自己需要的，则通过管道符，用grep进行过滤搜索，<br>例如搜索redis相关的进程，最后它只会列出和redis相关的进程了：</p>
+<pre><code>$  ps -ef|grep redis
+root     10748 10733  0 21:14 pts/21   00:00:00 redis-server *:6379
+root     10754 10733  0 21:14 pts/21   00:00:00 grep --color=auto redis</code></pre><p>那么如果要排除某些不相关信息呢？我们可以使用-v参数</p>
+<pre><code>$ ps -ef|grep redis |grep -v auto
+root     10748 10733  0 21:14 pts/21   00:00:00 redis-server *:6379</code></pre><p>这样一来，包含auto相关的结果就不会出现在最终结果里了。<br>如果只想统计结果数量呢？我们可以结合-c（count）参数：</p>
+<pre><code>$ ps -ef|grep redis -c
+2</code></pre><h1 id="文件内容搜索"><a href="#文件内容搜索" class="headerlink" title="文件内容搜索"></a>文件内容搜索</h1><p>好了，说完了最常见的用法，我们来看看如何搜索文件内容。实际上awk和sed在这方面也颇有经验，不过本文的主角是grep，<br>所以另外两个命令暂时不涉及。我们来看几个实例。<br>在指定文件中查找指定关键字<br>例如，要在linux_command_debug.md文件中，查找test字符串：</p>
+<pre><code>$  grep &quot;test&quot; aaa/bbb/linux_command_debug.md
+int test(int a,int b)
+    test(a,b);</code></pre><p>如果想要显示指定关键字的行号，可以使用-n参数，例如：</p>
+<pre><code>$  grep -n &quot;test&quot; aaa/bbb/linux_command_debug.md
+18:int test(int a,int b)
+27:    test(a,b);</code></pre><h1 id="搜索时指定或排除多个文件"><a href="#搜索时指定或排除多个文件" class="headerlink" title="搜索时指定或排除多个文件"></a>搜索时指定或排除多个文件</h1><p>前面提到了对一个文件内容进行搜索，如果是多个呢？或者不想从某些文件里搜索呢？<br>如果想对文件进行指定也是可以的，例如搜索所有的md结尾的文件：</p>
+<pre><code>$  grep -n &quot;test&quot; *.md</code></pre><p>或者可以使用–exclude参数来排除某些文件，例如，查找包含test，但是排除txt文件：</p>
+<pre><code>$ grep -rn &quot;test&quot; --exclude=*.txt</code></pre><p>搜索时就会忽略.txt结尾的文件了。<br>如果要排除的条件比较多，可以将要排除的条件存储在另外一个文件里：</p>
+<pre><code>$ grep -rn &quot;test&quot; --exclude-from=skip.txt</code></pre><p>skip.txt的内容可以是模式匹配的文件名或者具体文件名：</p>
+<pre><code>*.txt
+test.md</code></pre><p>这样，以.txt结尾，以及test.md文件都不会搜索了。<br>除此之外，还可以排除指定目录，它需要用到–exclude-dir参数：</p>
+<pre><code>$ grep -rn &quot;test&quot; --exclude-dir=aaa</code></pre><p>它在搜索时将会跳过aaa目录下的文件。</p>
+<h1 id="查找包含指定关键字的文件"><a href="#查找包含指定关键字的文件" class="headerlink" title="查找包含指定关键字的文件"></a>查找包含指定关键字的文件</h1><p>如果要在当前目录下所有文件查找包含“int main(void)”字符串的文件：</p>
+<pre><code>$ grep -rn &quot;int main(void)&quot;
+aaa/bbb/c_main_func.md:49:int main(void)
+aaa/bbb/c_main_func.md:71:int main(void) { /* ... */ }
+aaa/bbb/c_array.md:104:int main(void)
+aaa/bbb/c_array.md:129:int main(void)
+aaa/bbb/pc-lint.md:42:int main(void)
+aaa/bbb/pc-lint.md:128:int main(void)</code></pre><p>这可能是最实用的使用方法之一了。这里-r参数表示递归查找当前目录的文件，-n会显示查找位置的行号，如果只想显示包含该指定关键字的文件名，可使用-l（–file-with-matches）参数：</p>
+<pre><code>$ grep -rln &quot;int main(void)&quot;
+aaa/bbb/c_main_func.md
+aaa/bbb/c_array.md
+aaa/bbb/pc-lint.md</code></pre><p>如果你尝试一下就会发现，如果不带-r参数，它会暂停，等待你从控制台输入，例如：</p>
+<pre><code>$ grep -n &quot;test&quot;
+test
+1:test</code></pre><p>所以使用时记得带上相关参数奥！</p>
+<h1 id="查找不包含指定关键字的文件"><a href="#查找不包含指定关键字的文件" class="headerlink" title="查找不包含指定关键字的文件"></a>查找不包含指定关键字的文件</h1><p>前面提到了如何查找包含某个关键字的文件，如果要找的是不包含该关键字的文件呢？<br>实际上只要使用-L参数即可:</p>
+<pre><code>$ grep -rLn &quot;int main(void)&quot;</code></pre><p>(这里会显示不包含指定关键字内容的文件名)</p>
+<h1 id="搜索时忽略大小写"><a href="#搜索时忽略大小写" class="headerlink" title="搜索时忽略大小写"></a>搜索时忽略大小写</h1><p>使用-i（–ignore-case）参数即可：</p>
+<pre><code>$ grep -rni &quot;int MAIN(void)&quot;
+aaa/bbb/c_main_func.md:49:int main(void)
+aaa/bbb/c_main_func.md:71:int main(void) { /* ... */ }
+aaa/bbb/c_array.md:104:int main(void)
+aaa/bbb/c_array.md:129:int main(void)
+aaa/bbb/pc-lint.md:42:int main(void)
+aaa/bbb/pc-lint.md:128:int main(void)</code></pre><h1 id="搜索显示不包含指定关键字的行"><a href="#搜索显示不包含指定关键字的行" class="headerlink" title="搜索显示不包含指定关键字的行"></a>搜索显示不包含指定关键字的行</h1><p>前面的大部分例子都是显示符合条件的行，如果要显示不符合条件的行呢？可以用我们前面提到的-v参数：</p>
+<pre><code>$ grep -rnv &quot;int main(void)&quot;</code></pre><p>(内容较多，未显示)<br>从结果中就会发现，它会展示出包含指定关键字的文件，但是展示的是不包含该关键字的行。</p>
+<h1 id="显示指定关键字前后内容"><a href="#显示指定关键字前后内容" class="headerlink" title="显示指定关键字前后内容"></a>显示指定关键字前后内容</h1><p>假如你需要查看包含指定关键字行附近的行，前面的方式是没有办法看到的，不过我们可以用-A(–after-context=)和-B(–before-context=)参数来显示前后的行：</p>
+<pre><code>$ grep -rn &quot;int main(void)&quot; -A 1 -B 1
+aaa/bbb/c_array.md-103-}
+aaa/bbb/c_array.md:104:int main(void)
+aaa/bbb/c_array.md-105-{</code></pre><p>(其他内容省略)<br>通过最后加上-A和-B参数，显示了指定关键字前后的行，这在日志搜索分析时非常有用。<br>指定规则文件进行搜索<br>如果有多个搜索关键字怎么处理呢？我们可以把关键字写在一个文件，搜索时指定文件即可，例如规则文件为key.txt：</p>
+<pre><code>int main(void)
+test</code></pre><p>从指定文件中搜索上面的关键字：</p>
+<pre><code>$ cat filename |grep -f key.txt</code></pre><p>这样结果就会显示匹配key.txt文件中所有关键字的行，非常适合用于多个条件的搜索。</p>
+<h1 id="正则表达式搜索"><a href="#正则表达式搜索" class="headerlink" title="正则表达式搜索"></a>正则表达式搜索</h1><p>看完前面的内容，是不是还没有感受到grep的强大？grep的另一个强大之处是，它的搜索支持正则表达式，例如查找文本行以t开头，<br>以t结尾的文件：</p>
+<pre><code>$ grep -rn ^t.*t$
+key.txt:2:test
+aaa/bbb/c_operate_redis_start.md:68:typedef struct Stu_Info_Struct
+aaa/bbb/c_operate_redis_start.md:101:typedef struct Stu_Info_Struct</code></pre><p>其中^t，表明以t开头，t$表明以t结尾，如果需要使用扩展的正则表达式进行搜索，可使用egrep命令。<br>关于正则表达式的写法，本文不做详细介绍。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>在内容搜索方面，grep常常能够助我们一臂之力，因此掌握grep的使用也是linux学习不可缺少的一部分，当然我们不需要完全记住每个参数的作用，但我们至少知道有这样的参数，并且在需要时能够快速查询到。本文常用参数如下：<br>    • -v #显示不包含匹配关键字的所有行。<br>    • -l #显示包含匹配关键字的文件<br>    • -L #显示不包含匹配关键字的文件<br>    • -r #递归搜索<br>    • -i #忽略大小写<br>    • -n #显示关键字所在行号<br>    • -A n #显示关键字后n行<br>    • -B n #显示关键字前n行<br>    • –exclude #搜索时排除某些文件<br>    • –exclude-dir #搜索时排除某些目录<br>    • -f #指定规则文件进行搜索</p>
 
             </div>
             <hr />
@@ -483,9 +540,9 @@ export HISTTIMEFORMAT=">
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《Linux history 显示命令执行的时间》
+                    《Linux grep 文本查找》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/07/28/twleve/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/07/29/fifteen/" property="cc:attributionName"
                rel="cc:attributionURL">
                 吴杭沉
             </a> 采用
@@ -526,7 +583,7 @@ export HISTTIMEFORMAT=">
         repo: 'wuhangchen.github.io',
         owner: 'wuhangchen',
         admin: "wuhangchen",
-        id: '2024/07/28/twleve/',
+        id: '2024/07/29/fifteen/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -813,24 +870,24 @@ export HISTTIMEFORMAT=">
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2024/07/28/thirteen/">
+                <a href="/2024/07/29/sixteen/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Linux Shell一些快捷键">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Linux inode资源耗尽问题">
                         
-                        <span class="card-title">Linux Shell一些快捷键</span>
+                        <span class="card-title">Linux inode资源耗尽问题</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            ctrl+a:光标移到行首。ctrl+e:光标移到行尾。ctrl+b:光标左移一个字母, 向行首移动一个字符ctrl+f:光标右移,向行尾移动一个字符ctrl+c:杀死当前进程。ctrl+d:退出当前 Shell,从Shell提示中注销并关
+                            Linux系统下文件数据储存在”块”中，文件的元信息，例如文件的创建者、文件的创建日期、文件的大小等。这种储存文件元信息的区域就叫做inode，中文译名为”索引节点”。inode也占用硬盘空间，硬盘格式化的时候，操作系统自动将硬盘分成两个区
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-28
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-29
                         </span>
                         <span class="publish-author">
                             
@@ -862,26 +919,24 @@ export HISTTIMEFORMAT=">
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/07/24/eleven/">
+                <a href="/2024/07/28/fourteen/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Linux 删除大量文件效率对比">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Linux 10个危险的命令">
                         
-                        <span class="card-title">Linux 删除大量文件效率对比</span>
+                        <span class="card-title">Linux 10个危险的命令</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            首先建立50万个文件
-for i in $(seq 1 500000);do echo text &gt;&gt;$i.txt;donerm删除time rm -f *zsh
-sure you want to delete all the 
+                            Linux命令行佷有用、很高效，也很有趣，但有时候也很危险，尤其是在你不确定你自己在正在做什么时候。这篇文章将会向你介绍十条命令，但你最好不要尝试着去使用。当然，以下命令通常都是在root权限下才能将愚蠢发挥到无可救药；在普通用户身份下，破
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-24
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-28
                             </span>
                         <span class="publish-author">
                             
