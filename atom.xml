@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2024-07-29T13:33:13.712Z</updated>
+  <updated>2024-07-30T14:18:32.996Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -15,6 +15,91 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>指针</title>
+    <link href="localhost/2024/07/30/twenty/"/>
+    <id>localhost/2024/07/30/twenty/</id>
+    <published>2024-07-30T13:20:11.000Z</published>
+    <updated>2024-07-30T14:18:32.996Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;声明指针或指向成员指针类型的变量。&lt;/p&gt;
+&lt;h1 id=&quot;语法&quot;&gt;&lt;a href=&quot;#语法&quot; class=&quot;headerlink&quot; title=&quot;语法&quot;&gt;&lt;/a&gt;语法&lt;/h1&gt;&lt;p&gt;指针的声明是简单声明，其声明符拥有下列形式&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C++ 引用</title>
+    <link href="localhost/2024/07/30/nineteen/"/>
+    <id>localhost/2024/07/30/nineteen/</id>
+    <published>2024-07-30T12:45:22.000Z</published>
+    <updated>2024-07-30T13:12:25.716Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;声明具名变量为引用，即既存对象或函数的别名。&lt;br&gt;引用变量声明是声明符拥有下列形式的简单声明&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;amp; attr(可选) 声明符     (1)
+&amp;amp;&amp;amp; attr(可选) 声明符     (2)     (C++11
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux dd命令</title>
+    <link href="localhost/2024/07/30/eighteen/"/>
+    <id>localhost/2024/07/30/eighteen/</id>
+    <published>2024-07-30T12:22:58.000Z</published>
+    <updated>2024-07-30T12:45:02.746Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;dd 命令用于复制文件并对原文件的内容进行转换和格式化处理&lt;br&gt;语法格式&lt;br&gt;dd [OPTIONS]…&lt;br&gt;选项说明&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;if=文件名   #指定源文件。
+of=文件名   #指定目的文件。
+ibs=bytes 
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>Linux 技巧</title>
