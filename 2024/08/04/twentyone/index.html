@@ -4,15 +4,11 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Linux Make 三连, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="枚举申明, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="Unix 开发过程中，经常性的操作是从源码编译安装相应库文件，所以下面三个命令便是家常便饭，俗称三连：
-./configure
-make
-make install下面来看看这三步分别做了什么。
-configure执行 ./configure">
+    <meta name="description" content="枚举（enumeration）是独立的类型，其值限制在一个取值范围内（细节见下文），它可以包含数个明确命名的常量（“枚举项（enumerator）”）。各常量的值是某个整型类型（称为该枚举的底层类型（underlying type））的值。">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -20,7 +16,7 @@ configure执行 ./configure">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Linux Make 三连 | 吴杭沉的博客</title>
+    <title>枚举申明 | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -270,13 +266,13 @@ configure执行 ./configure">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Linux Make 三连
+                        枚举申明
                     </div>
                 </div>
             </div>
@@ -387,8 +383,8 @@ configure执行 ./configure">
                     
                     <div class="article-tag">
                         
-                        <a href="/tags/Linux/" target="_blank">
-                            <span class="chip bg-color">Linux</span>
+                        <a href="/tags/C/" target="_blank">
+                            <span class="chip bg-color">C++</span>
                         </a>
                         
                     </div>
@@ -399,8 +395,8 @@ configure执行 ./configure">
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                        <a href="/categories/Linux/" class="post-category" target="_blank">
-                            Linux
+                        <a href="/categories/C/" class="post-category" target="_blank">
+                            C++
                         </a>
                         
                     </div>
@@ -411,7 +407,7 @@ configure执行 ./configure">
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-07-24
+                    2024-08-04
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -425,14 +421,14 @@ configure执行 ./configure">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    501
+                    2.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    9 分
                 </div>
                 
                 
@@ -448,15 +444,135 @@ configure执行 ./configure">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Unix 开发过程中，经常性的操作是从源码编译安装相应库文件，所以下面三个命令便是家常便饭，俗称三连：</p>
-<pre><code>./configure
-make
-make install</code></pre><p>下面来看看这三步分别做了什么。</p>
-<h1 id="configure"><a href="#configure" class="headerlink" title="configure"></a>configure</h1><p>执行 ./configure 文件一般是进行正式编译前的一些环境准备，准备编译需要的依赖项等。比如检测当前的系统平台，<br>检测需要的编译器是否存在如何调用，配置和生成相应编译所需文件。</p>
-<h1 id="make"><a href="#make" class="headerlink" title="make"></a>make</h1><p>前期准备工作完成无误后，就可能调用 make 来执行编译了。实际执行的是 Makefile 文件中定义的任务来从源码进行项目的编译。<br>通常情况下下载下来的 tar 包中可能没有包含正式的 Makefile 文件，而是另外形式呈现的临时文件，<br>比如 Makefile.in，Makefile.am,Makefile.MSVC 等，然后在执行 ./configure 的时候根据相应环境来生成最终需要的 Makefile 文件。</p>
-<h1 id="make-install"><a href="#make-install" class="headerlink" title="make install"></a>make install</h1><p>项目编译正常后，会生成相应的产出，可执行文件，so 或 o 文件或 DLL 动态链接文件等。最后一步就是将生成的文件复制到相应的系统目录，<br>这个过程便是安装。比如将可执行文件复制到系统 PATH 能取到的地方，帮助文档复制到 MANPATH，其他文件复制到对应目录下。<br>这种默认安装路径的话，会把可执行文件拷贝到/usr/local/bin，如果没有sudo权限的话是会失败的，有两种方法指定安装路径。 一种是在./configure的时候指定路径</p>
-<pre><code>./configure --prefix=安装路径
-make install DESTDIR=安装路径</code></pre><h1 id="pip-install"><a href="#pip-install" class="headerlink" title="pip install"></a>pip install</h1><p>在Linux下直接用pip install packageName，有些文件会被放到根目录下，如果没有sudo权限的话，是会安装失败的。这个以后我们就需要指定安装的目录了。<br>pip install –install-option=”–prefix=绝对路径” packageName</p>
+                <p>枚举（enumeration）是独立的类型，其值限制在一个取值范围内（细节见下文），它可以包含数个明确命名的常量（“枚举项（enumerator）”）。<br>各常量的值是某个整型类型（称为该枚举的底层类型（underlying type））的值。<br>枚举以下列语法定义：</p>
+<pre><code>enum-关键词 attr(可选) enum-名(可选) enum-基(可选)(C++11) { 枚举项列表(可选) }     (1)
+enum-关键字 attr(可选) enum-名 enum-基(可选) ;     (2)     (C++11 起)</code></pre><p>1) enum-说明符，出现于声明语法的 声明说明符序列 ：定义枚举类型与其枚举项。<br>2) 不可见（opaque）枚举声明：定义枚举类型，但不定义其枚举项：在此声明后，该类型是完整类型，且其大小已知。注意：仅有的在 enum-名 之前出现 嵌套名说明符 的情况，是类模板的有作用域枚举成员的显式特化声明 (C++14 起)<br>enum-关键字     -     enum、enum class(C++11 起) 或 enum struct(C++11 起) 之一<br>attr(C++11)     -     任意数量的属性的可选序列<br>enum-名     -     所声明的枚举的名字。若存在，且若此声明为重声明，则其之前可带有 嵌套名说明符(C++11 起)，即名字和作用域解析运算符 :: 的序列并以作用域解析运算符结尾。仅可在无作用域枚举声明中省略名字<br>enum-基(C++11)     -     冒号 (:)，后随指名某个整型类型的 类型说明符序列（若它为 cv 限定，则忽略其限定性），该类型将作为此枚举类型的固定底层类型<br>枚举项列表     -     枚举项定义的逗号分隔列表，每项要么是简单的 标识符，它成为枚举项之名，要么是带初始化器的标识符：标识符 = 常量表达式。任一情况下，标识符 可直接后随一个可选的属性说明符序列。 (C++17 起)<br>有两种截然不同的枚举：无作用域枚举（以 enum-关键词 enum 声明）和有作用域枚举（以 enum-关键词 enum class 或 enum struct 声明）。</p>
+<h1 id="无作用域枚举"><a href="#无作用域枚举" class="headerlink" title="无作用域枚举"></a>无作用域枚举</h1><pre><code>enum 名字 { 枚举项 = 常量表达式 , 枚举项 = 常量表达式 , ... }     (1)
+enum 名字 : 类型 { 枚举项 = 常量表达式 , 枚举项 = 常量表达式 , ... }     (2)     (C++11 起)
+enum 名字 : 类型 ;     (3)     (C++11 起)</code></pre><p>1) 声明无作用域枚举类型，其底层类型不固定（此情况中，底层类型是由实现定义的某个能表示所有枚举项值的整型类型；此类型不大于 int，除非枚举项的值不能放入 int 或 unsigned int。若枚举项列表为空，则底层类型为如同枚举拥有单个值为 0 的枚举项）。<br>2) 声明底层类型固定的无作用域枚举类型。<br>3) 无作用域枚举的不可见枚举声明必须指定底层类型。<br>每个 枚举项 都成为该枚举类型（即 名字）的一个具名常量，在其外围作用域可见，且可用于要求常量的任何位置。</p>
+<pre><code>enum Color { red, green, blue };
+Color r = red;
+switch(r)
+{
+    case red  : std::cout &lt;&lt; &quot;red\n&quot;;   break;
+    case green: std::cout &lt;&lt; &quot;green\n&quot;; break;
+    case blue : std::cout &lt;&lt; &quot;blue\n&quot;;  break;
+}</code></pre><p>每个枚举项都与一个底层类型的值相关联。当在 枚举项列表 中提供了初始化器时，各枚举项的值由那些初始化器所定义。若首个枚举项无初始化器，则其关联值为零。对于其他任何定义中无初始化器的枚举项，其关联值为前一枚举项加一。</p>
+<pre><code>enum Foo { a, b, c = 10, d, e = 1, f, g = f + c };
+//a = 0, b = 1, c = 10, d = 11, e = 1, f = 2, g = 12</code></pre><p>无作用域枚举类型的值可隐式转换为整型类型。若底层类型不固定，则其值可转换到以下列表中首个能保有其整个值范围的类型：int、unsigned int、long、unsigned long、long long 或 unsigned long long。若底层类型固定，则其值可转换到其提升后的底层类型。</p>
+<pre><code>enum color { red, yellow, green = 20, blue };
+color col = red;
+int n = blue; // n == 21</code></pre><p>整数、浮点和枚举类型的值，可用 static_cast 或显式转型转换到任何枚举类型。若底层类型不固定，且若源值在范围外（源值在范围内，若它能以足以保有目标枚举的所有枚举项的最小位域表示，这里若源值为浮点类型则首先转换到枚举的底层类型），则其结果未指明 (C++17 前)未定义 (C++17 起)。否则，结果与隐式转换到底层类型的结果相同。<br>注意，这种转换后的值不必等于任何为该枚举所定义的具名枚举项。</p>
+<pre><code>enum access_t { read = 1, write = 2, exec = 4 }; //枚举项：1、2、4 范围：0..7
+access_t rwe = static_cast&lt;access_t&gt;(7);
+assert((rwe &amp; read) &amp;&amp; (rwe &amp; write) &amp;&amp; (rwe &amp; exec));
+
+access_t x = static_cast&lt;access_t&gt;(8.0); // C++17 起为未定义行为
+access_t y = static_cast&lt;access_t&gt;(8); // C++17 起为未定义行为
+enum foo { a = 0, b = UINT_MAX }; // 范围：[0, UINT_MAX]
+foo x= foo(-1); // C++17 起为未定义行为，即使 foo 的底层类型为 unsigned int</code></pre><p>无作用域枚举的 名字 可以忽略：这种声明仅将各枚举项引入到其外围作用域中：</p>
+<pre><code>enum { a, b, c = 0, d = a + 2 }; // 定义 a = 0, b = 1, c = 0, d = 2</code></pre><p>当无作用域枚举是类成员时，其枚举项可用类成员访问运算符 . 和 -&gt; 访问：</p>
+<pre><code>struct X
+{
+    enum direction { left = &#39;l&#39;, right = &#39;r&#39; };
+};
+X x;
+X* p = &amp;x;
+
+int a = X::direction::left; // 仅于 C++11 及之后允许
+int b = X::left;
+int c = x.left;
+int d = p-&gt;left;</code></pre><h1 id="有作用域枚举-C-11-起"><a href="#有作用域枚举-C-11-起" class="headerlink" title="有作用域枚举    (C++11 起)"></a>有作用域枚举    (C++11 起)</h1><pre><code>enum struct|class 名字 { 枚举项 = 常量表达式 , 枚举项 = 常量表达式 , ... }
+enum struct|class 名字 : 类型 { 枚举项 = 常量表达式 , 枚举项 = 常量表达式 , ... }
+enum struct|class 名字 ;
+enum struct|class 名字 : 类型 ;</code></pre><p>1) 声明底层类型为 int 的有作用域枚举类型（关键词 class 与 struct 完全等价）<br>2) 声明底层类型为 类型 的有作用域枚举类型<br>3) 底层类型为 int 的有作用域枚举类型的不可见枚举声明<br>4) 底层类型为 类型 的有作用域枚举类型的不可见枚举声明<br>每个 枚举项 都成为该枚举的类型（即 名字）的具名常量，它为该枚举的作用域所包含，且可用作用域解析运算符访问。没有从有作用域枚举项到整数类型的隐式转换，尽管 static_cast 可用于获得枚举项的数值。</p>
+<pre><code>enum class Color { red, green = 20, blue };
+Color r = Color::blue;
+switch(r)
+{
+    case Color::red  : std::cout &lt;&lt; &quot;red\n&quot;;   break;
+    case Color::green: std::cout &lt;&lt; &quot;green\n&quot;; break;
+    case Color::blue : std::cout &lt;&lt; &quot;blue\n&quot;;  break;
+}
+// int n = r; // 错误：不存在从有作用域枚举到 int 的转换
+int n = static_cast&lt;int&gt;(r); // OK, n = 21</code></pre><p>底层类型固定的有作用域枚举类型和无作用域枚举类型，若下列全部条件为真，则都能用列表初始化从一个整数初始化而无需转型：     (C++17 起)<br>        • 初始化是直接列表初始化<br>        • 初始化器列表仅有单个元素<br>        • 枚举是底层类型固定的有作用域枚举或无作用域枚举<br>        • 转换为非窄化转换<br>这使得我们能引入新的整数类型（例如 SafeInt）并享受与其底层整数类型相同的既存调用约定，即使在不利于以值传递/返回结构体的 ABI 上也是如此。</p>
+<pre><code>enum byte : unsigned char {}; // byte 是新的整数类型
+byte b { 42 }; // C++17 起 OK（直接列表初始化）
+byte c = { 42 }; // 错误
+byte d = byte{ 42 }; // C++17 起 OK；与 b 的值相同
+byte e { -1 }; // 错误
+
+struct A { byte b; };
+A a1 = { { 42 } }; // 错误
+A a2 = { byte{ 42 } }; // C++17 起 OK
+void f(byte);
+f({ 42 }); // 错误
+
+enum class Handle : std::uint32_t { Invalid = 0 };
+Handle h { 42 }; // C++17 起 OK</code></pre><p>示例</p>
+<pre><code>#include &lt;iostream&gt;
+
+// 采用 16 位的 enum
+enum smallenum: int16_t
+{
+    a,
+    b,
+    c
+};
+// color 可为 red（值 0）、yellow（值 1）、green（值 20）或 blue（值 21）
+enum color
+{
+    red,
+    yellow,
+    green = 20,
+    blue
+};
+
+// altitude 可为 altitude::high 或 altitude::low
+
+enum class altitude: char
+{
+     high=&#39;h&#39;,
+     low=&#39;l&#39;, // C++11 允许尾随逗号
+};
+
+// 常量 d 为 0，常量 e 为 1，常量 f 为 3
+enum
+{
+    d,
+    e,
+    f = e + 2
+};
+
+// 枚举类型（有作用域和无作用域）能拥有重载的运算符
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, color c)
+{
+    switch(c)
+    {
+        case red   : os &lt;&lt; &quot;red&quot;;    break;
+        case yellow: os &lt;&lt; &quot;yellow&quot;; break;
+        case green : os &lt;&lt; &quot;green&quot;;  break;
+        case blue  : os &lt;&lt; &quot;blue&quot;;   break;
+        default    : os.setstate(std::ios_base::failbit);
+    }
+    return os;
+}
+
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, altitude al)
+{
+    return os &lt;&lt; static_cast&lt;char&gt;(al);
+}
+
+int main()
+{
+    color col = red;
+    altitude a;
+    a = altitude::low;
+
+    std::cout &lt;&lt; &quot;col = &quot; &lt;&lt; col &lt;&lt; &#39;\n&#39;
+              &lt;&lt; &quot;a = &quot;   &lt;&lt; a   &lt;&lt; &#39;\n&#39;
+              &lt;&lt; &quot;f = &quot;   &lt;&lt; f   &lt;&lt; &#39;\n&#39;;
+}</code></pre><p>输出：<br>col = red<br>a = l<br>f = 3</p>
 
             </div>
             <hr />
@@ -491,9 +607,9 @@ make install DESTDIR=安装路径</code></pre><h1 id="pip-install"><a href="#pip
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《Linux Make 三连》
+                    《枚举申明》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/07/24/eight/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/08/04/twentyone/" property="cc:attributionName"
                rel="cc:attributionURL">
                 吴杭沉
             </a> 采用
@@ -534,7 +650,7 @@ make install DESTDIR=安装路径</code></pre><h1 id="pip-install"><a href="#pip
         repo: 'wuhangchen.github.io',
         owner: 'wuhangchen',
         admin: "wuhangchen",
-        id: '2024/07/24/eight/',
+        id: '2024/08/04/twentyone/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -817,46 +933,48 @@ make install DESTDIR=安装路径</code></pre><h1 id="pip-install"><a href="#pip
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2024/07/24/nine/">
+                <a href="/2024/08/04/twentyone/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="Linux 终端诡异家伙">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="枚举申明">
                         
-                        <span class="card-title">Linux 终端诡异家伙</span>
+                        <span class="card-title">枚举申明</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            这篇文章，我们一起来到 Linux 的诡异的一面……你知道吗？在我们日常使用的 Unix（和 Linux ）及其各种各样的分支系统中，存在着一些诡异的命令或进程，它们让人毛骨悚然，有些确实是有害，但也有些却是有益的。下面就来简单介绍一下这些
+                            枚举（enumeration）是独立的类型，其值限制在一个取值范围内（细节见下文），它可以包含数个明确命名的常量（“枚举项（enumerator）”）。各常量的值是某个整型类型（称为该枚举的底层类型（underlying type））的值。
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-24
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-08-04
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                            <a href="/categories/C/" class="post-category" target="_blank">
+                                    C++
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux/" target="_blank">
-                        <span class="chip bg-color">Linux</span>
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>
@@ -870,34 +988,34 @@ make install DESTDIR=安装路径</code></pre><h1 id="pip-install"><a href="#pip
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/07/23/six/">
+                <a href="/2024/07/30/twenty/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="Ubuntu 完全卸载一个软件包">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="指针">
                         
-                        <span class="card-title">Ubuntu 完全卸载一个软件包</span>
+                        <span class="card-title">指针</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            今天卸载一个软件，老是有配置残留，网上找到了解决方案：查看已安装的软件：
-dpkg -l |grep 软件名
-找到一大堆相关的包，然后卸载核心的包：
-sudo apt-get remove --purge 软件包名继续grep，直到找不到相
+                            声明指针或指向成员指针类型的变量。
+语法指针的声明是简单声明，其声明符拥有下列形式
+* attr(可选) cv(可选) 声明符     (1)嵌套名说明符 * attr(可选) cv(可选) 声明符     (2)
+1) 指针声明符：声明 
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-23
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-30
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                            <a href="/categories/C/" class="post-category" target="_blank">
+                                    C++
                                 </a>
                             
                             
@@ -907,8 +1025,8 @@ sudo apt-get remove --purge 软件包名继续grep，直到找不到相
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux/" target="_blank">
-                        <span class="chip bg-color">Linux</span>
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>
