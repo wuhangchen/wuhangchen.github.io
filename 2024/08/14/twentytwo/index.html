@@ -4,11 +4,12 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Linux 命令行神器推荐, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="语言链接, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="• ag：比grep、ack更快的递归搜索文件内容。• jq: json文件处理以及格式化显示，支持高亮，可以替换python -m json.tool。• ncdu：可视化的空间分析程序你发现有人把 /home 空间撑爆了，影响了大家的工">
+    <meta name="description" content="提供以不同程序语言编写的模块间的连接。extern 字符串字面量 { 声明序列(可选) }     (1)extern 字符串字面量 声明     (2)
+1) 将语言说明 字符串字面量 应用到声明于 声明序列 中的所有函数类型，具有外部连">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -16,7 +17,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Linux 命令行神器推荐 | 吴杭沉的博客</title>
+    <title>语言链接 | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -266,13 +267,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Linux 命令行神器推荐
+                        语言链接
                     </div>
                 </div>
             </div>
@@ -383,8 +384,8 @@
                     
                     <div class="article-tag">
                         
-                        <a href="/tags/Linux/" target="_blank">
-                            <span class="chip bg-color">Linux</span>
+                        <a href="/tags/C/" target="_blank">
+                            <span class="chip bg-color">C++</span>
                         </a>
                         
                     </div>
@@ -395,8 +396,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                        <a href="/categories/Linux/" class="post-category" target="_blank">
-                            Linux
+                        <a href="/categories/C/" class="post-category" target="_blank">
+                            C++
                         </a>
                         
                     </div>
@@ -407,7 +408,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-07-23
+                    2024-08-14
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -421,14 +422,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    545
+                    1.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    4 分
                 </div>
                 
                 
@@ -444,16 +445,41 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>• ag：比grep、ack更快的递归搜索文件内容。<br>• jq: json文件处理以及格式化显示，支持高亮，可以替换python -m json.tool。<br>• ncdu：可视化的空间分析程序<br>你发现有人把 /home 空间撑爆了，影响了大家的工作，你愤怒了一层层的 du，一层层的 cd，整个过程就像刨垃圾堆一样的恶心，后来发现了 ncdu 这个基于 ncurses 的空间分析程序：不但能用光标上下键移动，回车还可以进入对应目录又可以查看最新的占用，很快就揪出了占用空间最大的罪魁祸首。<br>• shellcheck：shell脚本静态检查工具，能够识别语法错误以及不规范的写法。<br>• fzf：命令行下模糊搜索工具，能够交互式智能搜索并选取文件或者内容，配合终端ctrl-r历史命令搜索简直完美。<br>• PathPicker(fpp): 在命令行输出中自动识别目录和文件，支持交互式，配合git非常有用。运行以下命令：</p>
-<pre><code>git diff HEAD~8 --stat | fpp</code></pre><p>• htop: 提供更美观、更方便的进程监控工具，替代top命令。<br>• glances：更强大的 htop / top 代替者。htop 代替 top，glances 代替 htop：<br>信息比 htop 丰富了不少，更全了，对吧？除了命令行查看外，glances 还提供页面服务，让你从页面上随时查看某服务器的状态。<br>• axel：多线程下载工具，下载文件时可以替代curl、wget。</p>
-<pre><code>axel -n 20 http://centos.ustc.edu.cn/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1511.iso</code></pre><p>• sz/rz：交互式文件传输，在多重跳板机下传输文件非常好用，不用一级一级传输。<br>• cloc：代码统计工具，能够统计代码的空行数、注释行、编程语言。<br>• tmux：终端复用工具，替代screen、nohup。<br>• script/scriptreplay:  终端会话录制。<br>// 录制</p>
-<pre><code>script -t 2&gt;time.txt session.typescript
-// your commands
-// 录制结束
-// 回放
-scriptreplay -t time.txt session.typescript
-exit</code></pre><p>• multitail：多重 tail。通常你不止一个日志文件要监控，怎么办？终端软件里开多个 tab 太占地方，可以试试这个工具：</p>
+                <p>提供以不同程序语言编写的模块间的连接。<br>extern 字符串字面量 { 声明序列(可选) }     (1)<br>extern 字符串字面量 声明     (2)</p>
+<p>1) 将语言说明 字符串字面量 应用到声明于 声明序列 中的所有函数类型，具有外部连接的函数名，和具有外部连接的变量。<br>2) 将语言说明 字符串字面量 应用到单一声明或定义。<br>字符串字面量     -     所要求的语言连接的名字<br>声明序列     -     声明的序列，可以包含嵌套的连接说明<br>声明     -     一个声明<br>[编辑] 解释<br>所有函数类型，所有拥有外部连接的函数名，及所有拥有外部连接的变量名，拥有一种称作语言连接的性质。<br>语言连接封装与以另一程序语言编写的模块进行连接的要求的集合：调用约定、名字重整的算法，等等。<br>仅保证支持二种语言连接：<br>1) “C++”，默认的语言连接。<br>2) “C”，使得以 C 程序语言编写的函数进行连接，以及在 C++ 程序中定义能从 C 模块调用的函数成为可能。</p>
+<pre><code>extern &quot;C&quot; {
+    int open(const char *pathname, int flags); // C 函数声明
+}
 
+int main()
+{
+    int fd = open(&quot;test.txt&quot;, 0); // 从 C++ 程序调用 C 函数
+}
+
+// 此 C++ 函数能从 C 代码调用
+extern &quot;C&quot; void handler(int) {
+    std::cout &lt;&lt; &quot;Callback invoked\n&quot;; // 它能使用 C++
+}
+</code></pre><p>因为语言连接是每个函数类型的一部分，故函数指针也要维持语言连接。函数类型的语言连接（它表示调用约定）和函数名的语言离近了（它表示名字重整）是彼此独立的：</p>
+<pre><code>extern &quot;C&quot; void f1(void(*pf)()); // 声明一个具有 C 连接的函数 f1，
+                             // 它返回 void 并接受指向返回 void 且不接受形参的 C 函数的指针
+extern &quot;C&quot; typedef void FUNC(); // 声明 FUNC 为返回 void 且不接受形参的 C 函数类型
+FUNC f2;            // 名字 f2 拥有 C++ 连接，但其类型是 C 函数
+extern &quot;C&quot; FUNC f3; // 名字 f3 拥有 C 连接且其类型是 C 函数 void(void)
+void (*pf2)(FUNC*); // 名字 pf2 拥有 C++ 连接，且其类型是“指向返回 void 并接受
+                    // 一个‘指向返回 void 且不接受形参的 C 函数的指针’类型参数的 C++ 函数的指针
+extern &quot;C&quot; {
+    static void f4(); // 函数 f4 的名字拥有内部连接（无语言）
+                      // 但函数的类型拥有 C 语言连接
+}</code></pre><p>在同一命名空间中具有相同名字和相同形参列表的两个函数，不能拥有两个不同的语言连接（然而需要注意，形参的连接可容许这种重载，例如 std::qsort 和 std::bsearch 的情况）。类似地，同一命名空间中的两个变量不能拥有两种不同的语言连接。<br>[编辑] “C” 连接的特殊规则<br>1) 当类成员的声明和成员函数类型的声明出现于 “C” 语言块中时，其连接仍保持为 “C++”。<br>2) 当两个拥有同一无限定名字的函数声明于不同命名空间，且都拥有 “C” 语言连接时，两个声明表示同一函数。<br>3) 当两个拥有 “C” 语言连接和相同名字的变量出现于不同命名空间时，它们表示同一变量。<br>4) 一个 “C” 变量和一个 “C” 函数不能拥有相同的名字，无关乎它们定义于同一或不同命名空间。<br>[编辑] 注解<br>语言连接只能出现在命名空间作用域。<br>语言说明的花括号不建立作用域。<br>当语言说明发生嵌套时，有效的是最内层的说明。<br>函数可在带语言说明的声明之后，进行不带连接说明的重声明，第二个声明将重复使用首个声明的语言连接。反之则不行：若首个声明无语言连接，则假定其为 “C++”，而以其他语言连接重声明则是错误。<br>直接包含于语言连接说明之中的声明，被处理为如同它含有 extern 说明符，用以确定所声明的名字的连接以及它是否为定义。</p>
+<pre><code>extern &quot;C&quot; int x; // 声明且非定义 // 上一行等价于 extern &quot;C&quot; { extern int x; }
+extern &quot;C&quot; { int x; } // 声明及定义
+extern &quot;C&quot; 使得在 C++ 程序中包含（include）含有 C 库函数的声明的头文件成为可能，但如果与 C 程序共用相同的头文件，必须以适当的 #ifdef 隐藏 extern &quot;C&quot;（其在 C 中不被允许），通常为 __cplusplus：
+#ifdef __cplusplus
+extern &quot;C&quot; int foo(int, int); // C++ 编译器所见
+#else
+int foo(int, int);            // C 编译器所见
+#endif</code></pre>
             </div>
             <hr />
 
@@ -487,9 +513,9 @@ exit</code></pre><p>• multitail：多重 tail。通常你不止一个日志文
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《Linux 命令行神器推荐》
+                    《语言链接》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/07/23/five/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/08/14/twentytwo/" property="cc:attributionName"
                rel="cc:attributionURL">
                 吴杭沉
             </a> 采用
@@ -530,7 +556,7 @@ exit</code></pre><p>• multitail：多重 tail。通常你不止一个日志文
         repo: 'wuhangchen.github.io',
         owner: 'wuhangchen',
         admin: "wuhangchen",
-        id: '2024/07/23/five/',
+        id: '2024/08/14/twentytwo/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -813,49 +839,49 @@ exit</code></pre><p>• multitail：多重 tail。通常你不止一个日志文
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2024/07/23/six/">
+                <a href="/2024/08/14/twentytwo/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="Ubuntu 完全卸载一个软件包">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="语言链接">
                         
-                        <span class="card-title">Ubuntu 完全卸载一个软件包</span>
+                        <span class="card-title">语言链接</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            今天卸载一个软件，老是有配置残留，网上找到了解决方案：查看已安装的软件：
-dpkg -l |grep 软件名
-找到一大堆相关的包，然后卸载核心的包：
-sudo apt-get remove --purge 软件包名继续grep，直到找不到相
+                            提供以不同程序语言编写的模块间的连接。extern 字符串字面量 { 声明序列(可选) }     (1)extern 字符串字面量 声明     (2)
+1) 将语言说明 字符串字面量 应用到声明于 声明序列 中的所有函数类型，具有外部连
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-23
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-08-14
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                            <a href="/categories/C/" class="post-category" target="_blank">
+                                    C++
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux/" target="_blank">
-                        <span class="chip bg-color">Linux</span>
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>
@@ -869,31 +895,31 @@ sudo apt-get remove --purge 软件包名继续grep，直到找不到相
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/07/23/four/">
+                <a href="/2024/08/04/twentyone/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="Linux shell变量含义">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="枚举申明">
                         
-                        <span class="card-title">Linux shell变量含义</span>
+                        <span class="card-title">枚举申明</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            $$               Shell本身的PID（ProcessID）$!               Shell最后运行的后台Process的PID$?               最后运行的命令的结束代码（返回值）$-     
+                            枚举（enumeration）是独立的类型，其值限制在一个取值范围内（细节见下文），它可以包含数个明确命名的常量（“枚举项（enumerator）”）。各常量的值是某个整型类型（称为该枚举的底层类型（underlying type））的值。
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-23
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-08-04
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                            <a href="/categories/C/" class="post-category" target="_blank">
+                                    C++
                                 </a>
                             
                             
@@ -903,8 +929,8 @@ sudo apt-get remove --purge 软件包名继续grep，直到找不到相
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux/" target="_blank">
-                        <span class="chip bg-color">Linux</span>
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>
