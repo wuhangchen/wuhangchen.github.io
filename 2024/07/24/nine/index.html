@@ -445,7 +445,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>这篇文章，我们一起来到 Linux 的诡异的一面……你知道吗？在我们日常使用的 Unix（和 Linux ）及其各种各样的分支系统中，<br>存在着一些诡异的命令或进程，它们让人毛骨悚然，有些确实是有害，但也有些却是有益的。下面就来简单介绍一下这些家伙吧。</p>
-<h1 id="daemon"><a href="#daemon" class="headerlink" title="daemon"></a>daemon</h1><p>daemon 有一个很高大上的中文名字，叫守护进程 。有句话是这么说的，如果 Unix 中没有了守护进程，那么 Unix 就不会是相同的。<br>它很有个性，是一个运行在后台且不受终端控制的进程，其大多数都是随着系统启动而启动，无特殊情况下会一直保持运行直到系统关闭。<br>它的存在为我们用户和系统本身提供有用的服务。常见的有 httpd，mysqld，syslogd 等，一般守护程序名称会以  d 结尾。</p>
+<h1 id="daemon"><a href="#daemon" class="headerlink" title="daemon"></a>daemon</h1><p>daemon 有一个很高大上的中文名字，叫守护进程 。有句话是这么说的，如果 Unix 中没有了守护进程，那么 Unix 就不会是相同的。<br>它很有个性，是一个运行在后台且不受终端控制的进程，其大多数都是随着系统启动而启动，无特殊情况下会一直保持运行直到系统关闭。<br>它的存在为我们用户和系统本身提供有用的服务。常见的有 httpd，mysqld，syslogd 等，一般守护程序名称会以d结尾。</p>
 <h1 id="zombie"><a href="#zombie" class="headerlink" title="zombie"></a>zombie</h1><p>zombie ，僵尸？什么鬼？听着就让人害怕。不过，它在 Linux 中指的是当一个进程被杀死后，其实它并不会马上消失，<br>而是变成了 zombie ，即僵尸进程，然后等待其父进程搜集完它的信息才会被清除。一般这种搜集信息的过程会很快完成，<br>但有时它的父进程很忙，该僵尸进程就会一直呆在我们的系统中。系统运行过程中时不时地会产生一些僵尸进程，我们无法直接杀死它们，<br>因为它们已经死了，我们只能采取别的手段，比如说杀死它的父进程，然后由 init 来回收这个僵尸进程。<br>僵尸进程的出现通常表示产生它的进程除了问题，而且它会消耗资源，要防止它的出现。</p>
 <h1 id="kill"><a href="#kill" class="headerlink" title="kill"></a>kill</h1><p>kill ，一个冷酷无情的单词。顾名思义，kill 是一个用于杀死进程的命令，其使用方法简单粗暴。<br>当你发现一个占用太多内存或者 CPU 资源的进程并造成了负面影响时，建议您可以直接用 kill 干掉它。<br>若你遇到僵尸进程杀不掉？别慌，去找它的父进程吧，按上面提到的方法来处理。</p>
 <h1 id="cat"><a href="#cat" class="headerlink" title="cat"></a>cat</h1><p>cat，猫？这又是什么奇怪的东西？Linux中除了僵尸还有猫？其实，cat 命令是 concatenate 的简写，也就是连接的意思，<br>这么解释你就懂了。它的作用是组合文件。另外，你甚至可以用这个方便的命令来查看文件的内容。</p>
