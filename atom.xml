@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2024-08-14T15:11:29.870Z</updated>
+  <updated>2024-08-25T10:00:48.079Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -17,11 +17,38 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>数组</title>
+    <link href="localhost/2024/08/14/twentythree/"/>
+    <id>localhost/2024/08/14/twentythree/</id>
+    <published>2024-08-14T15:18:08.000Z</published>
+    <updated>2024-08-25T10:00:48.079Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;在C语言中，数组和指针似乎总是“暧昧不清”，有时候很容易把它们混淆。本文就来理一理数组和指针之间到底有哪些异同。&lt;/p&gt;
+&lt;h1
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
     <title>语言链接</title>
     <link href="localhost/2024/08/14/twentytwo/"/>
     <id>localhost/2024/08/14/twentytwo/</id>
     <published>2024-08-14T14:45:28.000Z</published>
-    <updated>2024-08-14T15:11:29.870Z</updated>
+    <updated>2024-08-14T15:19:38.800Z</updated>
     
     <summary type="html">
     
@@ -519,32 +546,6 @@ make install&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;下面来看看这三步分别做�
         
         
           &lt;p&gt;/bin  经常使用的指令&lt;br&gt;/boot 启动linux的核心文件&lt;br&gt;/dev  外部设备&lt;br&gt;/etc  系统管理配置文件和子目录&lt;br&gt;/home  自己的目录&lt;br&gt;/lib  共享动态链接库&lt;br&gt;/lost+found 
-        
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="localhost/categories/Linux/"/>
-    
-    
-      <category term="Linux" scheme="localhost/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux 网络工具</title>
-    <link href="localhost/2024/06/29/second/"/>
-    <id>localhost/2024/06/29/second/</id>
-    <published>2024-06-29T23:30:41.000Z</published>
-    <updated>2024-07-23T13:40:33.360Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;如果要在你的系统上监控网络，那么使用命令行工具是非常实用的，并且对于 Linux 用户来说，有着许许多多现成的工具可以使用，&lt;br&gt;如： nethogs, ntopng, nload, iftop, iptraf, bmon, slurm,&lt;br&gt;tcptrack,
         
       
     
