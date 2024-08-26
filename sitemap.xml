@@ -2,16 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>localhost/2024/07/28/twleve/</loc>
+    <loc>localhost/2024/08/26/twentyfour/</loc>
     
-    <lastmod>2024-08-25T15:18:19.349Z</lastmod>
+    <lastmod>2024-08-26T13:57:57.150Z</lastmod>
     
   </url>
   
   <url>
     <loc>localhost/2024/08/14/twentytwo/</loc>
     
-    <lastmod>2024-08-25T15:17:36.869Z</lastmod>
+    <lastmod>2024-08-26T13:20:35.790Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>localhost/2024/07/24/eleven/</loc>
+    
+    <lastmod>2024-08-26T13:18:42.590Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>localhost/2024/07/28/twleve/</loc>
+    
+    <lastmod>2024-08-25T15:18:19.349Z</lastmod>
     
   </url>
   
@@ -75,13 +89,6 @@
     <loc>localhost/2024/07/29/fifteen/</loc>
     
     <lastmod>2024-08-25T10:07:13.869Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>localhost/2024/07/24/eleven/</loc>
-    
-    <lastmod>2024-08-25T10:05:08.099Z</lastmod>
     
   </url>
   
