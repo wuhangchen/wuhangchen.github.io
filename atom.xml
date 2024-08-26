@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2024-08-25T10:00:48.079Z</updated>
+  <updated>2024-08-26T13:57:57.150Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>二维数组</title>
+    <link href="localhost/2024/08/26/twentyfour/"/>
+    <id>localhost/2024/08/26/twentyfour/</id>
+    <published>2024-08-26T13:22:26.000Z</published>
+    <updated>2024-08-26T13:57:57.150Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;二维数组&quot;&gt;&lt;a href=&quot;#二维数组&quot; class=&quot;headerlink&quot; title=&quot;二维数组&quot;&gt;&lt;/a&gt;二维数组&lt;/h1&gt;&lt;p&gt;我们知道 C
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
   
   <entry>
     <title>数组</title>
@@ -48,7 +74,7 @@
     <link href="localhost/2024/08/14/twentytwo/"/>
     <id>localhost/2024/08/14/twentytwo/</id>
     <published>2024-08-14T14:45:28.000Z</published>
-    <updated>2024-08-25T15:17:36.869Z</updated>
+    <updated>2024-08-26T13:20:35.790Z</updated>
     
     <summary type="html">
     
@@ -345,7 +371,7 @@ ibs=bytes
     <link href="localhost/2024/07/24/eleven/"/>
     <id>localhost/2024/07/24/eleven/</id>
     <published>2024-07-24T12:48:03.000Z</published>
-    <updated>2024-08-25T10:05:08.099Z</updated>
+    <updated>2024-08-26T13:18:42.590Z</updated>
     
     <summary type="html">
     
@@ -520,32 +546,6 @@ make install&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;下面来看看这三步分别做�
         
         
           &lt;p&gt;$$               Shell本身的PID（ProcessID）&lt;br&gt;$!               Shell最后运行的后台Process的PID&lt;br&gt;$?               最后运行的命令的结束代码（返回值）&lt;br&gt;$-         
-        
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="localhost/categories/Linux/"/>
-    
-    
-      <category term="Linux" scheme="localhost/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux系统目录结构</title>
-    <link href="localhost/2024/07/20/three/"/>
-    <id>localhost/2024/07/20/three/</id>
-    <published>2024-07-20T09:51:06.000Z</published>
-    <updated>2024-07-20T11:25:35.059Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;/bin  经常使用的指令&lt;br&gt;/boot 启动linux的核心文件&lt;br&gt;/dev  外部设备&lt;br&gt;/etc  系统管理配置文件和子目录&lt;br&gt;/home  自己的目录&lt;br&gt;/lib  共享动态链接库&lt;br&gt;/lost+found 
         
       
     
