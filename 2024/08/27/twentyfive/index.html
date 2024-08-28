@@ -447,70 +447,73 @@
             <div id="articleContent">
                 <p>对于初学者来说，sizeof，strlen，数组，字符串整在一起是痛苦的，它总能在某些莫名其妙的时候整一个措手不及,本文看看它们在一起能挖什么坑。</p>
 <h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><p>在说明这些问题之前，先看一段代码，看看你是否都理解了。注：以下代码结果为编译为64位程序后运行结果。</p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;string.h&gt;
+<pre class="line-numbers language-c++"><code class="language-c++">#include <stdio.h>
+#include <string.h>
 
 void testArr(const char str[])
 {
-    printf(&quot;%lu %lu\n&quot;, sizeof(str), strlen(str));
+    printf("%lu %lu\n", sizeof(str), strlen(str));
 }
 
 int main()
 {
     /*test 0*/
-    char str[] = &quot;hello&quot;;
-    printf(&quot;test0 %lu %lu\n\n&quot;, sizeof(str), strlen(str));    //6 5
+    char str[] = "hello";
+    printf("test0 %lu %lu\n\n", sizeof(str), strlen(str));    //6 5
 
     /*test 1*/
-    char str1[8] = &quot;hello&quot;;
-    printf(&quot;test1 %lu %lu\n\n&quot;, sizeof(str1), strlen(str1)); //8 5
+    char str1[8] = "hello";
+    printf("test1 %lu %lu\n\n", sizeof(str1), strlen(str1)); //8 5
 
     /**test 2*/
-    char str2[] = {&#39;h&#39;,&#39;e&#39;,&#39;l&#39;,&#39;l&#39;,&#39;o&#39;};
-    printf(&quot;test2 %lu %lu\n\n&quot;, sizeof(str2), strlen(str2)); //5 10
+    char str2[] = {'h','e','l','l','o'};
+    printf("test2 %lu %lu\n\n", sizeof(str2), strlen(str2)); //5 10
 
     /**test 3*/
-    char *str3 = &quot;hello&quot;;
-    printf(&quot;test3 %lu %lu\n\n&quot;, sizeof(str3), strlen(str3)); //8 5
+    char *str3 = "hello";
+    printf("test3 %lu %lu\n\n", sizeof(str3), strlen(str3)); //8 5
 
     /*test 4*/
-    char str4[] = &quot;hello&quot;;
+    char str4[] = "hello";
     testArr(str4);//8 5
 
     /*test 5*/
-    char str5[] = &quot;hell\0o&quot;;
-    printf(&quot;test5 %lu %lu\n&quot;, sizeof(str5), strlen(str5));      //7 4
+    char str5[] = "hell\0o";
+    printf("test5 %lu %lu\n", sizeof(str5), strlen(str5));      //7 4
 
     /*test 6*/
     char str6[10] = {0};
-    printf(&quot;test6 %lu %lu\n\n&quot;, sizeof(str6), strlen(str6)); //10 0
+    printf("test6 %lu %lu\n\n", sizeof(str6), strlen(str6)); //10 0
 
     /*test 7*/
-    char str7[5] = &quot;hello&quot;;
-    printf(&quot;test7 %lu %lu\n\n&quot;, sizeof(str7), strlen(str7)); //5 10
+    char str7[5] = "hello";
+    printf("test7 %lu %lu\n\n", sizeof(str7), strlen(str7)); //5 10
 
     /*test 8*/
     char str8[5] = {0};
-    strncpy(str8, &quot;hello&quot;, 5);
-    printf(&quot;%s\n&quot;, str8);    //hellohello
+    strncpy(str8, "hello", 5);
+    printf("%s\n", str8);    //hellohello
     return 0;
-}</code></pre><p>特别注意观察test2和test7。<br>在解释这些测试之前，先复习一下<code>sizeof</code>，<code>strlen</code>以及数组的内容。</p>
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>特别注意观察test2和test7。<br>在解释这些测试之前，先复习一下<code>sizeof</code>，<code>strlen</code>以及数组的内容。</p>
 <h1 id="sizeof"><a href="#sizeof" class="headerlink" title="sizeof"></a>sizeof</h1><p>首先需要明确的是，<code>sizeof</code>是操作符，即它并不是函数，它的作用对象是数据类型，因此，它作用于变量时，也是对其类型进行操作。得到的结果是该数据类型占用空间大小，即<code>size_t</code>类型。<br>例如：</p>
-<pre><code>struct test
+<pre class="line-numbers language-c++"><code class="language-c++">struct test
 {
     int a;
     char b;
 };
 sizeof(int);//得到4
-sizeof(test);//4字节对齐时，得到8</code></pre><h1 id="strlen"><a href="#strlen" class="headerlink" title="strlen"></a>strlen</h1><p>strlen是函数<code>size_t strlen(const char *s)</code>;</p>
-<pre><code>#include&lt;stdio.h&gt;
-#include&lt;string.h&gt;
+sizeof(test);//4字节对齐时，得到8<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="strlen"><a href="#strlen" class="headerlink" title="strlen"></a>strlen</h1><p>strlen是函数<code>size_t strlen(const char *s)</code>;</p>
+<pre class="line-numbers language-c++"><code class="language-c++">#include<stdio.h>
+#include<string.h>
 int main()
 {
-    char *p = &quot;hello&quot;;
-    printf(&quot;%lu\n&quot;, strlen(p));//得到5
+    char *p = "hello";
+    printf("%lu\n", strlen(p));//得到5
     return 0;
-}</code></pre><p>这里字符串hello的长度就是5，但是占用空间是多少呢？<code>sizeof(&quot;hello&quot;)</code>得到6。是6，而不是5。注：strlen的时间复杂度为O（N）。</p>
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这里字符串hello的长度就是5，但是占用空间是多少呢？<code>sizeof(&quot;hello&quot;)</code>得到6。是6，而不是5。注：strlen的时间复杂度为O（N）。</p>
 <h1 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h1><p>字符串是以’\0’结尾的字符数组。</p>
 <pre><code>char str[] = &quot;hello&quot;;
 printf(&quot;test0 %lu %lu\n\n&quot;, sizeof(str), strlen(str)); //6 5</code></pre><p>上面的初始化方法等价于下面的方式：</p>
