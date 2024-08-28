@@ -9,7 +9,7 @@
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
     <meta name="description" content="对于初学者来说，sizeof，strlen，数组，字符串整在一起是痛苦的，它总能在某些莫名其妙的时候整一个措手不及,本文看看它们在一起能挖什么坑。
-例子在说明这些问题之前，先看一段代码，看看你是否都理解了。(注：以下代码结果为编译为64位程">
+例子在说明这些问题之前，先看一段代码，看看你是否都理解了。注：以下代码结果为编译为64位程序">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -446,7 +446,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>对于初学者来说，sizeof，strlen，数组，字符串整在一起是痛苦的，它总能在某些莫名其妙的时候整一个措手不及,本文看看它们在一起能挖什么坑。</p>
-<h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><p>在说明这些问题之前，先看一段代码，看看你是否都理解了。(注：以下代码结果为编译为64位程序后运行结果)</p>
+<h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><p>在说明这些问题之前，先看一段代码，看看你是否都理解了。注：以下代码结果为编译为64位程序后运行结果。</p>
 <pre><code>#include &lt;stdio.h&gt;
 #include &lt;string.h&gt;
 
@@ -459,7 +459,7 @@ int main()
 {
     /*test 0*/
     char str[] = &quot;hello&quot;;
-    printf(&quot;test0 %lu %lu\n\n&quot;, sizeof(str), strlen(str)); //6 5
+    printf(&quot;test0 %lu %lu\n\n&quot;, sizeof(str), strlen(str));    //6 5
 
     /*test 1*/
     char str1[8] = &quot;hello&quot;;
@@ -479,7 +479,7 @@ int main()
 
     /*test 5*/
     char str5[] = &quot;hell\0o&quot;;
-    printf(&quot;test5 %lu %lu\n&quot;, sizeof(str5), strlen(str5)); //7 4
+    printf(&quot;test5 %lu %lu\n&quot;, sizeof(str5), strlen(str5));      //7 4
 
     /*test 6*/
     char str6[10] = {0};
@@ -491,19 +491,57 @@ int main()
 
     /*test 8*/
     char str8[5] = {0};
-    strncpy(str8,&quot;hello&quot;,5);
-    printf(&quot;%s\n&quot;,str8);//hellohello
+    strncpy(str8, &quot;hello&quot;, 5);
+    printf(&quot;%s\n&quot;, str8);    //hellohello
     return 0;
-}</code></pre><p>特别注意观察test2和test7。<br>在解释这些测试之前，先复习一下sizeof，strlen以及数组的内容。</p>
-<h1 id="sizeof"><a href="#sizeof" class="headerlink" title="sizeof"></a>sizeof</h1><p>首先需要明确的是，sizeof是操作符，即它并不是函数，它的作用对象是数据类型，因此，它作用于变量时，也是对其类型进行操作。得到的结果是该数据类型占用空间大小，即size_t类型。<br>例如：struct test<br>{<br>    int a;<br>    char b;<br>};<br>sizeof(int);//得到4<br>sizeof(test);//4字节对齐时，得到8</p>
-<p>strlen<br>strlen是函数size_t strlen(const char *s);</p>
-<p>#include&lt;stdio.h&gt;</p>
-<p>#include&lt;string.h&gt;<br>int main()<br>{</p>
-<pre><code>char *p = &quot;hello&quot;;
-printf(&quot;%lu\n&quot;,strlen(p));//得到5
-return 0;</code></pre><p>}<br>这里字符串hello的长度就是5，但是占用空间是多少呢？sizeof(“hello”);//得到6<br>是6，而不是5。<br>注：strlen的时间复杂度为O（N）。<br>数组<br>字符串<br>字符串是以’\0’结尾的字符数组。<br>解析<br>实际上了解以上内容之后，很多问题迎刃而解。<br>test0<br>char str[] = “hello”;<br>printf(“test0 %lu %lu\n\n”, sizeof(str), strlen(str)); //6 5<br>上面的初始化方法等价于下面的方式：char str[] = {‘h’,’e’,’l’,’l’,’o’,’\0’};<br>它实际上就是一个字符数组，只不过上面这种赋值方式会在末尾加上’\0’。既然如此，那么用sizeof求得占用空间大小也就很明显了是6。而strlen是遇到’\0’，就结束，因此其求得长度为5。<br>test1<br>/<em>test 1</em>/<br>char str1[8] = “hello”;<br>printf(“test1 %lu %lu\n\n”, sizeof(str1), strlen(str1)); //8 5<br>test1类似，只不过它占用空间是8，而长度仍然是5。<br>test2<br>/<strong>test 2*/<br>char str2[] = {‘h’,’e’,’l’,’l’,’o’};<br>printf(“test2 %lu %lu\n\n”, sizeof(str2), strlen(str2)); //5 10<br>sizeof求str2的大小很明显是5，而为啥那么strlen得到的是10呢？还记得strlen的原则吗，遇到’\0’则结束，但是’\0’在哪里？至少我在str2中没有看到，所以你可能看到的结果是10，也可能是另外一个莫名其妙的值，甚至可能导致程序崩溃。<br>test3<br>/</strong>test 3<em>/<br>char </em>str3 = “hello”;//最后有一个”隐形“的’\0’<br>printf(“test3 %lu %lu\n\n”, sizeof(str3), strlen(str3)); //8 5<br>为什么前者是8？很显然，str3并不是一个数组，而是一个字符指针，既然是指针类型，自然占着指针的大小，而64位程序中，它的大小就是你看到的8。后者还是从str3指向的地址开始，直到遇到’\0’，即得到长度5。<br>test4<br>/<em>test 4</em>/<br>char str4[] = “hello”;<br>testArr(str4);//8 5</p>
-<p>test5<br>/<em>test 5</em>/<br>char str5[] = “hell\0o”;<br>printf(“test5 %lu %lu\n”, sizeof(str5), strlen(str5)); //7 4<br>同理，str5的初始化等价于下面：char str5[] = {‘h’,’e’.’l’,’l’,’\0’,’o’,’\0’};<br>所以不用解释你也明白，sizeof得到的结果是7。而strlen遇到第一个’\0’就停止继续计算了，因此得到4。<br>test6<br>/<em>test 6</em>/<br>char str6[10] = {0};<br>printf(“test6 %lu %lu\n\n”, sizeof(str6), strlen(str6)); //10 0<br>相信这个也好理解，占用空间10，但是由于都是0，因此strlen得到长度为0。<br>test7<br>/<em>test 7</em>/<br>char str7[5] = “hello”;<br>printf(“test7 %lu %lu\n\n”, sizeof(str7), strlen(str7)); //5 10<br>这也是非常危险的，占用空间是5，它没有空间容纳最后的’\0’，因此导致strlen计算的结果和test2一样，可能会是任意值。<br>test8<br>/<em>test 8</em>/<br>char str8[5] = {0};<br>strncpy(str8,”hello”,5);<br>printf(“%s\n”,str8);//hellohello<br>这里在实际编程中最容易遇到的问题之一，数组大小为5，但是拷贝了5个字节大小的数据。如果你把它当成字符数组使用也没什么问题，但是由于它最后没有空间去容纳’\0’，因此你使用strlen，或者使用printf去打印的时候，可能发生难以预料的结果。所以你可能会在你的项目代码中看到类似这样的写法，将字符数组的最后一个位置赋值为0：str8[4] = ‘\0’;<br>总结<br>文本关键点如下：<br>    • sizeof计算类型占用空间大小，时间复杂度O(1)<br>    • sizeof计算大小时会考虑字节对齐<br>    • strlen计算字符串长度，时间复杂度O(N)<br>    • strlen作用对象是字符串（以’\0’结尾）<br>    • strlen遇到’\0’作罢，如果没有遇到，则不可预料<br>    • 格外小心数组作为参数<br>另外注意下面两种方式hello存储的区域不一致：char str[] = “hello”;<br>char *str2 = “hello”;//存储在数据区，只读</p>
-
+}</code></pre><p>特别注意观察test2和test7。<br>在解释这些测试之前，先复习一下<code>sizeof</code>，<code>strlen</code>以及数组的内容。</p>
+<h1 id="sizeof"><a href="#sizeof" class="headerlink" title="sizeof"></a>sizeof</h1><p>首先需要明确的是，<code>sizeof</code>是操作符，即它并不是函数，它的作用对象是数据类型，因此，它作用于变量时，也是对其类型进行操作。得到的结果是该数据类型占用空间大小，即<code>size_t</code>类型。<br>例如：</p>
+<pre><code>struct test
+{
+    int a;
+    char b;
+};
+sizeof(int);//得到4
+sizeof(test);//4字节对齐时，得到8</code></pre><h1 id="strlen"><a href="#strlen" class="headerlink" title="strlen"></a>strlen</h1><p>strlen是函数<code>size_t strlen(const char *s)</code>;</p>
+<pre><code>#include&lt;stdio.h&gt;
+#include&lt;string.h&gt;
+int main()
+{
+    char *p = &quot;hello&quot;;
+    printf(&quot;%lu\n&quot;, strlen(p));//得到5
+    return 0;
+}</code></pre><p>这里字符串hello的长度就是5，但是占用空间是多少呢？<code>sizeof(&quot;hello&quot;)</code>得到6。是6，而不是5。注：strlen的时间复杂度为O（N）。</p>
+<h1 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h1><p>字符串是以’\0’结尾的字符数组。</p>
+<pre><code>char str[] = &quot;hello&quot;;
+printf(&quot;test0 %lu %lu\n\n&quot;, sizeof(str), strlen(str)); //6 5</code></pre><p>上面的初始化方法等价于下面的方式：</p>
+<pre><code>char str[] = {&#39;h&#39;,&#39;e&#39;,&#39;l&#39;,&#39;l&#39;,&#39;o&#39;,&#39;\0&#39;};</code></pre><p>它实际上就是一个字符数组，只不过上面这种赋值方式会在末尾加上’\0’。既然如此，那么用<code>sizeof</code>求得占用空间大小也就很明显了是6。而<code>strlen</code>是遇到’\0’，就结束，因此其求得长度为5。</p>
+<pre><code>/*test 1*/
+char str1[8] = &quot;hello&quot;;
+printf(&quot;test1 %lu %lu\n\n&quot;, sizeof(str1), strlen(str1)); //8 5</code></pre><p>test1类似，只不过它占用空间是8，而长度仍然是5。</p>
+<pre><code>/**test 2*/
+char str2[] = {&#39;h&#39;,&#39;e&#39;,&#39;l&#39;,&#39;l&#39;,&#39;o&#39;};
+printf(&quot;test2 %lu %lu\n\n&quot;, sizeof(str2), strlen(str2)); //5 10</code></pre><p><code>sizeof</code>求str2的大小很明显是5，而为啥那么<code>strlen</code>得到的是10呢？还记得<code>strlen</code>的原则吗，遇到’\0’则结束，但是’\0’在哪里？至少我在str2中没有看到，所以你可能看到的结果是10，也可能是另外一个莫名其妙的值，甚至可能导致程序崩溃。</p>
+<pre><code>/**test 3*/
+char *str3 = &quot;hello&quot;;//最后有一个”隐形“的&#39;\0&#39;
+printf(&quot;test3 %lu %lu\n\n&quot;, sizeof(str3), strlen(str3)); //8 5</code></pre><p>为什么前者是8？很显然，str3并不是一个数组，而是一个字符指针，既然是指针类型，自然占着指针的大小，而64位程序中，它的大小就是你看到的8。后者还是从str3指向的地址开始，直到遇到’\0’，即得到长度5。</p>
+<pre><code>/*test 4*/
+char str4[] = &quot;hello&quot;;
+testArr(str4); //8 5</code></pre><pre><code>/*test 5*/
+char str5[] = &quot;hell\0o&quot;;
+printf(&quot;test5 %lu %lu\n&quot;, sizeof(str5), strlen(str5)); //7 4</code></pre><p>同理，str5的初始化等价于下面：</p>
+<pre><code>char str5[] = {&#39;h&#39;,&#39;e&#39;.&#39;l&#39;,&#39;l&#39;,&#39;\0&#39;,&#39;o&#39;,&#39;\0&#39;};</code></pre><p>所以不用解释你也明白，<code>sizeof</code>得到的结果是7。而<code>strlen</code>遇到第一个’\0’就停止继续计算了，因此得到4。</p>
+<pre><code>/*test 6*/
+char str6[10] = {0};
+printf(&quot;test6 %lu %lu\n\n&quot;, sizeof(str6), strlen(str6)); //10 0</code></pre><p>相信这个也好理解，占用空间10，但是由于都是0，因此<code>strlen</code>得到长度为0。</p>
+<pre><code>/*test 7*/
+char str7[5] = &quot;hello&quot;;
+printf(&quot;test7 %lu %lu\n\n&quot;, sizeof(str7), strlen(str7)); //5 10</code></pre><p>这也是非常危险的，占用空间是5，它没有空间容纳最后的’\0’，因此导致<code>strlen</code>计算的结果和test2一样，可能会是任意值。</p>
+<pre><code>/*test 8*/
+char str8[5] = {0};
+strncpy(str8, &quot;hello&quot;, 5);
+printf(&quot;%s\n&quot;, str8);    //hellohello</code></pre><p>这里在实际编程中最容易遇到的问题之一，数组大小为5，但是拷贝了5个字节大小的数据。如果你把它当成字符数组使用也没什么问题，但是由于它最后没有空间去容纳’\0’，因此你使用strlen，或者使用printf去打印的时候，可能发生难以预料的结果。所以你可能会在你的项目代码中看到类似这样的写法，将字符数组的最后一个位置赋值为0：<code>str8[4] = &#39;\0&#39;</code>;<br>    • sizeof计算类型占用空间大小，时间复杂度O(1)<br>    • sizeof计算大小时会考虑字节对齐<br>    • strlen计算字符串长度，时间复杂度O(N)<br>    • strlen作用对象是字符串以’\0’结尾<br>    • strlen遇到’\0’作罢，如果没有遇到，则不可预料<br>    • 格外小心数组作为参数<br>另外注意下面两种方式hello存储的区域不一致：</p>
+<pre><code>char str[] = &quot;hello&quot;;
+char *str2 = &quot;hello&quot;;//存储在数据区，只读</code></pre>
             </div>
             <hr />
 
@@ -881,7 +919,7 @@ return 0;</code></pre><p>}<br>这里字符串hello的长度就是5，但是占�
                     <div class="summary block-with-text">
                         
                             对于初学者来说，sizeof，strlen，数组，字符串整在一起是痛苦的，它总能在某些莫名其妙的时候整一个措手不及,本文看看它们在一起能挖什么坑。
-例子在说明这些问题之前，先看一段代码，看看你是否都理解了。(注：以下代码结果为编译为64位程
+例子在说明这些问题之前，先看一段代码，看看你是否都理解了。注：以下代码结果为编译为64位程序
                         
                     </div>
                     <div class="publish-info">
