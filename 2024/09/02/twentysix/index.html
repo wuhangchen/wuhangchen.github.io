@@ -4,12 +4,13 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Linux 技巧, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="右值引用, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="如果要谨慎使用 rm 命令，可以为它设置一个别名，在删除文件之前需要进行确认才能删除。有些系统管理员会默认使用这个别名，对于这种情况，你可能需要看看下一个技巧。
-$ rm -i    &amp;lt;== 请求确认你可以使用 unalias 命令以">
+    <meta name="description" content="概述右值引用的概念有些读者可能会感到陌生，其实他和C++98/03中的左值引用有些类似，例如，c++98/03中的左值引用是这样的：
+int i = 0;
+int&amp;amp; j = i;这里的int&amp;amp;是对左值进行绑定,但是int&amp;a">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +18,7 @@ $ rm -i    &amp;lt;== 请求确认你可以使用 unalias 命令以">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Linux 技巧 | 吴杭沉的博客</title>
+    <title>右值引用 | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -267,13 +268,13 @@ $ rm -i    &amp;lt;== 请求确认你可以使用 unalias 命令以">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Linux 技巧
+                        右值引用
                     </div>
                 </div>
             </div>
@@ -384,8 +385,8 @@ $ rm -i    &amp;lt;== 请求确认你可以使用 unalias 命令以">
                     
                     <div class="article-tag">
                         
-                        <a href="/tags/Linux/" target="_blank">
-                            <span class="chip bg-color">Linux</span>
+                        <a href="/tags/C/" target="_blank">
+                            <span class="chip bg-color">C++</span>
                         </a>
                         
                     </div>
@@ -396,8 +397,8 @@ $ rm -i    &amp;lt;== 请求确认你可以使用 unalias 命令以">
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                        <a href="/categories/Linux/" class="post-category" target="_blank">
-                            Linux
+                        <a href="/categories/C/" class="post-category" target="_blank">
+                            C++
                         </a>
                         
                     </div>
@@ -408,7 +409,7 @@ $ rm -i    &amp;lt;== 请求确认你可以使用 unalias 命令以">
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-07-29
+                    2024-09-02
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -422,14 +423,14 @@ $ rm -i    &amp;lt;== 请求确认你可以使用 unalias 命令以">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3k
+                    4.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    11 分
+                    18 分
                 </div>
                 
                 
@@ -445,69 +446,163 @@ $ rm -i    &amp;lt;== 请求确认你可以使用 unalias 命令以">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>如果要谨慎使用 rm 命令，可以为它设置一个别名，在删除文件之前需要进行确认才能删除。有些系统管理员会默认使用这个别名，<br>对于这种情况，你可能需要看看下一个技巧。</p>
-<pre><code>$ rm -i    &lt;== 请求确认</code></pre><p>你可以使用 unalias 命令以交互方式禁用别名。它不会更改别名的配置，而仅仅是暂时禁用，直到下次登录或重新设置了这一个别名才会重新生效。<br>$ unalias rm如果已经将 rm -i 默认设置为 rm 的别名，但你希望在删除文件之前不必进行确认，则可以将 unalias 命令放在一个启动文件（例如 ~/.bashrc）中。<br>如果你经常在只有 root 用户才能执行的命令前忘记使用 sudo，这里有两个方法可以解决。一是利用命令历史记录，<br>可以使用 sudo !!（使用 !! 来运行最近的命令，并在前面添加 sudo）来重复执行，二是设置一些附加了所需 sudo 的命令别名。</p>
-<pre><code>$ alias update=’sudo apt update’</code></pre><p>有时命令行技巧并不仅仅是一个别名。毕竟，别名能帮你做的只有替换命令以及增加一些命令参数，节省了输入的时间。<br>但如果需要比别名更复杂功能，可以通过编写脚本、向 .bashrc 或其他启动文件添加函数来实现。<br>例如，下面这个函数会在创建一个目录后进入到这个目录下。在设置完毕后，执行 source .bashrc，<br>就可以使用 md temp 这样的命令来创建目录立即进入这个目录下。</p>
-<pre><code>md () { mkdir -p &quot;$@&quot; &amp;&amp; cd &quot;$1&quot;; }</code></pre><p>这里有很多快捷键可以帮我们修正自己的命令。接下来使用光标二字代替光标的位置。</p>
-<h1 id="删除从开头到光标处的命令文本"><a href="#删除从开头到光标处的命令文本" class="headerlink" title="删除从开头到光标处的命令文本"></a>删除从开头到光标处的命令文本</h1><p>ctrl + u，例如：$ cd /proc/tty;ls -al光标如果此时使用ctrl+u快捷键，那么该条命令都会被清除，而不需要长按backspace键。</p>
-<h1 id="删除从光标到结尾处的命令文本"><a href="#删除从光标到结尾处的命令文本" class="headerlink" title="删除从光标到结尾处的命令文本"></a>删除从光标到结尾处的命令文本</h1><p>ctrl + k，例如：$ cd /proc/tty光标;ls -al如果此时使用ctrl + k快捷键，那么从光标开始处到结尾的命令文本将会被删除。<br>还有其他的操作，不再举例，例如：<br>ctrl + a:光标移动到命令开头<br>ctrl + e：光标移动到命令结尾<br>alt  f:光标向前移动一个单词<br>alt  b：光标向前移动一个单词<br>ctrl w：删除一个词（以空格隔开的字符串）<br>我们都知道history记录了执行的历史命令，而使用!＋历史命令前的数字，可快速执行历史命令。</p>
-<h1 id="部分历史命令查看"><a href="#部分历史命令查看" class="headerlink" title="部分历史命令查看"></a>部分历史命令查看</h1><p>history会显示大量的历史命令，而fs -l只会显示部分。<br>$ tail -f filename.logtail -f 加文件名，可以实时显示日志文件内容。当然，使用less命令查看文件内容，并且使用shift+f键，也可达到类似的效果。<br>怎么知道当前磁盘是否满了呢？</p>
-<pre><code>$ df -h
-/dev/sda14      4.6G   10M  4.4G   1% /tmp
-/dev/sda11      454M  366M   61M  86% /boot
-/dev/sda15       55G   18G   35G  35% /home
-/dev/sda1       256M   31M  226M  12% /boot/efi
-tmpfs           786M   64K  786M   1% /run/user/1000</code></pre><p>使用df命令可以快速查看各挂载路径磁盘占用情况。</p>
-<h1 id="当前目录各个子目录占用空间大小"><a href="#当前目录各个子目录占用空间大小" class="headerlink" title="当前目录各个子目录占用空间大小"></a>当前目录各个子目录占用空间大小</h1><p>如果你已经知道home目录占用空间较大了，你想知道home目录下各个目录占用情况：<br>这里指定了目录深度，否则的话，它会递归统计子目录占用空间大小，可自行尝试。</p>
-<pre><code>$ free -h
-              total        used        free      shared  buff/cache   available
-Mem:           7.7G        3.5G        452M        345M        3.7G        3.5G
-Swap:          7.6G          0B        7.6G</code></pre><p>通过free的结果，很容易看到当前总共内存多少，剩余可用内存多少等等。<br>不知道你是否注意到，我们在前面几个命令中，都使用了-h参数，它的作用是使得结果以人类可读的方式呈现，<br>所以我们看到它呈现的单位是G,M等，如果不使用-h参数，可以自己尝试一下会是什么样的结果呈现。</p>
-<h2 id="根据名称查找进程id"><a href="#根据名称查找进程id" class="headerlink" title="根据名称查找进程id"></a>根据名称查找进程id</h2><p>想快速直接查找进程id，可以使用：<br>pgrep hello2.22692或者：</p>
-<pre><code>$ pidof hello
-22692</code></pre><p>其中，hello是进程名称。</p>
-<h1 id="根据名称杀死进程"><a href="#根据名称杀死进程" class="headerlink" title="根据名称杀死进程"></a>根据名称杀死进程</h1><p>一般我们可以使用kill　-9 pid方式杀死一个进程，但是这样就需要先找到这个进程的进程id，实际上我们也可以直接根据名称杀死进程，例如：$ killall hello或者：<br>可以使用下面的命令查看进程已运行时间：</p>
-<pre><code>$ ps -p 24525 -o lstart,etime
-                 STARTED     ELAPSED
-Sat Mar 23 20:52:08 2019       02:45</code></pre><p>其中24525是你要查看进程的进程id。</p>
-<h1 id="快速目录切换"><a href="#快速目录切换" class="headerlink" title="快速目录切换"></a>快速目录切换</h1><p>cd -　回到上一个目录cd  回到用户家目录<br>我们知道使用分号隔开可以执行多条命令，例如：$ cd /temp/log/;rm -rf *但是如果当前目录是/目录，并且/temp/log目录不存在，<br>那么就会发生激动人心的一幕：</p>
-<pre><code>bash: cd: /temp/log: No such file or directory</code></pre><p>因为;可以执行多条命令，但是不会因为前一条命令失败，而导致后面的不会执行，因此，cd执行失败后，仍然会继续执行rm -rf <em>，<br>由于处于/目录下，结果可想而知。<br>所以你还以为这种事故是对rf -rf </em>的力量一无所知的情况下产生的吗？<br>如果解决呢？很简单，使用&amp;&amp;，例如:$ cd /temp/log/ &amp;&amp; rm -rf *<br>这样就会确保前一条命令执行成功，才会执行后面一条。<br>有时候日志文件是压缩的，那么能不能偷懒一下，不解压查看呢？当然可以啦。<br>例如</p>
-<pre><code>$ zcat test.gz
-test log</code></pre><p>或者：</p>
-<pre><code>$ zless test.gz
-test log</code></pre><p>比如有一个大文件，你想快速删除，或者不想删除，但是想清空内容：</p>
-<pre><code>&gt;filename</code></pre><h1 id="将日志同时记录文件并打印到控制台"><a href="#将日志同时记录文件并打印到控制台" class="headerlink" title="将日志同时记录文件并打印到控制台"></a>将日志同时记录文件并打印到控制台</h1><p>在执行shell脚本，常常会将日志重定向，但是这样的话，控制台就没有打印了，如何使得既能记录日志文件，又能将日志输出到控制台呢？</p>
-<pre><code>$ ./test.sh |tee test.log</code></pre><h1 id="终止并恢复进程执行"><a href="#终止并恢复进程执行" class="headerlink" title="终止并恢复进程执行"></a>终止并恢复进程执行</h1><p>我们使用ctrl+z 暂停一个进程的执行，也可以使用fg恢复执行。例如我们使用<br>当我们发现文件内容可能很多时，使用ctrl + z暂停程序，而如果又想要从刚才的地方继续执行，则只需要使用fg命令即可恢复执行。或者使用bg使得进程继续在后台执行。<br>我们可能会进程写一些小程序，并且想要知道它的运行时间，实际上我们可以很好的利用time命令帮我们计算，例如：</p>
-<pre><code>$ time ./fibo 30
-the 30 result is 832040
-real    0m0.088s
-user    0m0.084s
-sys    0m0.004s</code></pre><p>它会显示系统时间，用户时间以及实际使用的总时间。</p>
-<h1 id="查看内存占用前10的进程"><a href="#查看内存占用前10的进程" class="headerlink" title="查看内存占用前10的进程"></a>查看内存占用前10的进程</h1><pre><code>$ ps -aux |sort -k4nr | head -n 10</code></pre><p>我们都知道man可以查看命令的帮助手册，但是如果我们想要某个功能却不知道使用哪个命令呢？别着急，还是可以使用man：</p>
-<pre><code>$ man -k &quot;copy files&quot;
-cp (1)               - copy files and directories
-cpio (1)             - copy files to and from archives
-git-checkout-index (1) - Copy files from the index to the working tree
-gvfs-copy (1)        - Copy files
-gvfs-move (1)        - Copy files
-install (1)          - copy files and set attributes</code></pre><p>使用-k参数，使得与copy files相关的帮助手册都显示出来了。<br>我们知道，在命令行下，复制不能再是ctrl + c了，因为它表示终止当前进程，而控制台下的复制粘贴需要使用下面的快捷键：</p>
-<pre><code>ctrl +  insertshift + insert</code></pre><h1 id="例如，要在当前目录下查找包含test字符串的文件："><a href="#例如，要在当前目录下查找包含test字符串的文件：" class="headerlink" title="例如，要在当前目录下查找包含test字符串的文件："></a>例如，要在当前目录下查找包含test字符串的文件：</h1><pre><code>$ grep -rn &quot;test&quot;
-test2.txt:1:test</code></pre><p>它便可以找到该字符串在哪个文件的第几行。<br>程序运行时，终端可能输出大量的日志，你想简单查看一下，又不想记录日志文件，此时可以使用ctrl+s键，冻结屏幕，使得日志不再继续输出，而如果想要恢复，可使用ctrl+q退出冻结。<br>如果在某些系统上连基本的vi编辑器都没有，那么可以使用下面的方式进行编辑内容：</p>
-<pre><code>$ cat &gt;file.txt
-some words
-(ctrl+d)</code></pre><p>编辑完成后，ctrl+d即可保存。</p>
-<h1 id="查看elf文件头信息"><a href="#查看elf文件头信息" class="headerlink" title="查看elf文件头信息"></a>查看elf文件头信息</h1><p>例如：</p>
-<pre><code>$ readelf -h filename</code></pre><p>我们在显示结果中，可以看到运行的平台，elf文件类型，大小端情况等。<br>查看库中是否包含某个接口</p>
-<pre><code>$ nm filename |grep interface</code></pre><p>这里是从文件filename中查看是否包含interface接口，前提是该文件包含符号表。<br>如果要对一个已输入的命令进行修改，可以使用 ^a（ctrl + a）或 ^e（ctrl + e）将光标快速移动到命令的开头或命令的末尾。<br>还可以使用 ^ 字符实现对上一个命令的文本替换并重新执行命令，例如 ^before^after^ 相当于把上一个命令中的 before 替换为 after 然后重新执行一次。</p>
-<h1 id="使用远程机器的名称登录到机器上"><a href="#使用远程机器的名称登录到机器上" class="headerlink" title="使用远程机器的名称登录到机器上"></a>使用远程机器的名称登录到机器上</h1><p>如果使用命令行登录其它机器上，可以考虑添加别名。在别名中，可以填入需要登录的用户名（与本地系统上的用户名可能相同，也可能不同）以及远程机器的登录信息。<br>例如使用 server_name =’ssh -v -l username IP-address’ 这样的别名命令：</p>
-<pre><code>$ alias butterfly=”ssh -v -l jdoe 192.168.0.11”</code></pre><p>也可以通过在 /etc/hosts 文件中添加记录或者在 DNS 服务器中加入解析记录来把 IP 地址替换成易记的机器名称。<br>执行 alias 命令可以列出机器上已有的别名。</p>
-<pre><code>$ aliasalias butterfly=&#39;ssh -v -l jdoe 192.168.0.11&#39;
-alias c=&#39;clear&#39;
-alias egrep=&#39;egrep --color=auto&#39;
-alias fgrep=&#39;fgrep --color=auto&#39;
-alias grep=&#39;grep --color=auto&#39;
-alias l=&#39;ls -CF&#39;alias la=&#39;ls -A&#39;</code></pre><p>只要将新的别名添加到 ~/.bashrc 或类似的文件中，就可以让别名在每次登录后都能立即生效。<br>^s（ctrl + s）将通过执行流量控制命令 XOFF 来停止终端输出内容，这会对 PuTTY 会话和桌面终端窗口产生影响。<br>如果误输入了这个命令，可以使用 ^q（ctrl + q）让终端重新响应。所以只需要记住 ^q 这个组合键就可以了，毕竟这种情况并不多见。<br>Linux 提供了很多让用户复用命令的方法，其核心是通过历史缓冲区收集执行过的命令。复用命令的最简单方法是输入 ! 然后接最近使用过的命令的开头字母；<br>当然也可以按键盘上的向上箭头，直到看到要复用的命令，然后按回车键。还可以先使用 history 显示命令历史，然后输入 ! 后面再接命令历史记录中需要复用的命令旁边的数字。<br>!! &lt;== 复用上一条命令!ec &lt;== 复用上一条以 “ec” 开头的命令!76 &lt;== 复用命令历史中的 76 号命令</p>
-<h1 id="查看日志文件并动态显示更新内容"><a href="#查看日志文件并动态显示更新内容" class="headerlink" title="查看日志文件并动态显示更新内容"></a>查看日志文件并动态显示更新内容</h1><p>使用形如 tail -f /var/log/syslog 的命令可以查看指定的日志文件，并动态显示文件中增加的内容，<br>需要监控向日志文件中追加内容的的事件时相当有用。这个命令会输出文件内容的末尾部分，并逐渐显示新增的内容。</p>
+                <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>右值引用的概念有些读者可能会感到陌生，其实他和C++98/03中的左值引用有些类似，例如，c++98/03中的左值引用是这样的：</p>
+<pre><code>int i = 0;
+int&amp; j = i;</code></pre><p>这里的<code>int&amp;</code>是对左值进行绑定,但是<code>int&amp;</code>却不能绑定右值，相应的，对右值进行绑定的引用就是右值引用，他的语法是这样的<code>A&amp;&amp;</code>,通过双引号来表示绑定类型为<code>A</code>的右值。通过&amp;&amp;我们就可以很方便的绑定右值了，比如我们可以这样绑定一个右值：</p>
+<pre><code>int&amp;&amp; i = 0;</code></pre><p>这里我们绑定了一个右值0，关于右值的概念会在后面介绍。右值引用是C++11中新增加的一个很重要的特性，他主是要用来解决C++98/03中遇到的两个问题，第一个问题就是临时对象非必要的昂贵的拷贝操作，第二个问题是在模板函数中如何按照参数的实际类型进行转发。通过引入右值引用，很好的解决了这两个问题，改进了程序性能，后面将会详细介绍右值引用是如何解决这两个问题的。<br>和右值引用相关的概念比较多，比如：右值、纯右值、将亡值、universal references、引用折叠、移动语义、move语义和完美转发等等。很多都是新概念，对于刚学习C++11右值引用的初学者来说，可能会觉得右值引用过于复杂，概念之间的关系难以理清。<br>右值引用实际上并没有那么复杂，其实是关于4行代码的故事，通过简单的4行代码我们就能清晰的理解右值引用相关的概念了。本文希望带领读者通过4行代码来理解右值引用相关的概念，理清他们之间的关系，并最终能透彻地掌握C++11的新特性–右值引用。</p>
+<h1 id="四行代码的故事"><a href="#四行代码的故事" class="headerlink" title="四行代码的故事"></a>四行代码的故事</h1><h2 id="第1行代码的故事"><a href="#第1行代码的故事" class="headerlink" title="第1行代码的故事"></a>第1行代码的故事</h2><pre><code>int i = getVar();</code></pre><p>上面的这行代码很简单，从getVar()函数获取一个整形值，然而，这行代码会产生几种类型的值呢？答案是会产生两种类型的值，一种是左值i，一种是函数<code>getVar()</code>返回的临时值，这个临时值在表达式结束后就销毁了，而左值i在表达式结束后仍然存在，这个临时值就是右值，具体来说是一个纯右值，右值是不具名的。区分左值和右值的一个简单办法是：看能不能对表达式取地址，如果能，则为左值，否则为右值。<br>所有的具名变量或对象都是左值，而匿名变量则是右值，比如，简单的赋值语句：</p>
+<pre><code>int i = 0;</code></pre><p>在这条语句中，i 是左值，0 是字面量，就是右值。在上面的代码中，i 可以被引用，0 就不可以了。具体来说上面的表达式中等号右边的0是纯右值prvalue，在C++11中所有的值必属于左值、将亡值、纯右值三者之一。比如，非引用返回的临时变量、运算表达式产生的临时变量、原始字面量和lambda表达式等都是纯右值。而将亡值是C++11新增的、与右值引用相关的表达式，比如，将要被移动的对象、T&amp;&amp;函数返回值、<code>std::move</code>返回值和转换为<code>T&amp;&amp;</code>的类型的转换函数的返回值等。关于将亡值我们会在后面介绍，先看下面的代码：</p>
+<pre><code>int j = 5;
+auto f = []{return 5;};</code></pre><p>上面的代码中5是一个原始字面量， <code>[]{return 5;}</code>是一个lambda表达式，都是属于纯右值，他们的特点是在表达式结束之后就销毁了。通过地行代码我们对右值有了一个初步的认识，知道了什么是右值，接下来再来看看第二行代码。</p>
+<h2 id="第2行代码的故事"><a href="#第2行代码的故事" class="headerlink" title="第2行代码的故事"></a>第2行代码的故事</h2><pre><code>T&amp;&amp; k = getVar();</code></pre><p>第二行代码和第一行代码很像，只是相比第一行代码多了“&amp;&amp;”，他就是右值引用，我们知道左值引用是对左值的引用，那么，对应的，对右值的引用就是右值引用，而且右值是匿名变量，我们也只能通过引用的方式来获取右值。虽然第二行代码和第一行代码看起来差别不大，但是实际上语义的差别很大，这里，<code>getVar()</code>产生的临时值不会像第一行代码那样，在表达式结束之后就销毁了，而是会被“续命”，他的生命周期将会通过右值引用得以延续，和变量k的声明周期一样长。<br>右值引用的第一个特点<br>通过右值引用的声明，右值又“重获新生”，其生命周期与右值引用类型变量的生命周期一样长，只要该变量还活着，该右值临时量将会一直存活下去。让我们通过一个简单的例子来看看右值的生命周期。如代码清单1-1所示。</p>
+<pre><code>using namespace std;
+
+int g_constructCount = 0;
+int g_copyConstructCount = 0;
+int g_destructCount    = 0;
+struct A
+{
+    A(){
+        cout&lt;&lt;&quot;construct: &quot;&lt;&lt;++g_constructCount&lt;&lt;endl;
+    }
+
+    A(const A&amp; a)
+    {
+        cout&lt;&lt;&quot;copy construct: &quot;&lt;&lt;++g_copyConstructCount &lt;&lt;endl;
+    }
+    ~A()
+    {
+        cout&lt;&lt;&quot;destruct: &quot;&lt;&lt;++g_destructCount&lt;&lt;endl;
+    }
+};
+
+A GetA()
+{
+    return A();
+}
+
+int main() {
+    A a = GetA();
+    return 0;
+}</code></pre><p>为了清楚的观察临时值，在编译时设置编译选项-fno-elide-constructors用来关闭返回值优化效果。<br>输出结果：</p>
+<pre><code>construct: 1
+copy construct: 1
+destruct: 1
+copy construct: 2
+destruct: 2
+destruct: 3</code></pre><p>从上面的例子中可以看到，在没有返回值优化的情况下，拷贝构造函数调用了两次，一次是GetA()函数内部创建的对象返回出来构造一个临时对象产生的，另一次是在main函数中构造a对象产生的。第二次的destruct是因为临时对象在构造a对象之后就销毁了。如果开启返回值优化的话，输出结果将是：</p>
+<pre><code>construct: 1
+destruct: 1</code></pre><p>可以看到返回值优化将会把临时对象优化掉，但这不是c++标准，是各编译器的优化规则。我们在回到之前提到的可以通过右值引用来延长临时右值的生命周期，如果上面的代码中我们通过右值引用来绑定函数返回值的话，结果又会是什么样的呢？在编译时设置编译选项-fno-elide-constructors。</p>
+<pre><code>int main()
+{
+    A&amp;&amp; a = GetA();
+    return 0;
+}</code></pre><p>输出结果：</p>
+<pre><code>construct: 1
+copy construct: 1
+destruct: 1
+destruct: 2</code></pre><p>通过右值引用，比之前少了一次拷贝构造和一次析构，原因在于右值引用绑定了右值，让临时右值的生命周期延长了。我们可以利用这个特点做一些性能优化，即避免临时对象的拷贝构造和析构，事实上，在c++98/03中，通过常量左值引用也经常用来做性能优化。上面的代码改成：</p>
+<pre><code>const A&amp; a = GetA();
+</code></pre><p>输出的结果和右值引用一样，因为常量左值引用是一个“万能”的引用类型，可以接受左值、右值、常量左值和常量右值。需要注意的是普通的左值引用不能接受右值，比如这样的写法是不对的：</p>
+<pre><code>A&amp; a = GetA();
+</code></pre><p>上面的代码会报一个编译错误，因为非常量左值引用只能接受左值。<br>右值引用的第二个特点<br>右值引用独立于左值和右值。意思是右值引用类型的变量可能是左值也可能是右值。比如下面的例子：</p>
+<pre><code>int&amp;&amp; var1 = 1;</code></pre><p>var1类型为右值引用，但var1本身是左值，因为具名变量都是左值。<br>关于右值引用一个有意思的问题是：T&amp;&amp;是什么，一定是右值吗？让我们来看看下面的例子：</p>
+<pre><code>template&lt;typename T&gt;
+void f(T&amp;&amp; t){}
+
+f(10); //t是右值
+
+int x = 10;
+f(x); //t是左值
+</code></pre><p>从上面的代码中可以看到，<code>T&amp;&amp;</code>表示的值类型不确定，可能是左值又可能是右值，这一点看起来有点奇怪，这就是右值引用的一个特点。<br>右值引用的第三个特点<br>T&amp;&amp; t在发生自动类型推断的时候，它是未定的引用类型（universal references），如果被一个左值初始化，它就是一个左值；如果它被一个右值初始化，它就是一个右值，它是左值还是右值取决于它的初始化。<br>我们再回过头看上面的代码，对于函数template<typename t>void f(T&amp;&amp; t)，当参数为右值10的时候，根据universal references的特点，t被一个右值初始化，那么t就是右值；当参数为左值x时，t被一个左值引用初始化，那么t就是一个左值。需要注意的是，仅仅是当发生自动类型推导（如函数模板的类型自动推导，或auto关键字）的时候，T&amp;&amp;才是universal references。再看看下面的例子：</typename></p>
+<pre><code>template&lt;typename T&gt;
+void f(T&amp;&amp; param);
+
+template&lt;typename T&gt;
+class Test {
+    Test(Test&amp;&amp; rhs);
+};</code></pre><p>上面的例子中，param是universal reference，rhs是Test&amp;&amp;右值引用，因为模版函数f发生了类型推断，而Test&amp;&amp;并没有发生类型推导，因为Test&amp;&amp;是确定的类型了。<br>正是因为右值引用可能是左值也可能是右值，依赖于初始化，并不是一下子就确定的特点，我们可以利用这一点做很多文章，比如后面要介绍的移动语义和完美转发。<br>这里再提一下引用折叠，正是因为引入了右值引用，所以可能存在左值引用与右值引用和右值引用与右值引用的折叠，C++11确定了引用折叠的规则，规则是这样的：<br>    • 所有的右值引用叠加到右值引用上仍然还是一个右值引用；<br>    • 所有的其他引用类型之间的叠加都将变成左值引用。</p>
+<h2 id="第3行代码的故事"><a href="#第3行代码的故事" class="headerlink" title="第3行代码的故事"></a>第3行代码的故事</h2><pre><code>T(T&amp;&amp; a) : m_val(val){ a.m_val=nullptr; }</code></pre><p>这行代码实际上来自于一个类的构造函数，构造函数的一个参数是一个右值引用，为什么将右值引用作为构造函数的参数呢？在解答这个问题之前我们先看一个例子。如代码清单1-2所示。</p>
+<pre><code>class A
+{
+public:
+    A():m_ptr(new int(0)){cout &lt;&lt; &quot;construct&quot; &lt;&lt; endl;}
+    A(const A&amp; a):m_ptr(new int(*a.m_ptr)) //深拷贝的拷贝构造函数
+    {
+        cout &lt;&lt; &quot;copy construct&quot; &lt;&lt; endl;
+    }
+    ~A(){ delete m_ptr;}
+private:
+    int* m_ptr;
+};
+int main() {
+    A a = GetA();
+    return 0;
+}
+</code></pre><p>输出：<br>construct<br>copy construct<br>copy construct<br>这个例子很简单，一个带有堆内存的类，必须提供一个深拷贝拷贝构造函数，因为默认的拷贝构造函数是浅拷贝，会发生“指针悬挂”的问题。如果不提供深拷贝的拷贝构造函数，上面的测试代码将会发生错误（编译选项-fno-elide-constructors），内部的m_ptr将会被删除两次，一次是临时右值析构的时候删除一次，第二次外面构造的a对象释放时删除一次，而这两个对象的m_ptr是同一个指针，这就是所谓的指针悬挂问题。提供深拷贝的拷贝构造函数虽然可以保证正确，但是在有些时候会造成额外的性能损耗，因为有时候这种深拷贝是不必要的。比如下面的代码：<br>上面代码中的GetA函数会返回临时变量，然后通过这个临时变量拷贝构造了一个新的对象a，临时变量在拷贝构造完成之后就销毁了，如果堆内存很大的话，那么，这个拷贝构造的代价会很大，带来了额外的性能损失。每次都会产生临时变量并造成额外的性能损失，有没有办法避免临时变量造成的性能损失呢？答案是肯定的，C++11已经有了解决方法，看看下面的代码。如代码清单1-3所示。</p>
+<pre><code>class A
+{
+public:
+    A() :m_ptr(new int(0)){}
+    A(const A&amp; a):m_ptr(new int(*a.m_ptr)) //深拷贝的拷贝构造函数
+    {
+        cout &lt;&lt; &quot;copy construct&quot; &lt;&lt; endl;
+    }
+    A(A&amp;&amp; a) :m_ptr(a.m_ptr)
+    {
+        a.m_ptr = nullptr;
+        cout &lt;&lt; &quot;move construct&quot; &lt;&lt; endl;
+    }
+    ~A(){ delete m_ptr;}
+private:
+    int* m_ptr;
+};
+int main(){
+    A a = Get(false);
+}</code></pre><p>输出：<br>construct<br>move construct<br>move construct<br>代码清单1-3和1-2相比只多了一个构造函数，输出结果表明，并没有调用拷贝构造函数，只调用了move construct函数，让我们来看看这个move construct函数：</p>
+<pre><code>A(A&amp;&amp; a) :m_ptr(a.m_ptr)
+{
+    a.m_ptr = nullptr;
+    cout &lt;&lt; &quot;move construct&quot; &lt;&lt; endl;
+}
+</code></pre><p>这个构造函数并没有做深拷贝，仅仅是将指针的所有者转移到了另外一个对象，同时，将参数对象a的指针置为空，这里仅仅是做了浅拷贝，因此，这个构造函数避免了临时变量的深拷贝问题。<br>上面这个函数其实就是移动构造函数，他的参数是一个右值引用类型，这里的A&amp;&amp;表示右值，为什么？前面已经提到，这里没有发生类型推断，是确定的右值引用类型。为什么会匹配到这个构造函数？因为这个构造函数只能接受右值参数，而函数返回值是右值，所以就会匹配到这个构造函数。这里的A&amp;&amp;可以看作是临时值的标识，对于临时值我们仅仅需要做浅拷贝即可，无需再做深拷贝，从而解决了前面提到的临时变量拷贝构造产生的性能损失的问题。这就是所谓的移动语义，右值引用的一个重要作用是用来支持移动语义的。<br>需要注意的一个细节是，我们提供移动构造函数的同时也会提供一个拷贝构造函数，以防止移动不成功的时候还能拷贝构造，使我们的代码更安全。<br>我们知道移动语义是通过右值引用来匹配临时值的，那么，普通的左值是否也能借助移动语义来优化性能呢，那该怎么做呢？事实上C++11为了解决这个问题，提供了std::move方法来将左值转换为右值，从而方便应用移动语义。move是将对象资源的所有权从一个对象转移到另一个对象，只是转移，没有内存的拷贝，这就是所谓的move语义。如图1-1所示是深拷贝和move的区别。<br>再看看下面的例子：</p>
+<pre><code>{
+    std::list&lt; std::string&gt; tokens;
+    //省略初始化...
+    std::list&lt; std::string&gt; t = tokens; //这里存在拷贝
+}
+std::list&lt; std::string&gt; tokens;
+std::list&lt; std::string&gt; t = std::move(tokens);  //这里没有拷贝</code></pre><p>如果不用std::move，拷贝的代价很大，性能较低。使用move几乎没有任何代价，只是转换了资源的所有权。他实际上将左值变成右值引用，然后应用移动语义，调用移动构造函数，就避免了拷贝，提高了程序性能。如果一个对象内部有较大的对内存或者动态数组时，很有必要写move语义的拷贝构造函数和赋值函数，避免无谓的深拷贝，以提高性能。事实上，C++11中所有的容器都实现了移动语义，方便我们做性能优化。<br>这里也要注意对move语义的误解，move实际上它并不能移动任何东西，它唯一的功能是将一个左值强制转换为一个右值引用。如果是一些基本类型比如int和char[10]定长数组等类型，使用move的话仍然会发生拷贝（因为没有对应的移动构造函数）。所以，move对于含资源（堆内存或句柄）的对象来说更有意义。</p>
+<h2 id="第4行代码故事"><a href="#第4行代码故事" class="headerlink" title="第4行代码故事"></a>第4行代码故事</h2><pre><code>template &lt;typename T&gt;void f(T&amp;&amp; val){ foo(std::forward&lt;T&gt;(val)); }</code></pre><p>C++11之前调用模板函数时，存在一个比较头疼的问题，如何正确的传递参数。比如：</p>
+<pre><code>template &lt;typename T&gt;
+void forwardValue(T&amp; val)
+{
+    processValue(val); //右值参数会变成左值
+}
+template &lt;typename T&gt;
+void forwardValue(const T&amp; val)
+{
+    processValue(val); //参数都变成常量左值引用了
+}</code></pre><p>都不能按照参数的本来的类型进行转发。<br>C++11引入了完美转发：在函数模板中，完全依照模板的参数的类型（即保持参数的左值、右值特征），将参数传递给函数模板中调用的另外一个函数。C++11中的std::forward正是做这个事情的，他会按照参数的实际类型进行转发。看下面的例子：</p>
+<pre><code>void processValue(int&amp; a){ cout &lt;&lt; &quot;lvalue&quot; &lt;&lt; endl; }
+void processValue(int&amp;&amp; a){ cout &lt;&lt; &quot;rvalue&quot; &lt;&lt; endl; }
+template &lt;typename T&gt;
+void forwardValue(T&amp;&amp; val)
+{
+    processValue(std::forward&lt;T&gt;(val)); //照参数本来的类型进行转发。
+}
+void Testdelcl()
+{
+    int i = 0;
+    forwardValue(i); //传入左值
+    forwardValue(0);//传入右值
+}</code></pre><p>输出：<br>lvaue<br>rvalue<br>右值引用T&amp;&amp;是一个universal references，可以接受左值或者右值，正是这个特性让他适合作为一个参数的路由，然后再通过std::forward按照参数的实际类型去匹配对应的重载函数，最终实现完美转发。<br>我们可以结合完美转发和移动语义来实现一个泛型的工厂函数，这个工厂函数可以创建所有类型的对象。具体实现如下：</p>
+<pre><code>template&lt;typename…  Args&gt;
+T* Instance(Args&amp;&amp;… args)
+{
+    return new T(std::forward&lt;Args &gt;(args)…);
+}</code></pre><p>这个工厂函数的参数是右值引用类型，内部使用std::forward按照参数的实际类型进行转发，如果参数的实际类型是右值，那么创建的时候会自动匹配移动构造，如果是左值则会匹配拷贝构造。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>通过4行代码我们知道了什么是右值和右值引用，以及右值引用的一些特点，利用这些特点我们才方便实现移动语义和完美转发。C++11正是通过引入右值引用来优化性能，具体来说是通过移动语义来避免无谓拷贝的问题，通过move语义来将临时生成的左值中的资源无代价的转移到另外一个对象中去，通过完美转发来解决不能按照参数实际类型来转发的问题，完美转发获得的一个好处是可以实现移动语义。</p>
 
             </div>
             <hr />
@@ -542,9 +637,9 @@ alias l=&#39;ls -CF&#39;alias la=&#39;ls -A&#39;</code></pre><p>只要将新的�
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《Linux 技巧》
+                    《右值引用》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/07/29/seventeen/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/09/02/twentysix/" property="cc:attributionName"
                rel="cc:attributionURL">
                 吴杭沉
             </a> 采用
@@ -585,7 +680,7 @@ alias l=&#39;ls -CF&#39;alias la=&#39;ls -A&#39;</code></pre><p>只要将新的�
         repo: 'wuhangchen.github.io',
         owner: 'wuhangchen',
         admin: "wuhangchen",
-        id: '2024/07/29/seventeen/',
+        id: '2024/09/02/twentysix/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -868,50 +963,50 @@ alias l=&#39;ls -CF&#39;alias la=&#39;ls -A&#39;</code></pre><p>只要将新的�
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2024/07/30/eighteen/">
+                <a href="/2024/09/02/twentysix/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Linux dd命令">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="右值引用">
                         
-                        <span class="card-title">Linux dd命令</span>
+                        <span class="card-title">右值引用</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            dd 命令用于复制文件并对原文件的内容进行转换和格式化处理语法格式dd [OPTIONS]…选项说明
-if=文件名   #指定源文件。
-of=文件名   #指定目的文件。
-ibs=bytes  #指定一个块大小为bytes个字节
-obs=b
+                            概述右值引用的概念有些读者可能会感到陌生，其实他和C++98/03中的左值引用有些类似，例如，c++98/03中的左值引用是这样的：
+int i = 0;
+int&amp; j = i;这里的int&amp;是对左值进行绑定,但是int&a
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-30
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-09-02
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                            <a href="/categories/C/" class="post-category" target="_blank">
+                                    C++
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux/" target="_blank">
-                        <span class="chip bg-color">Linux</span>
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>
@@ -925,31 +1020,32 @@ obs=b
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/07/29/sixteen/">
+                <a href="/2024/08/27/twentyfive/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Linux inode资源耗尽问题">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="sizeof、strlen、数组、字符串">
                         
-                        <span class="card-title">Linux inode资源耗尽问题</span>
+                        <span class="card-title">sizeof、strlen、数组、字符串</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Linux系统下文件数据储存在”块”中，文件的元信息，例如文件的创建者、文件的创建日期、文件的大小等。这种储存文件元信息的区域就叫做inode，中文译名为”索引节点”。inode也占用硬盘空间，硬盘格式化的时候，操作系统自动将硬盘分成两个区
+                            对于初学者来说，sizeof，strlen，数组，字符串整在一起是痛苦的，它总能在某些莫名其妙的时候整一个措手不及,本文看看它们在一起能挖什么坑。
+例子在说明这些问题之前，先看一段代码，看看你是否都理解了。注：以下代码结果为编译为64位程序
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-29
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-08-27
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                            <a href="/categories/C/" class="post-category" target="_blank">
+                                    C++
                                 </a>
                             
                             
@@ -959,8 +1055,8 @@ obs=b
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux/" target="_blank">
-                        <span class="chip bg-color">Linux</span>
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>

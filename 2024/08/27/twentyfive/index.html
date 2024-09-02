@@ -267,7 +267,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -534,9 +534,9 @@ printf(&quot;test7 %lu %lu\n\n&quot;, sizeof(str7), strlen(str7)); //5 10</code>
 <pre><code>/*test 8*/
 char str8[5] = {0};
 strncpy(str8, &quot;hello&quot;, 5);
-printf(&quot;%s\n&quot;, str8);    //hellohello</code></pre><p>这里在实际编程中最容易遇到的问题之一，数组大小为5，但是拷贝了5个字节大小的数据。如果你把它当成字符数组使用也没什么问题，但是由于它最后没有空间去容纳’\0’，因此你使用strlen，或者使用printf去打印的时候，可能发生难以预料的结果。所以你可能会在你的项目代码中看到类似这样的写法，将字符数组的最后一个位置赋值为0：<code>str8[4] = &#39;\0&#39;</code>;<br>    • sizeof计算类型占用空间大小，时间复杂度O(1)<br>    • sizeof计算大小时会考虑字节对齐<br>    • strlen计算字符串长度，时间复杂度O(N)<br>    • strlen作用对象是字符串以’\0’结尾<br>    • strlen遇到’\0’作罢，如果没有遇到，则不可预料<br>    • 格外小心数组作为参数<br>另外注意下面两种方式hello存储的区域不一致：</p>
+printf(&quot;%s\n&quot;, str8);    //hellohello</code></pre><p>这里在实际编程中最容易遇到的问题之一，数组大小为5，但是拷贝了5个字节大小的数据。如果你把它当成字符数组使用也没什么问题，但是由于它最后没有空间去容纳’\0’，因此你使用strlen，或者使用printf去打印的时候，可能发生难以预料的结果。所以你可能会在你的项目代码中看到类似这样的写法，将字符数组的最后一个位置赋值为0：<code>str8[4] = &#39;\0&#39;</code>;<br>    • <code>sizeof</code>计算类型占用空间大小，时间复杂度O(1)<br>    • <code>sizeof</code>计算大小时会考虑字节对齐<br>    • <code>strlen</code>计算字符串长度，时间复杂度O(N)<br>    • <code>strlen</code>作用对象是字符串以’\0’结尾<br>    • <code>strlen</code>遇到’\0’作罢，如果没有遇到，则不可预料<br>    • 格外小心数组作为参数<br>另外注意下面两种方式hello存储的区域不一致：</p>
 <pre><code>char str[] = &quot;hello&quot;;
-char *str2 = &quot;hello&quot;;//存储在数据区，只读</code></pre>
+char *str2 = &quot;hello&quot;;    //存储在数据区，只读</code></pre>
             </div>
             <hr />
 
@@ -896,31 +896,31 @@ char *str2 = &quot;hello&quot;;//存储在数据区，只读</code></pre>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
-            </div>
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2024/08/27/twentyfive/">
+                <a href="/2024/09/02/twentysix/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="sizeof、strlen、数组、字符串">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="右值引用">
                         
-                        <span class="card-title">sizeof、strlen、数组、字符串</span>
+                        <span class="card-title">右值引用</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            对于初学者来说，sizeof，strlen，数组，字符串整在一起是痛苦的，它总能在某些莫名其妙的时候整一个措手不及,本文看看它们在一起能挖什么坑。
-例子在说明这些问题之前，先看一段代码，看看你是否都理解了。注：以下代码结果为编译为64位程序
+                            概述右值引用的概念有些读者可能会感到陌生，其实他和C++98/03中的左值引用有些类似，例如，c++98/03中的左值引用是这样的：
+int i = 0;
+int&amp; j = i;这里的int&amp;是对左值进行绑定,但是int&a
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-08-27
-                            </span>
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-09-02
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -933,7 +933,6 @@ char *str2 = &quot;hello&quot;;//存储在数据区，只读</code></pre>
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
@@ -956,7 +955,7 @@ char *str2 = &quot;hello&quot;;//存储在数据区，只读</code></pre>
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/24.jpg" class="responsive-img" alt="二维数组">
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="二维数组">
                         
                         <span class="card-title">二维数组</span>
                     </div>
@@ -1162,7 +1161,7 @@ int b[4][5];就是定义 4 个元素，每个元素都是一个包含 5 个整�
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">29.1k</span>
+            <span class="white-color">34k</span>
             
 
             <br>
