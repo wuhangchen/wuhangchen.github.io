@@ -4,12 +4,11 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Linux 系统查找大文件, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="共享指针, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="在Windows系统中，我们可以使用TreeSize工具查找一些大文件或文件夹，非常的方便高效，在Linux系统中，如何去搜索一些比较大的文件呢？下面我整理了一下在Linux系统中如何查找大文件或文件夹的方法。
-如何查找大文件？其实很多时候">
+    <meta name="description" content="上周五排查了一个由于XXX模块操作疏忽导致栈越界引发的我的模块的智能指针Crash问题，因此稍微研究了一下，以作参考：shared_ptr共享被管理对象，同一时刻可以有多个shared_ptr拥有对象的所有权，当最后一个shared_ptr">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +16,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Linux 系统查找大文件 | 吴杭沉的博客</title>
+    <title>共享指针 | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -273,7 +272,7 @@
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Linux 系统查找大文件
+                        共享指针
                     </div>
                 </div>
             </div>
@@ -384,8 +383,8 @@
                     
                     <div class="article-tag">
                         
-                        <a href="/tags/Linux/" target="_blank">
-                            <span class="chip bg-color">Linux</span>
+                        <a href="/tags/C/" target="_blank">
+                            <span class="chip bg-color">C++</span>
                         </a>
                         
                     </div>
@@ -396,8 +395,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                        <a href="/categories/Linux/" class="post-category" target="_blank">
-                            Linux
+                        <a href="/categories/C/" class="post-category" target="_blank">
+                            C++
                         </a>
                         
                     </div>
@@ -408,7 +407,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-07-24
+                    2024-09-02
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -422,14 +421,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    428
+                    533
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    2 分
                 </div>
                 
                 
@@ -445,15 +444,24 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>在Windows系统中，我们可以使用TreeSize工具查找一些大文件或文件夹，非常的方便高效，在Linux系统中，<br>如何去搜索一些比较大的文件呢？下面我整理了一下在Linux系统中如何查找大文件或文件夹的方法。</p>
-<h1 id="如何查找大文件？"><a href="#如何查找大文件？" class="headerlink" title="如何查找大文件？"></a>如何查找大文件？</h1><p>其实很多时候，你需要了解当前系统下有哪些大文件，比如文件大小超过100M或1G（阀值视具体情况而定）。<br>那么如何把这些大文件搜索出来呢？例如我要搜索当前目录下，超过800M大小的文件<br>如上命令所示，我们仅仅能看到超过800M大小的文件的文件名称，但是对文件的信息（例如，文件大小、文件属性）一无所知，<br>那么能否更详细显示一些文件属性或信息呢如果你还需要对查找结果按照文件大小做一个排序，那么可以使用下面命令</p>
-<pre><code>find . -type f -size +800M  -print0 | xargs -0 du -h | sort -nr</code></pre><h1 id="如何查找Linux下的大目录"><a href="#如何查找Linux下的大目录" class="headerlink" title="如何查找Linux下的大目录"></a>如何查找Linux下的大目录</h1><p>譬如有时候磁盘空间告警了，而你平时又疏于管理、监控文件的增长，那么我需要快速的了解哪些目录变得比较大，<br>那么此时我们可以借助du命令来帮我们解决这个问题。</p>
-<pre><code>du -h --max-depth=1 16K
-    ./lost+found 33G
-    ./flash_recovery_area 37G
-    ./oradata 70G     .
-</code></pre><p>如果你想知道flash_recovery_area目录下面有哪些大文件夹，那么可以将参数max-depth=2 ，如果你想对搜索出来的结果进行排序，<br>那么可以借助于sort命令。如下所示</p>
-<pre><code>du -h --max-depth=2 | sort -n</code></pre>
+                <p>上周五排查了一个由于XXX模块操作疏忽导致栈越界引发的我的模块的智能指针Crash问题，因此稍微研究了一下，<br>以作参考：<br>shared_ptr共享被管理对象，同一时刻可以有多个shared_ptr拥有对象的所有权，当最后一个shared_ptr对象销毁时，被管理对象自动销毁</p>
+<h1 id="shared-ptr-实现"><a href="#shared-ptr-实现" class="headerlink" title="shared_ptr 实现"></a>shared_ptr 实现</h1><p>简单来说，shared_ptr实现包含了两部分，<br>    • 一个指向堆上创建的对象的裸指针，raw_ptr<br>    • 一个指向内部隐藏的、共享的管理对象。share_count_object<br>第一部分没什么好说的，第二部分是需要关注的重点：<br>    • use_count，当前这个堆上对象被多少对象引用了，简单来说就是引用计数。<br>    • weak_count，这个管理对象被多少个智能指针共享了，简单来说就是管理对象的引用计数。<br>不同指针创建的对同一个堆上对象的智能管理，并不共享管理对象，因此存在double free的可能性<br>_shared_ptr直接包含的裸指针，即raw prt，是为了实现一般指针的-&gt;,*等操作，通过<strong>shared_count object<br>间接包含的指针是为了管理对象的生命周期，回收相关资源。<br>换句话说，</strong>shared_count object内部的use_count主要用来标记被管理对象的生命周期，weak_count主要用来标记管理对象的生命周期。<br>注意区分管理和被管理。<br>问题原因<br>了解了原理，可以看出std::share_ptr本身的raw ptr指向了堆上通过new创建的对象。但是其自身这个raw ptr却会如果在不当操作上，被修改，比如栈越界操作，就会被破坏，导致产生对非法对象的访问：</p>
+<pre><code>int i = 5;
+NSLog(@&quot;i address is %p&quot;, &amp;i);
+
+XXX::XX df = XXX::XX::buildDataFrame();
+NSLog(@&quot;sp0 address is %p&quot;, &amp;df);
+
+int a[1] = {1};
+
+NSLog(@&quot;k address is %p&quot;, a);
+
+for (int i = 0; i &lt; 10; i++) {
+    a[i] = i;
+}
+
+NSLog(@&quot;haha&quot;);</code></pre><p>上述这段代码就会引发问题，这里XXX::XX的具体内部设计使用了经典的RAII，下文再表。</p>
+
             </div>
             <hr />
 
@@ -487,9 +495,9 @@
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《Linux 系统查找大文件》
+                    《共享指针》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/07/24/ten/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/09/02/twentyseven/" property="cc:attributionName"
                rel="cc:attributionURL">
                 吴杭沉
             </a> 采用
@@ -530,7 +538,7 @@
         repo: 'wuhangchen.github.io',
         owner: 'wuhangchen',
         admin: "wuhangchen",
-        id: '2024/07/24/ten/',
+        id: '2024/09/02/twentyseven/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -813,48 +821,48 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2024/07/24/eleven/">
+                <a href="/2024/09/02/twentyseven/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Linux 删除大量文件效率对比">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="共享指针">
                         
-                        <span class="card-title">Linux 删除大量文件效率对比</span>
+                        <span class="card-title">共享指针</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            首先建立50万个文件
-for i in $(seq 1 500000);do echo text &gt;&gt;$i.txt;donerm删除time rm -f *zsh
-sure you want to delete all the 
+                            上周五排查了一个由于XXX模块操作疏忽导致栈越界引发的我的模块的智能指针Crash问题，因此稍微研究了一下，以作参考：shared_ptr共享被管理对象，同一时刻可以有多个shared_ptr拥有对象的所有权，当最后一个shared_ptr
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-24
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-09-02
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                            <a href="/categories/C/" class="post-category" target="_blank">
+                                    C++
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux/" target="_blank">
-                        <span class="chip bg-color">Linux</span>
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>
@@ -868,31 +876,33 @@ sure you want to delete all the
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/07/24/nine/">
+                <a href="/2024/09/02/twentysix/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Linux 终端诡异家伙">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="右值引用">
                         
-                        <span class="card-title">Linux 终端诡异家伙</span>
+                        <span class="card-title">右值引用</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            这篇文章，我们一起来到 Linux 的诡异的一面……你知道吗？在我们日常使用的 Unix（和 Linux ）及其各种各样的分支系统中，存在着一些诡异的命令或进程，它们让人毛骨悚然，有些确实是有害，但也有些却是有益的。下面就来简单介绍一下这些
+                            概述右值引用的概念有些读者可能会感到陌生，其实他和C++98/03中的左值引用有些类似，例如，c++98/03中的左值引用是这样的：
+int i = 0;
+int&amp; j = i;这里的int&amp;是对左值进行绑定,但是int&a
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-24
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-09-02
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                            <a href="/categories/C/" class="post-category" target="_blank">
+                                    C++
                                 </a>
                             
                             
@@ -902,8 +912,8 @@ sure you want to delete all the
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux/" target="_blank">
-                        <span class="chip bg-color">Linux</span>
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>
