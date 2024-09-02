@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2024-09-02T14:04:05.953Z</updated>
+  <updated>2024-09-02T14:18:50.243Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>共享指针</title>
+    <link href="localhost/2024/09/02/twentyseven/"/>
+    <id>localhost/2024/09/02/twentyseven/</id>
+    <published>2024-09-02T14:12:49.000Z</published>
+    <updated>2024-09-02T14:18:50.243Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;上周五排查了一个由于XXX模块操作疏忽导致栈越界引发的我的模块的智能指针Crash问题，因此稍微研究了一下，&lt;br&gt;以作参考：&lt;br&gt;shared_ptr共享被管理对象，同一时刻可以有多个shared_ptr拥有对象的所有权，当最后一个shared_ptr对象销毁时，被管理
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
   
   <entry>
     <title>右值引用</title>
@@ -519,35 +545,6 @@ ibs=bytes
 make
 make install&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;下面来看看这三步分别做了什么。&lt;/p&gt;
 &lt;h1
-        
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="localhost/categories/Linux/"/>
-    
-    
-      <category term="Linux" scheme="localhost/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Ubuntu 完全卸载一个软件包</title>
-    <link href="localhost/2024/07/23/six/"/>
-    <id>localhost/2024/07/23/six/</id>
-    <published>2024-07-23T13:57:51.000Z</published>
-    <updated>2024-07-23T14:00:02.880Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;今天卸载一个软件，老是有配置残留，网上找到了解决方案：&lt;br&gt;查看已安装的软件：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;dpkg -l |grep 软件名
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;找到一大堆相关的包，然后卸载核心的包：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;sudo
         
       
     
