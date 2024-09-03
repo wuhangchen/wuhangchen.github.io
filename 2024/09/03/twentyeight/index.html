@@ -4,11 +4,12 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Linux inode资源耗尽问题, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="拷贝构造函数与赋值函数, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="Linux系统下文件数据储存在”块”中，文件的元信息，例如文件的创建者、文件的创建日期、文件的大小等。这种储存文件元信息的区域就叫做inode，中文译名为”索引节点”。inode也占用硬盘空间，硬盘格式化的时候，操作系统自动将硬盘分成两个区">
+    <meta name="description" content="在进行C++类编写的过程之中，通常会涉及到类的拷贝构造函数与类的赋值函数。初涉类编写的代码，对于两类函数的用法一直是挺让人困惑的内容。这篇文章我们会详细来梳理拷贝构造函数与赋值函数的区别。
+调用了哪个函数？上述两种函数的使用和C++之中类的">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -16,7 +17,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Linux inode资源耗尽问题 | 吴杭沉的博客</title>
+    <title>拷贝构造函数与赋值函数 | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -266,13 +267,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Linux inode资源耗尽问题
+                        拷贝构造函数与赋值函数
                     </div>
                 </div>
             </div>
@@ -383,8 +384,8 @@
                     
                     <div class="article-tag">
                         
-                        <a href="/tags/Linux/" target="_blank">
-                            <span class="chip bg-color">Linux</span>
+                        <a href="/tags/C/" target="_blank">
+                            <span class="chip bg-color">C++</span>
                         </a>
                         
                     </div>
@@ -395,8 +396,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                        <a href="/categories/Linux/" class="post-category" target="_blank">
-                            Linux
+                        <a href="/categories/C/" class="post-category" target="_blank">
+                            C++
                         </a>
                         
                     </div>
@@ -407,7 +408,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-07-29
+                    2024-09-03
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -421,14 +422,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    823
+                    1.6k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    5 分
                 </div>
                 
                 
@@ -444,13 +445,80 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Linux系统下文件数据储存在”块”中，文件的元信息，例如文件的创建者、文件的创建日期、文件的大小等。<br>这种储存文件元信息的区域就叫做inode，中文译名为”索引节点”。<br>inode也占用硬盘空间，硬盘格式化的时候，操作系统自动将硬盘分成两个区域。一个是数据区，存放文件数据；<br>另一个是inode区（inode table），存放inode所包含的信息。<br>每个inode节点的大小，一般是128字节或256字节。inode节点的总数，在格式化时就给定，一般是每1KB或每2KB就设置一个inode。<br>假定在一块1GB的硬盘中，每个inode节点的大小为128字节，每1KB就设置一个inode，那么inode table的大小就会达到128MB，<br>占整块硬盘的12.8%。inodes使用完与存储空间使用完相似，都是创建不了文件或无法正常执行一些命令。inodes使用完，存储空间可能还有，<br>这种情况一般是生成了大量的小文件，把inode table占满。<br>一般情况下存储空间使用完，inodes往往才使用百分之几，所以容易忽视对inodes使用情况的监控。<br>借用网图来说明inodes用尽，而磁盘空间还未用完的情况：<br>查看磁盘空间使用情况，使用df命令<br>查看inodess使用情况，使用df -i命令<br>上述两个命令可以使用-h参数，命令为df -h和df -hi。从图中看见磁盘空间使用71%，但是inodes使用100%。<br>inodes的大小在磁盘格式化分区时确定，跟分区的大小相关，分区越大，inodes越大，反之亦然。<br>linux操作系统根目录一般分区比较小，如果有定时性的小文件产生而又未及时清理，则很容易造成inodes占满。<br>inodes占满解决步骤：</p>
-<h1 id="查看文件最多的目录"><a href="#查看文件最多的目录" class="headerlink" title="查看文件最多的目录"></a>查看文件最多的目录</h1><pre><code>for i in /*; do echo $i; find $i | wc -l; done</code></pre><p>如果确定目录范围，把/*写的具体点<br>最终发现是/var/spool/postfix/maildrop目录下小文件过多，原因如下：<br>由于linux在执行cron时，会将cron执行脚本中的output和warning信息，都会以邮件的形式发送给cron所有者。<br>由于客户环境中的sendmail和postfix没有正常运行，邮件发送不成功，导致全部小文件都堆积在maildrop目录下，<br>另由于缺乏自动清理的机制，故此目录下堆积了大量的文件。<br>经过排查root用户下发现有个每分钟进行一次时钟同步的定时任务，该定时任务每分钟产生一个小文件。</p>
-<h1 id="删除大量文件"><a href="#删除大量文件" class="headerlink" title="删除大量文件"></a>删除大量文件</h1><pre><code>ls | xargs -n 1000 rm -rf</code></pre><p>需要使用xargs命令，不然会删除失败。</p>
-<h2 id="设置方面"><a href="#设置方面" class="headerlink" title="设置方面"></a>设置方面</h2><p>在crontab -e 第一行增加MAILTO=”” ，就没有文件产生啦</p>
-<h2 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h2><p>对定时任务设置定向输出文件，不需要日志输出的定时任务可以将日志重定向到/dev/null，如下：</p>
-<pre><code>*/10 * * * * /tmp/test.sh &gt;/dev/null 2&gt;&amp;1</code></pre><h1 id="定时清理文件"><a href="#定时清理文件" class="headerlink" title="定时清理文件"></a>定时清理文件</h1><pre><code>find 目录 -type f -mtime +30 | xargs -n 1000 rm -f</code></pre><h1 id="监控inodes的使用"><a href="#监控inodes的使用" class="headerlink" title="监控inodes的使用"></a>监控inodes的使用</h1><p>备注：应注意crontab的写法和产生的文件的定时清理</p>
+                <p>在进行C++类编写的过程之中，通常会涉及到类的拷贝构造函数与类的赋值函数。初涉类编写的代码，对于两类函数的用法一直是挺让人困惑的内容。这篇文章我们会详细来梳理拷贝构造函数与赋值函数的区别。</p>
+<h1 id="调用了哪个函数？"><a href="#调用了哪个函数？" class="headerlink" title="调用了哪个函数？"></a>调用了哪个函数？</h1><p>上述两种函数的使用和C++之中类的定义紧密相关，所以我们先定义一个类：</p>
+<pre><code>class Line {
+public:
+    int getLength(void);
+    Line(int len);             //简单的构造函数
 
+    Line(const Line &amp;obj)  {   //拷贝构造函数
+        cout &lt;&lt; &quot;调用拷贝构造函数&quot; &lt;&lt; endl;
+        ptr = new int;
+        *ptr = *obj.ptr;
+    };
+
+    Line&amp; operator=(const Line &amp;obj) { //赋值函数
+        cout &lt;&lt; &quot;调用赋值函数&quot; &lt;&lt; endl;
+        if(this == &amp;obj) {
+            return *this;
+        }
+
+        delete ptr;
+        ptr = new int;
+        *ptr = *obj.ptr;
+
+        return *this;
+
+    };
+    ~Line();                     // 析构函数
+
+private:
+    int *ptr;
+};</code></pre><p>这里我们显式声明了拷贝构造函数与赋值构造函数，接下来我们用一小段代码测试一下上面定义的类。其他函数的定义并不完整，读者可以之行补全。</p>
+<pre><code>int main() {
+    Line l1(10);
+    Line l2 = l1;
+
+    Line l3(5);
+    l3 = l2;
+}</code></pre><p>输出结果如下：<br>调用拷贝构造函数<br>调用赋值函数<br>看似很相似的两个表达式，却调用了不同的两个函数。初学C++时，这样的结果让我很困惑，所以我们接下来梳理一下这两个函数。</p>
+<h1 id="拷贝构造函数"><a href="#拷贝构造函数" class="headerlink" title="拷贝构造函数"></a>拷贝构造函数</h1><p>上面的代码我们可以看到代码 Line l2 = l1调用了拷贝构造函数。<br>拷贝构造函数，顾名思义，是一个构造函数，但是它特殊的点就在于在创建对象时，是使用同一类中之前创建的对象来初始化新创建的对象。所以对于它的使用场合也很简单，只有在构造对象时才会调用到拷贝构造函数，显然Line l2 = l1是一个对象初始化的过程。我们知道每个类都会有构造函数，在对象初始化的过程之中，拷贝构造函数提供了一个通过一个同类型的对象对它进行初始化。<br>C++支持两种初始化形式：拷贝初始化（int a = 5;）和直接初始化（int a(5);）对于其他类型没有什么区别，对于类类型直接初始化直接调用实参匹配的构造函数，拷贝初始化总是调用拷贝构造函数，也就是说：</p>
+<pre><code>A x(2);　　  //直接初始化，调用构造函数
+A y = x;　　//复制初始化，调用拷贝构造函数</code></pre><p>在C++中，下面几个场景中,拷贝构造函数会被调用：<br>    • 一个对象需要通过另一个对象进行初始化<br>    • 一个对象以值传递的方式作为参数传入函数<br>    • 一个对象以值传递的方式作为返回值从函数返回<br>如果我们没有显式声明定义对应类的拷贝构造函数，C++编译器会默认生成对应的拷贝构造函数。既然C++编译器会自动生成拷贝构造函数，为什么我们又需要显式的去定义它呢？<br>因为由C++编译器提供的拷贝构造函数工作方式是浅拷贝。它单纯的使用了=操作符来拷贝类中的成员。但是如果类中用到了需要动态分配内存的成员（如Line类之中的ptr指针），则会出现内存安全的问题。同时对于类的封装性也是一种变相破坏，因为浅拷贝只是单纯拷贝了该成员的内存地址，但所指向的空间内容并没有复制，而是由两个对象共用，就容易出现double free等问题。所以此时就要手动重载拷贝构造函数，实现深拷贝。</p>
+<h1 id="赋值函数"><a href="#赋值函数" class="headerlink" title="赋值函数"></a>赋值函数</h1><p>许多文章，博客喜欢把Line&amp; operator=(const Line &amp;obj)重载=操作符的函数称之为赋值构造函数。个人认为其实是不准确的，会产生一个理解误区。其实重载的=操作符就是一个赋值函数。<br>赋值函数:是把一个新的对象赋值给一个原有的对象，如果原来的对象中有内存分配需要先把内存释放掉。如果我们没有在类之中显式重载对应类的赋值函数，C++编译器也会默认生成对应的赋值函数。生成的规则与拷贝构造函数类似，也是一种浅拷贝的形式。所以我们重载赋值函数的原因也与拷贝构造函数类型，需要实现深度赋值。<br>由上文的代码也可以看出，赋值函数与拷贝构造函数定义的内容之中，所做的工作大同小异。唯一需要注意的点是：在赋值函数之中需要检察一下两个对象是不是同一个对象，如果是，不做任何操作，直接返回。<br>x = x   //可能会出现赋值给自身的操作，所以需要对赋值对象进行检查</p>
+<p>所以现在回头再来看看前文的代码，我们应该可以理解C++编译器调用不同函数的理由了：</p>
+<pre><code>int main() {
+    Line l1(10);
+    Line l2 = l1;
+
+    Line l3(5);
+    l3 = l2;
+}</code></pre><p>当对象不存在，且用别的对象来初始化，此时调用的便是拷贝构造函数。而当对象已经存在，用别的对象来给它进行赋值操作时，调用的就是赋值函数了。<br>最后的小Tips：一旦在类之中声明了拷贝构造函数与赋值函数，编译器将不会生成缺省的对应函数。所以我们可以通过将拷贝构造函数和赋值函数声明为私有函数，来阻止编译器生成的缺省函数，在编译阶段来拒绝不安全的浅拷贝。</p>
+<pre><code>class Line {
+public:
+    int getLength(void) {
+        return *ptr;
+    };
+    Line(int len) {
+        ptr = new int;
+        *ptr = len;
+    }             //简单的构造函数
+    //    ~Line();                     // 析构函数
+
+private:
+    int *ptr;
+    Line(const Line &amp;obj);
+    Line&amp; operator=(const Line &amp;obj);
+};
+
+int main() {
+    Line l1(10);
+    Line l2 = l1;  //编译器报错，无法通过编译
+
+    Line l3(5);
+    l3 = l2; //同样的的编译器报错，无法通过编译
+}</code></pre>
             </div>
             <hr />
 
@@ -484,9 +552,9 @@
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《Linux inode资源耗尽问题》
+                    《拷贝构造函数与赋值函数》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/07/29/sixteen/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/09/03/twentyeight/" property="cc:attributionName"
                rel="cc:attributionURL">
                 吴杭沉
             </a> 采用
@@ -527,7 +595,7 @@
         repo: 'wuhangchen.github.io',
         owner: 'wuhangchen',
         admin: "wuhangchen",
-        id: '2024/07/29/sixteen/',
+        id: '2024/09/03/twentyeight/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -814,32 +882,32 @@
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2024/07/29/seventeen/">
+                <a href="/2024/09/03/twentynine/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/24.jpg" class="responsive-img" alt="Linux 技巧">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="friend">
                         
-                        <span class="card-title">Linux 技巧</span>
+                        <span class="card-title">friend</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            如果要谨慎使用 rm 命令，可以为它设置一个别名，在删除文件之前需要进行确认才能删除。有些系统管理员会默认使用这个别名，对于这种情况，你可能需要看看下一个技巧。
-$ rm -i    &lt;== 请求确认你可以使用 unalias 命令以
+                            原则上, 类的私有（private）和受保护（protected）成员不能从声明它们的同一类外部访问。但是, 此规则不适用于友元 “friends”。以friend关键字修饰的函数或类称为友元函数或友元类。
+友元函数友元函数是可以直接访问类
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-29
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-09-03
                         </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                            <a href="/categories/C/" class="post-category" target="_blank">
+                                    C++
                                 </a>
                             
                             
@@ -849,8 +917,8 @@ $ rm -i    &lt;== 请求确认你可以使用 unalias 命令以
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux/" target="_blank">
-                        <span class="chip bg-color">Linux</span>
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>
@@ -864,32 +932,31 @@ $ rm -i    &lt;== 请求确认你可以使用 unalias 命令以
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/07/29/fifteen/">
+                <a href="/2024/09/02/twentyseven/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Linux grep 文本查找">
+                        <img src="/medias/featureimages/24.jpg" class="responsive-img" alt="共享指针">
                         
-                        <span class="card-title">Linux grep 文本查找</span>
+                        <span class="card-title">共享指针</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            之前介绍过很多linux下查找相关的命令，而对文件内容搜索的命令似乎还没有涉及，因此本文介绍文本搜索命令–grep。常见用法我们会经常结合管道符（|）来使用它，即在前面命令执行的结果中查找包含相关字符串的内容。例如：
-$ ps -ef | 
+                            上周五排查了一个由于XXX模块操作疏忽导致栈越界引发的我的模块的智能指针Crash问题，因此稍微研究了一下，以作参考：shared_ptr共享被管理对象，同一时刻可以有多个shared_ptr拥有对象的所有权，当最后一个shared_ptr
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-29
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-09-02
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                            <a href="/categories/C/" class="post-category" target="_blank">
+                                    C++
                                 </a>
                             
                             
@@ -899,8 +966,8 @@ $ ps -ef |
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux/" target="_blank">
-                        <span class="chip bg-color">Linux</span>
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>

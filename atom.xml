@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2024-09-02T14:18:50.243Z</updated>
+  <updated>2024-09-03T13:29:15.673Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -15,6 +15,87 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>std::ref</title>
+    <link href="localhost/2024/09/03/thirty/"/>
+    <id>localhost/2024/09/03/thirty/</id>
+    <published>2024-09-03T13:22:35.000Z</published>
+    <updated>2024-09-03T13:29:15.673Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;C++本身有引用&amp;amp;，为什么C++11又引入了&lt;code&gt;std::ref&lt;/code&gt;?&lt;br&gt;主要是考虑函数式编程如&lt;code&gt;std::bind&lt;/code&gt;在使用时，是对参数直接拷贝，而不是引用。如下例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;void
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>friend</title>
+    <link href="localhost/2024/09/03/twentynine/"/>
+    <id>localhost/2024/09/03/twentynine/</id>
+    <published>2024-09-03T12:49:25.000Z</published>
+    <updated>2024-09-03T13:21:51.823Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;原则上, 类的私有（private）和受保护（protected）成员不能从声明它们的同一类外部访问。但是, 此规则不适用于友元 “friends”。以friend关键字修饰的函数或类称为友元函数或友元类。&lt;/p&gt;
+&lt;h1 id=&quot;友元函数&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>拷贝构造函数与赋值函数</title>
+    <link href="localhost/2024/09/03/twentyeight/"/>
+    <id>localhost/2024/09/03/twentyeight/</id>
+    <published>2024-09-03T12:33:26.000Z</published>
+    <updated>2024-09-03T12:46:09.453Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;在进行C++类编写的过程之中，通常会涉及到类的拷贝构造函数与类的赋值函数。初涉类编写的代码，对于两类函数的用法一直是挺让人困惑的内容。这篇文章我们会详细来梳理拷贝构造函数与赋值函数的区别。&lt;/p&gt;
+&lt;h1 id=&quot;调用了哪个函数？&quot;&gt;&lt;a href=&quot;#调用了哪个函数？&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
   
   <entry>
     <title>共享指针</title>
@@ -461,90 +542,6 @@ ibs=bytes
         
           &lt;p&gt;首先建立50万个文件&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;for i in $(seq 1 500000);do echo text &amp;gt;&amp;gt;$i.txt;done&lt;/code&gt;&lt;/pre&gt;&lt;h1 id=&quot;rm删除&quot;&gt;&lt;a href=&quot;#rm删除&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="localhost/categories/Linux/"/>
-    
-    
-      <category term="Linux" scheme="localhost/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux 系统查找大文件</title>
-    <link href="localhost/2024/07/24/ten/"/>
-    <id>localhost/2024/07/24/ten/</id>
-    <published>2024-07-24T12:32:53.000Z</published>
-    <updated>2024-08-25T14:52:53.529Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;在Windows系统中，我们可以使用TreeSize工具查找一些大文件或文件夹，非常的方便高效，在Linux系统中，&lt;br&gt;如何去搜索一些比较大的文件呢？下面我整理了一下在Linux系统中如何查找大文件或文件夹的方法。&lt;/p&gt;
-&lt;h1 id=&quot;如何查找大文件？&quot;&gt;&lt;a
-        
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="localhost/categories/Linux/"/>
-    
-    
-      <category term="Linux" scheme="localhost/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux 终端诡异家伙</title>
-    <link href="localhost/2024/07/24/nine/"/>
-    <id>localhost/2024/07/24/nine/</id>
-    <published>2024-07-24T12:21:42.000Z</published>
-    <updated>2024-08-25T14:20:17.959Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;这篇文章，我们一起来到 Linux 的诡异的一面……你知道吗？在我们日常使用的 Unix（和 Linux ）及其各种各样的分支系统中，&lt;br&gt;存在着一些诡异的命令或进程，它们让人毛骨悚然，有些确实是有害，但也有些却是有益的。下面就来简单介绍一下这些家伙吧。&lt;/p&gt;
-&lt;h1
-        
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="localhost/categories/Linux/"/>
-    
-    
-      <category term="Linux" scheme="localhost/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux Make 三连</title>
-    <link href="localhost/2024/07/24/eight/"/>
-    <id>localhost/2024/07/24/eight/</id>
-    <published>2024-07-24T12:16:57.000Z</published>
-    <updated>2024-08-25T10:04:12.849Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Unix 开发过程中，经常性的操作是从源码编译安装相应库文件，所以下面三个命令便是家常便饭，俗称三连：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;./configure
-make
-make install&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;下面来看看这三步分别做了什么。&lt;/p&gt;
-&lt;h1
         
       
     
