@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2024-09-03T13:29:15.673Z</updated>
+  <updated>2024-09-03T14:01:31.463Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>C++命令行参数</title>
+    <link href="localhost/2024/09/03/thirtyone/"/>
+    <id>localhost/2024/09/03/thirtyone/</id>
+    <published>2024-09-03T13:41:24.000Z</published>
+    <updated>2024-09-03T14:01:31.463Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
   
   <entry>
     <title>std::ref</title>
@@ -515,33 +541,6 @@ ibs=bytes
         
           &lt;p&gt;显示历史命令之行时间&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;echo &amp;quot;export HISTTIMEFORMAT=&amp;quot;%F %T  &amp;quot;&amp;quot; &amp;gt;&amp;gt;
-        
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="localhost/categories/Linux/"/>
-    
-    
-      <category term="Linux" scheme="localhost/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux 删除大量文件效率对比</title>
-    <link href="localhost/2024/07/24/eleven/"/>
-    <id>localhost/2024/07/24/eleven/</id>
-    <published>2024-07-24T12:48:03.000Z</published>
-    <updated>2024-08-26T13:18:42.590Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;首先建立50万个文件&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;for i in $(seq 1 500000);do echo text &amp;gt;&amp;gt;$i.txt;done&lt;/code&gt;&lt;/pre&gt;&lt;h1 id=&quot;rm删除&quot;&gt;&lt;a href=&quot;#rm删除&quot;
         
       
     
