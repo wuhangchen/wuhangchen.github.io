@@ -445,9 +445,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>上周五排查了一个由于XXX模块操作疏忽导致栈越界引发的我的模块的智能指针Crash问题，因此稍微研究了一下，以作参考：<br><code>shared_ptr</code>共享被管理对象，同一时刻可以有多个<code>shared_ptr</code>拥有对象的所有权，当最后一个<code>shared_ptr</code>对象销毁时，被管理对象自动销毁</p>
-<h1 id="shared-ptr-实现"><a href="#shared-ptr-实现" class="headerlink" title="shared_ptr 实现"></a>shared_ptr 实现</h1><p>简单来说，<code>shared_ptr</code>实现包含了两部分，<br>    • 一个指向堆上创建的对象的裸指针，<code>raw_ptr</code>。<br>    • 一个指向内部隐藏的、共享的管理对象。<code>share_count_object</code>。<br>第一部分没什么好说的，第二部分是需要关注的重点：<br>    • <code>use_count</code>，当前这个堆上对象被多少对象引用了，简单来说就是引用计数。<br>    • <code>weak_count</code>，这个管理对象被多少个智能指针共享了，简单来说就是管理对象的引用计数。<br>不同指针创建的对同一个堆上对象的智能管理，并不共享管理对象，因此存在double free的可能性。<code>shared_ptr</code>直接包含的裸指针，即raw prt，是为了实现一般指针的-&gt;,*等操作，通过<strong>shared_count object 间接包含的指针是为了管理对象的生命周期，回收相关资源。<br>换句话说，```</strong>shared_count object<code>内部的</code>use_count<code>主要用来标记被管理对象的生命周期，</code>weak_count<code>主要用来标记管理对象的生命周期。
-注意区分管理和被管理。
-了解了原理，可以看出</code>std::share_ptr<code>本身的</code>raw ptr<code>指向了堆上通过</code>new<code>创建的对象。但是其自身这个</code>raw ptr```却会如果在不当操作上，被修改，比如栈越界操作，就会被破坏，导致产生对非法对象的访问：</p>
+<h1 id="shared-ptr-实现"><a href="#shared-ptr-实现" class="headerlink" title="shared_ptr 实现"></a>shared_ptr 实现</h1><p>简单来说，<code>shared_ptr</code>实现包含了两部分，<br>    • 一个指向堆上创建的对象的裸指针，<code>raw_ptr</code>。<br>    • 一个指向内部隐藏的、共享的管理对象。<code>share_count_object</code>。<br>第一部分没什么好说的，第二部分是需要关注的重点：<br>    • <code>use_count</code>，当前这个堆上对象被多少对象引用了，简单来说就是引用计数。<br>    • <code>weak_count</code>，这个管理对象被多少个智能指针共享了，简单来说就是管理对象的引用计数。<br>不同指针创建的对同一个堆上对象的智能管理，并不共享管理对象，因此存在double free的可能性。<code>shared_ptr</code>直接包含的裸指针，即raw prt，是为了实现一般指针的-&gt;,*等操作，通过<code>shared_count object</code>间接包含的指针是为了管理对象的生命周期，回收相关资源。<br>换句话说，<code>shared_count object</code>内部的<code>use_count</code>主要用来标记被管理对象的生命周期，<code>weak_count</code>主要用来标记管理对象的生命周期。<br>注意区分管理和被管理。<br>了解了原理，可以看出<code>std::share_ptr</code>本身的<code>raw ptr</code>指向了堆上通过<code>new</code>创建的对象。但是其自身这个<code>raw ptr</code>却会如果在不当操作上，被修改，比如栈越界操作，就会被破坏，导致产生对非法对象的访问：</p>
 <pre><code>int i = 5;
 NSLog(@&quot;i address is %p&quot;, &amp;i);
 
