@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>localhost/2024/09/03/thirtyone/</loc>
-    <lastmod>2024-09-03</lastmod>
+    <loc>localhost/2024/09/04/thirtyone-1/</loc>
+    <lastmod>2024-09-08</lastmod>
+  </url>  <url>
+    <loc>localhost/2024/09/02/twentyseven/</loc>
+    <lastmod>2024-09-08</lastmod>
   </url>  <url>
     <loc>localhost/2024/09/03/thirty/</loc>
+    <lastmod>2024-09-04</lastmod>
+  </url>  <url>
+    <loc>localhost/2024/09/03/thirtyone/</loc>
     <lastmod>2024-09-03</lastmod>
   </url>  <url>
     <loc>localhost/2024/09/03/twentynine/</loc>
@@ -12,9 +18,6 @@
   </url>  <url>
     <loc>localhost/2024/09/03/twentyeight/</loc>
     <lastmod>2024-09-03</lastmod>
-  </url>  <url>
-    <loc>localhost/2024/09/02/twentyseven/</loc>
-    <lastmod>2024-09-02</lastmod>
   </url>  <url>
     <loc>localhost/2024/09/02/twentysix/</loc>
     <lastmod>2024-09-02</lastmod>
