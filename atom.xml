@@ -155,7 +155,7 @@
     <link href="localhost/2024/09/02/twentyseven/"/>
     <id>localhost/2024/09/02/twentyseven/</id>
     <published>2024-09-02T14:12:49.000Z</published>
-    <updated>2024-09-08T04:01:23.831Z</updated>
+    <updated>2024-09-08T04:54:28.665Z</updated>
     
     <summary type="html">
     
@@ -163,7 +163,7 @@
       
         
         
-          &lt;p&gt;上周五排查了一个由于XXX模块操作疏忽导致栈越界引发的我的模块的智能指针Crash问题，因此稍微研究了一下，&lt;br&gt;以作参考：&lt;br&gt;shared_ptr共享被管理对象，同一时刻可以有多个shared_ptr拥有对象的所有权，当最后一个shared_ptr对象销毁时，被管理
+          &lt;p&gt;上周五排查了一个由于XXX模块操作疏忽导致栈越界引发的我的模块的智能指针Crash问题，因此稍微研究了一下，以作参考：&lt;br&gt;&lt;code&gt;shared_ptr&lt;/code&gt;共享被管理对象，同一时刻可以有多个&lt;code&gt;shared_ptr&lt;/code&gt;拥有对象的所有权，当最
         
       
     
