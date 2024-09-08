@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2024-09-03T14:01:31.463Z</updated>
+  <updated>2024-09-08T04:30:17.357Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>C++ 流缓冲区</title>
+    <link href="localhost/2024/09/04/thirtyone-1/"/>
+    <id>localhost/2024/09/04/thirtyone-1/</id>
+    <published>2024-09-04T13:51:46.000Z</published>
+    <updated>2024-09-08T04:30:17.357Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;C++ 的 I/O 是通过标准库中输入输出流来实现的。标准库在 &lt;code&gt;iostream&lt;/code&gt;头文件当中，预定义了六个流对象，他们是：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;• istream &amp;lt;-
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
   
   <entry>
     <title>C++命令行参数</title>
@@ -47,7 +74,7 @@
     <link href="localhost/2024/09/03/thirty/"/>
     <id>localhost/2024/09/03/thirty/</id>
     <published>2024-09-03T13:22:35.000Z</published>
-    <updated>2024-09-03T13:29:15.673Z</updated>
+    <updated>2024-09-04T13:50:06.385Z</updated>
     
     <summary type="html">
     
@@ -124,11 +151,11 @@
   </entry>
   
   <entry>
-    <title>共享指针</title>
+    <title>智能指针</title>
     <link href="localhost/2024/09/02/twentyseven/"/>
     <id>localhost/2024/09/02/twentyseven/</id>
     <published>2024-09-02T14:12:49.000Z</published>
-    <updated>2024-09-02T14:18:50.243Z</updated>
+    <updated>2024-09-08T04:01:23.831Z</updated>
     
     <summary type="html">
     
@@ -514,33 +541,6 @@ ibs=bytes
         
         
           &lt;p&gt;ctrl + a:光标移到行首。&lt;br&gt;ctrl + e:光标移到行尾。&lt;br&gt;ctrl + b:光标左移一个字母, 向行首移动一个字符&lt;br&gt;ctrl + f:光标右移,向行尾移动一个字符&lt;br&gt;ctrl + c:杀死当前进程。&lt;br&gt;ctrl + d:退出当前
-        
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="localhost/categories/Linux/"/>
-    
-    
-      <category term="Linux" scheme="localhost/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux history 显示命令执行的时间</title>
-    <link href="localhost/2024/07/28/twleve/"/>
-    <id>localhost/2024/07/28/twleve/</id>
-    <published>2024-07-28T12:40:53.000Z</published>
-    <updated>2024-08-25T15:18:19.349Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;显示历史命令之行时间&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;echo &amp;quot;export HISTTIMEFORMAT=&amp;quot;%F %T  &amp;quot;&amp;quot; &amp;gt;&amp;gt;
         
       
     
