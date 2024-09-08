@@ -4,12 +4,11 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="拷贝构造函数与赋值函数, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="C++中new与malloc区别, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="在进行C++类编写的过程之中，通常会涉及到类的拷贝构造函数与类的赋值函数。初涉类编写的代码，对于两类函数的用法一直是挺让人困惑的内容。这篇文章我们会详细来梳理拷贝构造函数与赋值函数的区别。
-调用了哪个函数？上述两种函数的使用和C++之中类的">
+    <meta name="description" content="申请的内存所在位置new操作符从自由存储区上为对象动态分配内存空间，而malloc函数从堆上动态分配内存。自由存储区是C++基于new操作符的一个抽象概念，凡是通过new操作符进行内存申请，该内存即为自由存储区。而堆是操作系统中的术语，是操">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +16,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>拷贝构造函数与赋值函数 | 吴杭沉的博客</title>
+    <title>C++中new与malloc区别 | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -267,13 +266,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        拷贝构造函数与赋值函数
+                        C++中new与malloc区别
                     </div>
                 </div>
             </div>
@@ -408,7 +407,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-09-03
+                    2024-09-08
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -422,14 +421,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.6k
+                    2.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    5 分
+                    9 分
                 </div>
                 
                 
@@ -445,80 +444,85 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>在进行C++类编写的过程之中，通常会涉及到类的拷贝构造函数与类的赋值函数。初涉类编写的代码，对于两类函数的用法一直是挺让人困惑的内容。这篇文章我们会详细来梳理拷贝构造函数与赋值函数的区别。</p>
-<h1 id="调用了哪个函数？"><a href="#调用了哪个函数？" class="headerlink" title="调用了哪个函数？"></a>调用了哪个函数？</h1><p>上述两种函数的使用和C++之中类的定义紧密相关，所以我们先定义一个类：</p>
-<pre><code>class Line {
+                <h2 id="申请的内存所在位置"><a href="#申请的内存所在位置" class="headerlink" title="申请的内存所在位置"></a>申请的内存所在位置</h2><p><code>new</code>操作符从自由存储区上为对象动态分配内存空间，而<code>malloc</code>函数从堆上动态分配内存。自由存储区是C++基于<code>new</code>操作符的一个抽象概念，凡是通过<code>new</code>操作符进行内存申请，该内存即为自由存储区。而堆是操作系统中的术语，是操作系统所维护的一块特殊内存，用于程序的内存动态分配，C语言使用<code>malloc</code>从堆上分配内存，使用<code>free</code>释放已分配的对应内存。<br>那么自由存储区是否能够是堆，问题等价于<code>new</code>是否能在堆上动态分配内存，这取决于<code>operator new</code>的实现细节。自由存储区不仅可以是堆，还可以是静态存储区，这都看<code>operator new</code>在哪里为对象分配内存。<br>特别的，<code>new</code>甚至可以不为对象分配内存！定位<code>new</code>的功能可以办到这一点：</p>
+<pre><code>new (place_address) type</code></pre><p>place_address为一个指针，代表一块内存的地址。当使用上面这种仅以一个地址调用<code>new</code>操作符时，<code>new</code>操作符。<br>调用特殊的<code>operator new</code>，也就是下面这个版本：</p>
+<pre><code>void * operator new (size_t, void *) //不允许重定义这个版本的operator new</code></pre><p>这个<code>operator new</code>不分配任何的内存，它只是简单地返回指针实参，然后右<code>new</code>表达式负责在<code>place_address</code>指定的地址进行对象的初始化工作。</p>
+<h2 id="返回类型安全性"><a href="#返回类型安全性" class="headerlink" title="返回类型安全性"></a>返回类型安全性</h2><p><code>new</code>操作符内存分配成功时，返回的是对象类型的指针，类型严格与对象匹配，无须进行类型转换，故<code>new</code>是符合类型安全性的操作符。而<code>malloc</code>内存分配成功则是返回<code>void *</code>，需要通过强制类型转换将<code>void *</code>指针转换成我们需要的类型。<br>类型安全很大程度上可以等价于内存安全，类型安全的代码不会试图方法自己没被授权的内存区域。关于C++的类型安全性可说的又有很多了。</p>
+<h2 id="内存分配失败时的返回值"><a href="#内存分配失败时的返回值" class="headerlink" title="内存分配失败时的返回值"></a>内存分配失败时的返回值</h2><p><code>new</code>内存分配失败时，会抛出bac_alloc异常，它不会返回NULL；<code>malloc</code>分配内存失败时返回NULL。<br>在使用C语言时，我们习惯在<code>malloc</code>分配内存后判断分配是否成功：</p>
+<pre><code>int *a  = (int *)malloc ( sizeof (int ));
+if(NULL == a) {
+    ...
+} else {
+    ...
+}
+int * a = new int();
+if(NULL == a) {
+    ...
+} else {
+    ...
+}</code></pre><p>从C语言走入C++阵营的新手可能会把这个习惯带入C++：<br>实际上这样做一点意义也没有，因为<code>new</code>根本不会返回NULL，而且程序能够执行到if语句已经说明内存分配成功<br>了，如果失败早就抛异常了。正确的做法应该是使用异常机制：</p>
+<pre><code>try {
+    int *a = new int();
+} catch (bad_alloc) {
+    ...
+}</code></pre><p>如果你想顺便了解下异常基础，可以看异常机制分析。</p>
+<h2 id="是否需要指定内存大小"><a href="#是否需要指定内存大小" class="headerlink" title="是否需要指定内存大小"></a>是否需要指定内存大小</h2><p>使用<code>new</code>操作符申请内存分配时无须指定内存块的大小，编译器会根据类型信息自行计算，而<code>malloc</code>则需要显式地指出所需内存的尺寸。</p>
+<pre><code>class A{...}
+A * ptr = new A;
+A * ptr = (A *)malloc(sizeof(A)); //需要显式指定所需内存大小sizeof(A);</code></pre><p>当然了，我这里使用<code>malloc</code>来为我们自定义类型分配内存是不怎么合适的，请看下一条。</p>
+<h2 id="是否调用构造函数-析构函数"><a href="#是否调用构造函数-析构函数" class="headerlink" title="是否调用构造函数/析构函数"></a>是否调用构造函数/析构函数</h2><p>使用<code>new</code>操作符来分配对象内存时会经历三个步骤：<br>• 第一步：调用<code>operator new</code>函数,对于数组是<code>operator new[]</code>分配一块足够大的，原始的，未命名的内存空间以便存储特定类型的对象。<br>• 第二步：编译器运行相应的构造函数以构造对象，并为其传入初值。<br>• 第三部：对象构造完成后，返回一个指向该对象的指针。</p>
+<p>使用<code>delete</code>操作符来释放对象内存时会经历两个步骤：<br>• 第一步：调用对象的析构函数。<br>• 第二步：编译器调用<code>operator delete</code>或<code>operator delete[]</code>函数释放内存空间。<br>总之来说，<code>new,delete</code>会调用对象的构造函数/析构函数以完成对象的构造/析构。而<code>malloc</code>则不会。如果你不嫌啰嗦可以看下我的例子：</p>
+<pre><code>class A
+{
 public:
-    int getLength(void);
-    Line(int len);             //简单的构造函数
-
-    Line(const Line &amp;obj)  {   //拷贝构造函数
-        cout &lt;&lt; &quot;调用拷贝构造函数&quot; &lt;&lt; endl;
-        ptr = new int;
-        *ptr = *obj.ptr;
-    };
-
-    Line&amp; operator=(const Line &amp;obj) { //赋值函数
-        cout &lt;&lt; &quot;调用赋值函数&quot; &lt;&lt; endl;
-        if(this == &amp;obj) {
-            return *this;
-        }
-
-        delete ptr;
-        ptr = new int;
-        *ptr = *obj.ptr;
-
-        return *this;
-
-    };
-    ~Line();                     // 析构函数
-
+    A() :a(1), b(1.11){}
 private:
-    int *ptr;
-};</code></pre><p>这里我们显式声明了拷贝构造函数与赋值构造函数，接下来我们用一小段代码测试一下上面定义的类。其他函数的定义并不完整，读者可以之行补全。</p>
-<pre><code>int main() {
-    Line l1(10);
-    Line l2 = l1;
-
-    Line l3(5);
-    l3 = l2;
-}</code></pre><p>输出结果如下：<br>调用拷贝构造函数<br>调用赋值函数<br>看似很相似的两个表达式，却调用了不同的两个函数。初学C++时，这样的结果让我很困惑，所以我们接下来梳理一下这两个函数。</p>
-<h1 id="拷贝构造函数"><a href="#拷贝构造函数" class="headerlink" title="拷贝构造函数"></a>拷贝构造函数</h1><p>上面的代码我们可以看到代码 Line l2 = l1调用了拷贝构造函数。<br>拷贝构造函数，顾名思义，是一个构造函数，但是它特殊的点就在于在创建对象时，是使用同一类中之前创建的对象来初始化新创建的对象。所以对于它的使用场合也很简单，只有在构造对象时才会调用到拷贝构造函数，显然Line l2 = l1是一个对象初始化的过程。我们知道每个类都会有构造函数，在对象初始化的过程之中，拷贝构造函数提供了一个通过一个同类型的对象对它进行初始化。<br>C++支持两种初始化形式：拷贝初始化（int a = 5;）和直接初始化（int a(5);）对于其他类型没有什么区别，对于类类型直接初始化直接调用实参匹配的构造函数，拷贝初始化总是调用拷贝构造函数，也就是说：</p>
-<pre><code>A x(2);　　  //直接初始化，调用构造函数
-A y = x;　　//复制初始化，调用拷贝构造函数</code></pre><p>在C++中，下面几个场景中,拷贝构造函数会被调用：<br>    • 一个对象需要通过另一个对象进行初始化<br>    • 一个对象以值传递的方式作为参数传入函数<br>    • 一个对象以值传递的方式作为返回值从函数返回<br>如果我们没有显式声明定义对应类的拷贝构造函数，C++编译器会默认生成对应的拷贝构造函数。既然C++编译器会自动生成拷贝构造函数，为什么我们又需要显式的去定义它呢？<br>因为由C++编译器提供的拷贝构造函数工作方式是浅拷贝。它单纯的使用了=操作符来拷贝类中的成员。但是如果类中用到了需要动态分配内存的成员（如Line类之中的ptr指针），则会出现内存安全的问题。同时对于类的封装性也是一种变相破坏，因为浅拷贝只是单纯拷贝了该成员的内存地址，但所指向的空间内容并没有复制，而是由两个对象共用，就容易出现double free等问题。所以此时就要手动重载拷贝构造函数，实现深拷贝。</p>
-<h1 id="赋值函数"><a href="#赋值函数" class="headerlink" title="赋值函数"></a>赋值函数</h1><p>许多文章，博客喜欢把Line&amp; operator=(const Line &amp;obj)重载=操作符的函数称之为赋值构造函数。个人认为其实是不准确的，会产生一个理解误区。其实重载的=操作符就是一个赋值函数。<br>赋值函数:是把一个新的对象赋值给一个原有的对象，如果原来的对象中有内存分配需要先把内存释放掉。如果我们没有在类之中显式重载对应类的赋值函数，C++编译器也会默认生成对应的赋值函数。生成的规则与拷贝构造函数类似，也是一种浅拷贝的形式。所以我们重载赋值函数的原因也与拷贝构造函数类型，需要实现深度赋值。<br>由上文的代码也可以看出，赋值函数与拷贝构造函数定义的内容之中，所做的工作大同小异。唯一需要注意的点是：在赋值函数之中需要检察一下两个对象是不是同一个对象，如果是，不做任何操作，直接返回。<br>x = x   //可能会出现赋值给自身的操作，所以需要对赋值对象进行检查</p>
-<p>所以现在回头再来看看前文的代码，我们应该可以理解C++编译器调用不同函数的理由了：</p>
-<pre><code>int main() {
-    Line l1(10);
-    Line l2 = l1;
-
-    Line l3(5);
-    l3 = l2;
-}</code></pre><p>当对象不存在，且用别的对象来初始化，此时调用的便是拷贝构造函数。而当对象已经存在，用别的对象来给它进行赋值操作时，调用的就是赋值函数了。<br>最后的小Tips：一旦在类之中声明了拷贝构造函数与赋值函数，编译器将不会生成缺省的对应函数。所以我们可以通过将拷贝构造函数和赋值函数声明为私有函数，来阻止编译器生成的缺省函数，在编译阶段来拒绝不安全的浅拷贝。</p>
-<pre><code>class Line {
-public:
-    int getLength(void) {
-        return *ptr;
-    };
-    Line(int len) {
-        ptr = new int;
-        *ptr = len;
-    }             //简单的构造函数
-    //    ~Line();                     // 析构函数
-
-private:
-    int *ptr;
-    Line(const Line &amp;obj);
-    Line&amp; operator=(const Line &amp;obj);
+    int a;
+    double b;
 };
+int main()
+{
+    A * ptr = (A*)malloc(sizeof(A));
+    return 0;
+}</code></pre><p>可以看出A的默认构造函数并没有被调用，因为数据成员a,b的值并没有得到初始化，这也是上面我为什么说使用<code>malloc, free</code>来处理C++的自定义类型不合适，其实不止自定义类型，标准库中凡是需要构造/析构的类型通通不合适。<br>使用<code>new</code>来分配对象时：</p>
+<pre><code>int main()
+{
+     A * ptr = new A;
+}</code></pre><h2 id="对数组的处理"><a href="#对数组的处理" class="headerlink" title="对数组的处理"></a>对数组的处理</h2><p>C++提供了<code>new[]</code>与<code>delete[]</code>来专门处理数组类型:</p>
+<pre><code>A * ptr = new A[10];//分配10个A对象</code></pre><p>使用<code>new[]</code>分配的内存必须使用<code>delete[]</code>进行释放：</p>
+<pre><code>delete [] ptr;</code></pre><p><code>new</code>对数组的支持体现在它会分别调用构造函数函数初始化每一个数组元素，释放对象时为每个对象调用析构函数。注意<code>delete[]</code>要与<code>new[]</code>配套使用，不然会找出数组对象部分释放的现象，造成内存泄漏。<br>至于<code>malloc</code>，它并知道你在这块内存上要放的数组还是啥别的东西，反正它就给你一块原始的内存，在给你个内存的地址就完事。所以如果要动态分配一个数组的内存，还需要我们手动自定数组的大小：</p>
+<pre><code>int * ptr = (int*)malloc(sizeof(int));//分配一个10个int元素的数组</code></pre><h2 id="new与malloc是否可以相互调用"><a href="#new与malloc是否可以相互调用" class="headerlink" title="new与malloc是否可以相互调用"></a>new与malloc是否可以相互调用</h2><pre><code>operator new /operator delete的实现可以基于malloc，而malloc的实现不可以去调用new。下面是编写
+operator new /operator delete 的一种简单方式，其他版本也与之类似：
+void * operator new (sieze_t size)
+{
+    if(void * mem = malloc(size)
+        return mem;
+    else
+        throw bad_alloc();
+}
+void operator delete(void *mem) noexcept
+{
+    free(mem);
+}</code></pre><h2 id="是否可以被重载"><a href="#是否可以被重载" class="headerlink" title="是否可以被重载"></a>是否可以被重载</h2><p><code>opeartor new</code> <code>operator delete</code>可以被重载。标准库是定义了<code>operator new</code>函数和<code>operator delete</code>函数的8个重载版本：<br>//这些版本可能抛出异常</p>
+<pre><code>void * operator new(size_t);
+void * operator new[](size_t);
+void * operator delete (void * )noexcept;
+void * operator delete[](void *0）noexcept;
+//这些版本承诺不抛出异常
+void * operator new(size_t ,nothrow_t&amp;) noexcept;
+void * operator new[](size_t, nothrow_t&amp; );
+void * operator delete (void *,nothrow_t&amp; )noexcept;
+void * operator delete[](void *0,nothrow_t&amp; ）noexcept;</code></pre><p>我们可以自定义上面函数版本中的任意一个，前提是自定义版本必须位于全局作用域或者类作用域中。太细节的东西不在这里讲述，总之，我们知道我们有足够的自由去重载<code>operator new</code> <code>operator delete</code>,以决定我们的<code>new</code>与<code>delete</code>如何为对象分配内存，如何回收对象。<br>而malloc/free并不允许重载。</p>
+<h2 id="能够直观地重新分配内存"><a href="#能够直观地重新分配内存" class="headerlink" title="能够直观地重新分配内存"></a>能够直观地重新分配内存</h2><p>使用<code>malloc</code>分配的内存后，如果在使用过程中发现内存不足，可以使用<code>realloc</code>函数进行内存重新分配实现内存的扩充。<code>realloc</code>先判断当前的指针所指内存是否有足够的连续空间，如果有，原地扩大可分配的内存地址，并且返回原来的地址指针；如果空间不够，先按照新指定的大小分配空间，将原有数据从头到尾拷贝到新分配的内存区域，而后释放原来的内存区域。<br><code>new</code>没有这样直观的配套设施来扩充内存。</p>
+<h2 id="客户处理内存分配不足"><a href="#客户处理内存分配不足" class="headerlink" title="客户处理内存分配不足"></a>客户处理内存分配不足</h2><p>在<code>operator new</code>抛出异常以反映一个未获得满足的需求之前，它会先调用一个用户指定的错误处理函数，这就是new-handler。new_handler是一个指针类型：</p>
+<pre><code>namespace std {
+     typedef void (*new_handler)();
+}</code></pre><p>指向了一个没有参数没有返回值的函数,即为错误处理函数。为了指定错误处理函数，客户需要调用set_new_handler，这是一个声明于的一个标准库函数:</p>
+<pre><code>namespace std{
+    new_handler set_new_handler(new_handler p ) throw();
+}</code></pre><p>set_new_handler的参数为new_handler指针，指向了<code>operator new</code>无法分配足够内存时该调用的函数。其返回值也是个指针，指向set_new_handler被调用前正在执行,但马上就要发生替换的那个new_handler函数。<br>对于<code>malloc</code>，客户并不能够去编程决定内存不足以分配时要干什么事，只能看着<code>malloc</code>返回NULL。</p>
+<h2 id="总结将上面所述的10点差别"><a href="#总结将上面所述的10点差别" class="headerlink" title="总结将上面所述的10点差别"></a>总结将上面所述的10点差别</h2><p>特征new/delete malloc/free<br>分配内存的位置    自由存储区    堆<br>内存分配成功返回值    完整类型指针    void*<br>内存分配失败返回值    默认抛出异常    返回NULL<br>分配内存的大小    由编译器根据类型计算得出    必须显式指定字节数<br>处理数组    有处理数组的new版本new[]    需要用户计算数组的大小后进行内存分配<br>已分配内存的扩充    无法直观地处理    使用realloc简单完成<br>是否相互调用    可以，看具体的operator new/delete实现    不可调用new<br>分配内存时内存不足    客户能够指定处理函数或重新制定分配器    无法通过用户代码进行处理<br>函数重载    允许    不允许<br>构造函数与析构函数    调用    不调用<br><code>malloc</code>给你的就好像一块原始的土地，你要种什么需要自己在土地上来播种, 而<code>new</code>帮你划好了田地的分块（数组），帮你播了种（构造函数），还提供其他的设施给你使用:<br>当然，<code>malloc</code>并不是说比不上<code>new</code>，它们各自有适用的地方。在C++这种偏重OOP的语言，使用<code>new delete</code>自然是更合适的。</p>
 
-int main() {
-    Line l1(10);
-    Line l2 = l1;  //编译器报错，无法通过编译
-
-    Line l3(5);
-    l3 = l2; //同样的的编译器报错，无法通过编译
-}</code></pre>
             </div>
             <hr />
 
@@ -552,9 +556,9 @@ int main() {
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《拷贝构造函数与赋值函数》
+                    《C++中new与malloc区别》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/09/03/twentyeight/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/09/08/thirytwo/" property="cc:attributionName"
                rel="cc:attributionURL">
                 吴杭沉
             </a> 采用
@@ -595,7 +599,7 @@ int main() {
         repo: 'wuhangchen.github.io',
         owner: 'wuhangchen',
         admin: "wuhangchen",
-        id: '2024/09/03/twentyeight/',
+        id: '2024/09/08/thirytwo/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -878,30 +882,30 @@ int main() {
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2024/09/03/twentynine/">
+                <a href="/2024/09/08/thirytwo/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="friend">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="C++中new与malloc区别">
                         
-                        <span class="card-title">friend</span>
+                        <span class="card-title">C++中new与malloc区别</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            原则上, 类的私有（private）和受保护（protected）成员不能从声明它们的同一类外部访问。但是, 此规则不适用于友元 “friends”。以friend关键字修饰的函数或类称为友元函数或友元类。
-友元函数友元函数是可以直接访问类
+                            申请的内存所在位置new操作符从自由存储区上为对象动态分配内存空间，而malloc函数从堆上动态分配内存。自由存储区是C++基于new操作符的一个抽象概念，凡是通过new操作符进行内存申请，该内存即为自由存储区。而堆是操作系统中的术语，是操
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-09-03
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-09-08
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -914,6 +918,7 @@ int main() {
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -932,24 +937,26 @@ int main() {
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/09/02/twentyseven/">
+                <a href="/2024/09/04/thirtyone-1/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="智能指针">
+                        <img src="/medias/featureimages/24.jpg" class="responsive-img" alt="C++ 流缓冲区">
                         
-                        <span class="card-title">智能指针</span>
+                        <span class="card-title">C++ 流缓冲区</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            上周五排查了一个由于XXX模块操作疏忽导致栈越界引发的我的模块的智能指针Crash问题，因此稍微研究了一下，以作参考：shared_ptr共享被管理对象，同一时刻可以有多个shared_ptr拥有对象的所有权，当最后一个shared_ptr
+                            C++ 的 I/O 是通过标准库中输入输出流来实现的。标准库在 iostream头文件当中，预定义了六个流对象，他们是：
+• istream &lt;- std::cin/std::wcin，对应标准输入的输入流；
+• ostream &l
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-09-02
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-09-04
                             </span>
                         <span class="publish-author">
                             
