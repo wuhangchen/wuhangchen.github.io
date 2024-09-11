@@ -455,7 +455,7 @@
 <pre><code>template&lt;
     class CharT,
     class Traits = std::char_traits&lt;CharT&gt;
-&gt; class basic_streambuf;</code></pre><p><code>std::basic_streambuf</code>包含两个字符序列，并提供对这两个序列控制和访问的能力：<br>    • 受控字符序列（controlled character sequence）：又称缓冲序列（buffer sequence），由读取区（get area）和/或写入区（put area）组成。此二者分别用来缓冲上层流的读写操作。<br>    • 关联字符序列（associated character sequence）：对于输入流来说又称源（source），对于输出流来说又称槽（sink）。关联字符序列通常是通过系统 API 与 I/O 设备关联，或是与 <code>std::vector,array</code>字符串字面值等能作为源或槽的对象关联。<br>对于关联字符序列来说，需要 std::basic_streambuf 自己实现的功能不多。因为，大多数情况可通过系统 API 或是相关对象的接口来实现。<code>std::basic_streambuf</code>大多数的功能集中在对受控字符序列的管理上。<br>读取区或写入区，通常实现为相应 CharT 的 C 风格数组，并辅以 3 个指针，以实现对受控字符序列的控制：<br>    • 起始指针（beginning pointer）：用于标识相应缓冲序列可用范围的起始位置；<br>    • 终止指针（end pointer）：用于标识相应缓冲序列可用范围的尾后位置；<br>    • 工作指针（next pointer）：指向相应缓冲序列中，下一个等待读/写的元素的位置。<br>若是一个受控字符序列单单是读取区或写入区，则它必然有这三个指针；若一个受控字符序列同时是读取区和写入区，那么则有两套共六个这样的指针。通过这些指针，<code>std::basic_streambuf</code>就能实现对换受控字符序列的控制。</p>
+&gt; class basic_streambuf;</code></pre><p><code>std::basic_streambuf</code>包含两个字符序列，并提供对这两个序列控制和访问的能力：<br>    • 受控字符序列（controlled character sequence）：又称缓冲序列（buffer sequence），由读取区（get area）和/或写入区（put area）组成。此二者分别用来缓冲上层流的读写操作。<br>    • 关联字符序列（associated character sequence）：对于输入流来说又称源（source），对于输出流来说又称槽（sink）。关联字符序列通常是通过系统 API 与 I/O 设备关联，或是与 <code>std::vector,array</code>字符串字面值等能作为源或槽的对象关联。<br>对于关联字符序列来说，需要 <code>std::basic_streambuf</code>自己实现的功能不多。因为，大多数情况可通过系统 API 或是相关对象的接口来实现。<code>std::basic_streambuf</code>大多数的功能集中在对受控字符序列的管理上。<br>读取区或写入区，通常实现为相应 CharT 的 C 风格数组，并辅以 3 个指针，以实现对受控字符序列的控制：<br>    • 起始指针（beginning pointer）：用于标识相应缓冲序列可用范围的起始位置；<br>    • 终止指针（end pointer）：用于标识相应缓冲序列可用范围的尾后位置；<br>    • 工作指针（next pointer）：指向相应缓冲序列中，下一个等待读/写的元素的位置。<br>若是一个受控字符序列单单是读取区或写入区，则它必然有这三个指针；若一个受控字符序列同时是读取区和写入区，那么则有两套共六个这样的指针。通过这些指针，<code>std::basic_streambuf</code>就能实现对换受控字符序列的控制。</p>
 <h1 id="流中的缓冲区"><a href="#流中的缓冲区" class="headerlink" title="流中的缓冲区"></a>流中的缓冲区</h1><p>在头文件 ios 当中，定义着两个类（模板）：<code>std::ios_base</code>和 <code>std::basic_ios</code>。前者是所有 I/O 类的祖先，提供了状态信息、控制信息、内部存储、回调等设施。后者继承自前者，额外提供了与 <code>std::basic_streambuf</code>的接口；同时允许多个 <code>std::basic_ios</code>对象绑定同一个 <code>std::basic_streambuf</code>对象。它们的声明分别是：</p>
 <pre><code>class ios_base;
 template&lt;
@@ -479,7 +479,7 @@ std::basic_streambuf&lt;CharT, Traits&gt;* rdbuf( std::basic_streambuf&lt;CharT,
     sci   &lt;&lt; 15.518 &lt;&lt; &#39;\n&#39;;
 
     return 0;
-}</code></pre><p>此处，(1) 将新建的两个流对象 fixed 和 sci 都与 std::cout 的缓冲区对象绑定，而后在 (2) 处分别设置两个流对象的输出格式，最后在 (3) 处用两个不同的流对象输出同一浮点数。编译后得到的结果如下。</p>
+}</code></pre><p>此处，(1) 将新建的两个流对象 fixed 和 sci 都与 <code>std::cout</code>的缓冲区对象绑定，而后在 (2) 处分别设置两个流对象的输出格式，最后在 (3) 处用两个不同的流对象输出同一浮点数。编译后得到的结果如下。</p>
 <pre><code>$ g++ -std=c++11 ostream_shares_buf.cc
 $ ./a.out
 15.51800
