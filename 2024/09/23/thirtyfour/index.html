@@ -8,7 +8,7 @@
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="1.char c = &amp;#39;\72&amp;#39;; 中的\72代表一个字符，72是八进制数，代表ASCII码字符“:”。2.10*a++中a先进行乘法运算再自增。3.const和static的作用太常见的问题了，下面给出一个较详细的参考答案">
+    <meta name="description" content="1.char c = &amp;#39;\72&amp;#39;; 中的\72代表一个字符，72是八进制数，代表ASCII码字符:。2.10*a++中a先进行乘法运算再自增。3.const和static的作用static关键字：1）函数体内static变量">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -266,7 +266,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -444,7 +444,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>1.<code>char c = &#39;\72&#39;</code>; 中的<code>\72</code>代表一个字符，72是八进制数，代表ASCII码字符“:”。<br>2.<code>10*a++</code>中a先进行乘法运算再自增。<br>3.<code>const</code>和<code>static</code>的作用<br>太常见的问题了，下面给出一个较详细的参考答案：<br><code>static</code>关键字：<br>1）函数体内<code>static</code>变量的作用范围为函数体。不同于auto变量。该变量的内存只被分配一次。因此其值在下次调用时仍维持上次的值。<br>2）在模块内的<code>static</code>全局变量可以被模块内的所有函数访问。但不能被模块外的其他函数访问。<br>3）在模块内的<code>static</code>函数只可被这一模块内的其它函数调用。这个函数的使用范围被限制在声明它的模块内。<br>4）在类中的<code>static</code>成员变量属于整个类所有，对类的所有对象只有一份复制。<br>5）在类中的<code>static</code>成员函数属于整个类所有，这个函数不接受<code>this</code>指针，因而只能访问类的<code>static</code>成员变量。<br><code>const</code>关键字：<br>1）欲阻止一个变量被改变，可以使用<code>const</code>关键字。在定义该<code>const</code>变量时，通常需要对它进行初始化。因为以后就没有机会再改变它了。<br>2）对指针来说，可以指定指针的本身为<code>const</code>，也可以指定指针所指向的数为<code>const</code>。或二者同时为<code>const</code>。<br>3）在一个函数的声明中，<code>const</code>可以修饰形参，表明它是一个输入参数。在函数内不能改变其值。<br>4）对于类的成员函数，若指定其为<code>const</code>类型。则表明其是一个常量函数。不能修改类的成员变量。<br>5）对于类的成员函数，有时候必须指定其返回值为<code>const</code>类型。以使得其返回值不为“左值”。<br>4.注意<code>sizeof</code>不是函数而是运算符，所以在计算变量所占用空间大小时，括号是可以省略的，但在计算类型大小时括号则不能省略，比如<code>int i = 0;</code> 则<code>sizeof int</code>是错误的。<br>5.易误解：如果<code>int a[5]</code>那么a与&amp;a是等价的，因为两者地址相同。<br>解答：一定要注意<code>a</code>与<code>&amp;a</code>是不一样的，虽然两者地址相同，但意义不一样，<code>&amp;a</code>是整个数组对象的首地址，而<code>a</code>是数组首地址，也就是<code>a[0]</code>的地址，<code>a</code>的类型是<code>int[5]</code>，<code>a[0]</code>的类型是<code>int</code>，因此<code>&amp;a+1</code>相当于a的地址值加上<code>sizeof(int) * 5</code>，也就是<code>a[5]，</code>下一个对象的地址，已经越界了，而<code>a+1</code>相当于a的地址加上<code>sizeof(int)</code>，即<code>a[1]</code>的地址。<br>6.可作为函数重载判断依据的有：参数个数、参数类型、const修饰符；<br>不可以作为重载判断依据的有：返回类型。<br>7.程序输出题：</p>
+                <p>1.<code>char c = &#39;\72&#39;</code>; 中的<code>\72</code>代表一个字符，72是八进制数，代表ASCII码字符<code>:</code>。<br>2.<code>10*a++</code>中a先进行乘法运算再自增。<br>3.<code>const</code>和<code>static</code>的作用<br><code>static</code>关键字：<br>1）函数体内<code>static</code>变量的作用范围为函数体。不同于auto变量。该变量的内存只被分配一次。因此其值在下次调用时仍维持上次的值。<br>2）在模块内的<code>static</code>全局变量可以被模块内的所有函数访问。但不能被模块外的其他函数访问。<br>3）在模块内的<code>static</code>函数只可被这一模块内的其它函数调用。这个函数的使用范围被限制在声明它的模块内。<br>4）在类中的<code>static</code>成员变量属于整个类所有，对类的所有对象只有一份复制。<br>5）在类中的<code>static</code>成员函数属于整个类所有，这个函数不接受<code>this</code>指针，因而只能访问类的<code>static</code>成员变量。<br><code>const</code>关键字：<br>1）欲阻止一个变量被改变，可以使用<code>const</code>关键字。在定义该<code>const</code>变量时，通常需要对它进行初始化。因为以后就没有机会再改变它了。<br>2）对指针来说，可以指定指针的本身为<code>const</code>，也可以指定指针所指向的数为<code>const</code>。或二者同时为<code>const</code>。<br>3）在一个函数的声明中，<code>const</code>可以修饰形参，表明它是一个输入参数。在函数内不能改变其值。<br>4）对于类的成员函数，若指定其为<code>const</code>类型。则表明其是一个常量函数。不能修改类的成员变量。<br>5）对于类的成员函数，有时候必须指定其返回值为<code>const</code>类型。以使得其返回值不为“左值”。<br>4.注意<code>sizeof</code>不是函数而是运算符，所以在计算变量所占用空间大小时，括号是可以省略的，但在计算类型大小时括号则不能省略，比如<code>int i = 0;</code> 则<code>sizeof int</code>是错误的。<br>5.易误解：如果<code>int a[5]</code>那么a与&amp;a是等价的，因为两者地址相同。<br>解答：一定要注意<code>a</code>与<code>&amp;a</code>是不一样的，虽然两者地址相同，但意义不一样，<code>&amp;a</code>是整个数组对象的首地址，而<code>a</code>是数组首地址，也就是<code>a[0]</code>的地址，<code>a</code>的类型是<code>int[5]</code>，<code>a[0]</code>的类型是<code>int</code>，因此<code>&amp;a+1</code>相当于a的地址值加上<code>sizeof(int) * 5</code>，也就是<code>a[5]，</code>下一个对象的地址，已经越界了，而<code>a+1</code>相当于a的地址加上<code>sizeof(int)</code>，即<code>a[1]</code>的地址。<br>6.可作为函数重载判断依据的有：参数个数、参数类型、const修饰符；<br>不可以作为重载判断依据的有：返回类型。<br>7.程序输出题：</p>
 <pre><code>int a[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 int *p = &amp;(a + 1)[3];
 printf(&quot;%d\n&quot;, *p);</code></pre><p>输出：5<br>说明：因为<code>a+1</code>指向<code>a</code>的第二个元素，<code>[3]</code>表示再向后移动3个元素。<br>8.程序输出题：</p>
@@ -463,7 +463,7 @@ char * str8 = &quot;abc&quot;;
 std::cout &lt;&lt; (str1 == str2) &lt;&lt; std::endl;
 std::cout &lt;&lt; (str3 == str4) &lt;&lt; std::endl;
 std::cout &lt;&lt; (str5 == str6) &lt;&lt; std::endl;
-std::cout &lt;&lt; (str7 == str8) &lt;&lt; std::endl;</code></pre><p>输出：0 0 1 1<br>输出str1<del>str8内容“abc”的存储地址为：<br>可以发现str1</del>str4中的内容是存在栈上，地址各不相同，而str5~str8的内容都是存储在常量区，所以地址都相同。<br>注意：<br>上面打印的是字符串 “abc”的地址，下面打印的是 str1 变量的地址。<br>9.C的结构体和C++结构体的区别<br>（1）C的结构体内不允许有函数存在，C++允许有内部成员函数，且允许该函数是虚函数。所以C的结构体是没有构造函数、析构函数、和this指针的。<br>（2）C的结构体对内部成员变量的访问权限只能是public，而C++允许public,protected,private三种。<br>（3）C语言的结构体是不可以继承的，C++的结构体是可以从其他的结构体或者类继承过来的。<br> 以上都是表面的区别，实际区别就是面向过程和面向对象编程思路的区别：<br>C的结构体只是把数据变量给包裹起来了，并不涉及算法。<br>而C++是把数据变量及对这些数据变量的相关算法给封装起来，并且给对这些数据和类不同的访问权限。<br>C语言中是没有类的概念的，但是C语言可以通过结构体内创建函数指针实现面向对象思想。<br>10.如何在类中定义常量成员并为其初始化？<br>解答：只能在初始化列表里对const成员初始化，像下面这样：</p>
+std::cout &lt;&lt; (str7 == str8) &lt;&lt; std::endl;</code></pre><p>输出：0 0 1 1<br>可以发现str1-&gt;str4中的内容是存在栈上，地址各不相同，而str5-&gt;str8的内容都是存储在常量区，所以地址都相同。<br>注意：<br>上面打印的是字符串 “abc”的地址，下面打印的是 str1 变量的地址。<br>9.C的结构体和C++结构体的区别<br>（1）C的结构体内不允许有函数存在，C++允许有内部成员函数，且允许该函数是虚函数。所以C的结构体是没有构造函数、析构函数、和this指针的。<br>（2）C的结构体对内部成员变量的访问权限只能是public，而C++允许public,protected,private三种。<br>（3）C语言的结构体是不可以继承的，C++的结构体是可以从其他的结构体或者类继承过来的。<br> 以上都是表面的区别，实际区别就是面向过程和面向对象编程思路的区别：<br>C的结构体只是把数据变量给包裹起来了，并不涉及算法。<br>而C++是把数据变量及对这些数据变量的相关算法给封装起来，并且给对这些数据和类不同的访问权限。<br>C语言中是没有类的概念的，但是C语言可以通过结构体内创建函数指针实现面向对象思想。<br>10.如何在类中定义常量成员并为其初始化？<br>解答：只能在初始化列表里对const成员初始化，像下面这样：</p>
 <pre><code>class Cbook {
 public:
         const double m_prices;
@@ -867,7 +867,7 @@ class C : virtual public A</code></pre>注：因为多继承会带来很多复�
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="C++面试题">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="C++面试题">
                         
                         <span class="card-title">C++面试题</span>
                     </div>
@@ -875,7 +875,7 @@ class C : virtual public A</code></pre>注：因为多继承会带来很多复�
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.char c = &#39;\72&#39;; 中的\72代表一个字符，72是八进制数，代表ASCII码字符“:”。2.10*a++中a先进行乘法运算再自增。3.const和static的作用太常见的问题了，下面给出一个较详细的参考答案
+                            1.char c = &#39;\72&#39;; 中的\72代表一个字符，72是八进制数，代表ASCII码字符:。2.10*a++中a先进行乘法运算再自增。3.const和static的作用static关键字：1）函数体内static变量
                         
                     </div>
                     <div class="publish-info">
@@ -917,7 +917,7 @@ class C : virtual public A</code></pre>注：因为多继承会带来很多复�
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="C++细说sizeof">
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="C++细说sizeof">
                         
                         <span class="card-title">C++细说sizeof</span>
                     </div>
