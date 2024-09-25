@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>使用++i还是i++</title>
+      <link href="/2024/09/25/thirtyfive/"/>
+      <url>/2024/09/25/thirtyfive/</url>
+      
+        <content type="html"><![CDATA[<p>我们经常使用<code>for</code>循环来遍历东西，循环变量可以前自增也可以后自增，发现对遍历结果没啥影响，但是该如何选择呢？<br>我们应该尽量使用前自增运算符而不是后自增运算符，即用 <code>++Iter</code>代替<code>Iter++</code>。<br>为什么要这么做，有什么有实际价值？下面我会详细解释。<br>前缀和后缀形式之间的区别是众所周知的。我希望它们内部结构的区别，大家也是清楚的。如果你有使用过运算符重载的话，肯定已经意识到了。没有用过的话，我在这儿简单地解释一下用过运算符重载的可以跳过下面关于运算符重载的例子。<br>前自增运算符改变了对象的状态并返回对象改变后的状态，不需要创建临时对象。下面是前自增运算符的例子：</p><pre><code>MyOwnClass&amp; operator++(){　　++meOwnField;　　return (*this);}</code></pre><p>后自增运算符也改变了对象的状态但是返回的是对象改变前的状态，并且需要创建一个临时对象。下面是后自增运算符重载的例子：</p><pre><code>MyOwnClass operator++(int){　　MyOWnCLass tmp = *this;　　++(*this);　　return tmp;}</code></pre><p>看到上面这段代码，你会发现有一个额外的操作，就是要创建一个临时对象，在实践中这点太重要了！<br>现在的编译器做代码优化的时候非常智能，如果没有用处，是不会随便创建临时对象的。这就是为什么在发布版中我们很难发现<code>i++</code>和<code>++i</code>的区别。<br>不管咋样，请用 <code>++Iter</code>代替<code>Iter++，</code>这是一个好的代码习惯。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> C++ </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C++ </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>C++面试题</title>
       <link href="/2024/09/23/thirtyfour/"/>
       <url>/2024/09/23/thirtyfour/</url>
