@@ -4,13 +4,11 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Linux history 显示命令执行的时间, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="C++成员修饰const和mutable, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="显示历史命令之行时间
-echo &amp;quot;export HISTTIMEFORMAT=&amp;quot;%F %T  &amp;quot;&amp;quot; &amp;gt;&amp;gt; ~/.bashrc一次会话的话先执行
-export HISTTIMEFORMAT=">
+    <meta name="description" content="const：常量，不变的mutable：易变的从意思上理解，可见const和mutable是一对反义词，它们都是C++的关键字。const成员函数不能修改调用它的对象。类的成员函数可以被声明为const，这将使得函数的隐式参数this将被作">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +16,7 @@ export HISTTIMEFORMAT=">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Linux history 显示命令执行的时间 | 吴杭沉的博客</title>
+    <title>C++成员修饰const和mutable | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -268,13 +266,13 @@ export HISTTIMEFORMAT=">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Linux history 显示命令执行的时间
+                        C++成员修饰const和mutable
                     </div>
                 </div>
             </div>
@@ -385,8 +383,8 @@ export HISTTIMEFORMAT=">
                     
                     <div class="article-tag">
                         
-                        <a href="/tags/Linux/" target="_blank">
-                            <span class="chip bg-color">Linux</span>
+                        <a href="/tags/C/" target="_blank">
+                            <span class="chip bg-color">C++</span>
                         </a>
                         
                     </div>
@@ -397,8 +395,8 @@ export HISTTIMEFORMAT=">
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                        <a href="/categories/Linux/" class="post-category" target="_blank">
-                            Linux
+                        <a href="/categories/C/" class="post-category" target="_blank">
+                            C++
                         </a>
                         
                     </div>
@@ -409,7 +407,7 @@ export HISTTIMEFORMAT=">
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-07-28
+                    2024-09-28
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -423,14 +421,14 @@ export HISTTIMEFORMAT=">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    47
+                    848
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    3 分
                 </div>
                 
                 
@@ -446,9 +444,73 @@ export HISTTIMEFORMAT=">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>显示历史命令之行时间</p>
-<pre><code>echo &quot;export HISTTIMEFORMAT=&quot;%F %T  &quot;&quot; &gt;&gt; ~/.bashrc</code></pre><p>一次会话的话先执行</p>
-<pre><code>export HISTTIMEFORMAT=&quot;%F %T&quot;</code></pre><p>然后使用history 命令就行了</p>
+                <p><code>const</code>：常量，不变的<br><code>mutable</code>：易变的<br>从意思上理解，可见<code>const</code>和<code>mutable</code>是一对反义词，它们都是C++的关键字。<br><code>const</code>成员函数不能修改调用它的对象。类的成员函数可以被声明为<code>const</code>，这将使得函数的隐式参数<code>this</code>将被作为<code>const</code>类型的指针。这也就意味着一个<code>const</code>成员函数不能修改调用它的对象。而且，<code>const</code>对象不能调用非<code>const</code>成员函数。然而，<code>const</code>对象和非<code>const</code>对象都可以调用<code>const</code>成员函数。<br>要将一个成员函数声明为<code>const</code>，可以使用下面的形式：</p>
+<pre><code>class X
+{
+    int some_var;
+public:
+    int f1() const;    //const成员函数
+};</code></pre><p>可以看到，关键字<code>const</code>被放在函数声明之后。将一个成员函数声明为<code>const</code>的目的是防止函数修改调用它的对象。例如下面的代码：</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+//说明const函数的用法，这个程序不能通过编译
+class Demo
+{
+    int i;
+public:
+    int get() const
+    {
+        return i;        //正确
+    }
+    void seti(int x) const
+    {
+        i = x;          //错误！
+    };
+};
+
+int main()
+{
+    Demo ob;
+    ob.seti(1900);
+    cout &lt;&lt; ob.get() &lt;&lt; endl;
+    return 0;
+}</code></pre><p>因为函数<code>seti()</code>被声明为<code>const</code>成员函数，这意味着在函数中不能修改调用函数的对象。但是由于<code>seti()</code>试图修改成员变量i，所以程序会产生错误，而在函数<code>geti()</code>中并不修改成员变量i，所以这个函数是正确的。<br>有时你可能想在<code>const</code>函数中修改类的某些成员，但又不想让函数修改类的其它成员，那么可以通过关键字<code>mutable</code>来实现这种功能。<code>mutable</code>将覆盖<code>const</code>属性。也就是说，在<code>const</code>成员函数中可以修改<code>mutable</code>成员，例如：</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+//可以通过编译，运行正确
+class Demo
+{
+    mutable int i;
+public:
+    int get() const
+    {
+        return i;                //正确
+    }
+
+   void seti(int x) const
+   {
+        i = x;                  //错误！Maybe
+   };
+};
+
+int main()
+{
+    Demo ob;
+    ob.seti(1900);
+    cout &lt;&lt; ob.get() &lt;&lt; endl;
+    return 0;
+}</code></pre><p>在上面的程序中，类的成员变量i被定义为<code>mutable</code>，所以在函数<code>seti()</code>中可以修改它的值。</p>
+<h2 id="const成员变量的初始化"><a href="#const成员变量的初始化" class="headerlink" title="const成员变量的初始化"></a>const成员变量的初始化</h2><p>在构造函数中对成员变量进行初始化是很普遍的初始化方法，然而，这种方法并不是适用于所有情况，例如：如果在类的定义中使用了<code>const</code>来声明成员变量，那么在类的构造函数中将不能对这些成员变量赋初始值，因为<code>const</code>变量必须在构造函数调用之前被初始化，在使用引用类型的成员以及没有默认构造函数的成员时存在着同样的问题，因为这些成员必须首先被初始化。为了解决这个问题，在C++中定义了一种成员初始化语法，可以在创建对象时为类的成员指定初始值。<br>成员初始化语法类似于调用基类构造函数的语法，它的通用形式如下所示：</p>
+<pre><code>constructor(arg_list)
+     : member(initlalizer)
+     , member(initlalizer)
+     , member(initlalizer)
+{
+    //构造函数体
+}
+</code></pre><p>在构造函数的后面指定你想要初始化的成员，同时用冒号将构造函数的名字和参数列表分开。也可以将基类构造函数的调用和成员的初始化放在同一参数列表中。</p>
 
             </div>
             <hr />
@@ -483,9 +545,9 @@ export HISTTIMEFORMAT=">
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《Linux history 显示命令执行的时间》
+                    《C++成员修饰const和mutable》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/07/28/twleve/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/09/28/thirtysex/" property="cc:attributionName"
                rel="cc:attributionURL">
                 吴杭沉
             </a> 采用
@@ -526,7 +588,7 @@ export HISTTIMEFORMAT=">
         repo: 'wuhangchen.github.io',
         owner: 'wuhangchen',
         admin: "wuhangchen",
-        id: '2024/07/28/twleve/',
+        id: '2024/09/28/thirtysex/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -809,46 +871,48 @@ export HISTTIMEFORMAT=">
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2024/07/28/thirteen/">
+                <a href="/2024/09/28/thirtysex/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/25.jpg" class="responsive-img" alt="Linux Shell一些快捷键">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="C++成员修饰const和mutable">
                         
-                        <span class="card-title">Linux Shell一些快捷键</span>
+                        <span class="card-title">C++成员修饰const和mutable</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            ctrl + a:光标移到行首。ctrl + e:光标移到行尾。ctrl + b:光标左移一个字母, 向行首移动一个字符ctrl + f:光标右移,向行尾移动一个字符ctrl + c:杀死当前进程。ctrl + d:退出当前 Shell,从
+                            const：常量，不变的mutable：易变的从意思上理解，可见const和mutable是一对反义词，它们都是C++的关键字。const成员函数不能修改调用它的对象。类的成员函数可以被声明为const，这将使得函数的隐式参数this将被作
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-28
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-09-28
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                            <a href="/categories/C/" class="post-category" target="_blank">
+                                    C++
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux/" target="_blank">
-                        <span class="chip bg-color">Linux</span>
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>
@@ -862,33 +926,31 @@ export HISTTIMEFORMAT=">
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/07/24/eleven/">
+                <a href="/2024/09/25/thirtyfive/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/25.jpg" class="responsive-img" alt="Linux 删除大量文件效率对比">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="使用++i还是i++">
                         
-                        <span class="card-title">Linux 删除大量文件效率对比</span>
+                        <span class="card-title">使用++i还是i++</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            首先建立50万个文件
-for i in $(seq 1 500000);do echo text &gt;&gt;$i.txt;donerm删除time rm -f *zsh
-sure you want to delete all the 
+                            我们经常使用for循环来遍历东西，循环变量可以前自增也可以后自增，发现对遍历结果没啥影响，但是该如何选择呢？我们应该尽量使用前自增运算符而不是后自增运算符，即用 ++Iter代替Iter++。为什么要这么做，有什么有实际价值？下面我会详细解
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-24
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-09-25
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                            <a href="/categories/C/" class="post-category" target="_blank">
+                                    C++
                                 </a>
                             
                             
@@ -898,8 +960,8 @@ sure you want to delete all the
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux/" target="_blank">
-                        <span class="chip bg-color">Linux</span>
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>

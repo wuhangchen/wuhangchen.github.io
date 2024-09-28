@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2024-09-25T14:52:22.520Z</updated>
+  <updated>2024-09-28T11:33:09.053Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>C++成员修饰const和mutable</title>
+    <link href="localhost/2024/09/28/thirtysex/"/>
+    <id>localhost/2024/09/28/thirtysex/</id>
+    <published>2024-09-28T10:07:45.000Z</published>
+    <updated>2024-09-28T11:33:09.053Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;code&gt;const&lt;/code&gt;：常量，不变的&lt;br&gt;&lt;code&gt;mutable&lt;/code&gt;：易变的&lt;br&gt;从意思上理解，可见&lt;code&gt;const&lt;/code&gt;和&lt;code&gt;mutable&lt;/code&gt;是一对反义词，它们都是C++的关键字。&lt;br&gt;&lt;code&gt;con
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
   
   <entry>
     <title>使用++i还是i++</title>
@@ -47,7 +73,7 @@
     <link href="localhost/2024/09/23/thirtyfour/"/>
     <id>localhost/2024/09/23/thirtyfour/</id>
     <published>2024-09-23T14:37:51.000Z</published>
-    <updated>2024-09-25T14:16:41.111Z</updated>
+    <updated>2024-09-28T10:00:33.873Z</updated>
     
     <summary type="html">
     
@@ -513,33 +539,6 @@ extern 字符串字面量 声明     (2)&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;1)
 &lt;pre&gt;&lt;code&gt;if=文件名   #指定源文件。
 of=文件名   #指定目的文件。
 ibs=bytes 
-        
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="localhost/categories/Linux/"/>
-    
-    
-      <category term="Linux" scheme="localhost/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux 技巧</title>
-    <link href="localhost/2024/07/29/seventeen/"/>
-    <id>localhost/2024/07/29/seventeen/</id>
-    <published>2024-07-29T13:07:20.000Z</published>
-    <updated>2024-08-25T14:52:29.049Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;如果要谨慎使用 rm 命令，可以为它设置一个别名，在删除文件之前需要进行确认才能删除。有些系统管理员会默认使用这个别名，&lt;br&gt;对于这种情况，你可能需要看看下一个技巧。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ rm -i    &amp;lt;==
         
       
     
