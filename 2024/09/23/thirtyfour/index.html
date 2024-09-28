@@ -266,7 +266,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/26.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -495,8 +495,8 @@ private:
      char c;
 };
 sizeof(A) = ?</code></pre>解答：<br>关于类占用的内存空间，有以下几点需要注意：<br>（1）如果类中含有虚函数，则编译器需要为类构建虚函数表，类中需要存储一个指针指向这个虚函数表的首地址，注意不管有几个虚函数，都只建立一张表，所有的虚函数地址都存在这张表里，类中只需要一个指针指向虚函数表首地址即可。<br>（2）类中的静态成员是被类所有实例所共享的，它不计入sizeof计算的空间<br>（3）类中的普通函数或静态普通函数都存储在栈中，不计入sizeof计算的空间<br>（4）类成员采用字节对齐的方式分配空间<br>答案：12或16</li>
-<li>虚继承的作用是什么？<br>在多继承中，子类可能同时拥有多个父类，如果这些父类还有相同的父类, 那么在子类中就会有多份祖先类。例如，类B和类C都继承与类A，如果类D派生于B和C，那么类D中就会有两份A。为了防止在多继承中子类存在重复的父类情况，可以在父类继承时使用虚函数，即在类B和类C继承类A时使用virtual关键字，例如：<pre><code>class B : virtual public A
-class C : virtual public A</code></pre>注：因为多继承会带来很多复杂问题，因此要慎用。</li>
+<li>虚继承的作用是什么？<br>在多继承中，子类可能同时拥有多个父类，如果这些父类还有相同的父类, 那么在子类中就会有多份祖先类。例如，类B和类C都继承与类A，如果类D派生于B和C，那么类D中就会有两份A。为了防止在多继承中子类存在重复的父类情况，可以在父类继承时使用虚函数，即在类B和类C继承类A时使用virtual关键字，例如：<pre><code>class B : virtual public A {};
+class C : virtual public A {};</code></pre>注：因为多继承会带来很多复杂问题，因此要慎用。</li>
 </ol>
 
             </div>
@@ -866,7 +866,7 @@ class C : virtual public A</code></pre>注：因为多继承会带来很多复�
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="使用++i还是i++">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="使用++i还是i++">
                         
                         <span class="card-title">使用++i还是i++</span>
                     </div>
@@ -915,7 +915,7 @@ class C : virtual public A</code></pre>注：因为多继承会带来很多复�
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="C++细说sizeof">
+                        <img src="/medias/featureimages/24.jpg" class="responsive-img" alt="C++细说sizeof">
                         
                         <span class="card-title">C++细说sizeof</span>
                     </div>
@@ -1120,7 +1120,7 @@ class C : virtual public A</code></pre>注：因为多继承会带来很多复�
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">51.7k</span>
+            <span class="white-color">52.6k</span>
             
 
             <br>
