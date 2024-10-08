@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2024-10-08T13:50:20.816Z</updated>
+  <updated>2024-10-08T13:55:01.966Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>so出现undefined symbol------ldd, nm, c++filt</title>
+    <link href="localhost/2024/10/08/thirtynine/"/>
+    <id>localhost/2024/10/08/thirtynine/</id>
+    <published>2024-10-08T13:51:15.000Z</published>
+    <updated>2024-10-08T13:55:01.966Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;最近发版本，灰度发布的时候，发现进程没来，回包自然是异常的。立即进行版本回退，发现OK.&lt;br&gt;哪里出问题了呢？ 直接&lt;code&gt;ldd -r
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
   
   <entry>
     <title>Lambda 表达式捕获列表</title>
@@ -511,34 +537,6 @@ extern 字符串字面量 声明     (2)&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;1)
         
         
           &lt;p&gt;枚举（enumeration）是独立的类型，其值限制在一个取值范围内（细节见下文），它可以包含数个明确命名的常量（“枚举项（enumerator）”）。&lt;br&gt;各常量的值是某个整型类型（称为该枚举的底层类型（underlying
-        
-      
-    
-    </summary>
-    
-      <category term="C++" scheme="localhost/categories/C/"/>
-    
-    
-      <category term="C++" scheme="localhost/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>指针</title>
-    <link href="localhost/2024/07/30/twenty/"/>
-    <id>localhost/2024/07/30/twenty/</id>
-    <published>2024-07-30T13:20:11.000Z</published>
-    <updated>2024-08-27T14:14:21.154Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;声明指针或指向成员指针类型的变量。&lt;/p&gt;
-&lt;h1 id=&quot;语法&quot;&gt;&lt;a href=&quot;#语法&quot; class=&quot;headerlink&quot; title=&quot;语法&quot;&gt;&lt;/a&gt;语法&lt;/h1&gt;&lt;p&gt;指针的声明是简单声明，其声明符拥有下列形式&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;*
         
       
     
