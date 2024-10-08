@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Lambda 表达式捕获列表</title>
+      <link href="/2024/10/08/thirtyeight/"/>
+      <url>/2024/10/08/thirtyeight/</url>
+      
+        <content type="html"><![CDATA[<p>捕获值列表，是允许我们在Lambda表达式的函数体中直接使用这些值，捕获值列表能捕获的值是所有在此作用域可以访问的值，包括这个作用域里面的临时变量，类的可访问成员，全局变量。捕获值的方式分两种，一种是按值捕获，一种是按引用捕获。顾名思义，按值捕获是不改变原有变量的值，按引用捕获是可以在Lambda表达式中改变原有变量的值。<br>[捕获值列表]:<br>1、空。没有使用任何函数对象参数。<br>2、=。函数体内可以使用Lambda所在作用范围内所有可见的局部变量（包括Lambda所在类的this），并且是值传递方式（相当于编译器自动为我们按值传递了所有局部变量）。<br>3、&amp;。函数体内可以使用Lambda所在作用范围内所有可见的局部变量（包括Lambda所在类的this），并且是引用传递方式（相当于编译器自动为我们按引用传递了所有局部变量）。<br>4、this。函数体内可以使用Lambda所在类中的成员变量。<br>5、a。将a按值进行传递。按值进行传递时，函数体内不能修改传递进来的a的拷贝，因为默认情况下函数是const的。要修改传递进来的a的拷贝，可以添加mutable修饰符。<br>6、&amp;a。将a按引用进行传递。<br>7、a, &amp;b。将a按值进行传递，b按引用进行传递。<br>8、=，&amp;a, &amp;b。除a和b按引用进行传递外，其他参数都按值进行传递。<br>9、&amp;, a, b。除a和b按值进行传递外，其他参数都按引用进行传递。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> C++ </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C++ </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>内存分配malloc</title>
       <link href="/2024/10/08/thirtyseven/"/>
       <url>/2024/10/08/thirtyseven/</url>
