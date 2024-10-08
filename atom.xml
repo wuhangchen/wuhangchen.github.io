@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2024-10-08T13:45:37.206Z</updated>
+  <updated>2024-10-08T13:50:20.816Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Lambda 表达式捕获列表</title>
+    <link href="localhost/2024/10/08/thirtyeight/"/>
+    <id>localhost/2024/10/08/thirtyeight/</id>
+    <published>2024-10-08T13:47:07.000Z</published>
+    <updated>2024-10-08T13:50:20.816Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;捕获值列表，是允许我们在Lambda表达式的函数体中直接使用这些值，捕获值列表能捕获的值是所有在此作用域可以访问的值，包括这个作用域里面的临时变量，类的可访问成员，全局变量。捕获值的方式分两种，一种是按值捕获，一种是按引用捕获。顾名思义，按值捕获是不改变原有变量的值，按引用
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
   
   <entry>
     <title>内存分配malloc</title>
@@ -513,34 +539,6 @@ extern 字符串字面量 声明     (2)&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;1)
           &lt;p&gt;声明指针或指向成员指针类型的变量。&lt;/p&gt;
 &lt;h1 id=&quot;语法&quot;&gt;&lt;a href=&quot;#语法&quot; class=&quot;headerlink&quot; title=&quot;语法&quot;&gt;&lt;/a&gt;语法&lt;/h1&gt;&lt;p&gt;指针的声明是简单声明，其声明符拥有下列形式&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;*
-        
-      
-    
-    </summary>
-    
-      <category term="C++" scheme="localhost/categories/C/"/>
-    
-    
-      <category term="C++" scheme="localhost/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C++ 引用</title>
-    <link href="localhost/2024/07/30/nineteen/"/>
-    <id>localhost/2024/07/30/nineteen/</id>
-    <published>2024-07-30T12:45:22.000Z</published>
-    <updated>2024-08-25T14:44:59.349Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;声明具名变量为引用，即既存对象或函数的别名。&lt;br&gt;引用变量声明是声明符拥有下列形式的简单声明&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;amp; attr(可选) 声明符     (1)
-&amp;amp;&amp;amp; attr(可选) 声明符     (2)     (C++11
         
       
     
