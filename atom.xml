@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2024-09-28T11:35:57.183Z</updated>
+  <updated>2024-10-08T13:45:37.206Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>内存分配malloc</title>
+    <link href="localhost/2024/10/08/thirtyseven/"/>
+    <id>localhost/2024/10/08/thirtyseven/</id>
+    <published>2024-10-08T13:25:39.000Z</published>
+    <updated>2024-10-08T13:45:37.206Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;下面的代码片段输出是什么？为什么？&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;char *ptr;
+if((ptr = (char *)malloc(0)) == NULL)
+    puts(&amp;quot;Got a null pointer&amp;quot;);
+else
+   
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
   
   <entry>
     <title>C++成员修饰const和mutable</title>
@@ -519,35 +550,6 @@ extern 字符串字面量 声明     (2)&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;1)
     
     
       <category term="C++" scheme="localhost/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux dd命令</title>
-    <link href="localhost/2024/07/30/eighteen/"/>
-    <id>localhost/2024/07/30/eighteen/</id>
-    <published>2024-07-30T12:22:58.000Z</published>
-    <updated>2024-07-30T12:45:02.746Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;dd 命令用于复制文件并对原文件的内容进行转换和格式化处理&lt;br&gt;语法格式&lt;br&gt;dd [OPTIONS]…&lt;br&gt;选项说明&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;if=文件名   #指定源文件。
-of=文件名   #指定目的文件。
-ibs=bytes 
-        
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="localhost/categories/Linux/"/>
-    
-    
-      <category term="Linux" scheme="localhost/tags/Linux/"/>
     
   </entry>
   

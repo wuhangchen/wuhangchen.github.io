@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>内存分配malloc</title>
+      <link href="/2024/10/08/thirtyseven/"/>
+      <url>/2024/10/08/thirtyseven/</url>
+      
+        <content type="html"><![CDATA[<p>下面的代码片段输出是什么？为什么？</p><pre><code>char *ptr;if((ptr = (char *)malloc(0)) == NULL)    puts(&quot;Got a null pointer&quot;);else    puts(&quot;Got a valid pointer&quot;);</code></pre><p>解析：……故意把0值传给了函数malloc，得到了一个合法的指针，这就是上面的代码，该代码的输出是”Got a valid pointer”。<br>这个“解析”根本就没有解析嘛。“如果请求的长度为0，则标准C语言函数返回一个null指针或不能用于访问对象的非null指针。”或者你也可以直接在linux里man malloc来查阅手册：</p><pre><code>void *malloc(size_t size);...malloc() allocates size bytes and returns a pointer to the allocated memory. The memory is not cleared. If size is 0, then malloc() returns either NULL, or a unique pointer value that can later be successfully passed to free().</code></pre><p>可见，原题的<code>if</code>是为了鉴别<code>malloc()</code>返回值是<code>NULL</code>，还是一个唯一的待释放指针；而不是“解析”中的必然是非<code>NULL</code>的“合法指针”，因此输出也不是确定的，尽管我用gcc和clang多次编译运行，输出都是”Got a valid pointer”。<br>顺便再说说后面的代码：</p><pre><code>char *ptr;if(int pp = (strlen(ptr=(char *)malloc(0))) == 0)    puts(&quot;Got a null pointer&quot;);else    puts(&quot;Got a valid pointer&quot;);</code></pre><pre><code>char *ptr;if(int pp = (sizeof(ptr=(char *)malloc(0))) == 4)    puts(&quot;Got a null pointer&quot;);else    puts(&quot;Got a valid pointer&quot;);</code></pre><p>如果求<code>ptr</code>的<code>strlen</code>的值和<code>sizeof</code>的值，该代码的输出是”Got a null pointer”。<br>第一段程序的分析和上面一样，如果不幸返回了一个唯一的待释放非NULL指针，行为不可预测；只不过这个if判断写的有些繁琐：注意到“==”优先级高于”=”，而赋值语句的值是其左值。<br>此时<code>malloc(0)</code>返回了一个可用于<code>free()</code>释放的唯一指针，而且将它传给<code>strlen()</code>，返回值为0，这样看来，它用’\0’进行填充的即内容是NULL而非指针指向NULL。但这一点并没有在man中提到，个人猜测是和实现有关的。<br>除此以外，顺便考察了<code>strlen((char*)NULL)</code>的行为：会导致段错误。<br>第二段程序呢，<code>sizeof()</code>里写了一大堆，其实只是计算了<code>sizeof(char *)</code>。<br><code>sizeof()</code>里面的<code>malloc()</code>根本没有执行。和前面两段代码不同，关键点不在malloc而是sizeof。<br>理解：<br>1.一般确实不会直接写<code>malloc(0)</code>，但是可能在程序某个地方写<code>int n;int *p = malloc(n);</code>在别的地方又令<code>n = 0</code>，造成了参数为0的情况。若是无心而为，可能导致某种bug。如果了解<code>malloc(0)</code>的行为，找bug相对而言会简单点。<br>更蛋疼的问题：<br>如果给<code>malloc()</code>传一个负参数会怎么样？<code>malloc()</code>的参数是<code>size_t</code>类型，一般是无符号数，负值会被转化它对应于<code>size_t</code>中的对应值。经我测试，当这个值大于<code>malloc()</code>所能分配的上限时，返回NULL。<br>刚刚在stackoverflow上看到的<a href="http://stackoverflow.com/questions/17925771/what-happens-when-we-call-malloc-with-negative-paramter。" target="_blank" rel="noopener">http://stackoverflow.com/questions/17925771/what-happens-when-we-call-malloc-with-negative-paramter。</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> C++ </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C++ </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>C++成员修饰const和mutable</title>
       <link href="/2024/09/28/thirtysex/"/>
       <url>/2024/09/28/thirtysex/</url>
