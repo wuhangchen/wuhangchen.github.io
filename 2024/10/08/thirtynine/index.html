@@ -4,11 +4,12 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="C++成员修饰const和mutable, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="so出现undefined symbol------ldd, nm, c++filt, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="const：常量，不变的mutable：易变的从意思上理解，可见const和mutable是一对反义词，它们都是C++的关键字。const成员函数不能修改调用它的对象。类的成员函数可以被声明为const，这将使得函数的隐式参数this将被作">
+    <meta name="description" content="最近发版本，灰度发布的时候，发现进程没来，回包自然是异常的。立即进行版本回退，发现OK.哪里出问题了呢？ 直接ldd -r libtest.so一下，就知道了，原来是缺符号。看看简化后的示例代码：
+#include &amp;lt;iostream">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -16,7 +17,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>C++成员修饰const和mutable | 吴杭沉的博客</title>
+    <title>so出现undefined symbol------ldd, nm, c++filt | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -266,13 +267,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        C++成员修饰const和mutable
+                        so出现undefined symbol------ldd, nm, c++filt
                     </div>
                 </div>
             </div>
@@ -407,7 +408,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-09-28
+                    2024-10-08
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -421,14 +422,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    848
+                    364
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    1 分
                 </div>
                 
                 
@@ -444,74 +445,52 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p><code>const</code>：常量，不变的<br><code>mutable</code>：易变的<br>从意思上理解，可见<code>const</code>和<code>mutable</code>是一对反义词，它们都是C++的关键字。<br><code>const</code>成员函数不能修改调用它的对象。类的成员函数可以被声明为<code>const</code>，这将使得函数的隐式参数<code>this</code>将被作为<code>const</code>类型的指针。这也就意味着一个<code>const</code>成员函数不能修改调用它的对象。而且，<code>const</code>对象不能调用非<code>const</code>成员函数。然而，<code>const</code>对象和非<code>const</code>对象都可以调用<code>const</code>成员函数。<br>要将一个成员函数声明为<code>const</code>，可以使用下面的形式：</p>
-<pre><code>class X
-{
-    int some_var;
-public:
-    int f1() const;    //const成员函数
-};</code></pre><p>可以看到，关键字<code>const</code>被放在函数声明之后。将一个成员函数声明为<code>const</code>的目的是防止函数修改调用它的对象。例如下面的代码：</p>
+                <p>最近发版本，灰度发布的时候，发现进程没来，回包自然是异常的。立即进行版本回退，发现OK.<br>哪里出问题了呢？ 直接<code>ldd -r libtest.so</code>一下，就知道了，原来是缺符号。看看简化后的示例代码：</p>
 <pre><code>#include &lt;iostream&gt;
 using namespace std;
 
-//说明const函数的用法，这个程序不能通过编译
-class Demo
+class Test
 {
-    int i;
 public:
-    int get() const
-    {
-        return i;        //正确
-    }
-    void seti(int x) const
-    {
-        i = x;          //错误！
-    }
+    void output();
 };
 
-int main()
+#if 0
+void Test::output()
 {
-    Demo ob;
-    ob.seti(1900);
-    cout &lt;&lt; ob.get() &lt;&lt; endl;
-    return 0;
-}</code></pre><p>因为函数<code>seti()</code>被声明为<code>const</code>成员函数，这意味着在函数中不能修改调用函数的对象。但是由于<code>seti()</code>试图修改成员变量i，所以程序会产生错误，而在函数<code>geti()</code>中并不修改成员变量i，所以这个函数是正确的。<br>有时你可能想在<code>const</code>函数中修改类的某些成员，但又不想让函数修改类的其它成员，那么可以通过关键字<code>mutable</code>来实现这种功能。<code>mutable</code>将覆盖<code>const</code>属性。也就是说，在<code>const</code>成员函数中可以修改<code>mutable</code>成员，例如：</p>
-<pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-//可以通过编译，运行正确
-class Demo
-{
-    mutable int i;
-public:
-    int get() const
-    {
-        return i;                //正确
-    }
-
-   void seti(int x) const
-   {
-        i = x;                  //错误！Maybe
-   }
-};
-
-int main()
-{
-    Demo ob;
-    ob.seti(1900);
-    cout &lt;&lt; ob.get() &lt;&lt; endl;
-    return 0;
-}</code></pre><p>在上面的程序中，类的成员变量i被定义为<code>mutable</code>，所以在函数<code>seti()</code>中可以修改它的值。</p>
-<h2 id="const成员变量的初始化"><a href="#const成员变量的初始化" class="headerlink" title="const成员变量的初始化"></a>const成员变量的初始化</h2><p>在构造函数中对成员变量进行初始化是很普遍的初始化方法，然而，这种方法并不是适用于所有情况，例如：如果在类的定义中使用了<code>const</code>来声明成员变量，那么在类的构造函数中将不能对这些成员变量赋初始值，因为<code>const</code>变量必须在构造函数调用之前被初始化，在使用引用类型的成员以及没有默认构造函数的成员时存在着同样的问题，因为这些成员必须首先被初始化。为了解决这个问题，在C++中定义了一种成员初始化语法，可以在创建对象时为类的成员指定初始值。<br>成员初始化语法类似于调用基类构造函数的语法，它的通用形式如下所示：</p>
-<pre><code>constructor(arg_list)
-     : member(initlalizer)
-     , member(initlalizer)
-     , member(initlalizer)
-{
-    //构造函数体
+    cout &lt;&lt; &quot;output is celled&quot; &lt;&lt; endl;
 }
-</code></pre><p>在构造函数的后面指定你想要初始化的成员，同时用冒号将构造函数的名字和参数列表分开。也可以将基类构造函数的调用和成员的初始化放在同一参数列表中。</p>
+#endif
 
+void fun()
+{
+    Test T;
+    T.output();
+}</code></pre><p>先编译成test.o, 然后编译成libtest.so, 不会有编译问题，但如果其他模块来加载libtest.so，就会有问题。libtest.so为什么会有问题呢？因为没有符号啊，</p>
+<pre><code>xxxxxx:~&gt; ldd -r libtest.so
+undefined symbol: _ZNSt8ios_base4InitC1Ev       (./libtest.so)
+undefined symbol: _ZNSt8ios_base4InitD1Ev       (./libtest.so)
+undefined symbol: _ZN4Test6outputEv     (./libtest.so)
+undefined symbol: __gxx_personality_v0  (./libtest.so)
+        linux-gate.so.1 =&gt;  (0xbfffe000)
+        /lib/libonion.so (0xb7faa000)
+        libc.so.6 =&gt; /lib/libc.so.6 (0xb7e5f000)
+        libdl.so.2 =&gt; /lib/libdl.so.2 (0xb7e5a000)
+        /lib/ld-linux.so.2 (0x80000000)
+xxxxxx:~&gt; c++filt _ZN4Test6outputEv
+Test::output()</code></pre><p>再回忆一下， 之前我们遇到过类似问题， 最终发现是makefile中没有指定对应的静态库，也就无法找到静态库中的函数。其实，这种情况和上述情况是完全一致的，总之就是找不到函数的定义，没有符号。<br>最后说一下， 如果你愿意， 用nm命令也可以哈， 如下：</p>
+<pre><code>xxxxxx:~&gt; nm -u libtest.so
+         U __cxa_atexit@@GLIBC_2.1.3
+         w __cxa_finalize@@GLIBC_2.1.3
+         w __gmon_start__
+         U __gxx_personality_v0
+         w _Jv_RegisterClasses
+         U _ZN4Test6outputEv
+         U _ZNSt8ios_base4InitC1Ev
+         U _ZNSt8ios_base4InitD1Ev
+xxxxxx:~&gt; c++filt _ZN4Test6outputEv
+Test::output()
+xxxxxx:~&gt;</code></pre>
             </div>
             <hr />
 
@@ -545,9 +524,9 @@ int main()
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《C++成员修饰const和mutable》
+                    《so出现undefined symbol------ldd, nm, c++filt》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/09/28/thirtysex/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/10/08/thirtynine/" property="cc:attributionName"
                rel="cc:attributionURL">
                 吴杭沉
             </a> 采用
@@ -588,7 +567,7 @@ int main()
         repo: 'wuhangchen.github.io',
         owner: 'wuhangchen',
         admin: "wuhangchen",
-        id: '2024/09/28/thirtysex/',
+        id: '2024/10/08/thirtynine/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -871,34 +850,31 @@ int main()
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2024/10/08/thirtyseven/">
+                <a href="/2024/10/08/thirtynine/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="内存分配malloc">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="so出现undefined symbol------ldd, nm, c++filt">
                         
-                        <span class="card-title">内存分配malloc</span>
+                        <span class="card-title">so出现undefined symbol------ldd, nm, c++filt</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            下面的代码片段输出是什么？为什么？
-char *ptr;
-if((ptr = (char *)malloc(0)) == NULL)
-    puts(&quot;Got a null pointer&quot;);
-else
-    pu
+                            最近发版本，灰度发布的时候，发现进程没来，回包自然是异常的。立即进行版本回退，发现OK.哪里出问题了呢？ 直接ldd -r libtest.so一下，就知道了，原来是缺符号。看看简化后的示例代码：
+#include &lt;iostream
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-10-08
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-10-08
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -911,6 +887,7 @@ else
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -929,24 +906,24 @@ else
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/09/25/thirtyfive/">
+                <a href="/2024/10/08/thirtyeight/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/26.jpg" class="responsive-img" alt="使用++i还是i++">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="Lambda 表达式捕获列表">
                         
-                        <span class="card-title">使用++i还是i++</span>
+                        <span class="card-title">Lambda 表达式捕获列表</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            我们经常使用for循环来遍历东西，循环变量可以前自增也可以后自增，发现对遍历结果没啥影响，但是该如何选择呢？我们应该尽量使用前自增运算符而不是后自增运算符，即用 ++Iter代替Iter++。为什么要这么做，有什么有实际价值？下面我会详细解
+                            捕获值列表，是允许我们在Lambda表达式的函数体中直接使用这些值，捕获值列表能捕获的值是所有在此作用域可以访问的值，包括这个作用域里面的临时变量，类的可访问成员，全局变量。捕获值的方式分两种，一种是按值捕获，一种是按引用捕获。顾名思义，按
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-09-25
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-10-08
                             </span>
                         <span class="publish-author">
                             
