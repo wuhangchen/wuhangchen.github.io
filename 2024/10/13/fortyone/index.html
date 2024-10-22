@@ -503,18 +503,14 @@ private:
     cout &lt;&lt; &quot;对象的内存起始地址：&quot; &lt;&lt; &amp;p &lt;&lt; endl;
     cout &lt;&lt; &quot;type_info信息:&quot; &lt;&lt; endl;
     RTTICompleteObjectLocator str = *((RTTICompleteObjectLocator*)*((int*)*(int*)(&amp;p) - 1));
-
     string classname(str.pTypeDescriptor-&gt;name);
     classname = classname.substr(4, classname.find(&quot;@@&quot;) - 4);
     cout &lt;&lt;  &quot;根据type_info信息输出类名:&quot;&lt;&lt; classname &lt;&lt; endl;
-
     cout &lt;&lt; &quot;虚函数表地址:&quot; &lt;&lt; (int *)(&amp;p) &lt;&lt; endl;
-
     //验证虚表
     cout &lt;&lt; &quot;虚函数表第一个函数的地址：&quot; &lt;&lt; (int *)*((int*)(&amp;p)) &lt;&lt; endl;
     cout &lt;&lt; &quot;析构函数的地址:&quot; &lt;&lt; (int* )*(int *)*((int*)(&amp;p)) &lt;&lt; endl;
     cout &lt;&lt; &quot;虚函数表中，第二个虚函数即print（）的地址：&quot; &lt;&lt; ((int*)*(int*)(&amp;p) + 1) &lt;&lt; endl;
-
     //通过地址调用虚函数print（）
     typedef void(*Fun)(void);
     Fun IsPrint=(Fun)* ((int*)*(int*)(&amp;p) + 1);
@@ -522,11 +518,9 @@ private:
     cout&lt;&lt;&quot;调用了虚函数&quot;；
     IsPrint(); //若地址正确，则调用了Base类的虚函数print（）
     cout &lt;&lt; endl;
-
      //输入static函数的地址
     p.countI();//先调用函数以产生一个实例
     cout &lt;&lt; &quot;static函数countI()的地址：&quot; &lt;&lt; p.countI &lt;&lt; endl;
-
     //验证nonstatic数据成员
     cout &lt;&lt; &quot;推测nonstatic数据成员baseI的地址：&quot; &lt;&lt; (int *)(&amp;p) + 1 &lt;&lt; endl;
     cout &lt;&lt; &quot;根据推测出的地址，输出该地址的值：&quot; &lt;&lt; *((int *)(&amp;p) + 1) &lt;&lt; endl;
@@ -534,8 +528,7 @@ private:
 }
 
 Base b(1000);
-testBase(b);
-</code></pre><p>结果分析：<br>    • 通过 <code>(int *)(&amp;p)</code>取得虚函数表的地址<br>    • type_info信息的确存在于虚表的前一个位置。通过<code>((int)(int*)(&amp;p) - 1))</code>取得type_infn信息，并成功获得类的名称的Base<br>    • 虚函数表的第一个函数是析构函数。<br>    • 虚函数表的第二个函数是虚函数<code>print()</code>，取得地址后通过地址调用它，验证正确<br>    • 虚表指针的下一个位置为nonstatic数据成员baseI。<br>    • 可以看到，static成员函数的地址段位与虚表指针、baseI的地址段位不同。<br>好的，至此我们了解了非继承下类对象五种数据在内存上的布局，也知道了在每一个虚函数表前都有一个指针指向type_info，负责对RTTI的支持。而加入继承后类对象在内存中该如何表示呢？</p>
+testBase(b);</code></pre><p>结果分析：<br>    • 通过 <code>(int *)(&amp;p)</code>取得虚函数表的地址<br>    • type_info信息的确存在于虚表的前一个位置。通过<code>((int)(int*)(&amp;p) - 1))</code>取得type_infn信息，并成功获得类的名称的Base<br>    • 虚函数表的第一个函数是析构函数。<br>    • 虚函数表的第二个函数是虚函数<code>print()</code>，取得地址后通过地址调用它，验证正确<br>    • 虚表指针的下一个位置为nonstatic数据成员baseI。<br>    • 可以看到，static成员函数的地址段位与虚表指针、baseI的地址段位不同。<br>好的，至此我们了解了非继承下类对象五种数据在内存上的布局，也知道了在每一个虚函数表前都有一个指针指向type_info，负责对RTTI的支持。而加入继承后类对象在内存中该如何表示呢？</p>
 <h2 id="继承下的C-对象模型"><a href="#继承下的C-对象模型" class="headerlink" title="继承下的C++对象模型"></a>继承下的C++对象模型</h2><h3 id="单继承"><a href="#单继承" class="headerlink" title="单继承"></a>单继承</h3><p>如果我们定义了派生类。</p>
 <pre><code>class Derive : public Base
 {
@@ -550,7 +543,6 @@ private:
     int DeriveI;
 };</code></pre><p>在C++对象模型中，对于一般继承，若子类重写overwrite了父类的虚函数，则子类虚函数将覆盖虚表中对应的父类虚函数，注意子类与父类拥有各自的一个虚函数表；若子类并无overwrite父类虚函数，而是声明了自己新的虚函数，则该虚函数地址将扩充到虚函数表最后。而对于虚继承，若子类overwrite父类虚函数，同样地将覆盖父类子物体中的虚函数表对应位置，而若子类声明了自己新的虚函数，则编译器将为子类增加一个新的虚表指针vptr，这与一般继承不同,在后面再讨论。<br>我们使用代码来验证以上模型</p>
 <pre><code>typedef void(*Fun)(void);
-
 int main()
 {
     Derive d(2000);
@@ -562,10 +554,8 @@ int main()
     Fun fun1 = (Fun)*((int *)*((int *)(&amp;d)));
     fun1();
     cout &lt;&lt; &quot;\t地址:\t&quot; &lt;&lt; *((int *)*((int *)(&amp;d))) &lt;&lt; endl;
-
     //vprt[1]析构函数无法通过地址调用，故手动输出
     cout &lt;&lt; &quot;  [1]&quot; &lt;&lt; &quot;Derive::~Derive&quot; &lt;&lt; endl;
-
     //vprt[2]
     cout &lt;&lt; &quot;  [2]&quot;;
     Fun fun2 = (Fun)*((int *)*((int *)(&amp;d)) + 2);
@@ -650,12 +640,10 @@ int main()
     Fun fun4 = (Fun)*((int *)*((int *)(&amp;d))+1);
     fun4();
     cout &lt;&lt; &quot;\t地址:\t&quot; &lt;&lt; *((int *)*((int *)(&amp;d))+1) &lt;&lt; endl;
-
     //[3]
     cout &lt;&lt; &quot;[3]Base_2::base2I=&quot; &lt;&lt; *(int*)((int *)(&amp;d) + 3);
     cout &lt;&lt; &quot;\t地址：&quot; &lt;&lt; (int *)(&amp;d) + 3;
     cout &lt;&lt; endl;
-
     //[4]
     cout &lt;&lt; &quot;[4]Drive_multyBase::Drive_multyBaseI=&quot; &lt;&lt; *(int*)((int *)(&amp;d) + 4);
     cout &lt;&lt; &quot;\t地址：&quot; &lt;&lt; (int *)(&amp;d) + 4;
@@ -719,7 +707,6 @@ class B1 : virtual public B</code></pre><p>根据我们前面对虚继承的派�
 {
     B1 a;
     cout &lt;&lt;&quot;B1对象内存大小为：&quot;&lt;&lt; sizeof(a) &lt;&lt; endl;
-
     //取得B1的虚函数表
     cout &lt;&lt; &quot;[0]B1::vptr&quot;;
     cout &lt;&lt; &quot;\t地址：&quot; &lt;&lt; (int *)(&amp;a)&lt;&lt; endl;
@@ -739,25 +726,20 @@ class B1 : virtual public B</code></pre><p>根据我们前面对虚继承的派�
     for (int i = 0; i &lt; 2; i++)
     {
         cout &lt;&lt; &quot;  [&quot; &lt;&lt; i &lt;&lt; &quot;]&quot;;
-
         cout &lt;&lt; *(int *)((int *)*((int *)(&amp;a) + 1) + i);
-
         cout &lt;&lt; endl;
     }
     //[2]
     cout &lt;&lt; &quot;[2]B1::ib1=&quot; &lt;&lt; *(int*)((int *)(&amp;a) + 2);
     cout &lt;&lt; &quot;\t地址：&quot; &lt;&lt; (int *)(&amp;a) + 2;
     cout &lt;&lt; endl;
-
     //[3]
     cout &lt;&lt; &quot;[3]值=&quot; &lt;&lt; *(int*)((int *)(&amp;a) + 3);
     cout &lt;&lt; &quot;\t\t地址：&quot; &lt;&lt; (int *)(&amp;a) + 3;
     cout &lt;&lt; endl;
-
     //[4]
     cout &lt;&lt; &quot;[4]B::vptr&quot;;
     cout &lt;&lt; &quot;\t地址：&quot; &lt;&lt; (int *)(&amp;a) +3&lt;&lt; endl;
-
     //输出B::vptr中的虚函数
     for (int i = 0; i&lt;2; ++i)
     {
@@ -766,7 +748,6 @@ class B1 : virtual public B</code></pre><p>根据我们前面对虚继承的派�
         fun1();
         cout &lt;&lt; &quot;\t地址:\t&quot; &lt;&lt; *((int *)*((int *)(&amp;a) + 4) + i) &lt;&lt; endl;
     }
-
     //[5]
     cout &lt;&lt; &quot;[5]B::ib=&quot; &lt;&lt; *(int*)((int *)(&amp;a) + 5);
     cout &lt;&lt; &quot;\t地址: &quot; &lt;&lt; (int *)(&amp;a) + 5;
@@ -781,11 +762,9 @@ class D : public B1,public B2{...}</code></pre><p>菱形虚拟继承下，最派
 {
     D d;
     cout &lt;&lt; &quot;D对象内存大小为：&quot; &lt;&lt; sizeof(d) &lt;&lt; endl;
-
     //取得B1的虚函数表
     cout &lt;&lt; &quot;[0]B1::vptr&quot;;
     cout &lt;&lt; &quot;\t地址：&quot; &lt;&lt; (int *)(&amp;d) &lt;&lt; endl;
-
     //输出虚表B1::vptr中的函数
     for (int i = 0; i&lt;3; ++i)
     {
@@ -808,7 +787,6 @@ class D : public B1,public B2{...}</code></pre><p>菱形虚拟继承下，最派
     cout &lt;&lt; &quot;[2]B1::ib1=&quot; &lt;&lt; *(int*)((int *)(&amp;d) + 2);
     cout &lt;&lt; &quot;\t地址：&quot; &lt;&lt; (int *)(&amp;d) + 2;
     cout &lt;&lt; endl;
-
     //[3]
     cout &lt;&lt; &quot;[3]B2::vptr&quot;;
     cout &lt;&lt; &quot;\t地址：&quot; &lt;&lt; (int *)(&amp;d) + 3 &lt;&lt; endl;
@@ -820,7 +798,6 @@ class D : public B1,public B2{...}</code></pre><p>菱形虚拟继承下，最派
         fun1();
         cout &lt;&lt; &quot;\t地址:\t&quot; &lt;&lt; *((int *)*((int *)(&amp;d) + 3) + i) &lt;&lt; endl;
     }
-
     //[4]
     cout &lt;&lt; &quot;[4]B2::vbptr &quot;;
     cout &lt;&lt; &quot;\t地址：&quot; &lt;&lt; (int *)(&amp;d) + 4 &lt;&lt; endl;  //虚表指针的地址
@@ -831,27 +808,22 @@ class D : public B1,public B2{...}</code></pre><p>菱形虚拟继承下，最派
         cout &lt;&lt; *(int *)((int *)*((int *)(&amp;d) + 4) + i);
         cout &lt;&lt; endl;
     }
-
     //[5]
     cout &lt;&lt; &quot;[5]B2::ib2=&quot; &lt;&lt; *(int*)((int *)(&amp;d) + 5);
     cout &lt;&lt; &quot;\t地址: &quot; &lt;&lt; (int *)(&amp;d) + 5;
     cout &lt;&lt; endl;
-
     //[6]
     cout &lt;&lt; &quot;[6]D::id=&quot; &lt;&lt; *(int*)((int *)(&amp;d) + 6);
     cout &lt;&lt; &quot;\t地址: &quot; &lt;&lt; (int *)(&amp;d) + 6;
     cout &lt;&lt; endl;
-
     //[7]
     cout &lt;&lt; &quot;[7]值=&quot; &lt;&lt; *(int*)((int *)(&amp;d) + 7);
     cout &lt;&lt; &quot;\t\t地址：&quot; &lt;&lt; (int *)(&amp;d) + 7;
     cout &lt;&lt; endl;
-
     //间接父类
     //[8]
     cout &lt;&lt; &quot;[8]B::vptr&quot;;
     cout &lt;&lt; &quot;\t地址：&quot; &lt;&lt; (int *)(&amp;d) + 8 &lt;&lt; endl;
-
     //输出B::vptr中的虚函数
     for (int i = 0; i&lt;2; ++i)
     {
@@ -860,12 +832,10 @@ class D : public B1,public B2{...}</code></pre><p>菱形虚拟继承下，最派
         fun1();
         cout &lt;&lt; &quot;\t地址:\t&quot; &lt;&lt; *((int *)*((int *)(&amp;d) + 8) + i) &lt;&lt; endl;
     }
-
     //[9]
     cout &lt;&lt; &quot;[9]B::id=&quot; &lt;&lt; *(int*)((int *)(&amp;d) + 9);
     cout &lt;&lt; &quot;\t地址: &quot; &lt;&lt; (int *)(&amp;d) +9;
     cout &lt;&lt; endl;
-
     getchar();
 }
 </code></pre><h2 id="一些问题解答"><a href="#一些问题解答" class="headerlink" title="一些问题解答"></a>一些问题解答</h2><h3 id="C-封装带来的布局成本是多大？"><a href="#C-封装带来的布局成本是多大？" class="headerlink" title="C++封装带来的布局成本是多大？"></a>C++封装带来的布局成本是多大？</h3><p>在C语言中，“数据”和“处理数据的操作（函数）”是分开来声明的，也就是说，语言本身并没有支持“数据和函数”之间的关联性。<br>在C++中，我们通过类来将属性与操作绑定在一起，称为ADT，抽象数据结构。<br>C语言中使用struct来封装数据，使用函数来处理数据。举个例子，如果我们定义了一个struct Point3如下：</p>
@@ -889,7 +859,6 @@ class D : public B1,public B2{...}</code></pre><p>菱形虚拟继承下，最派
         float x() const {return _x;}
         float y() const {return _y;}
         float z() const {return _z;}
-
     private:
         float _x;
         float _y;
@@ -903,15 +872,13 @@ inline ostream&amp; operator&lt;&lt;(ostream &amp;os, const Point3d &amp;pt)
 }</code></pre><p>看到这段代码，很多人第一个疑问可能是：加上了封装，布局成本增加了多少？答案是<code>class Point3d</code>并没有增加成本。学过了C++对象模型，我们知道，<code>Point3d</code>类对象的内存中，只有三个数据成员。<br>上面的类声明中，三个数据成员直接内含在每一个<code>Point3d</code>对象中，而成员函数虽然在类中声明，却不出现在类对象object之中，这些函数non-inline属于类而不属于类对象，只会为类产生唯一的函数实例。<br>所以，<code>Point3d</code>的封装并没有带来任何空间或执行期的效率影响。而在下面这种情况下，C++的封装额外成本才会显示出来：<br>    • 虚函数机制virtual function , 用以支持执行期绑定，实现多态。<br>    • 虚基类 virtual base class ，虚继承关系产生虚基类，用于在多重继承下保证基类在子类中拥有唯一实例。<br>不仅如此，<code>Point3d</code>类数据成员的内存布局与c语言的结构体<code>Point3d</code>成员内存布局是相同的。C++中处在同一个访问标识符指public、private、protected下的声明的数据成员，在内存中必定保证以其声明顺序出现。而处于不同访问标识符声明下的成员则无此规定。对于<code>Point3</code>类来说，它的三个数据成员都处于<code>private</code>下，在内存中一起声明顺序出现。我们可以做下实验：</p>
 <pre><code>void TestPoint3Member(const Point3d&amp; p)
 {
-
     cout &lt;&lt; &quot;推测_x的地址是：&quot; &lt;&lt; (float *) (&amp;p) &lt;&lt; endl;
     cout &lt;&lt; &quot;推测_y的地址是：&quot; &lt;&lt; (float *) (&amp;p) + 1 &lt;&lt; endl;
     cout &lt;&lt; &quot;推测_z的地址是：&quot; &lt;&lt; (float *) (&amp;p) + 2 &lt;&lt; endl;
     cout &lt;&lt; &quot;根据推测出的地址输出_x的值：&quot; &lt;&lt; *((float *)(&amp;p)) &lt;&lt; endl;
     cout &lt;&lt; &quot;根据推测出的地址输出_y的值：&quot; &lt;&lt; *((float *)(&amp;p)+1) &lt;&lt; endl;
     cout &lt;&lt; &quot;根据推测出的地址输出_z的值：&quot; &lt;&lt; *((float *)(&amp;p)+2) &lt;&lt; endl;
-}
-</code></pre><p>运行结果：<br>从结果可以看到，_x,_y,_z三个数据成员在内存中紧挨着。</p>
+}</code></pre><p>运行结果：<br>从结果可以看到，_x,_y,_z三个数据成员在内存中紧挨着。</p>
 <h3 id="总结一下："><a href="#总结一下：" class="headerlink" title="总结一下："></a>总结一下：</h3><p>不考虑虚函数与虚继承，当数据都在同一个访问标识符下，C++的类与C语言的结构体在对象大小和内存布局上是一致的，C++的封装并没有带来空间时间上的影响。</p>
 <h3 id="下面这个空类构成的继承层次中，每个类的大小是多少？"><a href="#下面这个空类构成的继承层次中，每个类的大小是多少？" class="headerlink" title="下面这个空类构成的继承层次中，每个类的大小是多少？"></a>下面这个空类构成的继承层次中，每个类的大小是多少？</h3><p>今有类如下：</p>
 <pre><code>class B{};
