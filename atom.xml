@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2024-10-13T09:39:25.109Z</updated>
+  <updated>2024-10-22T13:39:26.054Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>C++对象模型：对象内存布局详解</title>
+    <link href="localhost/2024/10/13/fortyone/"/>
+    <id>localhost/2024/10/13/fortyone/</id>
+    <published>2024-10-13T09:41:08.000Z</published>
+    <updated>2024-10-22T13:39:26.054Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;文章较长，而且内容相对来说比较枯燥，希望对C++对象的内存布局、虚表指针、虚基类指针等有深入了解的朋友可以慢慢看。&lt;/p&gt;
+&lt;h2
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
   
   <entry>
     <title>C/C++整型变量赋值操作是原子性的吗？</title>
@@ -510,34 +537,6 @@ else
         
           &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;在C语言中，数组和指针似乎总是“暧昧不清”，有时候很容易把它们混淆。本文就来理一理数组和指针之间到底有哪些异同。&lt;/p&gt;
 &lt;h1
-        
-      
-    
-    </summary>
-    
-      <category term="C++" scheme="localhost/categories/C/"/>
-    
-    
-      <category term="C++" scheme="localhost/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>语言链接</title>
-    <link href="localhost/2024/08/14/twentytwo/"/>
-    <id>localhost/2024/08/14/twentytwo/</id>
-    <published>2024-08-14T14:45:28.000Z</published>
-    <updated>2024-08-27T13:54:22.984Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;提供以不同程序语言编写的模块间的连接。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;extern 字符串字面量 { 声明序列(可选) }     (1)
-extern 字符串字面量 声明     (2)&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;1)
         
       
     
