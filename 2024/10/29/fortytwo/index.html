@@ -4,11 +4,11 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Linux shell变量含义, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="C++ 静态库与动态库, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="$$               Shell本身的PID（ProcessID）$!               Shell最后运行的后台Process的PID$?               最后运行的命令的结束代码（返回值）$-     ">
+    <meta name="description" content="这次分享的宗旨是——让大家学会创建与使用静态库、动态库，知道静态库与动态库的区别，知道使用的时候如何选择。这里不深入介绍静态库、动态库的底层格式，内存布局等，有兴趣的同学，推荐一本书《程序员的自我修养——链接、装载与库》。库是写好的现有的，">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -16,7 +16,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Linux shell变量含义 | 吴杭沉的博客</title>
+    <title>C++ 静态库与动态库 | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -266,13 +266,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/26.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Linux shell变量含义
+                        C++ 静态库与动态库
                     </div>
                 </div>
             </div>
@@ -383,8 +383,8 @@
                     
                     <div class="article-tag">
                         
-                        <a href="/tags/Linux/" target="_blank">
-                            <span class="chip bg-color">Linux</span>
+                        <a href="/tags/C/" target="_blank">
+                            <span class="chip bg-color">C++</span>
                         </a>
                         
                     </div>
@@ -395,8 +395,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                        <a href="/categories/Linux/" class="post-category" target="_blank">
-                            Linux
+                        <a href="/categories/C/" class="post-category" target="_blank">
+                            C++
                         </a>
                         
                     </div>
@@ -407,7 +407,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-07-23
+                    2024-10-29
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -421,14 +421,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    131
+                    2.7k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    10 分
                 </div>
                 
                 
@@ -444,7 +444,81 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>$$               Shell本身的PID（ProcessID）<br>$!               Shell最后运行的后台Process的PID<br>$?               最后运行的命令的结束代码（返回值）<br>$-               使用Set命令设定的Flag一览<br>$<em>               所有参数列表。如”$</em>“用「”」括起来的情况、以”$1 $2 … $n”的形式输出所有参数。<br>$@               所有参数列表。如”$@”用「”」括起来的情况、以”$1” “$2” … “$n” 的形式输出所有参数。<br>$#               添加到Shell的参数个数<br>$0               Shell本身的文件名<br>$1～$n           添加到Shell的各参数值。$1是第1参数、$2是第2参数…。</p>
+                <p>这次分享的宗旨是——让大家学会创建与使用静态库、动态库，知道静态库与动态库的区别，知道使用的时候如何选择。这里不深入介绍静态库、动态库的底层格式，内存布局等，有兴趣的同学，推荐一本书《程序员的自我修养——链接、装载与库》。<br>库是写好的现有的，成熟的，可以复用的代码。现实中每个程序都要依赖很多基础的底层库，不可能每个人的代码都从零开始，因此库的存在意义非同寻常。<br>本质上来说库是一种可执行代码的二进制形式，可以被操作系统载入内存执行。库有两种：静态库和动态库。<br>所谓静态、动态是指链接。<br>之所以成为【静态库】，是因为在链接阶段，会将汇编生成的目标文件<code>.o</code>与引用到的库一起链接打包到可执行文件中。因此对应的链接方式称为静态链接。<br>试想一下，静态库与汇编生成的目标文件一起链接为可执行文件，那么静态库必定跟<code>.o</code>文件格式相似。其实一个静态库可以简单看成是一组目标文件的集合，即很多目标文件经过压缩打包后形成的一个文件。静态库特点总结：<br>    • 静态库对函数库的链接是放在编译时期完成的。<br>    • 程序在运行时与函数库再无瓜葛，移植方便。<br>    • 浪费空间和资源，因为所有相关的目标文件与牵涉到的函数库被链接合成一个可执行文件。<br>下面编写一些简单的四则运算C++类，将其编译成静态库给他人用，头文件如下所示：</p>
+<pre><code>#pragma once
+class StaticMath
+{
+public:
+    StaticMath(void);
+    ~StaticMath(void);
+    static double add(double a, double b);//加法
+    static double sub(double a, double b);//减法
+    static double mul(double a, double b);//乘法
+    static double div(double a, double b);//除法
+    void print();
+};</code></pre><p>Linux下使用<code>ar</code>工具，将目标文件压缩到一起，并且对其进行编号和索引，以便于查找和检索。<br>Linux静态库命名规范，必须是<code>lib[your_library_name].a</code>lib为前缀，中间是静态库名，扩展名为<code>.a</code>。<br>通过上面的流程可以知道，Linux创建静态库过程如下：<br>首先，将代码文件编译成目标文件<code>.o（StaticMath.o）</code></p>
+<pre><code>g++ -c StaticMath.cpp</code></pre><p>注意带参数-c，否则直接编译为可执行文件<br>然后，通过<code>ar</code>工具将目标文件打包成<code>.a</code>静态库文件</p>
+<pre><code>ar -crv libstaticmath.a StaticMath.o</code></pre><p>生成静态库<code>libstaticmath.a。</code><br>大一点的项目会编写makefile文件CMake等等工程来生成静态库，输入多个命令太麻烦了。<br>编写使用上面创建的静态库的测试代码：</p>
+<pre><code>#include &quot;StaticMath.h&quot;
+#include &lt;iostream&gt;
+using namespace std;
+int main(int argc, char* argv[])
+{
+    double a = 10;
+    double b = 2;
+    cout &lt;&lt; &quot;a + b = &quot; &lt;&lt; StaticMath::add(a, b) &lt;&lt; endl;
+    cout &lt;&lt; &quot;a - b = &quot; &lt;&lt; StaticMath::sub(a, b) &lt;&lt; endl;
+    cout &lt;&lt; &quot;a * b = &quot; &lt;&lt; StaticMath::mul(a, b) &lt;&lt; endl;
+    cout &lt;&lt; &quot;a / b = &quot; &lt;&lt; StaticMath::div(a, b) &lt;&lt; endl;
+    StaticMath sm;
+    sm.print();
+    system(&quot;pause&quot;);
+    return 0;
+}</code></pre><p>Linux下使用静态库，只需要在编译的时候，指定静态库的搜索路径、指定静态库名。</p>
+<pre><code>g++ TestStaticLibrary.cpp -L../StaticLibrary -lstaticmath</code></pre><p>-L：表示要连接的库所在目录<br>-l：指定链接时需要的动态库，编译器查找动态连接库时有隐含的命名规则，即在给出的名字前面加上lib，后面加上<code>.a</code>或<code>.so</code>来确定库的名称。<br>通过上面的介绍发现静态库，容易使用和理解，也达到了代码复用的目的，那为什么还需要动态库呢？<br>为什么需要动态库，其实也是静态库的特点导致。<br>空间浪费是静态库的一个问题。<br>另一个问题是静态库对程序的更新、部署和发布页会带来麻烦。如果静态库<code>liba.lib</code>更新了，所以使用它的应用程序都需要重新编译、发布给用户。<br>动态库在程序编译时并不会被连接到目标代码中，而是在程序运行是才被载入。不同的应用程序如果调用相同的库，那么在内存里只需要有一份该共享库的实例，规避了空间浪费问题。动态库在程序运行是才被载入，也解决了静态库对程序的更新、部署和发布页会带来麻烦。用户只需要更新动态库即可，增量更新。<br>动态库把对一些库函数的链接载入推迟到程序运行的时期。可以实现进程之间的资源共，因此动态库也称为共享库。甚至可以真正做到链接载入完全由程序员在程序代码中控制。<br>动态链接库的名字形式为 <code>libxxx.so</code>，前缀是lib，后缀名为“.so”。<br>针对于实际库文件，每个共享库都有个特殊的名字“soname”。在程序启动后，程序通过这个名字来告诉动态加载器该载入哪个共享库。<br>在文件系统中，soname仅是一个链接到实际动态库的链接。对于动态库而言，每个库实际上都有另一个名字给编译器来用。它是一个指向实际库镜像文件的链接文件<code>lib+soname+.so</code>。</p>
+<pre><code>#pragma once
+class DynamicMath
+{
+public:
+        DynamicMath(void);
+        ~DynamicMath(void);
+        static double add(double a, double b);
+        static double sub(double a, double b);
+        static double mul(double a, double b);
+        static double div(double a, double b);
+        void print();
+};</code></pre><p>首先，生成目标文件，此时要加编译器选项-fpic</p>
+<pre><code>g++ -fPIC -c DynamicMath.cpp</code></pre><p>-fPIC 创建与地址无关的编译程序，是为了能够在多个应用程序间共享。<br>然后，生成动态库，此时要加链接器选项-shared</p>
+<pre><code>g++ -shared -o libdynmath.so DynamicMath.o</code></pre><p>-shared指定生成动态链接库。</p>
+<p>其实上面两个步骤可以合并为一个命令：</p>
+<pre><code>g++ -fPIC -shared -o libdynmath.so DynamicMath.cpp</code></pre><pre><code>#include &quot;../DynamicLibrary/DynamicMath.h&quot;
+#include &lt;iostream&gt;
+using namespace std;
+int main(int argc, char* argv[])
+{
+    double a = 10;
+    double b = 2;
+    cout &lt;&lt; &quot;a + b = &quot; &lt;&lt; DynamicMath::add(a, b) &lt;&lt; endl;
+    cout &lt;&lt; &quot;a - b = &quot; &lt;&lt; DynamicMath::sub(a, b) &lt;&lt; endl;
+    cout &lt;&lt; &quot;a * b = &quot; &lt;&lt; DynamicMath::mul(a, b) &lt;&lt; endl;
+    cout &lt;&lt; &quot;a / b = &quot; &lt;&lt; DynamicMath::div(a, b) &lt;&lt; endl;
+    DynamicMath dyn;
+    dyn.print();
+    return 0;
+}</code></pre><p>编译成可执行文件，跟静态库方式一样：</p>
+<pre><code>g++ TestDynamicLibrary.cpp -L../DynamicLibrary -ldynmath</code></pre><p>然后运行：<code>./a.out</code>,发现竟然报错了！！！<br>发现还是报错！！！那么，在执行的时候是如何定位共享库文件的呢？<br>1)当系统加载可执行代码时候，能够知道其所依赖的库的名字，但是还需要知道绝对路径。此时就需要系统动态载入器。<br>2)对于elf格式的可执行程序，是由<code>ld-linux.so*</code>来完成的，它先后搜索elf文件的 <code>DT_RPATH</code>段、环境变量<code>LD_LIBRARY_PATH</code>、<code>/etc/ld.so.cache</code>文件列表、<code>/lib/</code>、<code>/usr/lib</code>目录找到库文件后将其载入内存。<br>如果安装在<code>/lib</code>或者<code>/usr/lib</code>下，那么ld默认能够找到，无需其他操作。<br>如果安装在其他目录，需要将其添加到<code>/etc/ld.so.cache</code>文件中，步骤如下：<br>    <em> 编辑<code>/etc/ld.so.conf</code>文件，加入库文件所在目录的路径
+    </em> 运行<code>ldconfig</code>，该命令会重建<code>/etc/ld.so.cache</code>文件<br>我们将创建的动态库复制到/usr/lib下面，然后运行测试程序。<br>另外如何从C++动态库中获取类，附上几篇相关文章，但我并不建议这么做：<br>《LoadLibrary调用DLL中的Class》：<a href="http://www.cppblog.com/codejie/archive/2009/09/24/97141.html" target="_blank" rel="noopener">http://www.cppblog.com/codejie/archive/2009/09/24/97141.html</a><br>《C++ dlopen mini HOWTO》：<a href="http://blog.csdn.net/denny_233/article/details/7255673" target="_blank" rel="noopener">http://blog.csdn.net/denny_233/article/details/7255673</a><br>“显式”使用C++动态库中的Class是非常繁琐和危险的事情，因此能用“隐式”就不要用“显式”，能静态就不要用动态。</p>
+<pre><code>-shared ：指定生成动态链接库。
+-static ：指定生成静态链接库。
+-fPIC ：表示编译为位置独立的代码，用于编译共享库。目标文件需要创建成位置无关码， 念上就是在可执行程序装载它们的时候，它们可以放在可执行程序的内存里的任何地方。
+-L. ：表示要连接的库所在的目录。
+-l：指定链接时需要的动态库。编译器查找动态连接库时有隐含的命名规则，即在给出的名字前面加上lib，后面加上.a/.so来确定库的名称。
+-Wall ：生成所有警告信息。
+-ggdb ：此选项将尽可能的生成gdb 的可以使用的调试信息。
+-g ：编译器在编译的时候产生调试信息。
+-c ：只激活预处理、编译和汇编,也就是把程序做成目标文件(.o文件) 。
+-Wl,options ：把参数(options)传递给链接器ld 。如果options 中间有逗号,就将options分成多个选项,然后传递给链接程序。</code></pre><p>有时候可能需要查看一个库中到底有哪些函数，nm命令可以打印出库中的涉及到的所有符号。库既可以是静态的也可以是动态的。nm列出的符号有很多，常见的有三种：<br>一种是在库中被调用，但并没有在库中定义(表明需要其他库支持)，用U表示；<br>一种是库中定义的函数，用T表示，这是最常见的；<br>一种是所谓的弱态”符号，它们虽然在库中被定义，但是可能被其他库中的同名符号覆盖，用W表示。</p>
+<pre><code>nm libhello.h</code></pre><p>ldd命令可以查看一个可执行程序依赖的共享库，例如我们编写的四则运算动态库依赖下面这些库：<br>二者的不同点在于代码被载入的时刻不同。<br>静态库在程序编译时会被连接到目标代码中，程序运行时将不再需要该静态库，因此体积较大。<br>动态库在程序编译时并不会被连接到目标代码中，而是在程序运行是才被载入，因此在程序运行时还需要动态库存在，因此代码体积较小。<br>动态库的好处是，不同的应用程序如果调用相同的库，那么在内存里只需要有一份该共享库的实例。</p>
 
             </div>
             <hr />
@@ -479,9 +553,9 @@
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《Linux shell变量含义》
+                    《C++ 静态库与动态库》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/07/23/four/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/10/29/fortytwo/" property="cc:attributionName"
                rel="cc:attributionURL">
                 吴杭沉
             </a> 采用
@@ -522,7 +596,7 @@
         repo: 'wuhangchen.github.io',
         owner: 'wuhangchen',
         admin: "wuhangchen",
-        id: '2024/07/23/four/',
+        id: '2024/10/29/fortytwo/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -805,46 +879,48 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2024/07/23/five/">
+                <a href="/2024/10/29/fortytwo/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Linux 命令行神器推荐">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="C++ 静态库与动态库">
                         
-                        <span class="card-title">Linux 命令行神器推荐</span>
+                        <span class="card-title">C++ 静态库与动态库</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            • ag：比grep、ack更快的递归搜索文件内容。• jq: json文件处理以及格式化显示，支持高亮，可以替换python -m json.tool。• ncdu：可视化的空间分析程序你发现有人把 /home 空间撑爆了，影响了大家的工
+                            这次分享的宗旨是——让大家学会创建与使用静态库、动态库，知道静态库与动态库的区别，知道使用的时候如何选择。这里不深入介绍静态库、动态库的底层格式，内存布局等，有兴趣的同学，推荐一本书《程序员的自我修养——链接、装载与库》。库是写好的现有的，
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-23
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-10-29
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                            <a href="/categories/C/" class="post-category" target="_blank">
+                                    C++
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux/" target="_blank">
-                        <span class="chip bg-color">Linux</span>
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>
@@ -858,31 +934,32 @@
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/07/20/three/">
+                <a href="/2024/10/13/fortyone/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/24.jpg" class="responsive-img" alt="Linux系统目录结构">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="C++对象模型：对象内存布局详解">
                         
-                        <span class="card-title">Linux系统目录结构</span>
+                        <span class="card-title">C++对象模型：对象内存布局详解</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            /bin  经常使用的指令/boot 启动linux的核心文件/dev  外部设备/etc  系统管理配置文件和子目录/home  自己的目录/lib  共享动态链接库/lost+found  非法关机后存放文件/media   识别的设备
+                            前言文章较长，而且内容相对来说比较枯燥，希望对C++对象的内存布局、虚表指针、虚基类指针等有深入了解的朋友可以慢慢看。
+何为C++对象模型?引用深度探索C++对象模型这本书中的话：有两个概念可以解释C++对象模型：1、语言中直接支持面向对象
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-20
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-10-13
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                            <a href="/categories/C/" class="post-category" target="_blank">
+                                    C++
                                 </a>
                             
                             
@@ -892,8 +969,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux/" target="_blank">
-                        <span class="chip bg-color">Linux</span>
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>
