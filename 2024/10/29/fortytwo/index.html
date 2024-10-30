@@ -266,7 +266,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -518,7 +518,7 @@ int main(int argc, char* argv[])
 -ggdb ：此选项将尽可能的生成gdb 的可以使用的调试信息。
 -g ：编译器在编译的时候产生调试信息。
 -c ：只激活预处理、编译和汇编,也就是把程序做成目标文件(.o文件) 。
--Wl,options ：把参数(options)传递给链接器ld 。如果options 中间有逗号,就将options分成多个选项,然后传递给链接程序。</code></pre><p>有时候可能需要查看一个库中到底有哪些函数，nm命令可以打印出库中的涉及到的所有符号。库既可以是静态的也可以是动态的。nm列出的符号有很多，常见的有三种：<br>一种是在库中被调用，但并没有在库中定义(表明需要其他库支持)，用U表示；<br>一种是库中定义的函数，用T表示，这是最常见的；<br>一种是所谓的弱态”符号，它们虽然在库中被定义，但是可能被其他库中的同名符号覆盖，用W表示。</p>
+-Wl,options ：把参数(options)传递给链接器ld 。如果options 中间有逗号,就将options分成多个选项,然后传递给链接程序。</code></pre><p>有时候可能需要查看一个库中到底有哪些函数，nm命令可以打印出库中的涉及到的所有符号。库既可以是静态的也可以是动态的。nm列出的符号有很多，常见的有三种：<br>一种是在库中被调用，但并没有在库中定义表明需要其他库支持，用U表示；<br>一种是库中定义的函数，用T表示，这是最常见的；<br>一种是所谓的弱态”符号，它们虽然在库中被定义，但是可能被其他库中的同名符号覆盖，用W表示。</p>
 <pre><code>nm libhello.h</code></pre><p>ldd命令可以查看一个可执行程序依赖的共享库。</p>
 <h2 id="二者的不同点在于代码被载入的时刻不同。"><a href="#二者的不同点在于代码被载入的时刻不同。" class="headerlink" title="二者的不同点在于代码被载入的时刻不同。"></a>二者的不同点在于代码被载入的时刻不同。</h2><p>静态库在程序编译时会被连接到目标代码中，程序运行时将不再需要该静态库，因此体积较大。<br>动态库在程序编译时并不会被连接到目标代码中，而是在程序运行是才被载入，因此在程序运行时还需要动态库存在，因此代码体积较小。<br>动态库的好处是，不同的应用程序如果调用相同的库，那么在内存里只需要有一份该共享库的实例。</p>
 
@@ -881,30 +881,29 @@ int main(int argc, char* argv[])
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
-            </div>
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2024/10/29/fortytwo/">
+                <a href="/2024/10/30/fortythree/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="C++ 静态库与动态库">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="C++工程实践">
                         
-                        <span class="card-title">C++ 静态库与动态库</span>
+                        <span class="card-title">C++工程实践</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            这次分享的宗旨是——让大家学会创建与使用静态库、动态库，知道静态库与动态库的区别，知道使用的时候如何选择。这里不深入介绍静态库、动态库的底层格式，内存布局等，有兴趣的同学，推荐一本书《程序员的自我修养——链接、装载与库》。库是写好的现有的，
+                            什么是值语义值语义指的是对象的拷贝与原对象无关，就像拷贝 int一样。C++ 的内置类型bool、int、double、char都是值语义，标准库里的 complex&lt;&gt; 、pair&lt;&gt;、vector&lt;&gt;
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-10-29
-                            </span>
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-10-30
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -917,7 +916,6 @@ int main(int argc, char* argv[])
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
@@ -940,7 +938,7 @@ int main(int argc, char* argv[])
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="C++对象模型：对象内存布局详解">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="C++对象模型：对象内存布局详解">
                         
                         <span class="card-title">C++对象模型：对象内存布局详解</span>
                     </div>
@@ -1146,7 +1144,7 @@ int main(int argc, char* argv[])
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">65.7k</span>
+            <span class="white-color">68.4k</span>
             
 
             <br>

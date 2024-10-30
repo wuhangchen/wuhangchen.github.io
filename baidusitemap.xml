@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>localhost/2024/10/30/fortythree/</loc>
+    <lastmod>2024-10-30</lastmod>
+  </url>  <url>
     <loc>localhost/2024/10/29/fortytwo/</loc>
-    <lastmod>2024-10-29</lastmod>
+    <lastmod>2024-10-30</lastmod>
   </url>  <url>
     <loc>localhost/2024/10/13/fortyone/</loc>
     <lastmod>2024-10-22</lastmod>
