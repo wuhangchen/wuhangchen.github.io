@@ -4,12 +4,11 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="std::ref, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="C++工程实践, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="C++本身有引用&amp;amp;，为什么C++11又引入了std::ref?主要是考虑函数式编程如std::bind在使用时，是对参数直接拷贝，而不是引用。如下例子：
-void f(int&amp;amp; n1, int&amp;amp; n2, const ">
+    <meta name="description" content="什么是值语义值语义指的是对象的拷贝与原对象无关，就像拷贝 int一样。C++ 的内置类型bool、int、double、char都是值语义，标准库里的 complex&amp;lt;&amp;gt; 、pair&amp;lt;&amp;gt;、vector&amp;lt;&amp;gt;">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +16,7 @@ void f(int&amp;amp; n1, int&amp;amp; n2, const ">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>std::ref | 吴杭沉的博客</title>
+    <title>C++工程实践 | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -267,13 +266,13 @@ void f(int&amp;amp; n1, int&amp;amp; n2, const ">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        std::ref
+                        C++工程实践
                     </div>
                 </div>
             </div>
@@ -408,7 +407,7 @@ void f(int&amp;amp; n1, int&amp;amp; n2, const ">
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-09-03
+                    2024-10-30
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -422,14 +421,14 @@ void f(int&amp;amp; n1, int&amp;amp; n2, const ">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    322
+                    2.6k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    10 分
                 </div>
                 
                 
@@ -445,29 +444,151 @@ void f(int&amp;amp; n1, int&amp;amp; n2, const ">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>C++本身有引用&amp;，为什么C++11又引入了<code>std::ref</code>?<br>主要是考虑函数式编程如<code>std::bind</code>在使用时，是对参数直接拷贝，而不是引用。如下例子：</p>
-<pre><code>void f(int&amp; n1, int&amp; n2, const int&amp; n3)
+                <h2 id="什么是值语义"><a href="#什么是值语义" class="headerlink" title="什么是值语义"></a>什么是值语义</h2><p>值语义指的是对象的拷贝与原对象无关，就像拷贝 <code>int</code>一样。C++ 的内置类型<code>bool、int、double、char</code>都是值语义，标准库里的 <code>complex&lt;&gt; 、pair&lt;&gt;、vector&lt;&gt;、map&lt;&gt;、string</code>等等类型也都是值语意，拷贝之后就与原对象脱离关系。Java 语言的 <code>primitive types</code>也是值语义。<br>与值语义对应的是对象语义，或者叫做引用语义，由于引用一词在 C++里有特殊含义，所以我在本文中使用对象语义这个术语。对象语义指的是面向对象意义下的对象，对象拷贝是禁止的。例如 <code>muduo</code>里的 <code>Thread</code>是对象语义，拷贝 <code>Thread</code>是无意义的，也是被禁止的：因为 <code>Thread</code>代表线程，拷贝一个 <code>Thread</code>对象并不能让系统增加一个一模一样的线程。<br>同样的道理，拷贝一个 <code>Employee</code>对象是没有意义的，一个雇员不会变成两个雇员，他也不会领两份薪水。拷贝 <code>TcpConnection</code>对象也没有意义，系统里边只有一个 <code>TCP</code>连接，拷贝 <code>TcpConnection</code>对象不会让我们拥有两个连接。<code>Printer</code>也是不能拷贝的，系统只连接了一个打印机，拷贝 <code>Printer</code>并不能凭空增加打印机。凡此总总，面向对象意义下的“对象”是 ``````。<br>Java 里边的 class对象都是对象语义/引用语义。<code>ArrayList&lt;Integer&gt; a = new ArrayList&lt;Integer&gt;(); ArrayList&lt;Integer&gt; b = a;</code>那么 a 和 b 指向的是同一个<code>ArrayList</code>对象，修改 a 同时也会影响 b。<br>值语义与 <code>immutable</code>无关。Java 有 value object 一说，按PoEAA 486的定义，它实际上是 <code>immutable object</code>，例如 <code>String、Integer、BigInteger、joda.time.DateTime</code>等等, 因为 Java 没有办法实现真正的值语义 class，只好用 immutable object 来模拟。尽管 immutable object 有其自身的用处，但不是本文的主题。<code>muduo</code>中的 <code>Date、Timestamp</code>也都是 immutable 的。<br>C++中的值语义对象也可以是 mutable，比如 <code>complex&lt;&gt;、pair&lt;&gt;、vector&lt;&gt;、map&lt;&gt;、string</code>都是可以修改的。<code>muduo</code>的 <code>InetAddress</code>和 <code>Buffer</code>都具有值语义，它们都是可以修改的。<br>值语义的对象不一定是 POD，例如 <code>string</code>就不是 POD，但它是值语义的。<br>值语义的对象不一定小，例如 <code>vector&lt;int&gt;</code> 的元素可多可少，但它始终是值语义的。当然，很多值语义的对象都是小的，例如<code>complex&lt;&gt;、muduo::Date、muduo::Timestamp</code>。</p>
+<h2 id="值语义与生命期"><a href="#值语义与生命期" class="headerlink" title="值语义与生命期"></a>值语义与生命期</h2><p>值语义的一个巨大好处是生命期管理很简单，就跟 <code>int</code>一样——你不需要操心 <code>int</code>的生命期。值语义的对象要么是 stack object，或者直接作为其他 object 的成员，因此我们不用担心它的生命期一个函数使用自己stack上的对象，一个成员函数使用自己的数据成员对象。相反，对象语义的 object 由于不能拷贝，我们只能通过指针或引用来使用它。<br>一旦使用指针和引用来操作对象，那么就要担心所指的对象是否已被释放，这一度是 C++ 程序 bug 的一大来源。此外，由于 C++ 只能通过指针或引用来获得多态性，那么在C++里从事基于继承和多态的面向对象编程有其本质的困难——资源管理。<br>考虑一个简单的对象建模——家长与子女：a Parent has a Child, a Child knows his/her Parent。在 Java 里边很好写，不用担心内存泄漏，也不用担心空悬指针：</p>
+<pre><code>public class Parent
 {
-    std::cout &lt;&lt; &quot;In function: &quot; &lt;&lt; n1 &lt;&lt; &#39; &#39; &lt;&lt; n2 &lt;&lt; &#39; &#39; &lt;&lt; n3 &lt;&lt; &#39;\n&#39;;
-    ++n1; // increments the copy of n1 stored in the function object
-    ++n2; // increments the main()&#39;s n2
-    // ++n3; // compile error
+    private Child myChild;
 }
+public class Child
+{
+    private Parent myParent;
+}</code></pre><p>只要正确初始化 myChild 和 myParent，那么 Java 程序员就不用担心出现访问错误。一个 handle 是否有效，只需要判断其是否 non null。<br>在 C++ 里边就要为资源管理费一番脑筋：Parent 和 Child 都代表的是真人，肯定是不能拷贝的，因此具有对象语义。Parent 是直接持有 Child 吗？抑或 Parent 和 Child 通过指针互指？Child 的生命期由 Parent 控制吗？如果还有 ParentClub 和 School 两个 class，分别代表家长俱乐部和学校：ParentClub has many Parents，School has many Child，那么如何保证它们始终持有有效的 Parent 对象和 Child 对象？何时才能安全地释放 Parent 和 Child ？<br>直接但是易错的写法：</p>
+<pre><code>class Child;
+class Parent : boost::noncopyable
+{
+private:
+    Child* myChild;
+};
+
+class Child : boost::noncopyable
+{
+private:
+    Parent* myParent;
+};</code></pre><p>如果直接使用指针作为成员，那么如何确保指针的有效性？如何防止出现空悬指针？Child 和 Parent 由谁负责释放？在释放某个 Parent 对象的时候，如何确保程序中没有指向它的指针？在释放某个 Child 对象的时候，如何确保程序中没有指向它的指针？<br>这一系列问题一度是C++面向对象编程头疼的问题，不过现在有了 smart pointer，我们可以借助 smart pointer 把对象语义转换为值语义，从而轻松解决对象生命期：让 Parent 持有 Child 的 smart pointer，同时让 Child 持有 Parent 的 smart pointer，这样始终引用对方的时候就不用担心出现空悬指针。当然，其中一个 smart pointer 应该是 weak reference，否则会出现循环引用，导致内存泄漏。到底哪一个是 weak reference，则取决于具体应用场景。<br>如果 Parent 拥有 Child，Child 的生命期由其 Parent 控制，Child 的生命期小于 Parent，那么代码就比较简单：</p>
+<pre><code>class Parent;
+class Child : boost::noncopyable
+{
+public:
+    explicit Child(Parent* myParent_)
+    : myParent(myParent_)
+    {
+    }
+private:
+    Parent* myParent;
+};
+class Parent : boost::noncopyable
+{
+public:
+    Parent()
+    : myChild(new Child(this))
+    {
+    }
+private:
+    boost::scoped_ptr&lt;Child&gt; myChild;
+};
+</code></pre><p>在上面这个设计中，Child 的指针不能泄露给外界，否则仍然有可能出现空悬指针。<br>如果 Parent 与 Child 的生命期相互独立，就要麻烦一些：</p>
+<pre><code>class Parent;
+typedef boost::shared_ptr&lt;Parent&gt; ParentPtr;
+class Child : boost::noncopyable
+{
+public:
+    explicit Child(const ParentPtr&amp; myParent_)
+    : myParent(myParent_)
+    {
+    }
+
+private:
+    boost::weak_ptr&lt;Parent&gt; myParent;
+};
+typedef boost::shared_ptr&lt;Child&gt; ChildPtr;
+class Parent : public boost::enable_shared_from_this&lt;Parent&gt;,
+               private boost::noncopyable
+{
+public:
+    Parent()
+    {
+    }
+    void addChild()
+    {
+        myChild.reset(new Child(shared_from_this()));
+    }
+private:
+    ChildPtr myChild;
+};
+int main()
+{
+    ParentPtr p(new Parent);
+    p-&gt;addChild();
+}
+</code></pre><p>上面这个 shared_ptr+weak_ptr 的做法似乎有点小题大做。<br>考虑一个稍微复杂一点的对象模型：a Child has parents: mom and dad; a Parent has one or more Child(ren); a Parent knows his/her spouser. 这个对象模型用 Java 表述一点都不复杂，垃圾收集会帮我们搞定对象生命期。</p>
+<pre><code>public class Parent
+{
+    private Parent mySpouser;
+    private ArrayList&lt;Child&gt; myChildren;
+}
+
+public class Child
+{
+    private Parent myMom;
+    private Parent myDad;
+}</code></pre><p>如果用 C++ 来实现，如何才能避免出现空悬指针，同时避免出现内存泄漏呢？借助 shared_ptr 把裸指针转换为值语义，我们就不用担心这两个问题了：</p>
+<pre><code>class Parent;
+typedef boost::shared_ptr&lt;Parent&gt; ParentPtr;
+class Child : boost::noncopyable
+{
+public:
+    explicit Child(const ParentPtr&amp; myMom_,
+                 const ParentPtr&amp; myDad_)
+    : myMom(myMom_),
+      myDad(myDad_)
+    {
+    }
+
+private:
+    boost::weak_ptr&lt;Parent&gt; myMom;
+    boost::weak_ptr&lt;Parent&gt; myDad;
+};
+typedef boost::shared_ptr&lt;Child&gt; ChildPtr;
+class Parent : boost::noncopyable
+{
+public:
+    Parent()
+    {
+    }
+    void setSpouser(const ParentPtr&amp; spouser)
+    {
+        mySpouser = spouser;
+    }
+    void addChild(const ChildPtr&amp; child)
+    {
+        myChildren.push_back(child);
+    }
+
+private:
+    boost::weak_ptr&lt;Parent&gt; mySpouser;
+    std::vector&lt;ChildPtr&gt; myChildren;
+};
 
 int main()
 {
-    int n1 = 1, n2 = 2, n3 = 3;
-    std::function&lt;void()&gt; bound_f = std::bind(f, n1, std::ref(n2), std::cref(n3));
-    n1 = 10;
-    n2 = 11;
-    n3 = 12;
-    std::cout &lt;&lt; &quot;Before function: &quot; &lt;&lt; n1 &lt;&lt; &#39; &#39; &lt;&lt; n2 &lt;&lt; &#39; &#39; &lt;&lt; n3 &lt;&lt; &#39;\n&#39;;
-    bound_f();
-    std::cout &lt;&lt; &quot;After function: &quot; &lt;&lt; n1 &lt;&lt; &#39; &#39; &lt;&lt; n2 &lt;&lt; &#39; &#39; &lt;&lt; n3 &lt;&lt; &#39;\n&#39;;
-}</code></pre><p>Output:</p>
-<pre><code>Before function: 10 11 12
-In function: 1 11 12
-After function: 10 12 12</code></pre><p>上述代码在执行<code>std::bind</code>后，在函数<code>f()</code>中n1的值仍然是1，n2和n3改成了修改的值。说明<code>std::bind</code>使用的是参数的拷贝而不是引用。具体为什么<code>std::bind</code>不使用引用，可能确实有一些需求，使得C++11的设计者认为默认应该采用拷贝，如果使用者有需求，加上<code>std::ref</code>即可。</p>
+    ParentPtr mom(new Parent);
+    ParentPtr dad(new Parent);
+    mom-&gt;setSpouser(dad);
+    dad-&gt;setSpouser(mom);
+    {
+        ChildPtr child(new Child(mom, dad));
+        mom-&gt;addChild(child);
+        dad-&gt;addChild(child);
+    }
+    {
+        ChildPtr child(new Child(mom, dad));
+        mom-&gt;addChild(child);
+        dad-&gt;addChild(child);
+    }
+}</code></pre><p>如果不使用 smart pointer，用 C++ 做面向对象编程将会困难重重。</p>
+<h2 id="值语义与标准库"><a href="#值语义与标准库" class="headerlink" title="值语义与标准库"></a>值语义与标准库</h2><p>C++ 要求凡是能放入标准容器的类型必须具有值语义。准确地说：type 必须是 SGI Assignable concept 的 model。但是，由于C++ 编译器会为 class 默认提供 copy constructor 和 assignment operator，因此除非明确禁止，否则 class 总是可以作为标准库的元素类型——尽管程序可以编译通过，但是隐藏了资源管理方面的 bug。<br>因此，在写一个 class 的时候，先让它继承 <code>boost::noncopyable</code>，几乎总是正确的。<br>在现代 C++ 中，一般不需要自己编写 copy constructor 或 assignment operator，因为只要每个数据成员都具有值语义的话，编译器自动生成的 member-wise copying&amp;assigning 就能正常工作；如果以 smart ptr 为成员来持有其他对象，那么就能自动启用或禁用 copying&amp;assigning。例外：编写 HashMap 这类底层库时还是需要自己实现 copy control。</p>
+<h2 id="值语义与C-语言"><a href="#值语义与C-语言" class="headerlink" title="值语义与C++语言"></a>值语义与C++语言</h2><p>C++ 的 class 本质上是值语义的，这才会出现 object slicing 这种语言独有的问题，也才会需要程序员注意 pass-by-value 和 pass-by-const-reference 的取舍。在其他面向对象编程语言中，这都不需要费脑筋。<br>值语义是C++语言的三大约束之一，C++ 的设计初衷是让用户定义的类型能像内置类型一样工作，具有同等的地位。为此C++做了以下设计：<br>    • class 的 layout 与 C struct 一样，没有额外的开销。定义一个“只包含一个 int 成员的 class”的对象开销和定义一个 int 一样。<br>    • 甚至 class data member 都默认是 uninitialized，因为函数局部的 int 是 uninitialized。<br>    • class 可以在 stack 上创建，也可以在 heap 上创建。因为 int 可以是 stack variable。<br>    • class 的数组就是一个个 class 对象挨着，没有额外的 indirection。因为 int 数组就是这样。<br>    • 编译器会为 class 默认生成 copy constructor 和 assignment operator。其他语言没有 copy constructor 一说，也不允许重载 assignment operator。C++ 的对象默认是可以拷贝的，这是一个尴尬的特性。<br>    • 当 class type 传入函数时，默认是 make a copy。因为把 int 传入函数时是 make a copy。<br>    • 当函数返回一个 class type 时，只能通过 make a copy, C++ 不得不定义 RVO 来解决性能问题。因为函数返回 int 时是 make a copy。<br>    • 以 class type 为成员时，数据成员是嵌入的。例如 <code>pair&lt;complex&lt;double&gt;, size_t&gt; 的</code>layout 就是 <code>complex&lt;double&gt;</code>挨着 <code>size_t</code>。<br>这些设计带来了性能上的好处，原因是 memory locality。比方说我们在 C++ 里定义 <code>complex&lt;double&gt; class，array of complex&lt;double&gt;， vector&lt;complex&lt;double&gt; &gt;</code>它们的 layout 分别是：re 和 im 分别是复数的实部和虚部。<br>而如果我们在 Java 里干同样的事情，layout 大不一样，memory locality 也差很多：<br>Java 里边每个 object 都有 header，至少有两个 word 的开销。对比 Java 和 C++，可见 C++ 的对象模型要紧凑得多。</p>
 
             </div>
             <hr />
@@ -502,9 +623,9 @@ After function: 10 12 12</code></pre><p>上述代码在执行<code>std::bind</co
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《std::ref》
+                    《C++工程实践》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/09/03/thirty/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/10/30/fortythree/" property="cc:attributionName"
                rel="cc:attributionURL">
                 吴杭沉
             </a> 采用
@@ -545,7 +666,7 @@ After function: 10 12 12</code></pre><p>上述代码在执行<code>std::bind</co
         repo: 'wuhangchen.github.io',
         owner: 'wuhangchen',
         admin: "wuhangchen",
-        id: '2024/09/03/thirty/',
+        id: '2024/10/30/fortythree/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -828,30 +949,30 @@ After function: 10 12 12</code></pre><p>上述代码在执行<code>std::bind</co
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2024/09/03/thirtyone/">
+                <a href="/2024/10/30/fortythree/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="C++命令行参数">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="C++工程实践">
                         
-                        <span class="card-title">C++命令行参数</span>
+                        <span class="card-title">C++工程实践</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            前言我们在Linux用到的命令常常支持很多参数，那么如何写一个程序，也像Linux命令一样支持很多参数呢？有什么什么优雅的处理方法？
-命令行参数在介绍如何处理命令行参数之前，简单介绍一下命令行参数，已经了解的朋友可以跳过此小节。我们用一段代
+                            什么是值语义值语义指的是对象的拷贝与原对象无关，就像拷贝 int一样。C++ 的内置类型bool、int、double、char都是值语义，标准库里的 complex&lt;&gt; 、pair&lt;&gt;、vector&lt;&gt;
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-09-03
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-10-30
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -864,6 +985,7 @@ After function: 10 12 12</code></pre><p>上述代码在执行<code>std::bind</co
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -882,25 +1004,24 @@ After function: 10 12 12</code></pre><p>上述代码在执行<code>std::bind</co
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/09/03/twentynine/">
+                <a href="/2024/10/29/fortytwo/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="friend">
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="C++ 静态库与动态库">
                         
-                        <span class="card-title">friend</span>
+                        <span class="card-title">C++ 静态库与动态库</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            原则上, 类的私有（private）和受保护（protected）成员不能从声明它们的同一类外部访问。但是, 此规则不适用于友元 “friends”。以friend关键字修饰的函数或类称为友元函数或友元类。
-友元函数友元函数是可以直接访问类
+                            这次分享的宗旨是——让大家学会创建与使用静态库、动态库，知道静态库与动态库的区别，知道使用的时候如何选择。这里不深入介绍静态库、动态库的底层格式，内存布局等，有兴趣的同学，推荐一本书《程序员的自我修养——链接、装载与库》。库是写好的现有的，
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-09-03
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-10-29
                             </span>
                         <span class="publish-author">
                             
