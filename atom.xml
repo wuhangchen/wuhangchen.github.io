@@ -127,7 +127,7 @@
     <link href="localhost/2024/10/08/thirtynine/"/>
     <id>localhost/2024/10/08/thirtynine/</id>
     <published>2024-10-08T13:51:15.000Z</published>
-    <updated>2024-10-08T13:55:01.966Z</updated>
+    <updated>2024-11-03T04:02:23.657Z</updated>
     
     <summary type="html">
     
@@ -135,7 +135,7 @@
       
         
         
-          &lt;p&gt;最近发版本，灰度发布的时候，发现进程没来，回包自然是异常的。立即进行版本回退，发现OK.&lt;br&gt;哪里出问题了呢？ 直接&lt;code&gt;ldd -r
+          &lt;p&gt;最近发版本，灰度发布的时候，发现进程没起来，回包自然是异常的。立即进行版本回退，发现OK.&lt;br&gt;哪里出问题了呢？ 直接&lt;code&gt;ldd -r
         
       
     

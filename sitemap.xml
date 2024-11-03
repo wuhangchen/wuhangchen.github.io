@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>localhost/2024/10/08/thirtynine/</loc>
+    
+    <lastmod>2024-11-03T04:02:23.657Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>localhost/2024/10/30/fortythree/</loc>
     
     <lastmod>2024-10-30T13:18:37.777Z</lastmod>
@@ -26,13 +33,6 @@
     <loc>localhost/2024/10/13/forty/</loc>
     
     <lastmod>2024-10-13T09:39:25.109Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>localhost/2024/10/08/thirtynine/</loc>
-    
-    <lastmod>2024-10-08T13:55:01.966Z</lastmod>
     
   </url>
   
