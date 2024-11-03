@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2024-10-30T13:18:37.777Z</updated>
+  <updated>2024-11-03T06:42:39.037Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>右值引用</title>
+    <link href="localhost/2024/11/03/fortyfour/"/>
+    <id>localhost/2024/11/03/fortyfour/</id>
+    <published>2024-11-03T05:36:56.000Z</published>
+    <updated>2024-11-03T06:42:39.037Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
   
   <entry>
     <title>C++工程实践</title>
@@ -509,33 +535,6 @@ else
         
         
           &lt;h1 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="C++" scheme="localhost/categories/C/"/>
-    
-    
-      <category term="C++" scheme="localhost/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>sizeof、strlen、数组、字符串</title>
-    <link href="localhost/2024/08/27/twentyfive/"/>
-    <id>localhost/2024/08/27/twentyfive/</id>
-    <published>2024-08-27T14:15:57.000Z</published>
-    <updated>2024-09-02T13:25:32.433Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;对于初学者来说，sizeof，strlen，数组，字符串整在一起是痛苦的，它总能在某些莫名其妙的时候整一个措手不及,本文看看它们在一起能挖什么坑。&lt;/p&gt;
-&lt;h1 id=&quot;例子&quot;&gt;&lt;a href=&quot;#例子&quot; class=&quot;headerlink&quot;
         
       
     
