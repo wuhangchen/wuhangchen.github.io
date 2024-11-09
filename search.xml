@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>C++面试</title>
+      <link href="/2024/11/09/fortyfive/"/>
+      <url>/2024/11/09/fortyfive/</url>
+      
+        <content type="html"><![CDATA[<p>1.<code>char c = &#39;\72&#39;;</code>中的<code>\72</code>代表一个字符，72是八进制数，代表ASCII码字符“:”。<br>2.<code>10*a++</code>中a先进行乘法运算再自增。<br>3.const和static的作用<br>太常见的问题了，下面给出一个较详细的参考答案：<br>static关键字：<br>1）函数体内static变量的作用范围为函数体。不同于auto变量。该变量的内存只被分配一次。因此其值在下次调用时仍维持上次的值。<br>2）在模块内的static全局变量可以被模块内的所有函数访问。但不能被模块外的其他函数访问。<br>3）在模块内的static函数只可被这一模块内的其它函数调用。这个函数的使用范围被限制在声明它的模块内。<br>4）在类中的static成员变量属于整个类所有，对类的所有对象只有一份复制。<br>5）在类中的static成员函数属于整个类所有，这个函数不接受this指针，因而只能访问类的static成员变量。<br>const关键字：<br>1）欲阻止一个变量被改变，可以使用const关键字。在定义该const变量时，通常需要对它进行初始化。因为以后就没有机会再改变它了。<br>2）对指针来说，可以指定指针的本身为const，也可以指定指针所指向的数为const。或二者同时为const。<br>3）在一个函数的声明中，const可以修饰形参，表明它是一个输入参数。在函数内不能改变其值。<br>4）对于类的成员函数，若指定其为const类型。则表明其是一个常量函数。不能修改类的成员变量。<br>5）对于类的成员函数，有时候必须指定其返回值为const类型。以使得其返回值不为“左值”。<br>4.注意sizeof不是函数而是运算符，所以在计算变量所占用空间大小时，括号是可以省略的，但在计算类型大小时括号则不能省略，比如int i = 0; 则sizeof int是错误的。<br>5.有1,2,…,n的无序数组，求排序算法，并且要求时间复杂度为O(n)，空间复杂度O(1)，使用交换，而且一次只能交换两个数。<br>6.易误解：如果int a[5], 那么a与&amp;a是等价的，因为两者地址相同。<br> 解答：一定要注意a与&amp;a是不一样的，虽然两者地址相同，但意义不一样，&amp;a是整个数组对象的首地址，而a是数组首地址，也就是a[0]的地址，a的类型是int[5]，a[0]的类型 是int，因此&amp;a+1相当于a的地址值加上sizeof(int) * 5，也就是a[5]，下一个对象的地址，已经越界了，而a+1相当于a的地址加上sizeof(int)，即a[1]的地址。<br>7.如何将一个小数分解成整数部分和小数部分？<br>要记得利用头文件中的库函数modf,下面是函数原型:</p><pre><code>double modf(double num, double *i); // 将num分解为整数部分*i和小数部分（返回值决定）</code></pre><p>8.可作为函数重载判断依据的有：参数个数、参数类型、const修饰符；<br>  不可以作为重载判断依据的有：返回类型。<br>9.程序输出题：</p><pre><code>int a[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};int *p = &amp;(a + 1)[3];printf(&quot;%d\n&quot;, *p);</code></pre><p>输出：5<br>说明：因为a+1指向a的第二个元素，[3]表示再向后移动3个元素。</p><ol start="10"><li>程序输出题：<pre><code>char str1[] =  &quot;abc&quot;;char str2[] = &quot;abc&quot;;const char str3[] = &quot;abc&quot;;const char str4[] = &quot;abc&quot;;const char *str5 = &quot;abc&quot;;const char *str6 = &quot;abc&quot;;char *str7 = &quot;abc&quot;;char * str8 = &quot;abc&quot;;std::cout &lt;&lt; (str1 == str2) &lt;&lt; std::endl;std::cout &lt;&lt; (str3 == str4) &lt;&lt; std::endl;std::cout &lt;&lt; (str5 == str6) &lt;&lt; std::endl;std::cout &lt;&lt; (str7 == str8) &lt;&lt; std::endl;</code></pre>输出：0 0 1 1<br>可以发现str1<del>str4中的内容是存在栈上，地址各不相同，而str5</del>str8的内容都是存储在常量区，所以地址都相同。</li><li>C的结构体和C++结构体的区别<br>1）C的结构体内不允许有函数存在，C++允许有内部成员函数，且允许该函数是虚函数。所以C的结构体是没有构造函数、析构函数、和this指针的。<br>2）C的结构体对内部成员变量的访问权限只能是public，而C++允许public,protected,private三种。<br>3）C语言的结构体是不可以继承的，C++的结构体是可以从其他的结构体或者类继承过来的。<br>以上都是表面的区别，实际区别就是面向过程和面向对象编程思路的区别：<br>C的结构体只是把数据变量给包裹起来了，并不涉及算法。<br>而C++是把数据变量及对这些数据变量的相关算法给封装起来，并且给对这些数据和类不同的访问权限。<br>C语言中是没有类的概念的，但是C语言可以通过结构体内创建函数指针实现面向对象思想。</li><li>如何在类中定义常量成员并为其初始化？<br>解答：只能在初始化列表里对const成员初始化，像下面这样：<pre><code>class Cbook {public:     const double m_prices;     Cbook():m_prices(8.8) {}};</code></pre>下面的做法是错误的：<pre><code>class Cbook {public:const double m_prices;Cbook() {   m_prices = 8.8;}};</code></pre></li><li>在定义类的成员函数时使用mutable关键字的作用是什么？<br>解答：当需要在const方法中修改对象的数据成员时，可以在数据成员前使用mutable关键字，防止出现编译出错。例子如下：</li><li>构造函数、拷贝构造函数、析构函数的调用点和顺序问题，如下面这个例子输出是什么？<br>解答：注意拷贝构造函数在对象作为函数参数传递时被调用，注意是对象实例而不是对象引用。<br>引申：拷贝构造函数在哪些情况下被调用？<br>1）函数的参数为类对象且参数采用值传递方式；<br>2）将类对象做为函数的返回值。</li><li>C++中的explicit关键字有何作用？<br>解答：禁止将构造函数作为转换函数，即禁止构造函数自动进行隐式类型转换。<br>例如CBook中只有一个参数m_price，在构建对象时可以使用CBook c = 9.8这样的隐式转换，使用explicit防止这种转换发生。</li><li>在C++中，如果确定了某一个构造函数的创建过程，在该构造函数中如果调用了其它重载的构造函数，它将不会执行其它构造函数的初始化列表部分代码，而是执行函数体代码，此时已经退化成普通函数了。例子说明如下：</li><li>静态数据成员只能在全局区域进行初始化，而不能在类体中进行（构造函数中初始化也不行），且静态数据成员不涉及对象，因此不受类访问限定符的限制。</li><li>C++中可以重载的运算符：new/delete、new[]/delete[]、++等。<br>不可以重载的运算符：、.、::、?:、sizeof、typeid、.、**、不能改变运算符的优先级。<br>引申：重载++和–时是怎么区分前缀++和后缀++的？<br>例如当编译器看到++a（先自增）时，它就调用operator++(a);<br>但当编译器看到a++时，它就调用operator++(a, int)。即编译器通过调用不同的函数区别这两种形式。</li><li>C++的多态性分为静态多态和动态多态。<br>静态多态性：编译期间确定具体执行哪一项操作，主要是通过函数重载和运算符重载来实现的；<br>动态多态性：运行时确定具体执行哪一项操作，主要是通过虚函数来实现的。</li><li>虚函数原理考点，例如下面程序的输出是什么？<pre><code>class A{public:   virtual void funa();   virtual void funb();   void func();   static void fund();   static int si;private:   int i;   char c;};</code></pre>问：sizeof(A) = ?<br>解答：<br>关于类占用的内存空间，有以下几点需要注意：<br>1）如果类中含有虚函数，则编译器需要为类构建虚函数表，类中需要存储一个指针指向这个虚函数表的首地址，注意不管有几个虚函数，都只建立一张表，所有的虚函数地址都存在这张表里，类中只需要一个指针指向虚函数表首地址即可。<br>2）类中的静态成员是被类所有实例所共享的，它不计入sizeof计算的空间<br>3）类中的普通函数或静态普通函数都存储在栈中，不计入sizeof计算的空间<br>4）类成员采用字节对齐的方式分配空间<br>答案：16（8+4+4 64位系统）</li><li>虚继承的作用是什么？<br>在多继承中，子类可能同时拥有多个父类，如果这些父类还有相同的父类（祖先类），那么在子类中就会有多份祖先类。例如，类B和类C都继承与类A，如果类D派生于B和C，那么类D中就会有两份A。为了防止在多继承中子类存在重复的父类情况，可以在父类继承时使用虚函数，即在类B和类C继承类A时使用virtual关键字，例如：<br>class B : virtual public A<br>class C : virtual public A<br>注：因为多继承会带来很多复杂问题，因此要慎用。</li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> C++ </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C++ </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>右值引用</title>
       <link href="/2024/11/03/fortyfour/"/>
       <url>/2024/11/03/fortyfour/</url>
