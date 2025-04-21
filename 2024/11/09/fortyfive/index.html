@@ -444,7 +444,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>1.<code>char char = &#39;\72&#39;;</code>中的<code>\72</code>代表一个字符，72是八进制数，代表ASCII码字符“:”。<br>2.<code>10*a++</code>中a先进行乘法运算再自增。<br>3.<code>const</code>和<code>static</code>的作用<br>太常见的问题了，下面给出一个较详细的参考答案：<br><code>static</code>关键字：<br>1）函数体内<code>static</code>变量的作用范围为函数体。不同于auto变量。该变量的内存只被分配一次。因此其值在下次调用时仍维持上次的值。<br>2）在模块内的<code>static</code>全局变量可以被模块内的所有函数访问。但不能被模块外的其他函数访问。<br>3）在模块内的<code>static</code>函数只可被这一模块内的其它函数调用。这个函数的使用范围被限制在声明它的模块内。<br>4）在类中的<code>static</code>成员变量属于整个类所有，对类的所有对象只有一份复制。<br>5）在类中的<code>static</code>成员函数属于整个类所有，这个函数不接受<code>this</code>指针，因而只能访问类的<code>static</code>成员变量。<br><code>const</code>关键字：<br>1）欲阻止一个变量被改变，可以使用<code>const</code>关键字。在定义该<code>const</code>变量时，通常需要对它进行初始化。因为以后就没有机会再改变它了。<br>2）对指针来说，可以指定指针的本身为<code>const</code>，也可以指定指针所指向的数为<code>const</code>。或二者同时为<code>const</code>。<br>3）在一个函数的声明中，<code>const</code>可以修饰形参，表明它是一个输入参数。在函数内不能改变其值。<br>4）对于类的成员函数，若指定其为<code>const</code>类型。则表明其是一个常量函数。不能修改类的成员变量。<br>5）对于类的成员函数，有时候必须指定其返回值为<code>const</code>类型。以使得其返回值不为“左值”。<br>4.注意<code>sizeof</code>不是函数而是运算符，所以在计算变量所占用空间大小时，括号是可以省略的，但在计算类型大小时括号则不能省略，比如<code>int i = 0;</code> 则<code>sizeof int</code>是错误的。<br>5.有1,2,…,n的无序数组，求排序算法，并且要求时间复杂度为<code>O(n)</code>，空间复杂度<code>O(1)</code>，使用交换，而且一次只能交换两个数。<br>6.易误解：如果<code>int a[5]</code>, 那么a与&amp;a是等价的，因为两者地址相同。<br> 解答：一定要注意<code>a</code>与<code>&amp;a</code>是不一样的，虽然两者地址相同，但意义不一样，<code>&amp;a</code>是整个数组对象的首地址，而a是数组首地址，也就是<code>a[0]</code>的地址，a的类型是<code>int[5]</code>，<code>a[0]</code>的类型 是int，因此<code>&amp;a+1</code>相当于a的地址值加上<code>sizeof(int) * 5</code>，也就是<code>a[5]</code>，下一个对象的地址，已经越界了，而<code>a+1</code>相当于a的地址加上<code>sizeof(int)</code>，即<code>a[1]</code>的地址。<br>7.如何将一个小数分解成整数部分和小数部分？<br>要记得利用头文件中的库函数modf,下面是函数原型:</p>
+                <p>1.<code>char char = &#39;\72&#39;;</code>中的<code>\72</code>代表一个字符，72是八进制数，代表ASCII码字符“:”。<br>2.<code>10*a++</code>中a先进行乘法运算再自增。<br>3.<code>const</code>和<code>static</code>的作用<br>太常见的问题了，下面给出一个较详细的参考答案：<br><code>static</code>关键字：<br>1）函数体内<code>static</code>变量的作用范围为函数体。不同于auto变量，该变量的内存只被分配一次。因此其值在下次调用时仍维持上次的值。<br>2）在模块内的<code>static</code>全局变量可以被模块内的所有函数访问，但不能被模块外的其他函数访问。<br>3）在模块内的<code>static</code>函数只可被这一模块内的其它函数调用，这个函数的使用范围被限制在声明它的模块内。<br>4）在类中的<code>static</code>成员变量属于整个类所有，对类的所有对象只有一份复制。<br>5）在类中的<code>static</code>成员函数属于整个类所有，这个函数不接受<code>this</code>指针，因而只能访问类的<code>static</code>成员变量。<br><code>const</code>关键字：<br>1）欲阻止一个变量被改变，可以使用<code>const</code>关键字。在定义该<code>const</code>变量时，通常需要对它进行初始化。因为以后就没有机会再改变它了。<br>2）对指针来说，可以指定指针的本身为<code>const</code>，也可以指定指针所指向的数为<code>const</code>。或二者同时为<code>const</code>。<br>3）在一个函数的声明中，<code>const</code>可以修饰形参，表明它是一个输入参数，在函数内不能改变其值。<br>4）对于类的成员函数，若指定其为<code>const</code>类型，则表明其是一个常量函数，不能修改类的成员变量。<br>5）对于类的成员函数，有时候必须指定其返回值为<code>const</code>类型。以使得其返回值不为“左值”。<br>4.注意<code>sizeof</code>不是函数而是运算符，所以在计算变量所占用空间大小时，括号是可以省略的，但在计算类型大小时括号则不能省略，比如<code>int i = 0;</code> 则<code>sizeof int</code>是错误的。<br>5.有1,2,…,n的无序数组，求排序算法，并且要求时间复杂度为<code>O(n)</code>，空间复杂度<code>O(1)</code>，使用交换，而且一次只能交换两个数。<br>6.易误解：如果<code>int a[5]</code>, 那么a与&amp;a是等价的，因为两者地址相同。<br>解答：一定要注意<code>a</code>与<code>&amp;a</code>是不一样的，虽然两者地址相同，但意义不一样，<code>&amp;a</code>是整个数组对象的首地址，而a是数组首地址，也就是<code>a[0]</code>的地址，a的类型是<code>int[5]</code>，<code>a[0]</code>的类型 是int，因此<code>&amp;a+1</code>相当于a的地址值加上<code>sizeof(int) * 5</code>，也就是<code>a[5]</code>，下一个对象的地址，已经越界了，而<code>a+1</code>相当于a的地址加上<code>sizeof(int)</code>，即<code>a[1]</code>的地址。<br>7.如何将一个小数分解成整数部分和小数部分？<br>要记得利用头文件中的库函数modf,下面是函数原型:</p>
 <pre class="line-numbers language-c++"><code class="language-c++">double modf(double num, double *i); // 将num分解为整数部分*i和小数部分（返回值决定）<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>8.可作为函数重载判断依据的有：参数个数、参数类型、const修饰符；<br>  不可以作为重载判断依据的有：返回类型。<br>9.程序输出题：</p>
 <pre class="line-numbers language-c++"><code class="language-c++">int a[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
@@ -468,8 +468,8 @@ std::cout << (str7 == str8) << std::endl;<span aria-hidden="true" class="line-nu
 <li>C的结构体和C++结构体的区别<br>1）C的结构体内不允许有函数存在，C++允许有内部成员函数，且允许该函数是虚函数。所以C的结构体是没有构造函数、析构函数、和this指针的。<br>2）C的结构体对内部成员变量的访问权限只能是public，而C++允许public,protected,private三种。<br>3）C语言的结构体是不可以继承的，C++的结构体是可以从其他的结构体或者类继承过来的。<br>以上都是表面的区别，实际区别就是面向过程和面向对象编程思路的区别：<br>C的结构体只是把数据变量给包裹起来了，并不涉及算法。<br>而C++是把数据变量及对这些数据变量的相关算法给封装起来，并且给对这些数据和类不同的访问权限。<br>C语言中是没有类的概念的，但是C语言可以通过结构体内创建函数指针实现面向对象思想。</li>
 <li>如何在类中定义常量成员并为其初始化？<br>解答：只能在初始化列表里对const成员初始化，像下面这样：<pre class="line-numbers language-c++"><code class="language-c++">class Cbook {
 public:
-     const double m_prices;
-     Cbook():m_prices(8.8) {}
+ const double m_prices;
+ Cbook():m_prices(8.8) {}
 };<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 下面的做法是错误的：<pre class="line-numbers language-c++"><code class="language-c++">class Cbook {
 public:
@@ -488,18 +488,19 @@ Cbook() {
 <li>C++的多态性分为静态多态和动态多态。<br>静态多态性：编译期间确定具体执行哪一项操作，主要是通过函数重载和运算符重载来实现的；<br>动态多态性：运行时确定具体执行哪一项操作，主要是通过虚函数来实现的。</li>
 <li>虚函数原理考点，例如下面程序的输出是什么？<pre class="line-numbers language-c++"><code class="language-c++">class A{
 public:
-   virtual void funa();
-   virtual void funb();
-   void func();
-   static void fund();
-   static int si;
+virtual void funa();
+virtual void funb();
+void func();
+static void fund();
+static int si;
 private:
-   int i;
-   char c;
+int i;
+char c;
 };<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 问：<code>sizeof(A)</code> = ?<br>解答：<br>关于类占用的内存空间，有以下几点需要注意：<br>1）如果类中含有虚函数，则编译器需要为类构建虚函数表，类中需要存储一个指针指向这个虚函数表的首地址，注意不管有几个虚函数，都只建立一张表，所有的虚函数地址都存在这张表里，类中只需要一个指针指向虚函数表首地址即可。<br>2）类中的静态成员是被类所有实例所共享的，它不计入<code>sizeof</code>计算的空间<br>3）类中的普通函数或静态普通函数都存储在栈中，不计入<code>sizeof</code>计算的空间<br>4）类成员采用字节对齐的方式分配空间<br>答案：16（8+4+4 64位系统）</li>
-<li>虚继承的作用是什么？<br>在多继承中，子类可能同时拥有多个父类，如果这些父类还有相同的父类（祖先类），那么在子类中就会有多份祖先类。例如，类B和类C都继承与类A，如果类D派生于B和C，那么类D中就会有两份A。为了防止在多继承中子类存在重复的父类情况，可以在父类继承时使用虚函数，即在类B和类C继承类A时使用virtual关键字，例如：<pre class="line-numbers language-c++"><code class="language-c++">class B : virtual public A
-class C : virtual public A<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<li>虚继承的作用是什么？<br>在多继承中，子类可能同时拥有多个父类，如果这些父类还有相同的父类，那么在子类中就会有多份祖先类。例如，类B和类C都继承与类A，如果类D派生于B和C，那么类D中就会有两份A。为了防止在多继承中子类存在重复的父类情况，可以在父类继承时使用虚函数，即在类B和类C继承类A时使用virtual关键字，例如：<pre class="line-numbers language-c++"><code class="language-c++">class B : virtual public A {};
+class C : virtual public A {};
+public D : public B, public C {};<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 注：因为多继承会带来很多复杂问题，因此要慎用。</li>
 </ol>
 
