@@ -8,8 +8,9 @@
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="整型变量赋值操作不是原子操作那么为什么整型变量的操作不是原子性的呢？常见的整型变量操作有如下几种情况：给整型变量赋值一个确定的值，如
-int a = 1;这条指令操作一般是原子的，因为对应着一条计算机指令，cpu将立即数1搬运到变量a的内存">
+    <meta name="description" content="那么为什么整型变量的操作不是原子性的呢？常见的整型变量操作有如下几种情况：给整型变量赋值一个确定的值，如
+int a = 1;这条指令操作一般是原子的，因为对应着一条计算机指令，cpu将立即数1搬运到变量a的内存地址中即可，汇编指令如下：
+">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -267,7 +268,7 @@ int a = 1;这条指令操作一般是原子的，因为对应着一条计算机�
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/27.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -422,7 +423,7 @@ int a = 1;这条指令操作一般是原子的，因为对应着一条计算机�
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    969
+                    949
                 </div>
                 
 
@@ -445,10 +446,10 @@ int a = 1;这条指令操作一般是原子的，因为对应着一条计算机�
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>整型变量赋值操作不是原子操作<br>那么为什么整型变量的操作不是原子性的呢？常见的整型变量操作有如下几种情况：<br>给整型变量赋值一个确定的值，如</p>
+                <p>那么为什么整型变量的操作不是原子性的呢？常见的整型变量操作有如下几种情况：<br>给整型变量赋值一个确定的值，如</p>
 <pre><code>int a = 1;</code></pre><p>这条指令操作一般是原子的，因为对应着一条计算机指令，cpu将立即数1搬运到变量a的内存地址中即可，汇编指令如下：</p>
-<pre><code>mov dword ptr [a], 2</code></pre><p>然后这确是最不常见的情形，由于现代编译器一般有优化策略，如果变量a的值在编译期间就可以计算出来（例如这里的例子中a的值就是1），那么a这个变量本身在正式版本的软件中（release版）就很有可能被编译器优化掉，使用a的地方，直接使用常量1来代替。所以实际的执行指令中，这样的指令存在的可能性比较低。<br>变量自身增加或者减去一个值，如</p>
-<pre><code>a++;</code></pre><p>从C/C++语法的级别来看，这是一条语句，是原子的；但是从实际执行的二进制指令来看，也不是原子的，其一般对应三条指令，首先将变量a对应的内存值搬运到某个寄存器（如eax）中，然后将该寄存器中的值自增1，再将该寄存器中的值搬运回a的内存中：</p>
+<pre><code>mov dword ptr [a], 2</code></pre><p>然后这确是最不常见的情形，由于现代编译器一般有优化策略，如果变量a的值在编译期间就可以计算出来，例如这里的例子中a的值就是1，那么a这个变量本身在正式版本的软件中就很有可能被编译器优化掉，使用a的地方，直接使用常量1来代替。所以实际的执行指令中，这样的指令存在的可能性比较低。<br>变量自身增加或者减去一个值，如</p>
+<pre><code>a++;</code></pre><p>从C/C++语法的级别来看，这是一条语句，是原子的；但是从实际执行的二进制指令来看，也不是原子的，其一般对应三条指令，首先将变量a对应的内存值搬运到某个寄存器中，然后将该寄存器中的值自增1，再将该寄存器中的值搬运回a的内存中：</p>
 <pre><code>mov eax, dword ptr [a]
 inc eax
 mov dword ptr [a], eax</code></pre><p>现在假设a的值是0，有两个线程，每个线程对变量a的值递增1，我们预想的结果应该是2，可实际运行的结果可能是1！是不是很奇怪？分析如下：</p>
@@ -465,10 +466,10 @@ void thread_func2()
 {
   a++;
 }
-</code></pre><p>我们预想的结果是线程1和线程2的三条指令各自执行，最终a的值为2，但是由于操作系统线程调度的不确定性，线程1执行完指令①和②后，eax寄存器中的值为1，此时操作系统切换到线程2执行，执行指令③④⑤，此时eax的值变为1；接着操作系统切回线程1继续执行，执行指令⑦，得到a的最终结果1。<br>    • 把一个变量的值赋值给另外一个变量，或者把一个表达式的值赋值给另外一个变量，如<br>    ```<br>    int a = b;</p>
-<pre><code>```</code></pre><p>从C/C++语法的级别来看，这是也是一条语句，是原子的；但是从实际执行的二进制指令来看，由于现代计算机CPU架构体系的限制，数据不可以直接从内存搬运到另外一块内存，必须借助寄存器中断，这条语句一般对应两条计算机指令，即将变量b的值搬运到某个寄存器（如eax）中，再从该寄存器搬运到变量a的内存地址：</p>
+</code></pre><p>我们预想的结果是线程1和线程2的三条指令各自执行，最终a的值为2，但是由于操作系统线程调度的不确定性，线程1执行完指令①和②后，eax寄存器中的值为1，此时操作系统切换到线程2执行，执行指令③④⑤，此时eax的值变为1；接着操作系统切回线程1继续执行，执行指令⑦，得到a的最终结果1。<br>• 把一个变量的值赋值给另外一个变量，或者把一个表达式的值赋值给另外一个变量，如</p>
+<pre><code>int a = b;</code></pre><p>从C/C++语法的级别来看，这是也是一条语句，是原子的；但是从实际执行的二进制指令来看，由于现代计算机CPU架构体系的限制，数据不可以直接从内存搬运到另外一块内存，必须借助寄存器中断，这条语句一般对应两条计算机指令，即将变量b的值搬运到某个寄存器中，再从该寄存器搬运到变量a的内存地址：</p>
 <pre><code>mov eax, dword ptr [b]
-mov dword ptr [a], eax</code></pre><p>既然是两条指令，那么多个线程在执行这两条指令时，某个线程可能会在第一条指令执行完毕后被剥夺CPU时间片，切换到另外一个线程而产生不确定的情况。这和上一种情况类似，就不再详细分析了。<br>说点题外话，网上很多人强调某些特殊的整型数值类型（如bool类型）的操作是原子的，这是由于，某些CPU生产商开始有意识地从硬件平台保证这一类操作的原子性，但这并不是每一种类型的CPU架构都支持，在这一事实成为标准之前，我们在多线程操作整型时还是老老实实使用下文介绍的原子操作或线程同步技术来对这些数据类型进行保护。</p>
+mov dword ptr [a], eax</code></pre><p>既然是两条指令，那么多个线程在执行这两条指令时，某个线程可能会在第一条指令执行完毕后被剥夺CPU时间片，切换到另外一个线程而产生不确定的情况。这和上一种情况类似，就不再详细分析了。<br>说点题外话，网上很多人强调某些特殊的整型数值类型如bool类型的操作是原子的，这是由于，某些CPU生产商开始有意识地从硬件平台保证这一类操作的原子性，但这并不是每一种类型的CPU架构都支持，在这一事实成为标准之前，我们在多线程操作整型时还是老老实实使用下文介绍的原子操作或线程同步技术来对这些数据类型进行保护。</p>
 
             </div>
             <hr />
@@ -837,7 +838,7 @@ mov dword ptr [a], eax</code></pre><p>既然是两条指令，那么多个线程
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="C++对象模型：对象内存布局详解">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="C++对象模型：对象内存布局详解">
                         
                         <span class="card-title">C++对象模型：对象内存布局详解</span>
                     </div>
@@ -887,7 +888,7 @@ mov dword ptr [a], eax</code></pre><p>既然是两条指令，那么多个线程
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="so出现undefined symbol------ldd, nm, c++filt">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="so出现undefined symbol------ldd, nm, c++filt">
                         
                         <span class="card-title">so出现undefined symbol------ldd, nm, c++filt</span>
                     </div>
