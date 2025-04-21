@@ -2,9 +2,51 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>localhost/2024/10/13/forty/</loc>
+    
+    <lastmod>2025-04-21T13:40:31.911Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>localhost/2023/11/10/first/</loc>
+    
+    <lastmod>2025-04-21T13:35:08.781Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>localhost/2024/07/29/fifteen/</loc>
+    
+    <lastmod>2025-04-21T13:09:38.039Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>localhost/2024/07/24/eleven/</loc>
+    
+    <lastmod>2025-04-21T13:06:36.400Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>localhost/2024/07/30/eighteen/</loc>
+    
+    <lastmod>2025-04-21T12:59:25.078Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>localhost/2024/07/24/eight/</loc>
+    
+    <lastmod>2025-04-19T13:11:32.700Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>localhost/2024/11/09/fortyfive/</loc>
     
-    <lastmod>2024-11-09T09:32:35.363Z</lastmod>
+    <lastmod>2024-11-09T10:47:40.783Z</lastmod>
     
   </url>
   
@@ -40,13 +82,6 @@
     <loc>localhost/2024/10/13/fortyone/</loc>
     
     <lastmod>2024-10-22T13:52:33.134Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>localhost/2024/10/13/forty/</loc>
-    
-    <lastmod>2024-10-13T09:39:25.109Z</lastmod>
     
   </url>
   
@@ -198,13 +233,6 @@
   </url>
   
   <url>
-    <loc>localhost/2024/07/24/eleven/</loc>
-    
-    <lastmod>2024-08-26T13:18:42.590Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>localhost/2024/07/28/twleve/</loc>
     
     <lastmod>2024-08-25T15:18:19.349Z</lastmod>
@@ -254,27 +282,6 @@
   </url>
   
   <url>
-    <loc>localhost/2024/07/29/fifteen/</loc>
-    
-    <lastmod>2024-08-25T10:07:13.869Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>localhost/2024/07/24/eight/</loc>
-    
-    <lastmod>2024-08-25T10:04:12.849Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>localhost/2024/07/30/eighteen/</loc>
-    
-    <lastmod>2024-07-30T12:45:02.746Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>localhost/2024/07/29/sixteen/</loc>
     
     <lastmod>2024-07-29T13:44:14.862Z</lastmod>
@@ -285,13 +292,6 @@
     <loc>localhost/2024/07/28/fourteen/</loc>
     
     <lastmod>2024-07-28T13:21:48.981Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>localhost/2023/11/10/first/</loc>
-    
-    <lastmod>2024-07-24T12:25:47.229Z</lastmod>
     
   </url>
   
