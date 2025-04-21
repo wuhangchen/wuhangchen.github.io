@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>localhost/2024/10/13/fortyone/</loc>
+    <lastmod>2025-04-21</lastmod>
+  </url>  <url>
+    <loc>localhost/2024/11/03/fortyfour/</loc>
+    <lastmod>2025-04-21</lastmod>
+  </url>  <url>
+    <loc>localhost/2024/11/09/fortyfive/</loc>
+    <lastmod>2025-04-21</lastmod>
+  </url>  <url>
     <loc>localhost/2024/10/13/forty/</loc>
     <lastmod>2025-04-21</lastmod>
   </url>  <url>
@@ -19,12 +28,6 @@
     <loc>localhost/2024/07/24/eight/</loc>
     <lastmod>2025-04-19</lastmod>
   </url>  <url>
-    <loc>localhost/2024/11/09/fortyfive/</loc>
-    <lastmod>2024-11-09</lastmod>
-  </url>  <url>
-    <loc>localhost/2024/11/03/fortyfour/</loc>
-    <lastmod>2024-11-03</lastmod>
-  </url>  <url>
     <loc>localhost/2024/10/08/thirtynine/</loc>
     <lastmod>2024-11-03</lastmod>
   </url>  <url>
@@ -33,9 +36,6 @@
   </url>  <url>
     <loc>localhost/2024/10/29/fortytwo/</loc>
     <lastmod>2024-10-30</lastmod>
-  </url>  <url>
-    <loc>localhost/2024/10/13/fortyone/</loc>
-    <lastmod>2024-10-22</lastmod>
   </url>  <url>
     <loc>localhost/2024/10/08/thirtyeight/</loc>
     <lastmod>2024-10-08</lastmod>

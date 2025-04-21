@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2024-11-09T10:47:40.783Z</updated>
+  <updated>2025-04-21T13:50:09.161Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="localhost/2024/11/09/fortyfive/"/>
     <id>localhost/2024/11/09/fortyfive/</id>
     <published>2024-11-09T07:32:12.000Z</published>
-    <updated>2024-11-09T10:47:40.783Z</updated>
+    <updated>2025-04-21T13:50:09.161Z</updated>
     
     <summary type="html">
     
@@ -47,7 +47,7 @@
     <link href="localhost/2024/11/03/fortyfour/"/>
     <id>localhost/2024/11/03/fortyfour/</id>
     <published>2024-11-03T05:36:56.000Z</published>
-    <updated>2024-11-03T06:42:39.037Z</updated>
+    <updated>2025-04-21T14:00:17.441Z</updated>
     
     <summary type="html">
     
@@ -125,7 +125,7 @@
     <link href="localhost/2024/10/13/fortyone/"/>
     <id>localhost/2024/10/13/fortyone/</id>
     <published>2024-10-13T09:41:08.000Z</published>
-    <updated>2024-10-22T13:52:33.134Z</updated>
+    <updated>2025-04-21T14:19:17.571Z</updated>
     
     <summary type="html">
     
@@ -133,8 +133,8 @@
       
         
         
-          &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;文章较长，而且内容相对来说比较枯燥，希望对C++对象的内存布局、虚表指针、虚基类指针等有深入了解的朋友可以慢慢看。&lt;/p&gt;
-&lt;h2
+          &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;这篇文章希望对C++对象的内存布局、虚表指针、虚基类指针等有深入介绍。&lt;/p&gt;
+&lt;h2 id=&quot;何为C-对象模型&quot;&gt;&lt;a
         
       
     
