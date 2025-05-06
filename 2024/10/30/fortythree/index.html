@@ -266,7 +266,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -444,8 +444,8 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="什么是值语义"><a href="#什么是值语义" class="headerlink" title="什么是值语义"></a>什么是值语义</h2><p>值语义指的是对象的拷贝与原对象无关，就像拷贝 <code>int</code>一样。C++ 的内置类型<code>bool、int、double、char</code>都是值语义，标准库里的 <code>complex&lt;&gt; 、pair&lt;&gt;、vector&lt;&gt;、map&lt;&gt;、string</code>等等类型也都是值语意，拷贝之后就与原对象脱离关系。Java 语言的 <code>primitive types</code>也是值语义。<br>与值语义对应的是对象语义，或者叫做引用语义，由于引用一词在 C++里有特殊含义，所以我在本文中使用对象语义这个术语。对象语义指的是面向对象意义下的对象，对象拷贝是禁止的。例如 <code>muduo</code>里的 <code>Thread</code>是对象语义，拷贝 <code>Thread</code>是无意义的，也是被禁止的：因为 <code>Thread</code>代表线程，拷贝一个 <code>Thread</code>对象并不能让系统增加一个一模一样的线程。<br>同样的道理，拷贝一个 <code>Employee</code>对象是没有意义的，一个雇员不会变成两个雇员，他也不会领两份薪水。拷贝 <code>TcpConnection</code>对象也没有意义，系统里边只有一个 <code>TCP</code>连接，拷贝 <code>TcpConnection</code>对象不会让我们拥有两个连接。<code>Printer</code>也是不能拷贝的，系统只连接了一个打印机，拷贝 <code>Printer</code>并不能凭空增加打印机。凡此总总，面向对象意义下的“对象”是 ``````。<br>Java 里边的 class对象都是对象语义/引用语义。<code>ArrayList&lt;Integer&gt; a = new ArrayList&lt;Integer&gt;(); ArrayList&lt;Integer&gt; b = a;</code>那么 a 和 b 指向的是同一个<code>ArrayList</code>对象，修改 a 同时也会影响 b。<br>值语义与 <code>immutable</code>无关。Java 有 value object 一说，按PoEAA 486的定义，它实际上是 <code>immutable object</code>，例如 <code>String、Integer、BigInteger、joda.time.DateTime</code>等等, 因为 Java 没有办法实现真正的值语义 class，只好用 immutable object 来模拟。尽管 immutable object 有其自身的用处，但不是本文的主题。<code>muduo</code>中的 <code>Date、Timestamp</code>也都是 immutable 的。<br>C++中的值语义对象也可以是 mutable，比如 <code>complex&lt;&gt;、pair&lt;&gt;、vector&lt;&gt;、map&lt;&gt;、string</code>都是可以修改的。<code>muduo</code>的 <code>InetAddress</code>和 <code>Buffer</code>都具有值语义，它们都是可以修改的。<br>值语义的对象不一定是 POD，例如 <code>string</code>就不是 POD，但它是值语义的。<br>值语义的对象不一定小，例如 <code>vector&lt;int&gt;</code> 的元素可多可少，但它始终是值语义的。当然，很多值语义的对象都是小的，例如<code>complex&lt;&gt;、muduo::Date、muduo::Timestamp</code>。</p>
-<h2 id="值语义与生命期"><a href="#值语义与生命期" class="headerlink" title="值语义与生命期"></a>值语义与生命期</h2><p>值语义的一个巨大好处是生命期管理很简单，就跟 <code>int</code>一样——你不需要操心 <code>int</code>的生命期。值语义的对象要么是 stack object，或者直接作为其他 object 的成员，因此我们不用担心它的生命期一个函数使用自己stack上的对象，一个成员函数使用自己的数据成员对象。相反，对象语义的 object 由于不能拷贝，我们只能通过指针或引用来使用它。<br>一旦使用指针和引用来操作对象，那么就要担心所指的对象是否已被释放，这一度是 C++ 程序 bug 的一大来源。此外，由于 C++ 只能通过指针或引用来获得多态性，那么在C++里从事基于继承和多态的面向对象编程有其本质的困难——资源管理。<br>考虑一个简单的对象建模——家长与子女：a Parent has a Child, a Child knows his/her Parent。在 Java 里边很好写，不用担心内存泄漏，也不用担心空悬指针：</p>
+                <h2 id="什么是值语义"><a href="#什么是值语义" class="headerlink" title="什么是值语义"></a>什么是值语义</h2><p>值语义指的是对象的拷贝与原对象无关，就像拷贝 <code>int</code>一样。C++ 的内置类型<code>bool、int、double、char</code>都是值语义，标准库里的 <code>complex&lt;&gt; 、pair&lt;&gt;、vector&lt;&gt;、map&lt;&gt;、string</code>等等类型也都是值语意，拷贝之后就与原对象脱离关系。Java 语言的 <code>primitive types</code>也是值语义。<br>与值语义对应的是对象语义，或者叫做引用语义，由于引用一词在 C++里有特殊含义，所以我在本文中使用对象语义这个术语。对象语义指的是面向对象意义下的对象，对象拷贝是禁止的。例如 <code>muduo</code>里的 <code>Thread</code>是对象语义，拷贝 <code>Thread</code>是无意义的，也是被禁止的：因为 <code>Thread</code>代表线程，拷贝一个 <code>Thread</code>对象并不能让系统增加一个一模一样的线程。<br>同样的道理，拷贝一个 <code>Employee</code>对象是没有意义的，一个雇员不会变成两个雇员，他也不会领两份薪水。拷贝 <code>TcpConnection</code>对象也没有意义，系统里边只有一个 <code>TCP</code>连接，拷贝 <code>TcpConnection</code>对象不会让我们拥有两个连接。<code>Printer</code>也是不能拷贝的，系统只连接了一个打印机，拷贝 <code>Printer</code>并不能凭空增加打印机。凡此总总，面向对象意义下的“对象”是 ``````。<br>Java 里边的 class对象都是对象语义/引用语义。<code>ArrayList&lt;Integer&gt; a = new ArrayList&lt;Integer&gt;(); ArrayList&lt;Integer&gt; b = a;</code>那么 a 和 b 指向的是同一个<code>ArrayList</code>对象，修改a同时也会影响 b。<br>值语义与 <code>immutable</code>无关。Java 有 value object 一说，按PoEAA 486的定义，它实际上是 <code>immutable object</code>，例如 <code>String、Integer、BigInteger、joda.time.DateTime</code>等等, 因为 Java 没有办法实现真正的值语义class，只好用immutable object来模拟。尽管immutable object有其自身的用处，但不是本文的主题。<code>muduo</code>中的 <code>Date、Timestamp</code>也都是immutable的。<br>C++中的值语义对象也可以是mutable，比如<code>complex&lt;&gt;、pair&lt;&gt;、vector&lt;&gt;、map&lt;&gt;、string</code>都是可以修改的。<code>muduo</code>的 <code>InetAddress</code>和 <code>Buffer</code>都具有值语义，它们都是可以修改的。<br>值语义的对象不一定是 POD，例如 <code>string</code>就不是 POD，但它是值语义的。<br>值语义的对象不一定小，例如 <code>vector&lt;int&gt;</code> 的元素可多可少，但它始终是值语义的。当然，很多值语义的对象都是小的，例如<code>complex&lt;&gt;、muduo::Date、muduo::Timestamp</code>。</p>
+<h2 id="值语义与生命期"><a href="#值语义与生命期" class="headerlink" title="值语义与生命期"></a>值语义与生命期</h2><p>值语义的一个巨大好处是生命期管理很简单，就跟 <code>int</code>一样————你不需要操心 <code>int</code>的生命期。值语义的对象要么是stack object，或者直接作为其他object的成员，因此我们不用担心它的生命期，一个函数使用自己stack上的对象，一个成员函数使用自己的数据成员对象。相反，对象语义的object由于不能拷贝，我们只能通过指针或引用来使用它。<br>一旦使用指针和引用来操作对象，那么就要担心所指的对象是否已被释放，这一度是C++程序bug的一大来源。此外，由于C++只能通过指针或引用来获得多态性，那么在C++里从事基于继承和多态的面向对象编程有其本质的困难——资源管理。<br>考虑一个简单的对象建模——家长与子女：a Parent has a Child, a Child knows his/her Parent。在 Java 里边很好写，不用担心内存泄漏，也不用担心空悬指针：</p>
 <pre><code>public class Parent
 {
     private Child myChild;
@@ -453,7 +453,7 @@
 public class Child
 {
     private Parent myParent;
-}</code></pre><p>只要正确初始化 myChild 和 myParent，那么 Java 程序员就不用担心出现访问错误。一个 handle 是否有效，只需要判断其是否 non null。<br>在 C++ 里边就要为资源管理费一番脑筋：Parent 和 Child 都代表的是真人，肯定是不能拷贝的，因此具有对象语义。Parent 是直接持有 Child 吗？抑或 Parent 和 Child 通过指针互指？Child 的生命期由 Parent 控制吗？如果还有 ParentClub 和 School 两个 class，分别代表家长俱乐部和学校：ParentClub has many Parents，School has many Child，那么如何保证它们始终持有有效的 Parent 对象和 Child 对象？何时才能安全地释放 Parent 和 Child ？<br>直接但是易错的写法：</p>
+}</code></pre><p>只要正确初始化 myChild 和 myParent，那么 Java 程序员就不用担心出现访问错误。一个 handle 是否有效，只需要判断其是否 non null。<br>在C++里边就要为资源管理费一番脑筋：Parent和Child都代表的是真人，肯定是不能拷贝的，因此具有对象语义。Parent是直接持有Child吗？抑或Parent和Child通过指针互指？Child的生命期由Parent控制吗？如果还有ParentClub和School两个 class，分别代表家长俱乐部和学校：ParentClub has many Parents，School has many Child，那么如何保证它们始终持有有效的 Parent 对象和 Child 对象？何时才能安全地释放 Parent 和 Child ？<br>直接但是易错的写法：</p>
 <pre><code>class Child;
 class Parent : boost::noncopyable
 {
@@ -465,7 +465,7 @@ class Child : boost::noncopyable
 {
 private:
     Parent* myParent;
-};</code></pre><p>如果直接使用指针作为成员，那么如何确保指针的有效性？如何防止出现空悬指针？Child 和 Parent 由谁负责释放？在释放某个 Parent 对象的时候，如何确保程序中没有指向它的指针？在释放某个 Child 对象的时候，如何确保程序中没有指向它的指针？<br>这一系列问题一度是C++面向对象编程头疼的问题，不过现在有了 smart pointer，我们可以借助 smart pointer 把对象语义转换为值语义，从而轻松解决对象生命期：让 Parent 持有 Child 的 smart pointer，同时让 Child 持有 Parent 的 smart pointer，这样始终引用对方的时候就不用担心出现空悬指针。当然，其中一个 smart pointer 应该是 weak reference，否则会出现循环引用，导致内存泄漏。到底哪一个是 weak reference，则取决于具体应用场景。<br>如果 Parent 拥有 Child，Child 的生命期由其 Parent 控制，Child 的生命期小于 Parent，那么代码就比较简单：</p>
+};</code></pre><p>如果直接使用指针作为成员，那么如何确保指针的有效性？如何防止出现空悬指针？Child 和 Parent 由谁负责释放？在释放某个 Parent 对象的时候，如何确保程序中没有指向它的指针？在释放某个 Child 对象的时候，如何确保程序中没有指向它的指针？<br>这一系列问题一度是C++面向对象编程头疼的问题，不过现在有了smart pointer，我们可以借助 smart pointer 把对象语义转换为值语义，从而轻松解决对象生命期：让 Parent 持有 Child 的 smart pointer，同时让 Child 持有 Parent 的 smart pointer，这样始终引用对方的时候就不用担心出现空悬指针。当然，其中一个 smart pointer 应该是 weak reference，否则会出现循环引用，导致内存泄漏。到底哪一个是 weak reference，则取决于具体应用场景。<br>如果 Parent 拥有 Child，Child 的生命期由其 Parent 控制，Child 的生命期小于 Parent，那么代码就比较简单：</p>
 <pre><code>class Parent;
 class Child : boost::noncopyable
 {
@@ -520,8 +520,7 @@ int main()
 {
     ParentPtr p(new Parent);
     p-&gt;addChild();
-}
-</code></pre><p>上面这个 shared_ptr+weak_ptr 的做法似乎有点小题大做。<br>考虑一个稍微复杂一点的对象模型：a Child has parents: mom and dad; a Parent has one or more Child(ren); a Parent knows his/her spouser. 这个对象模型用 Java 表述一点都不复杂，垃圾收集会帮我们搞定对象生命期。</p>
+}</code></pre><p>上面这个 shared_ptr+weak_ptr 的做法似乎有点小题大做。<br>考虑一个稍微复杂一点的对象模型：<br>a Child has parents: mom and dad;<br>a Parent has one or more Child(ren);<br>a Parent knows his/her spouser. 这个对象模型用 Java 表述一点都不复杂，垃圾收集会帮我们搞定对象生命期。</p>
 <pre><code>public class Parent
 {
     private Parent mySpouser;
@@ -586,9 +585,9 @@ int main()
         mom-&gt;addChild(child);
         dad-&gt;addChild(child);
     }
-}</code></pre><p>如果不使用 smart pointer，用 C++ 做面向对象编程将会困难重重。</p>
+}</code></pre><p>如果不使用 smart pointer，用 C++做面向对象编程将会困难重重。</p>
 <h2 id="值语义与标准库"><a href="#值语义与标准库" class="headerlink" title="值语义与标准库"></a>值语义与标准库</h2><p>C++ 要求凡是能放入标准容器的类型必须具有值语义。准确地说：type 必须是 SGI Assignable concept 的 model。但是，由于C++ 编译器会为 class 默认提供 copy constructor 和 assignment operator，因此除非明确禁止，否则 class 总是可以作为标准库的元素类型——尽管程序可以编译通过，但是隐藏了资源管理方面的 bug。<br>因此，在写一个 class 的时候，先让它继承 <code>boost::noncopyable</code>，几乎总是正确的。<br>在现代 C++ 中，一般不需要自己编写 copy constructor 或 assignment operator，因为只要每个数据成员都具有值语义的话，编译器自动生成的 member-wise copying&amp;assigning 就能正常工作；如果以 smart ptr 为成员来持有其他对象，那么就能自动启用或禁用 copying&amp;assigning。例外：编写 HashMap 这类底层库时还是需要自己实现 copy control。</p>
-<h2 id="值语义与C-语言"><a href="#值语义与C-语言" class="headerlink" title="值语义与C++语言"></a>值语义与C++语言</h2><p>C++ 的 class 本质上是值语义的，这才会出现 object slicing 这种语言独有的问题，也才会需要程序员注意 pass-by-value 和 pass-by-const-reference 的取舍。在其他面向对象编程语言中，这都不需要费脑筋。<br>值语义是C++语言的三大约束之一，C++ 的设计初衷是让用户定义的类型能像内置类型一样工作，具有同等的地位。为此C++做了以下设计：<br>    • class 的 layout 与 C struct 一样，没有额外的开销。定义一个“只包含一个 int 成员的 class”的对象开销和定义一个 int 一样。<br>    • 甚至 class data member 都默认是 uninitialized，因为函数局部的 int 是 uninitialized。<br>    • class 可以在 stack 上创建，也可以在 heap 上创建。因为 int 可以是 stack variable。<br>    • class 的数组就是一个个 class 对象挨着，没有额外的 indirection。因为 int 数组就是这样。<br>    • 编译器会为 class 默认生成 copy constructor 和 assignment operator。其他语言没有 copy constructor 一说，也不允许重载 assignment operator。C++ 的对象默认是可以拷贝的，这是一个尴尬的特性。<br>    • 当 class type 传入函数时，默认是 make a copy。因为把 int 传入函数时是 make a copy。<br>    • 当函数返回一个 class type 时，只能通过 make a copy, C++ 不得不定义 RVO 来解决性能问题。因为函数返回 int 时是 make a copy。<br>    • 以 class type 为成员时，数据成员是嵌入的。例如 <code>pair&lt;complex&lt;double&gt;, size_t&gt; 的</code>layout 就是 <code>complex&lt;double&gt;</code>挨着 <code>size_t</code>。<br>这些设计带来了性能上的好处，原因是 memory locality。比方说我们在 C++ 里定义 <code>complex&lt;double&gt; class，array of complex&lt;double&gt;， vector&lt;complex&lt;double&gt; &gt;</code>它们的 layout 分别是：re 和 im 分别是复数的实部和虚部。<br>而如果我们在 Java 里干同样的事情，layout 大不一样，memory locality 也差很多：<br>Java 里边每个 object 都有 header，至少有两个 word 的开销。对比 Java 和 C++，可见 C++ 的对象模型要紧凑得多。</p>
+<h2 id="值语义与C-语言"><a href="#值语义与C-语言" class="headerlink" title="值语义与C++语言"></a>值语义与C++语言</h2><p>C++ 的 class 本质上是值语义的，这才会出现 object slicing 这种语言独有的问题，也才会需要程序员注意 pass-by-value 和 pass-by-const-reference 的取舍。在其他面向对象编程语言中，这都不需要费脑筋。<br>值语义是C++语言的三大约束之一，C++ 的设计初衷是让用户定义的类型能像内置类型一样工作，具有同等的地位。为此C++做了以下设计：<br>• class 的 layout 与 C struct 一样，没有额外的开销。定义一个“只包含一个 int 成员的 class”的对象开销和定义一个 int 一样。<br>• 甚至 class data member 都默认是 uninitialized，因为函数局部的 int 是 uninitialized。<br>• class 可以在 stack 上创建，也可以在 heap 上创建。因为 int 可以是 stack variable。<br>• class 的数组就是一个个 class 对象挨着，没有额外的 indirection。因为 int 数组就是这样。<br>• 编译器会为 class 默认生成 copy constructor 和 assignment operator。其他语言没有 copy constructor 一说，也不允许重载 assignment operator。C++ 的对象默认是可以拷贝的，这是一个尴尬的特性。<br>• 当 class type 传入函数时，默认是 make a copy。因为把 int 传入函数时是 make a copy。<br>• 当函数返回一个 class type 时，只能通过 make a copy, C++ 不得不定义 RVO 来解决性能问题。因为函数返回 int 时是 make a copy。<br>• 以 class type 为成员时，数据成员是嵌入的。例如 <code>pair&lt;complex&lt;double&gt;, size_t&gt; 的</code>layout 就是 <code>complex&lt;double&gt;</code>挨着 <code>size_t</code>。<br>这些设计带来了性能上的好处，原因是 memory locality。比方说我们在 C++ 里定义 <code>complex&lt;double&gt; class，array of complex&lt;double&gt;， vector&lt;complex&lt;double&gt; &gt;</code>它们的 layout 分别是：re 和 im 分别是复数的实部和虚部。<br>而如果我们在 Java 里干同样的事情，layout 大不一样，memory locality 也差很多：<br>Java 里边每个 object 都有 header，至少有两个 word 的开销。对比 Java 和 C++，可见 C++ 的对象模型要紧凑得多。</p>
 
             </div>
             <hr />
@@ -957,7 +956,7 @@ int main()
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="右值引用">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="右值引用">
                         
                         <span class="card-title">右值引用</span>
                     </div>
@@ -1008,7 +1007,7 @@ int&amp; j = i;这里的int&amp;是对左值进行绑定但是int&am
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="C++ 静态库与动态库">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="C++ 静态库与动态库">
                         
                         <span class="card-title">C++ 静态库与动态库</span>
                     </div>
@@ -1213,7 +1212,7 @@ int&amp; j = i;这里的int&amp;是对左值进行绑定但是int&am
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">69.3k</span>
+            <span class="white-color">69.1k</span>
             
 
             <br>

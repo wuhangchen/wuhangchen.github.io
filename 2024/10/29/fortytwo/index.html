@@ -266,7 +266,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -444,7 +444,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>这次分享的宗旨是——让大家学会创建与使用静态库、动态库，知道静态库与动态库的区别，知道使用的时候如何选择。这里不深入介绍静态库、动态库的底层格式，内存布局等，有兴趣的同学，推荐一本书《程序员的自我修养——链接、装载与库》。<br>库是写好的现有的，成熟的，可以复用的代码。现实中每个程序都要依赖很多基础的底层库，不可能每个人的代码都从零开始，因此库的存在意义非同寻常。<br>本质上来说库是一种可执行代码的二进制形式，可以被操作系统载入内存执行。库有两种：静态库和动态库。<br>所谓静态、动态是指链接。<br>之所以成为【静态库】，是因为在链接阶段，会将汇编生成的目标文件<code>.o</code>与引用到的库一起链接打包到可执行文件中。因此对应的链接方式称为静态链接。<br>试想一下，静态库与汇编生成的目标文件一起链接为可执行文件，那么静态库必定跟<code>.o</code>文件格式相似。其实一个静态库可以简单看成是一组目标文件的集合，即很多目标文件经过压缩打包后形成的一个文件。静态库特点总结：<br>    • 静态库对函数库的链接是放在编译时期完成的。<br>    • 程序在运行时与函数库再无瓜葛，移植方便。<br>    • 浪费空间和资源，因为所有相关的目标文件与牵涉到的函数库被链接合成一个可执行文件。<br>下面编写一些简单的四则运算C++类，将其编译成静态库给他人用，头文件如下所示：</p>
+                <p>这次分享的宗旨是——让大家学会创建与使用静态库、动态库，知道静态库与动态库的区别，知道使用的时候如何选择。这里不深入介绍静态库、动态库的底层格式，内存布局等，有兴趣的同学，推荐一本书《程序员的自我修养——链接、装载与库》。<br>库是写好的现有的，成熟的，可以复用的代码。现实中每个程序都要依赖很多基础的底层库，不可能每个人的代码都从零开始，因此库的存在意义非同寻常。<br>本质上来说库是一种可执行代码的二进制形式，可以被操作系统载入内存执行。库有两种：静态库和动态库。<br>所谓静态、动态是指链接。<br>之所以成为静态库，是因为在链接阶段，会将汇编生成的目标文件<code>.o</code>与引用到的库一起链接打包到可执行文件中。因此对应的链接方式称为静态链接。<br>试想一下，静态库与汇编生成的目标文件一起链接为可执行文件，那么静态库必定跟<code>.o</code>文件格式相似。其实一个静态库可以简单看成是一组目标文件的集合，即很多目标文件经过压缩打包后形成的一个文件。静态库特点总结：<br>• 静态库对函数库的链接是放在编译时期完成的。<br>• 程序在运行时与函数库再无瓜葛，移植方便。<br>• 浪费空间和资源，因为所有相关的目标文件与牵涉到的函数库被链接合成一个可执行文件。<br>下面编写一些简单的四则运算C++类，将其编译成静态库给他人用，头文件如下所示：</p>
 <pre><code>#pragma once
 class StaticMath
 {
@@ -472,7 +472,6 @@ int main(int argc, char* argv[])
     cout &lt;&lt; &quot;a / b = &quot; &lt;&lt; StaticMath::div(a, b) &lt;&lt; endl;
     StaticMath sm;
     sm.print();
-    system(&quot;pause&quot;);
     return 0;
 }</code></pre><p>Linux下使用静态库，只需要在编译的时候，指定静态库的搜索路径、指定静态库名。</p>
 <pre><code>g++ TestStaticLibrary.cpp -L../StaticLibrary -lstaticmath</code></pre><p>-L：表示要连接的库所在目录<br>-l：指定链接时需要的动态库，编译器查找动态连接库时有隐含的命名规则，即在给出的名字前面加上lib，后面加上<code>.a</code>或<code>.so</code>来确定库的名称。<br>通过上面的介绍发现静态库，容易使用和理解，也达到了代码复用的目的，那为什么还需要动态库呢？</p>
@@ -481,13 +480,13 @@ int main(int argc, char* argv[])
 class DynamicMath
 {
 public:
-        DynamicMath(void);
-        ~DynamicMath(void);
-        static double add(double a, double b);
-        static double sub(double a, double b);
-        static double mul(double a, double b);
-        static double div(double a, double b);
-        void print();
+    dynamicMath(void);
+    ~DynamicMath(void);
+    static double add(double a, double b);
+    static double sub(double a, double b);
+    static double mul(double a, double b);
+    static double div(double a, double b);
+    void print();
 };</code></pre><p>首先，生成目标文件，此时要加编译器选项-fpic</p>
 <pre><code>g++ -fPIC -c DynamicMath.cpp</code></pre><p>-fPIC 创建与地址无关的编译程序，是为了能够在多个应用程序间共享。<br>然后，生成动态库，此时要加链接器选项-shared</p>
 <pre><code>g++ -shared -o libdynmath.so DynamicMath.o</code></pre><p>-shared指定生成动态链接库。</p>
@@ -507,21 +506,21 @@ int main(int argc, char* argv[])
     dyn.print();
     return 0;
 }</code></pre><p>编译成可执行文件，跟静态库方式一样：</p>
-<pre><code>g++ TestDynamicLibrary.cpp -L../DynamicLibrary -ldynmath</code></pre><p>然后运行：<code>./a.out</code>,发现竟然报错了！！！<br>发现还是报错！！！那么，在执行的时候是如何定位共享库文件的呢？<br>1)当系统加载可执行代码时候，能够知道其所依赖的库的名字，但是还需要知道绝对路径。此时就需要系统动态载入器。<br>2)对于elf格式的可执行程序，是由<code>ld-linux.so*</code>来完成的，它先后搜索elf文件的 <code>DT_RPATH</code>段、环境变量<code>LD_LIBRARY_PATH</code>、<code>/etc/ld.so.cache</code>文件列表、<code>/lib/</code>、<code>/usr/lib</code>目录找到库文件后将其载入内存。<br>如果安装在<code>/lib</code>或者<code>/usr/lib</code>下，那么ld默认能够找到，无需其他操作。<br>如果安装在其他目录，需要将其添加到<code>/etc/ld.so.cache</code>文件中，步骤如下：<br>    <em> 编辑<code>/etc/ld.so.conf</code>文件，加入库文件所在目录的路径
-    </em> 运行<code>ldconfig</code>，该命令会重建<code>/etc/ld.so.cache</code>文件<br>我们将创建的动态库复制到/usr/lib下面，然后运行测试程序。<br>另外如何从C++动态库中获取类，附上几篇相关文章，但我并不建议这么做：<br>《LoadLibrary调用DLL中的Class》：<a href="http://www.cppblog.com/codejie/archive/2009/09/24/97141.html" target="_blank" rel="noopener">http://www.cppblog.com/codejie/archive/2009/09/24/97141.html</a><br>《C++ dlopen mini HOWTO》：<a href="http://blog.csdn.net/denny_233/article/details/7255673" target="_blank" rel="noopener">http://blog.csdn.net/denny_233/article/details/7255673</a><br>“显式”使用C++动态库中的Class是非常繁琐和危险的事情，因此能用“隐式”就不要用“显式”，能静态就不要用动态。</p>
-<pre><code>-shared ：指定生成动态链接库。
--static ：指定生成静态链接库。
--fPIC ：表示编译为位置独立的代码，用于编译共享库。目标文件需要创建成位置无关码， 念上就是在可执行程序装载它们的时候，它们可以放在可执行程序的内存里的任何地方。
--L. ：表示要连接的库所在的目录。
--l：指定链接时需要的动态库。编译器查找动态连接库时有隐含的命名规则，即在给出的名字前面加上lib，后面加上.a/.so来确定库的名称。
--Wall ：生成所有警告信息。
--ggdb ：此选项将尽可能的生成gdb 的可以使用的调试信息。
--g ：编译器在编译的时候产生调试信息。
--c ：只激活预处理、编译和汇编,也就是把程序做成目标文件(.o文件) 。
--Wl,options ：把参数(options)传递给链接器ld 。如果options 中间有逗号,就将options分成多个选项,然后传递给链接程序。</code></pre><p>有时候可能需要查看一个库中到底有哪些函数，nm命令可以打印出库中的涉及到的所有符号。库既可以是静态的也可以是动态的。nm列出的符号有很多，常见的有三种：<br>一种是在库中被调用，但并没有在库中定义表明需要其他库支持，用U表示；<br>一种是库中定义的函数，用T表示，这是最常见的；<br>一种是所谓的弱态”符号，它们虽然在库中被定义，但是可能被其他库中的同名符号覆盖，用W表示。</p>
-<pre><code>nm libhello.h</code></pre><p>ldd命令可以查看一个可执行程序依赖的共享库。</p>
-<h2 id="二者的不同点在于代码被载入的时刻不同。"><a href="#二者的不同点在于代码被载入的时刻不同。" class="headerlink" title="二者的不同点在于代码被载入的时刻不同。"></a>二者的不同点在于代码被载入的时刻不同。</h2><p>静态库在程序编译时会被连接到目标代码中，程序运行时将不再需要该静态库，因此体积较大。<br>动态库在程序编译时并不会被连接到目标代码中，而是在程序运行是才被载入，因此在程序运行时还需要动态库存在，因此代码体积较小。<br>动态库的好处是，不同的应用程序如果调用相同的库，那么在内存里只需要有一份该共享库的实例。</p>
-
+<pre><code>g++ TestDynamicLibrary.cpp -L../DynamicLibrary -ldynmath</code></pre><p>然后运行：<code>./a.out</code>,发现竟然报错了！！！<br>发现还是报错！！！那么，在执行的时候是如何定位共享库文件的呢？<br>1)当系统加载可执行代码时候，能够知道其所依赖的库的名字，但是还需要知道绝对路径。此时就需要系统动态载入器。<br>2)对于elf格式的可执行程序，是由<code>ld-linux.so*</code>来完成的，它先后搜索elf文件的 <code>DT_RPATH</code>段、环境变量<code>LD_LIBRARY_PATH</code>、<code>/etc/ld.so.cache</code>文件列表、<code>/lib/</code>、<code>/usr/lib</code>目录找到库文件后将其载入内存。<br>如果安装在<code>/lib</code>或者<code>/usr/lib</code>下，那么ld默认能够找到，无需其他操作。<br>如果安装在其他目录，需要将其添加到<code>/etc/ld.so.cache</code>文件中，步骤如下：</p>
+<ul>
+<li>编辑<code>/etc/ld.so.conf</code>文件，加入库文件所在目录的路径</li>
+<li>运行<code>ldconfig</code>，该命令会重建<code>/etc/ld.so.cache</code>文件<br>我们将创建的动态库复制到/usr/lib下面，然后运行测试程序。<br>另外如何从C++动态库中获取类，附上几篇相关文章，但我并不建议这么做：<br>《LoadLibrary调用DLL中的Class》：<a href="http://www.cppblog.com/codejie/archive/2009/09/24/97141.html" target="_blank" rel="noopener">http://www.cppblog.com/codejie/archive/2009/09/24/97141.html</a><br>《C++ dlopen mini HOWTO》：<a href="http://blog.csdn.net/denny_233/article/details/7255673" target="_blank" rel="noopener">http://blog.csdn.net/denny_233/article/details/7255673</a><br>“显式”使用C++动态库中的Class是非常繁琐和危险的事情，因此能用“隐式”就不要用“显式”，能静态就不要用动态。<br>```</li>
+</ul>
+<p>-shared ：指定生成动态链接库。<br>-static ：指定生成静态链接库。<br>-fPIC ：表示编译为位置独立的代码，用于编译共享库。目标文件需要创建成位置无关码， 念上就是在可执行程序装载它们的时候，它们可以放在可执行程序的内存里的任何地方。<br>-L. ：表示要连接的库所在的目录。<br>-l：指定链接时需要的动态库。编译器查找动态连接库时有隐含的命名规则，即在给出的名字前面加上lib，后面加上.a/.so来确定库的名称。<br>-Wall ：生成所有警告信息。<br>-ggdb ：此选项将尽可能的生成gdb 的可以使用的调试信息。<br>-g ：编译器在编译的时候产生调试信息。<br>-c ：只激活预处理、编译和汇编,也就是把程序做成目标文件(.o文件) 。<br>-Wl,options ：把参数(options)传递给链接器ld 。如果options 中间有逗号,就将options分成多个选项,然后传递给链接程序。</p>
+<pre><code>有时候可能需要查看一个库中到底有哪些函数，nm命令可以打印出库中的涉及到的所有符号。库既可以是静态的也可以是动态的。nm列出的符号有很多，常见的有三种：
+一种是在库中被调用，但并没有在库中定义表明需要其他库支持，用U表示；
+一种是库中定义的函数，用T表示，这是最常见的；
+一种是所谓的弱态”符号，它们虽然在库中被定义，但是可能被其他库中的同名符号覆盖，用W表示。</code></pre><p>nm libhello.h</p>
+<pre><code>ldd命令可以查看一个可执行程序依赖的共享库。
+## 二者的不同点在于代码被载入的时刻不同。
+静态库在程序编译时会被连接到目标代码中，程序运行时将不再需要该静态库，因此体积较大。
+动态库在程序编译时并不会被连接到目标代码中，而是在程序运行是才被载入，因此在程序运行时还需要动态库存在，因此代码体积较小。
+动态库的好处是，不同的应用程序如果调用相同的库，那么在内存里只需要有一份该共享库的实例。</code></pre>
             </div>
             <hr />
 
@@ -889,7 +888,7 @@ int main(int argc, char* argv[])
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="C++工程实践">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="C++工程实践">
                         
                         <span class="card-title">C++工程实践</span>
                     </div>
@@ -938,7 +937,7 @@ int main(int argc, char* argv[])
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="C++对象模型：对象内存布局详解">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="C++对象模型：对象内存布局详解">
                         
                         <span class="card-title">C++对象模型：对象内存布局详解</span>
                     </div>
@@ -1144,7 +1143,7 @@ int main(int argc, char* argv[])
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">69.3k</span>
+            <span class="white-color">69.1k</span>
             
 
             <br>
