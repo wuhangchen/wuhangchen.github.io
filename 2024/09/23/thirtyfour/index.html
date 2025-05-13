@@ -466,15 +466,15 @@ std::cout &lt;&lt; (str5 == str6) &lt;&lt; std::endl;
 std::cout &lt;&lt; (str7 == str8) &lt;&lt; std::endl;</code></pre><p>输出：0 0 1 1<br>可以发现str1-&gt;str4中的内容是存在栈上，地址各不相同，而str5-&gt;str8的内容都是存储在常量区，所以地址都相同。<br>注意：<br>上面打印的是字符串 “abc”的地址，下面打印的是 str1 变量的地址。<br>9.C的结构体和C++结构体的区别<br>（1）C的结构体内不允许有函数存在，C++允许有内部成员函数，且允许该函数是虚函数。所以C的结构体是没有构造函数、析构函数、和this指针的。<br>（2）C的结构体对内部成员变量的访问权限只能是public，而C++允许public,protected,private三种。<br>（3）C语言的结构体是不可以继承的，C++的结构体是可以从其他的结构体或者类继承过来的。<br> 以上都是表面的区别，实际区别就是面向过程和面向对象编程思路的区别：<br>C的结构体只是把数据变量给包裹起来了，并不涉及算法。<br>而C++是把数据变量及对这些数据变量的相关算法给封装起来，并且给对这些数据和类不同的访问权限。<br>C语言中是没有类的概念的，但是C语言可以通过结构体内创建函数指针实现面向对象思想。<br>10.如何在类中定义常量成员并为其初始化？<br>解答：只能在初始化列表里对const成员初始化，像下面这样：</p>
 <pre><code>class Cbook {
 public:
-        const double m_prices;
-        Cbook():m_prices(8.8) {}
+    const double m_prices;
+    Cbook():m_prices(8.8) {}
 };</code></pre><p>下面的做法是错误的：</p>
 <pre><code>class Cbook {
 public:
-        const double m_prices;
-        Cbook() {
-                m_prices = 8.8;
-        }
+    const double m_prices;
+    Cbook() {
+            m_prices = 8.8;
+    }
 };</code></pre><p>11.在定义类的成员函数时使用mutable关键字的作用是什么？<br>解答：当需要在const方法中修改对象的数据成员时，可以在数据成员前使用mutable关键字，防止出现编译出错。例子如下：</p>
 <ol start="12">
 <li>构造函数、拷贝构造函数、析构函数的调用点和顺序问题，如下面这个例子输出是什么？<br>解答：注意拷贝构造函数在对象作为函数参数传递时被调用，注意是对象实例而不是对象引用。因此该题输出如下：<br>引申：拷贝构造函数在哪些情况下被调用？<br>（1）函数的参数为类对象且参数采用值传递方式；<br>（2）将类对象做为函数的返回值。</li>
@@ -485,16 +485,16 @@ public:
 <li>C++的多态性分为静态多态和动态多态。<br>静态多态性：编译期间确定具体执行哪一项操作，主要是通过函数重载和运算符重载来实现的；<br>动态多态性：运行时确定具体执行哪一项操作，主要是通过虚函数来实现的。</li>
 <li>虚函数原理考点，例如下面程序的输出是什么？<pre><code>class A {
 public:
-     virtual void funa();
-     virtual void funb();
-     void func();
-     static void fund();
-     static int si;
+ virtual void funa();
+ virtual void funb();
+ void func();
+ static void fund();
+ static int si;
 private:
-     int i;
-     char c;
+ int i;
+ char c;
 };
-sizeof(A) = ?</code></pre>解答：<br>关于类占用的内存空间，有以下几点需要注意：<br>（1）如果类中含有虚函数，则编译器需要为类构建虚函数表，类中需要存储一个指针指向这个虚函数表的首地址，注意不管有几个虚函数，都只建立一张表，所有的虚函数地址都存在这张表里，类中只需要一个指针指向虚函数表首地址即可。<br>（2）类中的静态成员是被类所有实例所共享的，它不计入sizeof计算的空间<br>（3）类中的普通函数或静态普通函数都存储在栈中，不计入sizeof计算的空间<br>（4）类成员采用字节对齐的方式分配空间<br>答案：12或16</li>
+sizeof(A) = ?</code></pre>解答：<br>关于类占用的内存空间，有以下几点需要注意：<br>（1）如果类中含有虚函数，则编译器需要为类构建虚函数表，类中需要存储一个指针指向这个虚函数表的首地址，注意不管有几个虚函数，都只建立一张表，所有的虚函数地址都存在这张表里，类中只需要一个指针指向虚函数表首地址即可。<br>（2）类中的静态成员是被类所有实例所共享的，它不计入sizeof计算的空间<br>（3）类中的普通函数或静态普通函数都存储在栈中，不计入sizeof计算的空间<br>（4）类成员采用字节对齐的方式分配空间<br>答案：16</li>
 <li>虚继承的作用是什么？<br>在多继承中，子类可能同时拥有多个父类，如果这些父类还有相同的父类, 那么在子类中就会有多份祖先类。例如，类B和类C都继承与类A，如果类D派生于B和C，那么类D中就会有两份A。为了防止在多继承中子类存在重复的父类情况，可以在父类继承时使用虚函数，即在类B和类C继承类A时使用virtual关键字，例如：<pre><code>class B : virtual public A {};
 class C : virtual public A {};</code></pre>注：因为多继承会带来很多复杂问题，因此要慎用。</li>
 </ol>
@@ -874,7 +874,7 @@ class C : virtual public A {};</code></pre>注：因为多继承会带来很多�
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            我们经常使用for循环来遍历东西，循环变量可以前自增也可以后自增，发现对遍历结果没啥影响，但是该如何选择呢？我们应该尽量使用前自增运算符而不是后自增运算符，即用 ++Iter代替Iter++。为什么要这么做，有什么有实际价值？下面我会详细解
+                            我们经常使用for循环来遍历东西，循环变量可以前自增也可以后自增，发现对遍历结果没啥影响，但是该如何选择呢？我们应该尽量使用前自增运算符而不是后自增运算符，即用 ++Iter代替Iter++。前缀和后缀形式之间的区别是众所周知的。我希望它们
                         
                     </div>
                     <div class="publish-info">
@@ -923,7 +923,7 @@ class C : virtual public A {};</code></pre>注：因为多继承会带来很多�
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            摘要：sizeof的作用非常简单：求对象或者类型的大小。然而sizeof又非常复杂，它涉及到很多特殊情况，本篇把这些情况分门别类，总结出了sizeof的9个特性：(1)sizeof不能求得void类型的长度；(2)sizeof能求得void
+                            摘要：sizeof的作用非常简单：求对象或者类型的大小。然而sizeof又非常复杂，它涉及到很多特殊情况，总结出了sizeof的9个特性：(1)sizeof不能求得void类型的长度；(2)sizeof能求得void类型的指针的长度；(3)
                         
                     </div>
                     <div class="publish-info">
@@ -1120,7 +1120,7 @@ class C : virtual public A {};</code></pre>注：因为多继承会带来很多�
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">69.1k</span>
+            <span class="white-color">68.9k</span>
             
 
             <br>

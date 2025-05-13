@@ -422,7 +422,7 @@ void f(int&amp;amp; n1, int&amp;amp; n2, const ">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    322
+                    269
                 </div>
                 
 
@@ -467,7 +467,7 @@ int main()
 }</code></pre><p>Output:</p>
 <pre><code>Before function: 10 11 12
 In function: 1 11 12
-After function: 10 12 12</code></pre><p>上述代码在执行<code>std::bind</code>后，在函数<code>f()</code>中n1的值仍然是1，n2和n3改成了修改的值。说明<code>std::bind</code>使用的是参数的拷贝而不是引用。具体为什么<code>std::bind</code>不使用引用，可能确实有一些需求，使得C++11的设计者认为默认应该采用拷贝，如果使用者有需求，加上<code>std::ref</code>即可。</p>
+After function: 10 12 12</code></pre><p>上述代码在执行<code>std::bind</code>后，在函数<code>f()</code>中n1的值仍然是1，n2和n3改成了修改的值。说明<code>std::bind</code>使用的是参数的拷贝而不是引用。</p>
 
             </div>
             <hr />
@@ -1092,7 +1092,7 @@ After function: 10 12 12</code></pre><p>上述代码在执行<code>std::bind</co
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">69.1k</span>
+            <span class="white-color">68.9k</span>
             
 
             <br>
