@@ -538,7 +538,7 @@ int main() {
     int&amp;&amp; x = 1;
     f(x);            // calls f(int&amp; x)
     f(std::move(x)); // calls f(int&amp;&amp; x)
-}</code></pre><p>这允许在适当时机自动选择移动构造函数、移动赋值运算符和其他具移动能力的函数（例如 std::vector::push_back()）。<br>因为右值引用能绑定到亡值，故它们能指代非临时对象：</p>
+}</code></pre><p>这允许在适当时机自动选择移动构造函数、移动赋值运算符和其他具移动能力的函数（例如 <code>std::vector::push_back()</code>）。<br>因为右值引用能绑定到亡值，故它们能指代非临时对象：</p>
 <pre><code>int i2 = 42;
 int&amp;&amp; rri = std::move(i2); // 直接绑定到 i2</code></pre><p>这使得可以将作用域中不再需要的对象移动出去：</p>
 <pre><code>std::vector&lt;int&gt; v{1,2,3,4,5};
@@ -580,7 +580,7 @@ auto&amp;&amp; z = {1, 2, 3}; // *不是*转发引用（初始化器列表的特
 }
 std::string&amp; r = f(); // 悬垂引用
 std::cout &lt;&lt; r;       // 未定义行为：从悬垂引用读取
-std::string s = f();  // 未定义行为：从悬垂引用复制初始化</code></pre><p>注意，右值引用和到 const 的左值引用能延长临时对象的生存期（参阅引用初始化中的规则和例外情况）。<br>若被指代对象被销毁（例如通过显式的析构函数调用），但存储尚未被解分配，则到生存期外的对象的引用仍能以有限的方式使用，<br>且当在同一存储中重新创建对象时也可以变为有效（细节见在生存期之外进行访问）。</p>
+std::string s = f();  // 未定义行为：从悬垂引用复制初始化</code></pre><p>注意，右值引用和到 const 的左值引用能延长临时对象的生存期。<br>若被指代对象被销毁（例如通过显式的析构函数调用），但存储尚未被解分配，则到生存期外的对象的引用仍能以有限的方式使用，且当在同一存储中重新创建对象时也可以变为有效。</p>
 
             </div>
             <hr />
@@ -1209,7 +1209,7 @@ ibs=bytes       #指定一个块大小为b
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">69.1k</span>
+            <span class="white-color">68.9k</span>
             
 
             <br>

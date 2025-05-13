@@ -8,7 +8,7 @@
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="摘要：sizeof的作用非常简单：求对象或者类型的大小。然而sizeof又非常复杂，它涉及到很多特殊情况，本篇把这些情况分门别类，总结出了sizeof的9个特性：(1)sizeof不能求得void类型的长度；(2)sizeof能求得void">
+    <meta name="description" content="摘要：sizeof的作用非常简单：求对象或者类型的大小。然而sizeof又非常复杂，它涉及到很多特殊情况，总结出了sizeof的9个特性：(1)sizeof不能求得void类型的长度；(2)sizeof能求得void类型的指针的长度；(3)">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -444,7 +444,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="摘要："><a href="#摘要：" class="headerlink" title="摘要："></a>摘要：</h2><p><code>sizeof</code>的作用非常简单：求对象或者类型的大小。然而<code>sizeof</code>又非常复杂，它涉及到很多特殊情况，本篇把这些情况分门别类，总结出了<code>sizeof</code>的9个特性：<br>(1)<code>sizeof</code>不能求得<code>void</code>类型的长度；<br>(2)<code>sizeof</code>能求得<code>void</code>类型的指针的长度；<br>(3)<code>sizeof</code>能求得静态分配内存的数组的长度!<br>(4)<code>sizeof</code>不能求得动态分配的内存的大小!<br>(5)<code>sizeof</code>不能对不完整的数组求长度；<br>(6)当表达式作为<code>sizeof</code>的操作数时，它返回表达式的计算结果的类型大小，但是它不对表达式求值！<br>(7)<code>sizeof</code>可以对函数调用求大小，并且求得的大小等于返回类型的大小，但是不执行函数体！<br>(8)<code>sizeof</code>求得的结构体及其对象的大小并不等于各个数据成员对象的大小之和！<br>(9)<code>sizeof</code>不能用于求结构体的位域成员的大小，但是可以求得包含位域成员的结构体的大小！</p>
+                <h2 id="摘要："><a href="#摘要：" class="headerlink" title="摘要："></a>摘要：</h2><p><code>sizeof</code>的作用非常简单：求对象或者类型的大小。然而<code>sizeof</code>又非常复杂，它涉及到很多特殊情况，总结出了<code>sizeof</code>的9个特性：<br>(1)<code>sizeof</code>不能求得<code>void</code>类型的长度；<br>(2)<code>sizeof</code>能求得<code>void</code>类型的指针的长度；<br>(3)<code>sizeof</code>能求得静态分配内存的数组的长度!<br>(4)<code>sizeof</code>不能求得动态分配的内存的大小!<br>(5)<code>sizeof</code>不能对不完整的数组求长度；<br>(6)当表达式作为<code>sizeof</code>的操作数时，它返回表达式的计算结果的类型大小，但是它不对表达式求值！<br>(7)<code>sizeof</code>可以对函数调用求大小，并且求得的大小等于返回类型的大小，但是不执行函数体！<br>(8)<code>sizeof</code>求得的结构体及其对象的大小并不等于各个数据成员对象的大小之和！<br>(9)<code>sizeof</code>不能用于求结构体的位域成员的大小，但是可以求得包含位域成员的结构体的大小！</p>
 <h2 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h2><p><code>sizeof</code>是C/C++中的关键字，它是一个运算符，其作用是取得一个对象，数据类型或者数据对象的长度, 即占用内存的大小，以<code>byte</code>为单位。其中类型包含基本数据类型不包括void、用户自定义类型结构体、类、函数类型。数据对象是指用前面提到的类型定义的普通变量和指针变量包含<code>void</code>指针。不同类型的数据的大小在不同的平台下有所区别，但是c标准规定所有编译平台都应该保证<code>sizeof(char)</code>等于1。关于<code>sizeof</code>的更多概述你可以在msdn总输入<code>sizeof</code>进行查询。<br>看了上面这些，或许你看了没有多少感觉。没关系，下面我将详细列出<code>sizeof</code>的诸多特性，这些特性是造成<code>sizeof</code>是一个较刁钻的关键字的原因：</p>
 <h2 id="十大特性："><a href="#十大特性：" class="headerlink" title="十大特性："></a>十大特性：</h2><h3 id="特性0：sizeof是运算符，不是函数。"><a href="#特性0：sizeof是运算符，不是函数。" class="headerlink" title="特性0：sizeof是运算符，不是函数。"></a>特性0：<code>sizeof</code>是运算符，不是函数。</h3><p>这个特性是<code>sizeof</code>的最基本特性，后面的很多特性都是受到这个特性的影响，正因为<code>sizeof</code>不是函数，因此我们不把它所要求得长度的对象叫做参数，我本人习惯上叫做操作数, 这不严谨，但是有助于我记住<code>sizeof</code>是个操作符。</p>
 <h3 id="特性1：sizeof不能求得void类型的长度"><a href="#特性1：sizeof不能求得void类型的长度" class="headerlink" title="特性1：sizeof不能求得void类型的长度"></a>特性1：<code>sizeof</code>不能求得<code>void</code>类型的长度</h3><p>是的，你不能用<code>sizeof(void)</code>，这将导致编译错误：<code>illegalsizeof operand</code>。事实上你根本就无法声明<code>void</code>类型的变量，不信你就试试<code>void a</code>;这样的语句，编译器同样会报错：<code>illegal use of type &#39;void&#39;</code>。或许你要问为什么，很好，学东西不能只知其然，还要知其所以然。我们知道声明变量的一个重要作用就是告诉编译器该变量需要多少存储空间。然而，<code>void</code>是“空类型”，什么是空类型呢，你可以理解成不知道存储空间大小的类型。既然编译器无法确定<code>void</code>类型的变量的存储大小，那么它自然不让你声明这样的变量。当然了，声明<code>void</code>类型的指针是可以的！这就是特性2的内容。</p>
@@ -1121,7 +1121,7 @@ struct B {
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">69.1k</span>
+            <span class="white-color">68.9k</span>
             
 
             <br>

@@ -463,13 +463,13 @@ the 1 para is 编程珠玑
 the 2 para is C
 the 3 para is C++
 the 4 para is Java
-the 5 para is 博客</code></pre><p>我们依次打印了程序的输入参数，其中特别注意的是，第一个（下标为0）的参数是程序本身。</p>
+the 5 para is 博客</code></pre><p>我们依次打印了程序的输入参数，其中特别注意的是，第一个的参数是程序本身。</p>
 <h1 id="如何优雅地处理命令行参数"><a href="#如何优雅地处理命令行参数" class="headerlink" title="如何优雅地处理命令行参数"></a>如何优雅地处理命令行参数</h1><p>实际上我们通过getopt函数很容易实现。<br>函数声明<br>getopt就可以非常方便地处理简单参数了，其声明如下：</p>
 <pre><code>extern int optind,opterr,optopt;
 extern char *optarg;
-int getopt(int argc,char *const argv[],const char *optstring);</code></pre><h1 id="参数介绍"><a href="#参数介绍" class="headerlink" title="参数介绍"></a>参数介绍</h1><p>几个参数说明如下：<br>    • argc 参数个数，可从main函数入口传入<br>    • argv 参数字符串数组，可从main函数入口传入<br>    • optstring 支持的选项字符串<br>第一个和第二个参数我们很熟悉，它和main函数的参数是一样的：</p>
+int getopt(int argc,char *const argv[],const char *optstring);</code></pre><h1 id="参数介绍"><a href="#参数介绍" class="headerlink" title="参数介绍"></a>参数介绍</h1><p>几个参数说明如下：<br>• argc 参数个数，可从main函数入口传入<br>• argv 参数字符串数组，可从main函数入口传入<br>• optstring 支持的选项字符串<br>第一个和第二个参数我们很熟悉，它和main函数的参数是一样的：</p>
 <pre><code>int main(int argc,char *argv[]);</code></pre><p>第三个参数是什么意思呢？指的是你支持的选项，假设你的程序支持-h,-a,-n选项，并且-n选项后面要跟具体参数，那么optstring可以是：<br>“han:”<br>选项后面有一个冒号表示这个选项需要带参数。<br>它的返回值是int类型，如果出错，则返回-1，如果命令参数不识别，则返回’?‘。</p>
-<h1 id="外部变量"><a href="#外部变量" class="headerlink" title="外部变量"></a>外部变量</h1><p>它有四个外部变量，含义分别如下：<br>    • optind 存放下一个要处理的字符串在argv数组中的下标，从1开始<br>    • opterr 如果选项发生错误，getopt会打印出错消息，如果设置为0，则不打印。<br>    • optopt 如果选项处理发生错误，它会指向导致出错的选项字符串<br>    • optarg 如果一个选项需要参数，如前面提到的n参数，由于后面有:，所以它需要参数，处理到它时，optarg会指向这个参数。<br>程序示例<br>我们仍然通过一个示例程序来看：</p>
+<h1 id="外部变量"><a href="#外部变量" class="headerlink" title="外部变量"></a>外部变量</h1><p>它有四个外部变量，含义分别如下：<br>• optind 存放下一个要处理的字符串在argv数组中的下标，从1开始<br>• opterr 如果选项发生错误，getopt会打印出错消息，如果设置为0，则不打印。<br>• optopt 如果选项处理发生错误，它会指向导致出错的选项字符串<br>• optarg 如果一个选项需要参数，如前面提到的n参数，由于后面有:，所以它需要参数，处理到它时，optarg会指向这个参数。<br>程序示例<br>我们仍然通过一个示例程序来看：</p>
 <pre><code>extern int optind,opterr,optopt;
 extern char *optarg;
 int main(int argc,char *argv[])
@@ -520,7 +520,7 @@ unknow option:n</code></pre><p>它会提示我们n选项需要参数，于是带
 <pre><code>$ ./main1 -n
 start to process 3 para
 we get option -n,para is 2</code></pre><p>怎么样？是不是很简单？</p>
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>但是不知道你有没有发现，上面的处理有个问题，那就是不支持长选项。<br>什么意思呢？</p>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>但是不知道你有没有发现，上面的处理有个问题，那就是不支持长选项。什么意思呢？</p>
 <pre><code>$ ./main1 -ha
 start to process 1 para
 we get option -h
@@ -538,7 +538,7 @@ struct option {
                int         has_arg;
                int        *flag;
                int         val;
-           };</code></pre><p>它们的第一个第二个参数和getopt一样，第三个参数是一个struct option指针：<br>其成员含义分别如下：<br>    • name  长选项名称<br>    • has_arg 参数可选项，no_argument表示该选项后不带参，required_argument表示该选项后面带参数<br>    • *flag 匹配到选项后，如果flag是NULL，则返回val；如果不是NULL，则返回0，并且将val的值赋给flag指向的内存<br>    • val  匹配到选项后的返回值<br>longindex表示长选项在longopts中的索引值。<br>那getopt_long和getopt_long_only有什么区别呢？<br>实际上主要功能是差不多的，只是前者一个-时被解析成短选项，–被解析成长选项，而后者都被解析为长选项，举个例子，-help在前者被解析为h,e,l,p四个选项，而在后者是和–help一样的效果，即被认为是长选项。在getopt_long_only中，optstring可以为“”。<br>我们来看一个示例程序：</p>
+           };</code></pre><p>它们的第一个第二个参数和getopt一样，第三个参数是一个struct option指针：<br>其成员含义分别如下：<br>• name  长选项名称<br>• has_arg 参数可选项，no_argument表示该选项后不带参，required_argument表示该选项后面带参数<br>• *flag 匹配到选项后，如果flag是NULL，则返回val；如果不是NULL，则返回0，并且将val的值赋给flag指向的内存<br>• val  匹配到选项后的返回值<br>longindex表示长选项在longopts中的索引值。<br>那getopt_long和getopt_long_only有什么区别呢？<br>实际上主要功能是差不多的，只是前者一个-时被解析成短选项，–被解析成长选项，而后者都被解析为长选项，举个例子，-help在前者被解析为h,e,l,p四个选项，而在后者是和–help一样的效果，即被认为是长选项。在getopt_long_only中，optstring可以为“”。<br>我们来看一个示例程序：</p>
 <pre><code>extern int optind,opterr,optopt;
 extern char *optargi;
 //定义长选项
@@ -1218,7 +1218,7 @@ void f(int&amp; n1, int&amp; n2, const
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">69.1k</span>
+            <span class="white-color">68.9k</span>
             
 
             <br>
