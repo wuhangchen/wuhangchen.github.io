@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>localhost/2024/07/20/three/</loc>
-    <lastmod>2025-05-13</lastmod>
+    <loc>localhost/2024/08/14/twentytwo/</loc>
+    <lastmod>2025-05-24</lastmod>
+  </url>  <url>
+    <loc>localhost/2024/08/04/twentyone/</loc>
+    <lastmod>2025-05-24</lastmod>
+  </url>  <url>
+    <loc>localhost/2024/09/03/twentynine/</loc>
+    <lastmod>2025-05-24</lastmod>
+  </url>  <url>
+    <loc>localhost/2024/08/26/twentyfour/</loc>
+    <lastmod>2025-05-24</lastmod>
+  </url>  <url>
+    <loc>localhost/2024/08/27/twentyfive/</loc>
+    <lastmod>2025-05-24</lastmod>
+  </url>  <url>
+    <loc>localhost/2024/09/03/twentyeight/</loc>
+    <lastmod>2025-05-24</lastmod>
+  </url>  <url>
+    <loc>localhost/2024/07/30/twenty/</loc>
+    <lastmod>2025-05-24</lastmod>
   </url>  <url>
     <loc>localhost/2024/09/08/thirytwo/</loc>
+    <lastmod>2025-05-24</lastmod>
+  </url>  <url>
+    <loc>localhost/2024/07/20/three/</loc>
     <lastmod>2025-05-13</lastmod>
   </url>  <url>
     <loc>localhost/2024/09/08/thirythree/</loc>
@@ -96,33 +117,6 @@
   </url>  <url>
     <loc>localhost/2024/07/24/eight/</loc>
     <lastmod>2025-04-19</lastmod>
-  </url>  <url>
-    <loc>localhost/2024/09/02/twentyseven/</loc>
-    <lastmod>2024-09-08</lastmod>
-  </url>  <url>
-    <loc>localhost/2024/09/03/twentynine/</loc>
-    <lastmod>2024-09-03</lastmod>
-  </url>  <url>
-    <loc>localhost/2024/09/03/twentyeight/</loc>
-    <lastmod>2024-09-03</lastmod>
-  </url>  <url>
-    <loc>localhost/2024/08/27/twentyfive/</loc>
-    <lastmod>2024-09-02</lastmod>
-  </url>  <url>
-    <loc>localhost/2024/07/30/twenty/</loc>
-    <lastmod>2024-08-27</lastmod>
-  </url>  <url>
-    <loc>localhost/2024/08/04/twentyone/</loc>
-    <lastmod>2024-08-27</lastmod>
-  </url>  <url>
-    <loc>localhost/2024/08/14/twentytwo/</loc>
-    <lastmod>2024-08-27</lastmod>
-  </url>  <url>
-    <loc>localhost/2024/08/14/twentythree/</loc>
-    <lastmod>2024-08-27</lastmod>
-  </url>  <url>
-    <loc>localhost/2024/08/26/twentyfour/</loc>
-    <lastmod>2024-08-27</lastmod>
   </url>  <url>
     <loc>localhost/2024/07/28/twleve/</loc>
     <lastmod>2024-08-25</lastmod>

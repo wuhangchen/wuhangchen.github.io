@@ -366,7 +366,7 @@ else
     <link href="localhost/2024/09/08/thirytwo/"/>
     <id>localhost/2024/09/08/thirytwo/</id>
     <published>2024-09-08T07:54:23.000Z</published>
-    <updated>2025-05-13T13:45:23.491Z</updated>
+    <updated>2025-05-24T03:36:00.043Z</updated>
     
     <summary type="html">
     
@@ -472,7 +472,7 @@ else
     <link href="localhost/2024/09/03/twentynine/"/>
     <id>localhost/2024/09/03/twentynine/</id>
     <published>2024-09-03T12:49:25.000Z</published>
-    <updated>2024-09-03T13:21:51.823Z</updated>
+    <updated>2025-05-24T08:39:02.629Z</updated>
     
     <summary type="html">
     
@@ -499,7 +499,7 @@ else
     <link href="localhost/2024/09/03/twentyeight/"/>
     <id>localhost/2024/09/03/twentyeight/</id>
     <published>2024-09-03T12:33:26.000Z</published>
-    <updated>2024-09-03T12:46:09.453Z</updated>
+    <updated>2025-05-24T08:23:28.418Z</updated>
     
     <summary type="html">
     
@@ -522,11 +522,11 @@ else
   </entry>
   
   <entry>
-    <title>智能指针</title>
-    <link href="localhost/2024/09/02/twentyseven/"/>
-    <id>localhost/2024/09/02/twentyseven/</id>
-    <published>2024-09-02T14:12:49.000Z</published>
-    <updated>2024-09-08T05:00:31.130Z</updated>
+    <title>sizeof、strlen、数组、字符串</title>
+    <link href="localhost/2024/08/27/twentyfive/"/>
+    <id>localhost/2024/08/27/twentyfive/</id>
+    <published>2024-08-27T14:15:57.000Z</published>
+    <updated>2025-05-24T08:25:12.912Z</updated>
     
     <summary type="html">
     
@@ -534,7 +534,8 @@ else
       
         
         
-          &lt;p&gt;上周五排查了一个由于XXX模块操作疏忽导致栈越界引发的我的模块的智能指针Crash问题，因此稍微研究了一下，以作参考：&lt;br&gt;&lt;code&gt;shared_ptr&lt;/code&gt;共享被管理对象，同一时刻可以有多个&lt;code&gt;shared_ptr&lt;/code&gt;拥有对象的所有权，当最
+          &lt;p&gt;对于初学者来说，sizeof，strlen，数组，字符串整在一起是痛苦的，本文看看它们在一起能挖什么坑。&lt;/p&gt;
+&lt;h1 id=&quot;例子&quot;&gt;&lt;a href=&quot;#例子&quot; class=&quot;headerlink&quot;
         
       
     

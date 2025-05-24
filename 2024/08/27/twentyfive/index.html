@@ -8,8 +8,9 @@
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="对于初学者来说，sizeof，strlen，数组，字符串整在一起是痛苦的，它总能在某些莫名其妙的时候整一个措手不及,本文看看它们在一起能挖什么坑。
-例子在说明这些问题之前，先看一段代码，看看你是否都理解了。注：以下代码结果为编译为64位程序">
+    <meta name="description" content="对于初学者来说，sizeof，strlen，数组，字符串整在一起是痛苦的，本文看看它们在一起能挖什么坑。
+例子在说明这些问题之前，先看一段代码，看看你是否都理解了。注：以下代码结果为编译为64位程序后运行结果。
+void testArr(c">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -267,7 +268,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/26.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -445,7 +446,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>对于初学者来说，sizeof，strlen，数组，字符串整在一起是痛苦的，它总能在某些莫名其妙的时候整一个措手不及,本文看看它们在一起能挖什么坑。</p>
+                <p>对于初学者来说，sizeof，strlen，数组，字符串整在一起是痛苦的，本文看看它们在一起能挖什么坑。</p>
 <h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><p>在说明这些问题之前，先看一段代码，看看你是否都理解了。注：以下代码结果为编译为64位程序后运行结果。</p>
 <pre><code>void testArr(const char str[])
 {
@@ -534,7 +535,7 @@ printf(&quot;test7 %lu %lu\n\n&quot;, sizeof(str7), strlen(str7)); //5 10</code>
 <pre><code>/*test 8*/
 char str8[5] = {0};
 strncpy(str8, &quot;hello&quot;, 5);
-printf(&quot;%s\n&quot;, str8);    //hellohello</code></pre><p>这里在实际编程中最容易遇到的问题之一，数组大小为5，但是拷贝了5个字节大小的数据。如果你把它当成字符数组使用也没什么问题，但是由于它最后没有空间去容纳’\0’，因此你使用strlen，或者使用printf去打印的时候，可能发生难以预料的结果。所以你可能会在你的项目代码中看到类似这样的写法，将字符数组的最后一个位置赋值为0：<code>str8[4] = &#39;\0&#39;</code>;<br>    • <code>sizeof</code>计算类型占用空间大小，时间复杂度O(1)<br>    • <code>sizeof</code>计算大小时会考虑字节对齐<br>    • <code>strlen</code>计算字符串长度，时间复杂度O(N)<br>    • <code>strlen</code>作用对象是字符串以’\0’结尾<br>    • <code>strlen</code>遇到’\0’作罢，如果没有遇到，则不可预料<br>    • 格外小心数组作为参数<br>另外注意下面两种方式hello存储的区域不一致：</p>
+printf(&quot;%s\n&quot;, str8);    //hellohello</code></pre><p>这里在实际编程中最容易遇到的问题之一，数组大小为5，但是拷贝了5个字节大小的数据。如果你把它当成字符数组使用也没什么问题，但是由于它最后没有空间去容纳’\0’，因此你使用strlen，或者使用printf去打印的时候，可能发生难以预料的结果。所以你可能会在你的项目代码中看到类似这样的写法，将字符数组的最后一个位置赋值为0：<code>str8[4] = &#39;\0&#39;</code>;<br>• <code>sizeof</code>计算类型占用空间大小，时间复杂度O(1)<br>• <code>sizeof</code>计算大小时会考虑字节对齐<br>• <code>strlen</code>计算字符串长度，时间复杂度O(N)<br>• <code>strlen</code>作用对象是字符串以’\0’结尾<br>• <code>strlen</code>遇到’\0’作罢，如果没有遇到，则不可预料<br>• 格外小心数组作为参数<br>另外注意下面两种方式hello存储的区域不一致：</p>
 <pre><code>char str[] = &quot;hello&quot;;
 char *str2 = &quot;hello&quot;;    //存储在数据区，只读</code></pre>
             </div>
@@ -900,24 +901,25 @@ char *str2 = &quot;hello&quot;;    //存储在数据区，只读</code></pre>
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2024/09/02/twentyseven/">
+                <a href="/2024/09/03/twentyeight/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="智能指针">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="拷贝构造函数与赋值函数">
                         
-                        <span class="card-title">智能指针</span>
+                        <span class="card-title">拷贝构造函数与赋值函数</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            上周五排查了一个由于XXX模块操作疏忽导致栈越界引发的我的模块的智能指针Crash问题，因此稍微研究了一下，以作参考：shared_ptr共享被管理对象，同一时刻可以有多个shared_ptr拥有对象的所有权，当最后一个shared_ptr
+                            在进行C++类编写的过程之中，通常会涉及到类的拷贝构造函数与类的赋值函数。初涉类编写的代码，对于两类函数的用法一直是挺让人困惑的内容。这篇文章我们会详细来梳理拷贝构造函数与赋值函数的区别。
+调用了哪个函数？上述两种函数的使用和C++之中类的
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-09-02
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-09-03
                         </span>
                         <span class="publish-author">
                             
@@ -953,7 +955,7 @@ char *str2 = &quot;hello&quot;;    //存储在数据区，只读</code></pre>
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="二维数组">
+                        <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="二维数组">
                         
                         <span class="card-title">二维数组</span>
                     </div>
@@ -1159,7 +1161,7 @@ int b[4][5];就是定义 4 个元素，每个元素都是一个包含 5 个整�
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">68.9k</span>
+            <span class="white-color">66.8k</span>
             
 
             <br>
