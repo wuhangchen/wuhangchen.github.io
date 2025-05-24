@@ -268,7 +268,7 @@ extern 字符串字面量 声明     (2)1) 将语言说明字符串字面量应�
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -461,8 +461,7 @@ int main()
 // 此 C++ 函数能从 C 代码调用
 extern &quot;C&quot; void handler(int) {
     std::cout &lt;&lt; &quot;Callback invoked\n&quot;; // 它能使用 C++
-}
-</code></pre><p>因为语言连接是每个函数类型的一部分，故函数指针也要维持语言连接。函数类型的语言连接（它表示调用约定）和函数名的语言离近了（它表示名字重整）是彼此独立的：</p>
+}</code></pre><p>因为语言连接是每个函数类型的一部分，故函数指针也要维持语言连接。函数类型的语言连接（它表示调用约定）和函数名的语言离近了（它表示名字重整）是彼此独立的：</p>
 <pre><code>extern &quot;C&quot; void f1(void(*pf)()); // 声明一个具有 C 连接的函数 f1，
                              // 它返回 void 并接受指向返回 void 且不接受形参的 C 函数的指针
 extern &quot;C&quot; typedef void FUNC(); // 声明 FUNC 为返回 void 且不接受形参的 C 函数类型
@@ -845,25 +844,25 @@ int foo(int, int);            // C 编译器所见
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2024/08/14/twentythree/">
+                <a href="/2024/08/26/twentyfour/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="数组">
+                        <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="二维数组">
                         
-                        <span class="card-title">数组</span>
+                        <span class="card-title">二维数组</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            前言在C语言中，数组和指针似乎总是“暧昧不清”，有时候很容易把它们混淆。本文就来理一理数组和指针之间到底有哪些异同。
-数组回顾在分析之前，我们不妨回顾一下数组的知识。数组是可以存储一个固定大小的相同类型元素的顺序集合。为了便于我们说明，假设
+                            二维数组我们知道 C 语言没有真正意义上的二维数组。二维数组的实现，只是简单地通过“线性扩展”的方式进行。如图所示，
+int b[4][5];就是定义 4 个元素，每个元素都是一个包含 5 个整型变量的一维数组。它在内存中依然是以线性的形式
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-08-14
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-08-26
                         </span>
                         <span class="publish-author">
                             
@@ -899,7 +898,7 @@ int foo(int, int);            // C 编译器所见
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="枚举申明">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="枚举申明">
                         
                         <span class="card-title">枚举申明</span>
                     </div>
@@ -907,7 +906,8 @@ int foo(int, int);            // C 编译器所见
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            枚举（enumeration）是独立的类型，其值限制在一个取值范围内（细节见下文），它可以包含数个明确命名的常量（“枚举项（enumerator）”）。各常量的值是某个整型类型（称为该枚举的底层类型（underlying type））的值。
+                            枚举（enumeration）是独立的类型，其值限制在一个取值范围内，它可以包含数个明确命名的常量。各常量的值是某个整型类型（称为该枚举的底层类型（underlying type））的值。
+enum-关键词 attr(可选) enum-名(
                         
                     </div>
                     <div class="publish-info">
@@ -1104,7 +1104,7 @@ int foo(int, int);            // C 编译器所见
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">68.9k</span>
+            <span class="white-color">66.8k</span>
             
 
             <br>

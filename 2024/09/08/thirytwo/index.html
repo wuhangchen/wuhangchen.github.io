@@ -266,7 +266,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -518,7 +518,7 @@ void * operator delete[](void *0,nothrow_t&amp; ）noexcept;</code></pre><p>我�
 <pre><code>namespace std {
      typedef void (*new_handler)();
 }</code></pre><p>指向了一个没有参数没有返回值的函数,即为错误处理函数。为了指定错误处理函数，客户需要调用set_new_handler，这是一个声明于的一个标准库函数:</p>
-<pre><code>namespace std{
+<pre><code>namespace std {
     new_handler set_new_handler(new_handler p ) throw();
 }</code></pre><p>set_new_handler的参数为new_handler指针，指向了<code>operator new</code>无法分配足够内存时该调用的函数。其返回值也是个指针，指向set_new_handler被调用前正在执行,但马上就要发生替换的那个new_handler函数。<br>对于<code>malloc</code>，客户并不能够去编程决定内存不足以分配时要干什么事，只能看着<code>malloc</code>返回NULL。</p>
 <h2 id="总结将上面所述的10点差别"><a href="#总结将上面所述的10点差别" class="headerlink" title="总结将上面所述的10点差别"></a>总结将上面所述的10点差别</h2><p>特征new/delete malloc/free<br>分配内存的位置    自由存储区    堆<br>内存分配成功返回值    完整类型指针    void*<br>内存分配失败返回值    默认抛出异常    返回NULL<br>分配内存的大小    由编译器根据类型计算得出    必须显式指定字节数<br>处理数组    有处理数组的new版本new[]    需要用户计算数组的大小后进行内存分配<br>已分配内存的扩充    无法直观地处理    使用realloc简单完成<br>是否相互调用    可以，看具体的operator new/delete实现    不可调用new<br>分配内存时内存不足    客户能够指定处理函数或重新制定分配器    无法通过用户代码进行处理<br>函数重载    允许    不允许<br>构造函数与析构函数    调用    不调用<br><code>malloc</code>给你的就好像一块原始的土地，你要种什么需要自己在土地上来播种, 而<code>new</code>帮你划好了田地的分块（数组），帮你播了种（构造函数），还提供其他的设施给你使用:<br>当然，<code>malloc</code>并不是说比不上<code>new</code>，它们各自有适用的地方。在C++这种偏重OOP的语言，使用<code>new delete</code>自然是更合适的。</p>
@@ -890,7 +890,7 @@ void * operator delete[](void *0,nothrow_t&amp; ）noexcept;</code></pre><p>我�
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="C++细说sizeof">
+                        <img src="/medias/featureimages/24.jpg" class="responsive-img" alt="C++细说sizeof">
                         
                         <span class="card-title">C++细说sizeof</span>
                     </div>
@@ -939,7 +939,7 @@ void * operator delete[](void *0,nothrow_t&amp; ）noexcept;</code></pre><p>我�
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="C++ 流缓冲区">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="C++ 流缓冲区">
                         
                         <span class="card-title">C++ 流缓冲区</span>
                     </div>
@@ -1146,7 +1146,7 @@ void * operator delete[](void *0,nothrow_t&amp; ）noexcept;</code></pre><p>我�
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">68.9k</span>
+            <span class="white-color">66.8k</span>
             
 
             <br>

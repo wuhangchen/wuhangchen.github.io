@@ -8,7 +8,8 @@
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="枚举（enumeration）是独立的类型，其值限制在一个取值范围内（细节见下文），它可以包含数个明确命名的常量（“枚举项（enumerator）”）。各常量的值是某个整型类型（称为该枚举的底层类型（underlying type））的值。">
+    <meta name="description" content="枚举（enumeration）是独立的类型，其值限制在一个取值范围内，它可以包含数个明确命名的常量。各常量的值是某个整型类型（称为该枚举的底层类型（underlying type））的值。
+enum-关键词 attr(可选) enum-名(">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -266,7 +267,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -444,10 +445,10 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>枚举（enumeration）是独立的类型，其值限制在一个取值范围内（细节见下文），它可以包含数个明确命名的常量（“枚举项（enumerator）”）。<br>各常量的值是某个整型类型（称为该枚举的底层类型（underlying type））的值。枚举以下列语法定义：</p>
+                <p>枚举（enumeration）是独立的类型，其值限制在一个取值范围内，它可以包含数个明确命名的常量。<br>各常量的值是某个整型类型（称为该枚举的底层类型（underlying type））的值。</p>
 <pre><code>enum-关键词 attr(可选) enum-名(可选) enum-基(可选)(C++11) { 枚举项列表(可选) }     (1)
-enum-关键字 attr(可选) enum-名 enum-基(可选) ;     (2)     (C++11 起)</code></pre><p>1) enum-说明符，出现于声明语法的 声明说明符序列 ：定义枚举类型与其枚举项。<br>2) 不可见（opaque）枚举声明：定义枚举类型，但不定义其枚举项：在此声明后，该类型是完整类型，且其大小已知。<br>注意：仅有的在 enum-名 之前出现 嵌套名说明符 的情况，是类模板的有作用域枚举成员的显式特化声明 C++14 起。</p>
-<pre><code>enum-关键字     -     enum、enum class(C++11 起) 或 enum struct(C++11 起) 之一
+enum-关键字 attr(可选) enum-名 enum-基(可选) ;     (2)     (C++11 起)</code></pre><p>1) enum 说明符，出现于声明语法的声明说明符序列：定义枚举类型与其枚举项。<br>2) 不可见（opaque）枚举声明：定义枚举类型，但不定义其枚举项：在此声明后，该类型是完整类型，且其大小已知。<br>注意：仅有的在 enum-名 之前出现 嵌套名说明符 的情况，是类模板的有作用域枚举成员的显式特化声明 C++14 起。</p>
+<pre><code>enum-关键字     -     enum、enum class(C++11 起)或enum struct(C++11 起) 之一
 attr(C++11)     -     任意数量的属性的可选序列
 enum-名     -     所声明的枚举的名字。若存在，且若此声明为重声明，则其之前可带有 嵌套名说明符(C++11 起)，</code></pre><p>即名字和作用域解析运算符 :: 的序列并以作用域解析运算符结尾。仅可在无作用域枚举声明中省略名字。enum-基C++11     -     冒号 (:)，后随指名某个整型类型的 类型说明符序列（若它为 cv 限定，则忽略其限定性），该类型将作为此枚举类型的固定底层类型<br>枚举项列表     -     枚举项定义的逗号分隔列表，每项要么是简单的 标识符，它成为枚举项之名，要么是带初始化器的标识符：标识符 = 常量表达式。任一情况下，标识符 可直接后随一个可选的属性说明符序列。C++17起有两种截然不同的枚举：无作用域枚举以 enum-关键词 enum 声明和有作用域枚举以 enum-关键词 enum class或 enum struct声明。</p>
 <h1 id="无作用域枚举"><a href="#无作用域枚举" class="headerlink" title="无作用域枚举"></a>无作用域枚举</h1><pre><code>enum 名字 { 枚举项 = 常量表达式 , 枚举项 = 常量表达式 , ... }     (1)
@@ -488,7 +489,7 @@ int c = x.left;
 int d = p-&gt;left;</code></pre><h1 id="有作用域枚举-C-11起"><a href="#有作用域枚举-C-11起" class="headerlink" title="有作用域枚举 C++11起"></a>有作用域枚举 C++11起</h1><pre><code>enum struct|class 名字 { 枚举项 = 常量表达式 , 枚举项 = 常量表达式 , ... }
 enum struct|class 名字 : 类型 { 枚举项 = 常量表达式 , 枚举项 = 常量表达式 , ... }
 enum struct|class 名字 ;
-enum struct|class 名字 : 类型 ;</code></pre><p>1) 声明底层类型为 int 的有作用域枚举类型（关键词 class 与 struct 完全等价）<br>2) 声明底层类型为 类型 的有作用域枚举类型<br>3) 底层类型为 int 的有作用域枚举类型的不可见枚举声明<br>4) 底层类型为 类型 的有作用域枚举类型的不可见枚举声明<br>每个 枚举项 都成为该枚举的类型即名字的具名常量，它为该枚举的作用域所包含，且可用作用域解析运算符访问。没有从有作用域枚举项到整数类型的隐式转换，尽管 static_cast 可用于获得枚举项的数值。</p>
+enum struct|class 名字 : 类型 ;</code></pre><p>1) 声明底层类型为 int 的有作用域枚举类型（关键词 class 与 struct 完全等价）<br>2) 声明底层类型为类型的有作用域枚举类型<br>3) 底层类型为int的有作用域枚举类型的不可见枚举声明<br>4) 底层类型为类型的有作用域枚举类型的不可见枚举声明<br>每个枚举项都成为该枚举的类型即名字的具名常量，它为该枚举的作用域所包含，且可用作用域解析运算符访问。没有从有作用域枚举项到整数类型的隐式转换，尽管 static_cast 可用于获得枚举项的数值。</p>
 <pre><code>enum class Color { red, green = 20, blue };
 Color r = Color::blue;
 switch(r)
@@ -498,7 +499,7 @@ switch(r)
     case Color::blue : std::cout &lt;&lt; &quot;blue\n&quot;;  break;
 }
 // int n = r; // 错误：不存在从有作用域枚举到 int 的转换
-int n = static_cast&lt;int&gt;(r); // OK, n = 21</code></pre><p>底层类型固定的有作用域枚举类型和无作用域枚举类型，若下列全部条件为真，则都能用列表初始化从一个整数初始化而无需转型：     (C++17 起)<br>        • 初始化是直接列表初始化<br>        • 初始化器列表仅有单个元素<br>        • 枚举是底层类型固定的有作用域枚举或无作用域枚举<br>        • 转换为非窄化转换<br>这使得我们能引入新的整数类型（例如 SafeInt）并享受与其底层整数类型相同的既存调用约定，即使在不利于以值传递/返回结构体的 ABI 上也是如此。</p>
+int n = static_cast&lt;int&gt;(r); // OK, n = 21</code></pre><p>底层类型固定的有作用域枚举类型和无作用域枚举类型，若下列全部条件为真，则都能用列表初始化从一个整数初始化而无需转型：     (C++17 起)<br>• 初始化是直接列表初始化<br>• 初始化器列表仅有单个元素<br>• 枚举是底层类型固定的有作用域枚举或无作用域枚举<br>• 转换为非窄化转换<br>这使得我们能引入新的整数类型（例如 SafeInt）并享受与其底层整数类型相同的既存调用约定，即使在不利于以值传递/返回结构体的 ABI 上也是如此。</p>
 <pre><code>enum byte : unsigned char {}; // byte 是新的整数类型
 byte b { 42 }; // C++17 起 OK（直接列表初始化）
 byte c = { 42 }; // 错误
@@ -944,7 +945,7 @@ int main()
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="语言链接">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="语言链接">
                         
                         <span class="card-title">语言链接</span>
                     </div>
@@ -995,7 +996,7 @@ extern 字符串字面量 声明     (2)1) 将语言说明字符串字面量应�
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="指针">
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="指针">
                         
                         <span class="card-title">指针</span>
                     </div>
@@ -1203,7 +1204,7 @@ extern 字符串字面量 声明     (2)1) 将语言说明字符串字面量应�
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">68.9k</span>
+            <span class="white-color">66.8k</span>
             
 
             <br>
