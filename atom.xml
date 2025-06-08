@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2025-04-21T13:50:09.161Z</updated>
+  <updated>2025-04-21T14:00:17.441Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -15,32 +15,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>C++面试</title>
-    <link href="localhost/2024/11/09/fortyfive/"/>
-    <id>localhost/2024/11/09/fortyfive/</id>
-    <published>2024-11-09T07:32:12.000Z</published>
-    <updated>2025-04-21T13:50:09.161Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;1.&lt;code&gt;char char =
-        
-      
-    
-    </summary>
-    
-      <category term="C++" scheme="localhost/categories/C/"/>
-    
-    
-      <category term="C++" scheme="localhost/tags/C/"/>
-    
-  </entry>
   
   <entry>
     <title>右值引用</title>
@@ -536,6 +510,32 @@ else
         
           &lt;p&gt;对于初学者来说，sizeof，strlen，数组，字符串整在一起是痛苦的，本文看看它们在一起能挖什么坑。&lt;/p&gt;
 &lt;h1 id=&quot;例子&quot;&gt;&lt;a href=&quot;#例子&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>二维数组</title>
+    <link href="localhost/2024/08/26/twentyfour/"/>
+    <id>localhost/2024/08/26/twentyfour/</id>
+    <published>2024-08-26T13:22:26.000Z</published>
+    <updated>2025-06-08T07:43:20.050Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;二维数组&quot;&gt;&lt;a href=&quot;#二维数组&quot; class=&quot;headerlink&quot; title=&quot;二维数组&quot;&gt;&lt;/a&gt;二维数组&lt;/h1&gt;&lt;p&gt;我们知道 C
         
       
     
