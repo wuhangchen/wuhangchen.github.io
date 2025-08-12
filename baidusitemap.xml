@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>localhost/2025/08/12/linux-fork-risk/</loc>
+    <lastmod>2025-08-12</lastmod>
+  </url>  <url>
+    <loc>localhost/2025/08/12/linux-fork-pre/</loc>
+    <lastmod>2025-08-12</lastmod>
+  </url>  <url>
     <loc>localhost/2025/06/08/linux-shu-ju-lei-xing-json/</loc>
     <lastmod>2025-08-12</lastmod>
   </url>  <url>

@@ -4,12 +4,11 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Linux 系统查找大文件, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="Linux-fork-Pre, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="在Windows系统中，我们可以使用TreeSize工具查找一些大文件或文件夹，非常的方便高效，在Linux系统中，如何去搜索一些比较大的文件呢？下面我整理了一下在Linux系统中如何查找大文件或文件夹的方法。
-如何查找大文件？其实很多时候">
+    <meta name="description" content="fork的思想在UNIX出现几年前就出现了，时间大概是1963年，这比UNIX在PDP-7上的第一个版本早了6年。1963年，计算机科学家Melvin Conway(以Conway’s Law闻名于世)写下一篇论文，正式提出了fork思想，">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +16,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Linux 系统查找大文件 | 吴杭沉的博客</title>
+    <title>Linux-fork-Pre | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -267,13 +266,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/28.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Linux 系统查找大文件
+                        Linux-fork-Pre
                     </div>
                 </div>
             </div>
@@ -408,7 +407,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-07-24
+                    2025-08-12
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -422,14 +421,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    428
+                    3.4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    11 分
                 </div>
                 
                 
@@ -445,15 +444,8 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>在Windows系统中，我们可以使用TreeSize工具查找一些大文件或文件夹，非常的方便高效，在Linux系统中，<br>如何去搜索一些比较大的文件呢？下面我整理了一下在Linux系统中如何查找大文件或文件夹的方法。</p>
-<h1 id="如何查找大文件？"><a href="#如何查找大文件？" class="headerlink" title="如何查找大文件？"></a>如何查找大文件？</h1><p>其实很多时候，你需要了解当前系统下有哪些大文件，比如文件大小超过100M或1G（阀值视具体情况而定）。<br>那么如何把这些大文件搜索出来呢？例如我要搜索当前目录下，超过800M大小的文件<br>如上命令所示，我们仅仅能看到超过800M大小的文件的文件名称，但是对文件的信息（例如，文件大小、文件属性）一无所知，<br>那么能否更详细显示一些文件属性或信息呢如果你还需要对查找结果按照文件大小做一个排序，那么可以使用下面命令</p>
-<pre><code>find . -type f -size +800M  -print0 | xargs -0 du -h | sort -nr</code></pre><h1 id="如何查找Linux下的大目录"><a href="#如何查找Linux下的大目录" class="headerlink" title="如何查找Linux下的大目录"></a>如何查找Linux下的大目录</h1><p>譬如有时候磁盘空间告警了，而你平时又疏于管理、监控文件的增长，那么我需要快速的了解哪些目录变得比较大，<br>那么此时我们可以借助du命令来帮我们解决这个问题。</p>
-<pre><code>du -h --max-depth=1 16K
-    ./lost+found 33G
-    ./flash_recovery_area 37G
-    ./oradata 70G     .
-</code></pre><p>如果你想知道flash_recovery_area目录下面有哪些大文件夹，那么可以将参数max-depth=2 ，如果你想对搜索出来的结果进行排序，<br>那么可以借助于sort命令。如下所示</p>
-<pre><code>du -h --max-depth=2 | sort -n</code></pre>
+                <p>fork的思想在UNIX出现几年前就出现了，时间大概是1963年，这比UNIX在PDP-7上的第一个版本早了6年。<br>1963年，计算机科学家Melvin Conway(以Conway’s Law闻名于世)写下一篇论文，正式提出了fork思想，该论文链接：<br>A Multiprocessor System Design：<br><a href="https://archive.org/details/AMultiprocessorSystemDesignConway1963/page/n7" target="_blank" rel="noopener">https://archive.org/details/AMultiprocessorSystemDesignConway1963/page/n7</a><br>fork的思想最初是Conway作为一种多处理器并行的方案提出来的，这个想法非常有意思。简而言之，fork思想来源于流程图。<br>我们看一个普通的流程图：<br>如果我们承认一个计算机程序可以表示为一个流程，那么我们就不能否认这种并行方案是正确的。<br>你看，流程图的分枝处，fork-叉子，多么形象！<br>一个流程图上的分支点分裂出来的分支显然是逻辑独立的，这便是可并行的前提，于是它们便可以表现为不同的处理进程(process) 的形式，当时的表达还只是“process”这个术语，它还不是现代操作系统意义上的“进程”的概念。<br>join同步点表现为多个并行处理的进程由于某种原因不得不同步的点，也就是多个并行流程汇合的点，直到现在，在多线程编程中，这个点依然叫join。比如Java Thread的join方法以及pthread库的pthread_join函数。<br>广义来讲，join也表示诸如临界区等必须串行通过的点， 减少join点的数量将会提高并行的效率。<br>我们来看看Conway论文中关于fork的原始图示：<br>Conway在论文中的另一个创举是，他将处理进程(也就是后来操作系统中的process的概念)以及执行该进程的处理器(即CPU核)分离了开来，抽象出了schedule层。<br>大意是说， “只要满足系统中的活动处理器数量是总处理器数量和并行处理进程的最小值即可。” 这意味着调度程序可以将多处理器系统的所有处理器和系统所有处理进程分别看作是统一的资源池和消费者，执行统一调度：<br>在UNIX引入fork之后，这种多处理器并行的设计思想就深入到了UNIX的核心。这个思想最终也影响了UNIX以及后来的Linux，直到现在。<br>关于这个设计思想为什么可以影响UNIX这么久，我想和Conway本人的“Conway’s law”不无关系，在这个law中，他提到：<br>Any organization that designs a system (defined broadly) will produce a design whose structure is a copy of the organization’s communication structure.<br>真正的大牛一枚！<br>好了，fork本身的由来我们已经了解，就像做菜一样，现在我们把它放在一边备用。<br>花开两朵，各表一枝。接下来看UNIX fork的另一个脉络。<br>早期UNIX的覆盖(overlaying)技术<br>1969年最初的UNIX用一种在现在看来非常奇怪的方式运行。<br>一般的资料都是从UNIX v6版本开始讲起，那个版本已经是比较 “现代” 的版本了，所以很少有人能看到最初的UNIX是什么样子的。即便是能查阅到的1970年的PDP-7上运行的UNIX源码，也是引入fork之后的版本，在那之前的最原始版本几乎找不到了(你可能会说，那时的UNIX不叫UNIX，but who cares…)。<br>1969年的汤普森版UNIX超级简陋，这可以在Dennis M. Ritchie的一篇论文中见一斑：<br>The Evolution of the Unix Time-sharing System：<br><a href="http://www.read.seas.harvard.edu/~kohler/class/aosref/ritchie84evolution.pdf" target="_blank" rel="noopener">http://www.read.seas.harvard.edu/~kohler/class/aosref/ritchie84evolution.pdf</a><br>建议细读。<br>最初的UNIX是一个分时系统，它只有两个shell进程，分别属于两个终端：<br>可见其简陋。这里插叙一段关于分时系统的文字：<br>分时系统最初并不是基于进程分时的，那时根本还没有完整的进程的概念，分时系统是针对终端分时的，而操作员坐在终端前，为了让每个操作员在操作过程中感觉上是在独占机器资源，每个终端享受一段时间的时间片，在该时间片内，该终端前的操作员完全享受机器，但是为了公平，超过了时间片，时间片就要给另一个终端。<br>时间片的大小一般是十几秒到分钟级别。这个和现如今的进程调度时间片完全是两个概念。<br>就是这样，最初的UNIX为了体现分时特性，实现了最少的两个终端。注意，最初的UNIX没有fork，没有exec，甚至没有多进程的概念，为了实现分时，系统中仅有两个朴素的shell进程。<br>事实上，最初的UNIX用只有两个元素的表来容纳所有进程(显然，这看起来好笑…)，当然，这里的 “表” 的概念也是抽象的朴素概念，因为当时的系统是用PDP-7的汇编写的，还没有后来C语言数据结构。<br>我们现在考虑其中一个终端的shell进程如何工作。马上问题就来了， 这个shell进程如何执行别的命令程序？？<br>如果说系统中最多只能容纳两个进程，一个终端只有一个shell进程的话，当该终端的shell进程执行其它命令程序时，它自己怎么办？这个问题得思考一会儿…<br>注意，不要用现代的眼光去评价1969年的初版UNIX，按照现代的眼光，执行一个程序要生成一个新的进程，显然这在初版UNIX中并不正确。<br>答案是根本不用产生新的进程，直接将命令程序的代码载入内存并覆盖掉shell进程的代码即可！当命令执行完后，再用shell的代码覆盖掉å½令程序的代码，针对单独的终端，系统其实一直在执行下面的覆盖循环(摘自论文的Process control 章节)：<br>这会让很多人大跌眼镜的吧。<br>然而，在fork被引入UNIX之前，事实就是这样。一个终端上一直都是那一个进程，一会儿它执行shell的代码，一会儿它执行具体命令程序的代码，以下是一个覆盖程序的结构(图片来自《FreeBSD操作系统设计与实现》一书)：<br>结合上图和无聊的覆盖循环的第3)步，你会发现，这个第3)步其实就是exec的逻辑。如果你熟悉Linux内核execve系统调用加载ELF可执行文件的逻辑，你会发现，对于ELF文件而言，这里所谓的bootstrap其实就是load_elf_binary函数。<br>然而，当时毕竟还没有将这个逻辑封装成exec系统调用，这些都是每一个进程显式完成的：<br>    • 对于shell执行命令程序而言，shell自己执行disk IO来载入命令程序覆盖掉自身；<br>    • 对于命令程序执行结束时，exit调用内部执行disk IO载入shell程序。<br>exec逻辑是shell程序的一部分，由于它会被所有的命令程序所使用，该逻辑也被封装到了exit调用中。<br>fork引入UNIX前的表象<br>好了，目前为止，我们看完了两条线索：<br>    1. 1963年Melvin Conway提出了fork思想，作为在多处理器中并行执行进程的一个手段。<br>    2. 1969年汤普森版UNIX仅有两个shell进程，使用覆盖(overlaying)技术执行命令。<br>截止目前，我们看到的表象是：<br>    • 汤普森版UNIX没有fork，没有exec，没有wait，仅有的库函数般的exit也和现在的exit系统调用大相径庭，显然汤普森版UNIX并非一个多进程系统，而只是一个可以跑的简陋的两终端分时系统！<br>UNIX fork的诞生<br>fork是如何引入UNIX的呢？<br>这还要从采用覆盖技术的汤普森版UNIX所固有的问题说起，还是看论文原文：<br>若要解决这些问题，很简单的方案汤普森都想到了：<br>    • 保持shell进程的驻留而不是销毁。命令执行时，将其交换到磁盘便是了<br>很显然，命令程序是不能覆盖掉shell进程了。解决方案是使用 “交换” 技术。<br>交换技术和覆盖技术其实都是解决有限内存的多进程使用问题的，不同点在于方向不同：<br>    • 覆盖技术指的是用不同的进程磁盘映像覆盖当前的进程内存映像。<br>    • 交换技术指的是用将进程的内存映像交换到磁盘，载入一个别的进程磁盘映像。<br>使用交换技术解决覆盖的问题，意味着要创建新的进程：<br>    • 在新的进程中执行命令程序。<br>UNIX需要进行改动，两个配额的进程表显然不够用了。当然，解决方案也并不麻烦：<br>现在，剩下唯一的问题就是如何创建新进程了！谁来临门一脚呢？<br>要讲效率，创造不如抄袭，创建新进程的最直接的就是copy当前shell进程，在copy的新进程中执行覆盖，命令程序覆盖copy的新进程，而当前的终端shell进程则被交换到磁盘保得全身。<br>覆盖和交换相结合了，UNIX离现代化更近了一步！<br>确定了copy当前进程的方案后，进一步的问题是如何来copy进程。<br>现在要说回fork了。<br>Conway提出fork思想后，马上就有了fork的实现原型(正如Conway自己所说，他只是提出了一个可能造就存在的想法，并没有实现它)，Project Genie算是实现fork比较完善的系统之一了。<br>Project Genie系统的fork不仅仅是盲目地copy进程，它对fork的过程拥有精细的控制权，比如分配多大的内存空间，copy哪些必要的资源等等。显然，Project Genie的fork是冲着Conway的多处理器并行逻辑去的。<br>还是那句话，创造不如抄袭，UNIX若想实现进程copy，有一个现成的模版就是Project Genie，但是Project Genie的fork对于UNIX太过复杂，太过精细化了，UNIX显然用不到这些精细的控制， UNIX仅仅是想让fork出来的新进程被覆盖，而不是让它去执行什么多处理器上的并行逻辑。<br>换句话说，UNIX只是借用了fork的copy逻辑的实现，来完成一件别的事。<br>于是，UNIX非常粗暴的实现了fork！即完全copy父进程，这就是直到现在我们依然在使用的fork系统调用：<br>没有参数，非常简洁，显得这很优雅。<br>取了个巧，奇技淫巧：<br>    • fork本来就不是让你用来覆盖新进程的，不然为何多此一举。fork是让你来分解程序流程得以并行处理的。<br>UNIX fork就此诞生！<br>我们再次回顾一下UNIX fork诞生之前的景象：<br>每个终端单一的进程兜兜转转循环覆盖，再没有别的可能性。<br>再来看看fork诞生之后的景象：<br>有了fork之后，UNIX进程便可以组合出无限的可能，正式成为一个名副其实的多用户多进程现代操作系统了。fork孕育了无限的可能性(Linux上可用pstree命令观测)：<br>于是UNIX正式迈开了现代化建设的步伐，一直走到了今天。<br>UNIX fork-exec<br>关于exec，故事没什么好讲的，它事实上就是关于上述覆盖逻辑的封装，此后程序员不必自己写覆盖逻辑了，直接调用exec系统调用即可。<br>于是经典的UNIX fork-exec序列便形成了。<br>UNIX fork/exec/exit/wait<br>值得一提的是，fork被引入UNIX后，exit的语义发生了巨大的改变。<br>在原始的1969年汤普森版UNIX中，由于每一个终端有且仅有一个进程，这意味着覆盖永远是在shell程序和某个命令程序之间进行的：<br>    • shell执行命令A：命令程序A覆盖内存中的shell代码。<br>    • 命令A执行结束：shell覆盖结束的命令A的内存代码。<br>然而，在fork被引入后，虽然shell执行某个命令依然是特定的命令程序覆盖fork出来的shell子进程，但是当命令执行完毕后，exit逻辑却不能再让shell覆盖当前命令程序了，因为shell从来就没有结束过，它作为父进程只是被交换到了磁盘而已(后来内存到了，可以容纳多个进程时，连交换都不需要了)。<br>那么exit将让谁来覆盖当前进程呢？<br>答案是不用覆盖，按照exit的字面意思，它只要结束自己就可以了。<br>本着自己的资源自己管理的责任原则 exit只需要清理掉自己分配的资源即可。比如清理掉自己的内存空间以及一些其它的数据结构。<br>对于子进程本身而言，由于它是父进程生成的，所以它便由父进程来管理释放。于是经典的UNIX进程管理四件套正式形成：</p>
+
             </div>
             <hr />
 
@@ -487,9 +479,9 @@
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《Linux 系统查找大文件》
+                    《Linux-fork-Pre》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/07/24/ten/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2025/08/12/linux-fork-pre/" property="cc:attributionName"
                rel="cc:attributionURL">
                 吴杭沉
             </a> 采用
@@ -530,7 +522,7 @@
         repo: 'wuhangchen.github.io',
         owner: 'wuhangchen',
         admin: "wuhangchen",
-        id: '2024/07/24/ten/',
+        id: '2025/08/12/linux-fork-pre/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -817,26 +809,24 @@
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2024/07/24/eleven/">
+                <a href="/2025/08/12/linux-fork-risk/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="Linux 删除大量文件效率对比">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Linux-fork-risk">
                         
-                        <span class="card-title">Linux 删除大量文件效率对比</span>
+                        <span class="card-title">Linux-fork-risk</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            首先建立50万个文件
-for i in $(seq 1 500000);do echo text &gt;&gt;$i.txt;donerm删除time rm -f *zsh
-sure you want to delete all the 
+                            fork是一个拥有50年历史的陈年系统调用，它是一个传奇！时至今日，它依旧灿烂。一个程序员可以永远不用read/write，也可以不懂mmap，但必须懂fork。这是一种格调！fork没有参数，它是如此简单，是UNIX哲学的布道者或者说卫道
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-24
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2025-08-12
                         </span>
                         <span class="publish-author">
                             
@@ -868,25 +858,24 @@ sure you want to delete all the
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/07/24/nine/">
+                <a href="/2025/06/08/linux-shu-ju-lei-xing-json/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/28.jpg" class="responsive-img" alt="Linux 终端诡异家伙">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Linux 数据类型 json ">
                         
-                        <span class="card-title">Linux 终端诡异家伙</span>
+                        <span class="card-title">Linux 数据类型 json </span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            这篇文章，我们一起来到 Linux 的诡异的一面……你知道吗？在我们日常使用的 Unix、Linux及其各种各样的分支系统中，
-daemondaemon 有一个很高大上的中文名字，叫守护进程 。有句话是这么说的，如果 Unix 中没有了守护
+                            前几天，我才知道有一种简化的数据交换格式，叫做yaml。我翻了一遍它的文档，看懂的地方不多，但是有一句话令我茅塞顿开。它说，从结构上看，所有的数据（data）最终都可以分解成三种类型：第一种类型是标量（scalar），也就是一个单独的字符串
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-24
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2025-06-08
                             </span>
                         <span class="publish-author">
                             
@@ -904,7 +893,7 @@ daemondaemon 有一个很高大上的中文名字，叫守护进程 。有句话
                 <div class="card-action article-tags">
                     
                     <a href="/tags/Linux/" target="_blank">
-                        <span class="chip bg-color">Linux</span>
+                        <span class="chip bg-color">Linux+</span>
                     </a>
                     
                 </div>
