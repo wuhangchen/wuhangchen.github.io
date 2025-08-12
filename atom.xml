@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2025-06-08T14:31:33.273Z</updated>
+  <updated>2025-08-12T12:50:06.488Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="localhost/2025/06/08/linux-shu-ju-lei-xing-json/"/>
     <id>localhost/2025/06/08/linux-shu-ju-lei-xing-json/</id>
     <published>2025-06-08T14:23:55.000Z</published>
-    <updated>2025-06-08T14:31:33.273Z</updated>
+    <updated>2025-08-12T12:50:06.488Z</updated>
     
     <summary type="html">
     
@@ -29,7 +29,7 @@
       
         
         
-          &lt;p&gt;前几天，我才知道有一种简化的数据交换格式，叫做yaml。&lt;br&gt;我翻了一遍它的文档，看懂的地方不多，但是有一句话令我茅塞顿开。&lt;br&gt;它说，从结构上看，所有的数据（data）最终都可以分解成三种类型：&lt;br&gt;第一种类型是标量（scalar），也就是一个单独的字符串（stri
+          &lt;p&gt;前几天，我才知道有一种简化的数据交换格式，叫做yaml。我翻了一遍它的文档，看懂的地方不多，但是有一句话令我茅塞顿开。&lt;br&gt;它说，从结构上看，所有的数据（data）最终都可以分解成三种类型：&lt;br&gt;第一种类型是标量（scalar），也就是一个单独的字符串（string）或
         
       
     
