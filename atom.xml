@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2025-08-12T12:50:06.488Z</updated>
+  <updated>2025-08-12T13:16:49.867Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -15,6 +15,58 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux-fork-risk</title>
+    <link href="localhost/2025/08/12/linux-fork-risk/"/>
+    <id>localhost/2025/08/12/linux-fork-risk/</id>
+    <published>2025-08-12T12:59:47.000Z</published>
+    <updated>2025-08-12T13:16:49.867Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;fork是一个拥有50年历史的陈年系统调用，它是一个传奇！时至今日，它依旧灿烂。&lt;br&gt;一个程序员可以永远不用read/write，也可以不懂mmap，但必须懂fork。这是一种格调！&lt;br&gt;fork没有参数，它是如此简单，是UNIX哲学的布道者或者说卫道者们的首选，它被写
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux-fork-Pre</title>
+    <link href="localhost/2025/08/12/linux-fork-pre/"/>
+    <id>localhost/2025/08/12/linux-fork-pre/</id>
+    <published>2025-08-12T12:56:35.000Z</published>
+    <updated>2025-08-12T12:59:20.036Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;fork的思想在UNIX出现几年前就出现了，时间大概是1963年，这比UNIX在PDP-7上的第一个版本早了6年。&lt;br&gt;1963年，计算机科学家Melvin Conway(以Conway’s Law闻名于世)写下一篇论文，正式提出了fork思想，该论文链接：&lt;br&gt;A
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>Linux 数据类型 json </title>
@@ -482,60 +534,6 @@ else
         
           &lt;p&gt;原则上, 类的私有（private）和受保护（protected）成员不能从声明它们的同一类外部访问。但是, 此规则不适用于友元 “friends”。以friend关键字修饰的函数或类称为友元函数或友元类。&lt;/p&gt;
 &lt;h1 id=&quot;友元函数&quot;&gt;&lt;a
-        
-      
-    
-    </summary>
-    
-      <category term="C++" scheme="localhost/categories/C/"/>
-    
-    
-      <category term="C++" scheme="localhost/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>拷贝构造函数与赋值函数</title>
-    <link href="localhost/2024/09/03/twentyeight/"/>
-    <id>localhost/2024/09/03/twentyeight/</id>
-    <published>2024-09-03T12:33:26.000Z</published>
-    <updated>2025-06-08T07:33:17.457Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;在进行C++类编写的过程之中，通常会涉及到类的拷贝构造函数与类的赋值函数。初涉类编写的代码，对于两类函数的用法一直是挺让人困惑的内容。这篇文章我们会详细来梳理拷贝构造函数与赋值函数的区别。&lt;/p&gt;
-&lt;h1 id=&quot;调用了哪个函数？&quot;&gt;&lt;a href=&quot;#调用了哪个函数？&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="C++" scheme="localhost/categories/C/"/>
-    
-    
-      <category term="C++" scheme="localhost/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>sizeof、strlen、数组、字符串</title>
-    <link href="localhost/2024/08/27/twentyfive/"/>
-    <id>localhost/2024/08/27/twentyfive/</id>
-    <published>2024-08-27T14:15:57.000Z</published>
-    <updated>2025-06-08T07:37:24.654Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;对于初学者来说，sizeof，strlen，数组，字符串整在一起是痛苦的，本文看看它们在一起能挖什么坑。&lt;/p&gt;
-&lt;h1 id=&quot;例子&quot;&gt;&lt;a href=&quot;#例子&quot; class=&quot;headerlink&quot;
         
       
     
