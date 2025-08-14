@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>localhost/2025/08/12/linux-fork-risk/</loc>
+    <loc>localhost/2025/08/14/linux-fork-interview/</loc>
     
-    <lastmod>2025-08-14T13:07:06.788Z</lastmod>
+    <lastmod>2025-08-14T13:24:04.837Z</lastmod>
     
   </url>
   
   <url>
     <loc>localhost/2025/08/14/linux-fork-clone/</loc>
     
-    <lastmod>2025-08-14T13:04:27.280Z</lastmod>
+    <lastmod>2025-08-14T13:13:27.411Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>localhost/2025/08/12/linux-fork-risk/</loc>
+    
+    <lastmod>2025-08-14T13:07:06.788Z</lastmod>
     
   </url>
   

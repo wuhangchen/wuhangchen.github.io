@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2025-08-14T13:04:27.280Z</updated>
+  <updated>2025-08-14T13:24:04.837Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -17,11 +17,37 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Linux-fork-interview</title>
+    <link href="localhost/2025/08/14/linux-fork-interview/"/>
+    <id>localhost/2025/08/14/linux-fork-interview/</id>
+    <published>2025-08-14T13:14:01.000Z</published>
+    <updated>2025-08-14T13:24:04.837Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;前两天有人问了个关于Unix的fork()系统调用的面试题，这个题正好是我大约十年前找工作时某公司问我的一个题，我觉得比较有趣，写篇文章与大家分享一下。这个题是这样的：&lt;br&gt;每一轮&lt;code&gt;fork&lt;/code&gt;操作产生的新进程数量是当前正在运行的进程数量。&lt;br&gt;题目
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Linux-fork-clone</title>
     <link href="localhost/2025/08/14/linux-fork-clone/"/>
     <id>localhost/2025/08/14/linux-fork-clone/</id>
     <published>2025-08-14T12:56:25.000Z</published>
-    <updated>2025-08-14T13:04:27.280Z</updated>
+    <updated>2025-08-14T13:13:27.411Z</updated>
     
     <summary type="html">
     
@@ -506,33 +532,6 @@ else
         
         
           &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="C++" scheme="localhost/categories/C/"/>
-    
-    
-      <category term="C++" scheme="localhost/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>std::ref</title>
-    <link href="localhost/2024/09/03/thirty/"/>
-    <id>localhost/2024/09/03/thirty/</id>
-    <published>2024-09-03T13:22:35.000Z</published>
-    <updated>2025-05-08T13:36:11.625Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;C++本身有引用&amp;amp;，为什么C++11又引入了&lt;code&gt;std::ref&lt;/code&gt;?&lt;br&gt;主要是考虑函数式编程如&lt;code&gt;std::bind&lt;/code&gt;在使用时，是对参数直接拷贝，而不是引用。如下例子：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;void
         
       
     
