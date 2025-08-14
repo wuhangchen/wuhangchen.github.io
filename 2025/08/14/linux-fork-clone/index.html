@@ -4,11 +4,11 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="C++细说sizeof, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="Linux-fork-clone, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="摘要：sizeof的作用非常简单：求对象或者类型的大小。然而sizeof又非常复杂，它涉及到很多特殊情况，总结出了sizeof的9个特性：(1)sizeof不能求得void类型的长度；(2)sizeof能求得void类型的指针的长度；(3)">
+    <meta name="description" content="在本文中，传统UNIX fork之后，我给出传统的UNIX fork在Linux内核中的变体clone系统调用的精彩。若要理解fork的原始意义，还是要看Melvin Conway提出fork思想的原始论文 A Multiprocessor">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -16,7 +16,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>C++细说sizeof | 吴杭沉的博客</title>
+    <title>Linux-fork-clone | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -266,13 +266,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        C++细说sizeof
+                        Linux-fork-clone
                     </div>
                 </div>
             </div>
@@ -383,8 +383,8 @@
                     
                     <div class="article-tag">
                         
-                        <a href="/tags/C/" target="_blank">
-                            <span class="chip bg-color">C++</span>
+                        <a href="/tags/Linux/" target="_blank">
+                            <span class="chip bg-color">Linux</span>
                         </a>
                         
                     </div>
@@ -395,8 +395,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                        <a href="/categories/C/" class="post-category" target="_blank">
-                            C++
+                        <a href="/categories/Linux/" class="post-category" target="_blank">
+                            Linux
                         </a>
                         
                     </div>
@@ -407,7 +407,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-09-08
+                    2025-08-14
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -421,14 +421,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.9k
+                    2.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    17 分
+                    9 分
                 </div>
                 
                 
@@ -444,61 +444,95 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="摘要："><a href="#摘要：" class="headerlink" title="摘要："></a>摘要：</h2><p><code>sizeof</code>的作用非常简单：求对象或者类型的大小。然而<code>sizeof</code>又非常复杂，它涉及到很多特殊情况，总结出了<code>sizeof</code>的9个特性：<br>(1)<code>sizeof</code>不能求得<code>void</code>类型的长度；<br>(2)<code>sizeof</code>能求得<code>void</code>类型的指针的长度；<br>(3)<code>sizeof</code>能求得静态分配内存的数组的长度!<br>(4)<code>sizeof</code>不能求得动态分配的内存的大小!<br>(5)<code>sizeof</code>不能对不完整的数组求长度；<br>(6)当表达式作为<code>sizeof</code>的操作数时，它返回表达式的计算结果的类型大小，但是它不对表达式求值！<br>(7)<code>sizeof</code>可以对函数调用求大小，并且求得的大小等于返回类型的大小，但是不执行函数体！<br>(8)<code>sizeof</code>求得的结构体及其对象的大小并不等于各个数据成员对象的大小之和！<br>(9)<code>sizeof</code>不能用于求结构体的位域成员的大小，但是可以求得包含位域成员的结构体的大小！</p>
-<h2 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h2><p><code>sizeof</code>是C/C++中的关键字，它是一个运算符，其作用是取得一个对象，数据类型或者数据对象的长度, 即占用内存的大小，以<code>byte</code>为单位。其中类型包含基本数据类型不包括void、用户自定义类型结构体、类、函数类型。数据对象是指用前面提到的类型定义的普通变量和指针变量包含<code>void</code>指针。不同类型的数据的大小在不同的平台下有所区别，但是c标准规定所有编译平台都应该保证<code>sizeof(char)</code>等于1。关于<code>sizeof</code>的更多概述你可以在msdn总输入<code>sizeof</code>进行查询。<br>看了上面这些，或许你看了没有多少感觉。没关系，下面我将详细列出<code>sizeof</code>的诸多特性，这些特性是造成<code>sizeof</code>是一个较刁钻的关键字的原因：</p>
-<h2 id="十大特性："><a href="#十大特性：" class="headerlink" title="十大特性："></a>十大特性：</h2><h3 id="特性0：sizeof是运算符，不是函数。"><a href="#特性0：sizeof是运算符，不是函数。" class="headerlink" title="特性0：sizeof是运算符，不是函数。"></a>特性0：<code>sizeof</code>是运算符，不是函数。</h3><p>这个特性是<code>sizeof</code>的最基本特性，后面的很多特性都是受到这个特性的影响，正因为<code>sizeof</code>不是函数，因此我们不把它所要求得长度的对象叫做参数，我本人习惯上叫做操作数, 这不严谨，但是有助于我记住<code>sizeof</code>是个操作符。</p>
-<h3 id="特性1：sizeof不能求得void类型的长度"><a href="#特性1：sizeof不能求得void类型的长度" class="headerlink" title="特性1：sizeof不能求得void类型的长度"></a>特性1：<code>sizeof</code>不能求得<code>void</code>类型的长度</h3><p>是的，你不能用<code>sizeof(void)</code>，这将导致编译错误：<code>illegalsizeof operand</code>。事实上你根本就无法声明<code>void</code>类型的变量，不信你就试试<code>void a</code>;这样的语句，编译器同样会报错：<code>illegal use of type &#39;void&#39;</code>。或许你要问为什么，很好，学东西不能只知其然，还要知其所以然。我们知道声明变量的一个重要作用就是告诉编译器该变量需要多少存储空间。然而，<code>void</code>是“空类型”，什么是空类型呢，你可以理解成不知道存储空间大小的类型。既然编译器无法确定<code>void</code>类型的变量的存储大小，那么它自然不让你声明这样的变量。当然了，声明<code>void</code>类型的指针是可以的！这就是特性2的内容。</p>
-<h3 id="特性2：sizeof能求得void类型的指针的长度。"><a href="#特性2：sizeof能求得void类型的指针的长度。" class="headerlink" title="特性2：sizeof能求得void类型的指针的长度。"></a>特性2：<code>sizeof</code>能求得<code>void</code>类型的指针的长度。</h3><p>在特性1中说过，可以申明<code>void</code>类型的指针，也就是说编译器可以确定<code>void</code>类型的指针所占用的存储空间。事实上确实如此，目前，几乎所有平台上的所有版本的编译器都把指针的大小看做8byte，不信你试试<code>sizeof(int*);sizeof(void*);sizeof(double*)；sizeof(Person*)</code>等等，它们都等于8！</p>
-<h3 id="特性3：sizeof能求得静态分配内存的数组的长度"><a href="#特性3：sizeof能求得静态分配内存的数组的长度" class="headerlink" title="特性3：sizeof能求得静态分配内存的数组的长度!"></a>特性3：<code>sizeof</code>能求得静态分配内存的数组的长度!</h3><p><code>int a[10];int n = sizeof(a)</code>;假设<code>sizeof(int)</code>等于4，则n= 10*4=40；特别要注意：<code>char ch[]=”abc”;sizeof(ch);</code>结果为4，注意字符串数组末尾有’\0’！通常我们可以利用<code>sizeof</code>来计算数组中包含的元素个数，其做法是：<code>int n = sizeof(a)/sizeof(a[0])</code>;<br>非常需要注意的是对函数的形参数组使用<code>sizeof</code>的情况。举例来说，假设有如下的函数：</p>
-<pre><code>void fun(int array[10])
+                <p>在本文中，传统UNIX fork之后，我给出传统的UNIX fork在Linux内核中的变体clone系统调用的精彩。<br>若要理解fork的原始意义，还是要看Melvin Conway提出fork思想的原始论文 A Multiprocessor System Design：<br><a href="https://archive.org/details/AMultiprocessorSystemDesignConway1963/page/n7" target="_blank" rel="noopener">https://archive.org/details/AMultiprocessorSystemDesignConway1963/page/n7</a><br>该论文的核心在于Conway分离了 “进程(process)” 和 “处理器(processpr)” 的概念：<br>    • 一个进程不必特定于一个处理器上被处理。<br>    • 一个处理器未必处理特定的进程。<br>    • 系统中进程数量和处理器数量不需要相等。<br>fork为上述的核心思想提供了实现的手段。后来fork被引入到UNIX系统，成了创建新进程几十年不变的通用操作。<br>比较有意思的是，UNIX fork是通过著名的fork-exec序列而闻名于世的，而不是因为其提供的并行多处理手段而闻名于世，这可能是因为在线程概念出现以后，并行处理均由线程担当，也就在没有人记起fork了吧。<br>如果说一系列进程是完全可并行的，那么它们便没有资源是相互依赖的，这便是现代操作系统进程(即process)抽象的基础。可见，基于进程抽象的现代操作系统本身就是一个可并行系统。在一个可并行的系统中，进程之间本就是资源隔离的，如果需要join操作，引入IPC机制便是。</p>
+<p>线程概念的出现，就是对UNIX进程抽象的资源如何共享重新解构再重构。<br>我们看看在线程出现之前，fork提供的并行多处理是多么高效。最典型的例子就是TCP服务编程模型了：</p>
+<pre><code>void handle_request(int csd)
 {
-     int n = sizeof(array);
-}</code></pre><p>你会觉得在fun内，n的值为多少呢？如果你回答40的话，那么我很遗憾的告诉你，你又错了。这里n等于8，事实上，不管形参是int的型数组，还是float型数组，或者其他任何用户自定义类型的数组，也不管数组包含多少个元素，这里的n都是8！为什么呢？原因是在函数参数传递时，数组被转化成指针了，或许你要问为什么要转化成指针，原因可以在很多书上找到，我简单说一下：假如直接传递整个数组的话，那么必然涉及到数组元素的拷贝，当数组非常大时，这会导致函数执行效率极低！而只传递数组的地址即指针那么只需要拷贝8byte。</p>
-<h3 id="特性4：sizeof不能求得动态分配的内存的大小"><a href="#特性4：sizeof不能求得动态分配的内存的大小" class="headerlink" title="特性4：sizeof不能求得动态分配的内存的大小!"></a>特性4：<code>sizeof</code>不能求得动态分配的内存的大小!</h3><p>假如有如下语句：<code>int *a = new int[10];int n = sizeof(a);</code>那么n的值是多少呢？是40吗？答案是否定的！其实n等于8，因为a是指针，在特性2中讲过：在64位平台下，所有指针的大小都是8byte！切记，这里的a与特性3中的a并不一样！很多人都认为数组名就是指针，其实不然，二者有很多区别的，要知详情，请看《c专家编程》。通过特性3和特性4，我们看到了数组和指针有着千丝万缕的关系，这些关系也是导致程序潜在错误的一大因素，关于指针与数组的关系问题我将在《C/C++刁钻问题各个击破之指针与数组的秘密》一文中进行详细介绍。</p>
-<h3 id="特性4说明sizeof不能求的动态分配的内存的大小。"><a href="#特性4说明sizeof不能求的动态分配的内存的大小。" class="headerlink" title="特性4说明sizeof不能求的动态分配的内存的大小。"></a>特性4说明<code>sizeof</code>不能求的动态分配的内存的大小。</h3><p>于是有人认为<code>sizeof</code>是编译时进行求值的，并给出理由：语句<code>int array[sizeof(int)*10];</code>能编译通过，而很多书上都说过数组大小是编译时就确定下来的，既然前面的语句能编译通过，所以认为<code>sizeof</code>是编译时进行求值的。经过进一步测试我发现这个结论有些武断！至少是有些不严谨！因为在实现了c99标准的编译器可以定义动态数组。<br>那么到底<code>sizeof</code>是编译时求值还是运行时求值呢？最开初c标准规定<code>sizeof</code>只能编译时求值，后来c99又补充规定<code>sizeof</code>可以运行时求值。但值得注意的是，即便是在实现了c99标准的DEV C++中仍然不能用<code>sizeof</code>求得动态分配的内存的大小！</p>
-<h3 id="特性5：sizeof不能对不完整的数组求长度！"><a href="#特性5：sizeof不能对不完整的数组求长度！" class="headerlink" title="特性5：sizeof不能对不完整的数组求长度！"></a>特性5：<code>sizeof</code>不能对不完整的数组求长度！</h3><p>在阐述该特性之前，我们假设有两个源文件：file1.cpp和file2.cpp，其中file1.cpp中有如下的定义：</p>
-<pre><code>int arrayA[10] = {1,2,3,4,5,6,7,8,9,10};
-int arrayB[10] = {11,12,13,14,15,16,17,18,19,20};</code></pre><p>file2.cpp包含如下几个语句：</p>
-<pre><code>extern arrayA[];
-extern arrayB[10];
-cout &lt;&lt; sizeof(arrayA) &lt;&lt; endl;            //编译出错！！
-cout &lt;&lt; sizeof(arrayB) &lt;&lt; endl;</code></pre><p>在file2.cpp中第三条语句编译出错，而第四条语句正确，并且能输出40！为什么呢？原因就是<code>sizeof(arrayA)</code>试图求不完整数组的大小。这里的不完整的数组是指数组大小没有确定的数组！<code>sizeof</code>运算符的功能就是求某种对象的大小，然而声明：<code>extern int arrayA[]</code>只是告诉编译器<code>arrayA</code>是一个整型数组，但是并没告诉编译器它包含多少个元素，因此对file2.cpp中的<code>sizeof</code>来说它无法求出<code>arrayA</code>的大小，所以编译器干脆不让你通过编译。<br>那为什么<code>sizeof(arrayB)</code>又可以得到<code>arraryB</code>的大小呢?关键就在于在file2.cpp中其声明时使用<code>extern int arrayB[10]</code>明确地告诉编译器<code>arrayB</code>是一个包含10个元素的整型数组，因此大小是确定的。</p>
-<h3 id="特性6：当表达式作为sizeof的操作数时，它返回表达式的计算结果的类型大小，但是它不对表达式求值！"><a href="#特性6：当表达式作为sizeof的操作数时，它返回表达式的计算结果的类型大小，但是它不对表达式求值！" class="headerlink" title="特性6：当表达式作为sizeof的操作数时，它返回表达式的计算结果的类型大小，但是它不对表达式求值！"></a>特性6：当表达式作为<code>sizeof</code>的操作数时，它返回表达式的计算结果的类型大小，但是它不对表达式求值！</h3><p>为了说明这个问题，我们来看如下的程序语句：</p>
-<pre><code>char ch = 1;
-int num = 1;
-int n1 = sizeof(ch + num);
-int n2 = sizeof(ch = ch + num);</code></pre><p>假设<code>char</code>占用1byte，<code>int</code>占用4byte，那么执行上面的程序之后，n1，n2，ch的值是多少呢？我相信有不少人会认为n1与n2相等，也有不少人认为ch等于2，事实这些人都错了。事实上n1等于4，n2等于1，ch等于1，为什么呢？请看分析：<br>由于默认类型转换的原因，表达式<code>ch + num</code>的计算结果的类型是<code>int</code>，因此n1的值为4！而表达式<code>ch = ch + num</code>；的结果的类型是<code>char</code>，记住虽然在计算<code>ch + num</code>时，结果为<code>int</code>，但是当把结果赋值给ch时又进行了类型转换，因此表达式的最终类型还是<code>char</code>，所以n2等于1。n1,n2的值分别为4和1，其原因正是因为<code>sizeof</code>返回的是表达式计算结果的类型大小，而不是表达式中占用最大内存的变量的类型大小！<br>对于<code>n2 = sizeof(ch = ch + num)</code>;乍一看该程序貌似实现了让ch加上num并赋值给ch的功能，事实并非如此！由于<code>sizeof</code>只关心类型大小，所以它自然不应该对表达式求值，否则有画蛇添足之嫌了。正是因为这点，这里告诫各位，尽量不要在<code>sizeof</code>中直接对表达式求大小，以免出现错误，你可以将<code>sizeof(ch = ch + num)</code>；改写成 <code>ch = ch + num;sizeof(ch);</code>虽然多了一条语句，看似冗余了，其实好处多多：首先更加清晰明了，其次不会出现ch等于1这样的错误假设程序的逻辑本身就是要执行<code>ch = ch +num</code>;。</p>
-<h3 id="特性7：sizeof可以对函数调用求大小，并且求得的大小等于返回类型的大小，但是不执行函数体！"><a href="#特性7：sizeof可以对函数调用求大小，并且求得的大小等于返回类型的大小，但是不执行函数体！" class="headerlink" title="特性7：sizeof可以对函数调用求大小，并且求得的大小等于返回类型的大小，但是不执行函数体！"></a>特性7：<code>sizeof</code>可以对函数调用求大小，并且求得的大小等于返回类型的大小，但是不执行函数体！</h3><pre><code>int fun(int&amp; num, const int&amp; inc)
+    ...
+    // 读取请求
+    ret = recv(csd, buf_req, len);
+    ret = read(fd, buf_tosend, ret);
+    ret = send(csd, buf_tosend, ret);
+    close(csd);
+}
+void server(int sd)
 {
-         float div = 2.0;
-         double ret = 0;
-         num = num + inc;
-         ret = num / div;
-         return ret;
-}</code></pre><p>那么语句：</p>
-<pre><code>int a = 3;
-int b = 5;
-cout &lt;&lt; sizeof(fun(a,b)) &lt;&lt; endl;
-cout &lt;&lt; a&lt;&lt; endl;</code></pre><p>输出多少呢？不同的人会给出不同的答案，我将对<code>sizeof(fun(a, b))</code>的值和a的值分别进行讨论：<br>首先<code>sizeof(fun(a, b))</code>的值：其正确是4，因为用<code>sizeof</code>求函数调用的大小时，它得到的是函数返回类型的大小，而<code>fun(a, b)</code>的返回类型是<code>int</code>，<code>sizeof(int)</code>等于4。很多人把函数的返回类型和返回值的类型弄混淆了，认为<code>sizeof(fun(a, b))</code>的值是8,因为函数返回值是<code>ret</code>,而<code>ret</code>被定义成<code>double</code>，<code>sizeof(doube)</code>等于8。注意，虽然函数返回值类型是<code>double</code>，但是在函数返回时，将该值进行了类型转换。也有人错误的认为<code>sizeof(fun(a, b))</code>的值是12，它们的理由是：<code>fun</code>内部定义了两个局部变量，一个是<code>float</code>一个是<code>double</code>，而<code>sizeof(float) + sizeof(doube)= 4+8 =12</code>。这样的答案看似很合理，其实他们是错误地认为这里的<code>sizeof</code>是在求函数内部的变量的大小了。这当然是错误的。<br>接下来看a的值：其正确答案是3！还记得特性6吗？这里很类似，<code>sizeof</code>的操作对象是函数调用时，它不执行函数体！为此，建议大家不要把函数体放在<code>sizeof</code>后面的括号里，这样容易让人误以为函数执行了，其实它根本没执行。<br>既然对函数条用使用<code>sizeof</code>得到的是函数返回类型的大小，那么很自然能得出这样的结论：不能对返回类型为<code>void</code>的函数使用<code>sizeof</code>求其大小！原因请参考特性1。同理，对返回类型是任何类型的指针的函数调用使用<code>sizeof</code>求得的大小都为4，原因请参考特性2。<br>最后我们来看看这样的语句：<code>cout&lt;&lt; sizeof(fun)</code>；其答案是多少呢？其实它得不到答案，原因是编译就通不过！最开始，我以为能输出答案4，因为我认为fun是函数名，而我知道函数名就是函数的地址，地址就是指针，于是我认为<code>sizeof(fun)</code>其实就是对一个指针求大小，根据特性2，任何指针的大小都是4。可是当我去验证时，编译器根本不让我通过！这个是为什么呢？我一时半会想不到，所以还请朋友们补充！</p>
-<h3 id="特性8：sizeof求得的结构体的大小并不等于各个数据成员对象的大小之和！"><a href="#特性8：sizeof求得的结构体的大小并不等于各个数据成员对象的大小之和！" class="headerlink" title="特性8：sizeof求得的结构体的大小并不等于各个数据成员对象的大小之和！"></a>特性8：<code>sizeof</code>求得的结构体的大小并不等于各个数据成员对象的大小之和！</h3><p>结构体的大小跟结构体成员对齐有密切关系，而并非简单地等于各个成员的大小之和！比如对如下结构体两个结构体A、B使用<code>sizeof</code>的结果分别是：16,24。可以看出<code>sizeof(B)</code>并不等于<code>sizeof(int) + sizeof(double) + sizeof(int)=16</code>。</p>
-<pre><code>struct A {
-    int num1;
-    int num2;
-    double  num3;
-};
+    ...
+    while (1) {
+        csd = accept(sd, 10);
+        if (fork() == 0) {
+            close(sd);
+            handle_request(csd); // 可并行处理
+        }
+    }
+}
+这几乎成了服务器编程范式，是理解和设计select/poll/epoll程序的前提，也是理解后来Apache Web Server以及Nginx的基础。</code></pre><p>以上这段简单代码，请问，用Windows的CreateProcess API如何实现？<br>不使用线程API，只用进程API，若要并行处理多个请求，CreateProcess需要载入一个磁盘程序映像来执行handle_request，该映像程序写出来可能是下面的样子(这不是最高效的写法，这只是一种直接的写法)：</p>
+<pre><code>void handle_request(int csd)
+{
+    ...
+    // 读取请求
+    ret = recv(csd, buf_req, len);
+    ret = read(fd, buf_tosend, ret);
+    ret = send(csd, buf_tosend, ret);
+    close(csd);
+}
+int main(int argc, char **argv)
+{
+    char *client_info = argv[1];
+    int sd;
 
-struct B {
-    int num1;
-    double num3;
-    int num2;
-};</code></pre><p>如果您不了解结构体的成员对齐，你会感到非常惊讶：结构体A和B中包含的成员都一样，只不过顺序不同而已，为什么其大小不一样呢？要解释这个问题，就要了解结构体成员对齐的规则，由于结构体成员对齐非常复杂，我将用专题——C/C++刁钻问题各个击破之位域和成员对齐——进行讲解，这里我只简单地介绍其规则：<br>结构体的大小等于结构体内最大成员大小的整数倍<br>结构体内的成员的首地址相对于结构体首地址的偏移量是其类型大小的整数倍，比如说<code>double</code>型成员相对于结构体的首地址的地址偏移量应该是8的倍数。<br>为了满足规则1和2编译器会在结构体成员之后进行字节填充！<br>基于上面三个规则我们来看看为什么<code>sizeof(B)</code>等于24：首先假设结构体的首地址为0，第一个成员num1的首地址是0(满足规则2，前面无须字节填充，事实上结构体绝对不会在第一个数据成员前面进行字节填充)，它的类型是<code>int</code>，因此它占用地址空间0——3。第二个成员num3是<code>double</code>类型，它占用8个字节，由于之前的num1只占用了4个字节，为了满足规则2，需要使用规则3在num1后面填充4个字节，使得num3的起始地址偏移量为8，因此num3占用的地址空间是：8——15。第三个成员num2是int型，其大小为4，由于num1和num3一共占用了16个字节，此时无须任何填充就能满足规则2。因此num2占用的地址空间是16——19。那么是不是结构体的总大小就是0——19共20个字节呢？请注意，别忘了规则1！由于结构体内最大成员是<code>double</code>占用8个字节，因此最后还需要在num2后面填充4个字节，使得结构体总体大小为24。<br>按照上面的三个规则和分析过程，你可以很容易地知道为什么<code>sizeof(A)</code>等于16。特别需要说明的是，我这里给出了三个结论性的规则，而没有阐述为什么要这样。你或许有很多疑问：为什么要结构体成员对齐，为什么要定义规则1等。如果你有这样的疑问，并尝试去弄清楚的话，那么我敢断言，不久的将来你必定会有大成就，至少在学习c++上是这样。<br>最后再提醒一点，在进行设计时，最好仔细安排结构体中各个成员的顺序，因为你已经看到了上面的结构体B与结构体A包含的成员相同，只不过顺序略有差异，最终就导致了B比A多消耗了50%的空间，假如在工程中需要定义该结构体的数组，多消耗的空降将是巨大的。</p>
-<h3 id="特性9：sizeof不能用于求结构体的位域成员的大小，但是可以求得包含位域成员的结构体的大小！"><a href="#特性9：sizeof不能用于求结构体的位域成员的大小，但是可以求得包含位域成员的结构体的大小！" class="headerlink" title="特性9：sizeof不能用于求结构体的位域成员的大小，但是可以求得包含位域成员的结构体的大小！"></a>特性9：<code>sizeof</code>不能用于求结构体的位域成员的大小，但是可以求得包含位域成员的结构体的大小！</h3><p>首先解释一下什么是位域：类型的大小都是以字节为基本单位的，我们知道某个类型的大小确定了该类型所能定义的变量的范围，char类型的变量范围是-128——127，或者0——255(unsigned char)，总之它只能定义28=256个数！然而，要命的是bool类型只取值true和false，按理所只用1bit就够了，但事实上等于1。因此我们可以认为bool变量浪费了87.5%的存储空间！这在某些存储空间有限的设备上是不合适的，为此需要提供一种能对变量的存储空间精打细算的机制，这就是位域。简单来说，在结构体的成员变量后面跟上的一个冒号+一个整数，就代表位域，请看如下的结构体：</p>
-<pre><code>struct A
+    sd = GetOrCreateSocket(client_info);
+    handle_request(sd);
+}</code></pre><p>我们知道载入一个程序的映像开销非常大，但为了并行处理不得不如此，否则Windows就必须串行处理handle_reques和接下来的accept。Windows没有fork，它没有可以实现进程在任意点的分叉的机制。<br>当然，现实中，Windows可以使用多线程API CreateThread来干这件事。还可以大肆声张多线程要比多进程方案高效。但如果没有多线程，想必Windows面对fork的挑衅只能忍气吞声而兴叹了。<br>因此，UNIX fork有两个层面的含义：<br>    1. 创建新进程，fork-exec序列(而不是fork本身)竞争Windows CreateProcess或者POSIX spawn。<br>    2. 并行多处理，fork作为多进程竞争多线程。<br>很明显，无论在哪个层面，fork均已落后于对手：<br>    1. 创建新进程，CreateProcess/spawn剔除了不必要的资源复制操作。<br>    2. 并行多处理，多线程共享资源替代了昂贵的IPC。<br>作为多进程的优化或者说替代，多线程的本质和fork的原始意义看起来并无太大的分歧。唯一的区别似乎就是资源共享的深度不同。<br>fork的原始意义将要在Linux内核task的设计中得到了延续和升华！<br>Linux内核的设计者似乎在很早以前就意识到了这一点，在很早的年代，Linux内核就没有去设计一个表示进程的结构体，而只设计了一个task_struct(以下简称task)，该结构体包含有让一个指令流能运行所需要的最少的东西！因此它并不包含特定于进程或者线程概念的字段。<br>一个或者一组task对象到底是什么，关键看你怎么调配它！就像使用相同的文字，组合不同，或是诅咒，或是祝福。<br>一个task对象只是一个原材料，它和其它task对象对资源的共享关系决定了它是什么。<br>一组task对象按照下面的ID类型被标识为不同的实体：</p>
+<pre><code>enum pid_type
 {
-    bool b:1;
-    char ch1:4;
-    char ch2:4;
-}item；</code></pre><p>其中b,ch1,ch2都是位域成员，而i是普通成员。该结构体的试图让bool类型的变量b只占用1个bit，让ch1和ch2分别只占用4个bit，以此来达到对内存精打细算的功能事实上使用位域对内存精打细算有时候能成功，有时候却未必，我将《C/C++刁钻问题各个击破之位域和成员对齐》进行论述。另外需要特别注意的是：c语言规定位域只能用于<code>int，signed int，unsigned int</code>类型，C++又补充了<code>char</code>和<code>long</code>类型！你不能这样使用位域：<code>floatf:8</code>;这是不能通过编译的。并且位域变量不能在函数或者全局区定义，只能在结构体，自定义类，联合中使用！<br>基于上面的结构体，语句<code>sizeof(item.b) sizeof(item.ch1)</code>等对位域成员求大小的语句均不能通过编译。其原因能再本篇的概论中找到：<code>sizeof</code>以<code>byte</code>为单位返回操作数的大小！<br>那么爱学好问的你可能要问，<code>sizeof(A)</code>能否通过编译呢？如何能，其结果又是多少呢？这是两给非常好的问题，我正是在看到<code>sizeof(item.b)</code>不能通过编译时想到了这两个问题，然后通过验证得出了后面的结论：对包含位域的结构体是可以使用<code>sizeof</code>求其大小的，但其求值规则比较复杂，不仅涉及到成员对齐，还与具体编译环境有关！在这里你只需要知道可以对包含位域的结构体使用<code>sizeof</code>求其大小，对于<code>sizeof</code>是根据什么规则来求这个大小的问题，</p>
+    PIDTYPE_PID,
+    PIDTYPE_TGID,
+    PIDTYPE_PGID,
+    PIDTYPE_SID,
+    PIDTYPE_MAX
+};</code></pre><p>关于上图更多的解释，参见下面的文章 朴素的UNIX之-进程/线程模型：<br><a href="https://blog.csdn.net/dog250/article/details/40208219" target="_blank" rel="noopener">https://blog.csdn.net/dog250/article/details/40208219</a><br>对应底层关于task灵活的设计，必须给予应用程序调配它的接口以适应这种灵活。完成这种适配的是Linux的clone系统调用，该系统调用在很早的Linux内核(至少是2.2版本)中就已经存在了：</p>
+<pre><code>#define _GNU_SOURCE
+#include &lt;sched.h&gt;
+
+int clone(int (*fn)(void *), void *child_stack,
+          int flags, void *arg, ...
+          /* pid_t *ptid, void *newtls, pid_t *ctid */ );
+
+/* For the prototype of the raw system call, see NOTES */</code></pre><p>可见，参数众多，这里的flags参数就是让调用者控制如何和子进程共享资源的，拥有这种控制权是clone和fork最大的不同：<br>注意到clone函数的声明依赖于一个宏：</p>
+<pre><code>#define _GNU_SOURCE</code></pre><p>这意味着clone是非标准的。确实，它只是Linux的一个系统调用。之所以存在这个灵活的clone调用，完全得益于Linux内核底层对task灵活的设计。<br>在传统UNIX系统或者类UNIX系统，未实现clone。这里面的原因可能是UNIX从一开始就明确定义了进程，到了后来，当UNIX不得不支持线程的时候，就要引入一个所谓轻量级进程的新概念，意思是可以共享某些资源的进程。参见名牌UNIX Solaris中lwp的实现。<br>在这些老牌Unix系统中，一开始过重的进程概念在引入多线程机制时造成了阻碍。然而对于Linux，为了支持线程引入新的数据结构完全没有必要。<br>虽然人们经常说clone调用创建的是轻量级进程，但也只是称呼罢了，Linux内核内部没有一个表示轻量级进程的结构体。<br>Linux内核在底层task设计以及系统调用接口如此这般的设计，注定它实现Posix线程规范是超级简单的。一个clone参数就能搞定：<br>注意后面那个 “(since Linux 2.4.0)” 注解，这意味着在2.4内核之前，Linux内核是不支持Posix线程的。但是这里说的不支持，只是无法在内核级实现Posix规范要求线程必须遵循的语义，并不是说在并行多处理机制上不支持，至于说POSIX线程的语义，在用户态支持也是一个办法，这都是2.4内核之前的事了。<br>2.4内核之后，Linux对线程的支持就完全是内核级的了。pthread库完全基于CLONE_THREAD实现。CLONE_THREAD的注释参见上图所示的clone manual。<br>具体如何创建一个线程呢？底层到底发生了什么呢？参见下面最简单demo：</p>
+<pre><code>#include &lt;pthread.h&gt;
+#include &lt;stdio.h&gt;
+
+void *func(void *unused)
+{
+    printf(&quot;sub thread\n&quot;);
+    return (void *)123;
+}
+
+int main(int argc, char **argv)
+{
+    pthread_t t1;
+    void *p;
+
+    pthread_create(&amp;t1, NULL, *func, NULL);
+    pthread_join(t1, &amp;p);
+    printf(&quot;main thread:%d\n&quot;, (int)p);
+    return 0;
+}</code></pre><p>关于线程，重要的有两点，即创建和销毁。让我们来strace一下：</p>
+<p>其中，clone系统调用的flags参数的含义大致可以表述如下：<br>    • 黄色：指示都共享哪些资源，MM，FILES，FS等<br>    • 红色：实现POSIX线程的语义，比如共享进程PID，信号传递这些。<br>clone之后，就创建了一个线程。线程执行func之后便退出了。问题是，线程是如何退出的呢？<br>对于普通的C程序，我们知道main函数返回到了C库，而C库在main返回后会调用exit退出程序，而对于多线程程序，在编译代码的时候，我们显式链接了libpthread，那么类似C库的事情在多线程程序里就libpthread库代劳了。<br>大致的pthread_create应该是这个样子：</p>
+<pre><code>void clone_func(Thread *thread)
+{
+    ret = thread-&gt;fn(...);
+    exit(ret);
+}
+int pthread_create(..., fn, ...)
+{
+    thread = malloc(sizeof(&amp;thread));
+    thread-&gt;fn = fn;
+    ret = clone(clone_func, &amp;thread);
+    return ERR_NO(ret);
+}</code></pre><p>我们通过上面的strace可以看出，线程退出使用exit系统调用，而主进程退出则使用exit_group系统调用，二者的区别更多的是Posix进程/线程的语义上的，严格来讲，exit系统调用仅仅退出当前的task_struct，而exit_group则是退出当前task_struct所在进程的所有task_struct，对于多线程程序，它当然就是退出所有的线程了。<br>这就是Linux内核级线程的实现原理了。<br>但是，clone系统调用远不是仅仅实现多线程这么单一，它还可以优化UNIX fork的另一个层面。按照传统UNIX fork在两个层面的效用，Linux clone的对应描述如下：<br>    1. 在执行新进程层面，clone可以仅仅CLONE_VM实现轻量级进程快速exec以避免不必要的资源拷贝。<br>    2. 在并行多处理层面，如前所述，clone的CLONE_XX联合CLONE_THREAD可以实现内核级POSIX线程。<br>本文作为关于fork的后传，再不要说fork的不是了，fork的思想最终被Linux所继承和发扬，一切回归到了Conway在1963年的原始论文，并行多处理，终于在Linux clone系统调用上得到了落实：<br>    • clone可以创建多线程并行执行序列。<br>    • clone创建新进程，减少不必要的资源复制。<br>好了，这就是我要为你讲述的 “fork” 的故事。</p>
 
             </div>
             <hr />
@@ -533,9 +567,9 @@ struct B {
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《C++细说sizeof》
+                    《Linux-fork-clone》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/09/08/thirythree/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2025/08/14/linux-fork-clone/" property="cc:attributionName"
                rel="cc:attributionURL">
                 吴杭沉
             </a> 采用
@@ -576,7 +610,7 @@ struct B {
         repo: 'wuhangchen.github.io',
         owner: 'wuhangchen',
         admin: "wuhangchen",
-        id: '2024/09/08/thirythree/',
+        id: '2025/08/14/linux-fork-clone/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -859,46 +893,48 @@ struct B {
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2024/09/23/thirtyfour/">
+                <a href="/2025/08/14/linux-fork-clone/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/24.jpg" class="responsive-img" alt="C++面试题">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="Linux-fork-clone">
                         
-                        <span class="card-title">C++面试题</span>
+                        <span class="card-title">Linux-fork-clone</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1.char c = &#39;\72&#39;; 中的\72代表一个字符，72是八进制数，代表ASCII码字符:。2.10*a++中a先进行乘法运算再自增。3.const和static的作用static关键字：1）函数体内static变量
+                            在本文中，传统UNIX fork之后，我给出传统的UNIX fork在Linux内核中的变体clone系统调用的精彩。若要理解fork的原始意义，还是要看Melvin Conway提出fork思想的原始论文 A Multiprocessor
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-09-23
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2025-08-14
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C/" class="post-category" target="_blank">
-                                    C++
+                            <a href="/categories/Linux/" class="post-category" target="_blank">
+                                    Linux
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
+                    <a href="/tags/Linux/" target="_blank">
+                        <span class="chip bg-color">Linux</span>
                     </a>
                     
                 </div>
@@ -912,31 +948,31 @@ struct B {
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/09/08/thirytwo/">
+                <a href="/2025/08/12/linux-fork-risk/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="C++中new与malloc区别">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="Linux-fork-risk">
                         
-                        <span class="card-title">C++中new与malloc区别</span>
+                        <span class="card-title">Linux-fork-risk</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            申请的内存所在位置new操作符从自由存储区上为对象动态分配内存空间，而malloc函数从堆上动态分配内存。自由存储区是C++基于new操作符的一个抽象概念，凡是通过new操作符进行内存申请，该内存即为自由存储区。而堆是操作系统中的术语，是操
+                            fork是一个拥有50年历史的陈年系统调用，它是一个传奇！时至今日，它依旧灿烂。一个程序员可以永远不用read/write，也可以不懂mmap，但必须懂fork。这是一种格调！fork没有参数，它是如此简单，是UNIX哲学的布道者或者说卫道
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-09-08
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2025-08-12
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C/" class="post-category" target="_blank">
-                                    C++
+                            <a href="/categories/Linux/" class="post-category" target="_blank">
+                                    Linux
                                 </a>
                             
                             
@@ -946,8 +982,8 @@ struct B {
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
+                    <a href="/tags/Linux/" target="_blank">
+                        <span class="chip bg-color">Linux</span>
                     </a>
                     
                 </div>
