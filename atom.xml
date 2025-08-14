@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2025-08-12T13:16:49.867Z</updated>
+  <updated>2025-08-14T13:04:27.280Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux-fork-clone</title>
+    <link href="localhost/2025/08/14/linux-fork-clone/"/>
+    <id>localhost/2025/08/14/linux-fork-clone/</id>
+    <published>2025-08-14T12:56:25.000Z</published>
+    <updated>2025-08-14T13:04:27.280Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;在本文中，传统UNIX fork之后，我给出传统的UNIX fork在Linux内核中的变体clone系统调用的精彩。&lt;br&gt;若要理解fork的原始意义，还是要看Melvin Conway提出fork思想的原始论文 A Multiprocessor System
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>Linux-fork-risk</title>
@@ -507,33 +533,6 @@ else
         
           &lt;p&gt;C++本身有引用&amp;amp;，为什么C++11又引入了&lt;code&gt;std::ref&lt;/code&gt;?&lt;br&gt;主要是考虑函数式编程如&lt;code&gt;std::bind&lt;/code&gt;在使用时，是对参数直接拷贝，而不是引用。如下例子：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;void
-        
-      
-    
-    </summary>
-    
-      <category term="C++" scheme="localhost/categories/C/"/>
-    
-    
-      <category term="C++" scheme="localhost/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>friend</title>
-    <link href="localhost/2024/09/03/twentynine/"/>
-    <id>localhost/2024/09/03/twentynine/</id>
-    <published>2024-09-03T12:49:25.000Z</published>
-    <updated>2025-06-28T08:38:29.879Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;原则上, 类的私有（private）和受保护（protected）成员不能从声明它们的同一类外部访问。但是, 此规则不适用于友元 “friends”。以friend关键字修饰的函数或类称为友元函数或友元类。&lt;/p&gt;
-&lt;h1 id=&quot;友元函数&quot;&gt;&lt;a
         
       
     
