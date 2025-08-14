@@ -4,11 +4,11 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="C++成员修饰const和mutable, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="Linux-fork-interview, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="const：常量，不变的mutable：易变的从意思上理解，可见const和mutable是一对反义词，它们都是C++的关键字。const成员函数不能修改调用它的对象。类的成员函数可以被声明为const，这将使得函数的隐式参数this将被作">
+    <meta name="description" content="前两天有人问了个关于Unix的fork()系统调用的面试题，这个题正好是我大约十年前找工作时某公司问我的一个题，我觉得比较有趣，写篇文章与大家分享一下。这个题是这样的：每一轮fork操作产生的新进程数量是当前正在运行的进程数量。题目：请问下">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -16,7 +16,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>C++成员修饰const和mutable | 吴杭沉的博客</title>
+    <title>Linux-fork-interview | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -266,13 +266,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        C++成员修饰const和mutable
+                        Linux-fork-interview
                     </div>
                 </div>
             </div>
@@ -383,8 +383,8 @@
                     
                     <div class="article-tag">
                         
-                        <a href="/tags/C/" target="_blank">
-                            <span class="chip bg-color">C++</span>
+                        <a href="/tags/Linux/" target="_blank">
+                            <span class="chip bg-color">Linux</span>
                         </a>
                         
                     </div>
@@ -395,8 +395,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                        <a href="/categories/C/" class="post-category" target="_blank">
-                            C++
+                        <a href="/categories/Linux/" class="post-category" target="_blank">
+                            Linux
                         </a>
                         
                     </div>
@@ -407,7 +407,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-09-28
+                    2025-08-14
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -421,14 +421,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    848
+                    1.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    4 分
                 </div>
                 
                 
@@ -444,72 +444,46 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p><code>const</code>：常量，不变的<br><code>mutable</code>：易变的<br>从意思上理解，可见<code>const</code>和<code>mutable</code>是一对反义词，它们都是C++的关键字。<br><code>const</code>成员函数不能修改调用它的对象。类的成员函数可以被声明为<code>const</code>，这将使得函数的隐式参数<code>this</code>将被作为<code>const</code>类型的指针。这也就意味着一个<code>const</code>成员函数不能修改调用它的对象。而且，<code>const</code>对象不能调用非<code>const</code>成员函数。然而，<code>const</code>对象和非<code>const</code>对象都可以调用<code>const</code>成员函数。<br>要将一个成员函数声明为<code>const</code>，可以使用下面的形式：</p>
-<pre><code>class X
-{
-    int some_var;
-public:
-    int f1() const;    //const成员函数
-};</code></pre><p>可以看到，关键字<code>const</code>被放在函数声明之后。将一个成员函数声明为<code>const</code>的目的是防止函数修改调用它的对象。例如下面的代码：</p>
-<pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-//说明const函数的用法，这个程序不能通过编译
-class Demo
-{
-    int i;
-public:
-    int get() const
-    {
-        return i;        //正确
-    }
-    void seti(int x) const
-    {
-        i = x;          //错误！
-    }
-};
-
+                <p>前两天有人问了个关于Unix的fork()系统调用的面试题，这个题正好是我大约十年前找工作时某公司问我的一个题，我觉得比较有趣，写篇文章与大家分享一下。这个题是这样的：<br>每一轮<code>fork</code>操作产生的新进程数量是当前正在运行的进程数量。<br>题目：请问下面的程序一共输出多少个“-”？</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
 int main()
 {
-    Demo ob;
-    ob.seti(1900);
-    cout &lt;&lt; ob.get() &lt;&lt; endl;
-    return 0;
-}</code></pre><p>因为函数<code>seti()</code>被声明为<code>const</code>成员函数，这意味着在函数中不能修改调用函数的对象。但是由于<code>seti()</code>试图修改成员变量i，所以程序会产生错误，而在函数<code>geti()</code>中并不修改成员变量i，所以这个函数是正确的。<br>有时你可能想在<code>const</code>函数中修改类的某些成员，但又不想让函数修改类的其它成员，那么可以通过关键字<code>mutable</code>来实现这种功能。<code>mutable</code>将覆盖<code>const</code>属性。也就是说，在<code>const</code>成员函数中可以修改<code>mutable</code>成员，例如：</p>
-<pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-//可以通过编译，运行正确
-class Demo
+        int i;
+        for(i=0; i&lt;2; i++){
+                fork();
+                printf(&quot;-&quot;);
+        }
+        return 0;
+}</code></pre><p>如果你对<code>fork()</code>的机制比较熟悉的话，这个题并不难，输出应该是6个“-”，但是，实际上这个程序会很tricky地输出8个“-”。<br>要讲清这个题，我们首先需要知道<code>fork()</code>系统调用的特性，<br>    • <code>fork()</code>系统调用是Unix下以自身进程创建子进程的系统调用，一次调用，两次返回，如果返回是0，则是子进程，如果返回值&gt;0，则是父进程（返回值是子进程的pid），这是众为周知的。<br>    • 还有一个很重要的东西是，在fork()的调用处，整个父进程空间会原模原样地复制到子进程中，包括指令，变量值，程序调用栈，环境变量，缓冲区，等等。<br>所以，上面的那个程序为什么会输入8个“-”，这是因为<code>printf(“-“)</code>;语句有buffer，所以，对于上述程序，<code>printf(“-“)</code>;把“-”放到了缓存中，并没有真正的输出（参看《C语言的迷题》中的第一题），在fork的时候，缓存被复制到了子进程空间，所以，就多了两个，就成了8个，而不是6个。<br>另外，多说一下，我们知道，Unix下的设备有“块设备”和“字符设备”的概念，所谓块设备，就是以一块一块的数据存取的设备，字符设备是一次存取一个字符的设备。磁盘、内存都是块设备，字符设备如键盘和串口。块设备一般都有缓存，而字符设备一般都没有缓存。<br>对于上面的问题，我们如果修改一下上面的printf的那条语句为：</p>
+<pre><code>printf(&quot;-\n&quot;);</code></pre><p>或是</p>
+<pre><code>printf(&quot;-&quot;);
+fflush(stdout);</code></pre><p>就没有问题了（就是6个“-”了），因为程序遇到<code>“\n”</code>，或是EOF，或是缓中区满，或是文件描述符关闭，或是主动flush，或是程序退出，就会把数据刷出缓冲区。需要注意的是，标准输出是行缓冲，所以遇到“\n”的时候会刷出缓冲区，但对于磁盘这个块设备来说，“\n”并不会引起缓冲区刷出的动作，那是全缓冲，你可以使用setvbuf来设置缓冲区大小，或是用fflush刷缓存。<br>我估计有些朋友可能对于fork()还不是很了解，那么我们把上面的程序改成下面这样：</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
+int main(void)
 {
-    mutable int i;
-public:
-    int get() const
-    {
-        return i;                //正确
-    }
-
-   void seti(int x) const
-   {
-        i = x;                  //错误！Maybe
-   }
-};
-
-int main()
-{
-    Demo ob;
-    ob.seti(1900);
-    cout &lt;&lt; ob.get() &lt;&lt; endl;
-    return 0;
-}</code></pre><p>在上面的程序中，类的成员变量i被定义为<code>mutable</code>，所以在函数<code>seti()</code>中可以修改它的值。</p>
-<h2 id="const成员变量的初始化"><a href="#const成员变量的初始化" class="headerlink" title="const成员变量的初始化"></a>const成员变量的初始化</h2><p>在构造函数中对成员变量进行初始化是很普遍的初始化方法，然而，这种方法并不是适用于所有情况，例如：如果在类的定义中使用了<code>const</code>来声明成员变量，那么在类的构造函数中将不能对这些成员变量赋初始值，因为<code>const</code>变量必须在构造函数调用之前被初始化，在使用引用类型的成员以及没有默认构造函数的成员时存在着同样的问题，因为这些成员必须首先被初始化。为了解决这个问题，在C++中定义了一种成员初始化语法，可以在创建对象时为类的成员指定初始值。<br>成员初始化语法类似于调用基类构造函数的语法，它的通用形式如下所示：</p>
-<pre><code>constructor(arg_list)
-     : member(initlalizer)
-     , member(initlalizer)
-     , member(initlalizer)
-{
-    //构造函数体
-}</code></pre><p>在构造函数的后面指定你想要初始化的成员，同时用冒号将构造函数的名字和参数列表分开。也可以将基类构造函数的调用和成员的初始化放在同一参数列表中。</p>
+        int i;
+        for(i=0; i&lt;2; i++){
+                fork();
+                //注意：下面的printf有“\n”
+                printf(&quot;ppid=%d, pid=%d, i=%d \n&quot;, getppid(), getpid(), i);
+        }
+        sleep(10); //让进程停留十秒，这样我们可以用pstree查看一下进程树
+        return 0;
+}
+</code></pre><p>于是，上面这段程序会输出下面的结果，（注：编译出的可执行的程序名为<code>fork</code>）</p>
+<pre><code>ppid=8858, pid=8518, i=0
+ppid=8858, pid=8518, i=1
+ppid=8518, pid=8519, i=0
+ppid=8518, pid=8519, i=1
+ppid=8518, pid=8520, i=1
+ppid=8519, pid=8521, i=1
+$ pstree -p | grep fork
+|-bash(8858)-+-fork(8518)-+-fork(8519)---fork(8521)
+| | `-fork(8520)</code></pre><p>面对这样的图你可能还是看不懂，没事，我好事做到底，画个图给你看看：<br>注意：上图中的我用了几个色彩，相同颜色的是同一个进程。于是，我们的<code>pstree</code>的图示就可以成为下面这个样子：（下图中的颜色与上图对应）<br>这样，对于<code>printf(“-“)</code>;这个语句，我们就可以很清楚的知道，哪个子进程复制了父进程标准输出缓中区里的的内容，而导致了多次输出了。（如下图所示，就是我阴影并双边框了那两个子进程）</p>
 
             </div>
             <hr />
@@ -544,9 +518,9 @@ int main()
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《C++成员修饰const和mutable》
+                    《Linux-fork-interview》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/09/28/thirtysex/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2025/08/14/linux-fork-interview/" property="cc:attributionName"
                rel="cc:attributionURL">
                 吴杭沉
             </a> 采用
@@ -587,7 +561,7 @@ int main()
         repo: 'wuhangchen.github.io',
         owner: 'wuhangchen',
         admin: "wuhangchen",
-        id: '2024/09/28/thirtysex/',
+        id: '2025/08/14/linux-fork-interview/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -870,51 +844,48 @@ int main()
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2024/10/08/thirtyseven/">
+                <a href="/2025/08/14/linux-fork-interview/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="内存分配malloc">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="Linux-fork-interview">
                         
-                        <span class="card-title">内存分配malloc</span>
+                        <span class="card-title">Linux-fork-interview</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            下面的代码片段输出是什么？为什么？
-char *ptr;
-if((ptr = (char *)malloc(0)) == NULL)
-    puts(&quot;Got a null pointer&quot;);
-else
-    pu
+                            前两天有人问了个关于Unix的fork()系统调用的面试题，这个题正好是我大约十年前找工作时某公司问我的一个题，我觉得比较有趣，写篇文章与大家分享一下。这个题是这样的：每一轮fork操作产生的新进程数量是当前正在运行的进程数量。题目：请问下
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-10-08
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2025-08-14
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C/" class="post-category" target="_blank">
-                                    C++
+                            <a href="/categories/Linux/" class="post-category" target="_blank">
+                                    Linux
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
+                    <a href="/tags/Linux/" target="_blank">
+                        <span class="chip bg-color">Linux</span>
                     </a>
                     
                 </div>
@@ -928,31 +899,31 @@ else
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/09/25/thirtyfive/">
+                <a href="/2025/08/14/linux-fork-clone/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/28.jpg" class="responsive-img" alt="使用++i还是i++">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="Linux-fork-clone">
                         
-                        <span class="card-title">使用++i还是i++</span>
+                        <span class="card-title">Linux-fork-clone</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            我们经常使用for循环来遍历东西，循环变量可以前自增也可以后自增，发现对遍历结果没啥影响，但是该如何选择呢？我们应该尽量使用前自增运算符而不是后自增运算符，即用 ++Iter代替Iter++。前缀和后缀形式之间的区别是众所周知的。我希望它们
+                            在本文中，传统UNIX fork之后，我给出传统的UNIX fork在Linux内核中的变体clone系统调用的精彩。若要理解fork的原始意义，还是要看Melvin Conway提出fork思想的原始论文 A Multiprocessor
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-09-25
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2025-08-14
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C/" class="post-category" target="_blank">
-                                    C++
+                            <a href="/categories/Linux/" class="post-category" target="_blank">
+                                    Linux
                                 </a>
                             
                             
@@ -962,8 +933,8 @@ else
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
+                    <a href="/tags/Linux/" target="_blank">
+                        <span class="chip bg-color">Linux</span>
                     </a>
                     
                 </div>
