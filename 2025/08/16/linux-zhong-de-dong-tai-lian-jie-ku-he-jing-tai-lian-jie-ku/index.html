@@ -4,12 +4,11 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Linux 技巧, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="Linux 中的动态链接库和静态链接库, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="如果要谨慎使用 rm 命令，可以为它设置一个别名，在删除文件之前需要进行确认才能删除。有些系统管理员会默认使用这个别名，对于这种情况，你可能需要看看下一个技巧。
-$ rm -i    &amp;lt;== 请求确认你可以使用 unalias 命令以">
+    <meta name="description" content="库是写好的现有的，成熟的，可以复用的代码。现实中每个程序都要依赖很多基础的底层库，不可能每个人的代码都从零开始，因此库的存在意义非同寻常。本质上来说库是一种可执行代码的二进制形式，可以被操作系统载入内存执行。库有两种：静态库（.a、.lib">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +16,7 @@ $ rm -i    &amp;lt;== 请求确认你可以使用 unalias 命令以">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Linux 技巧 | 吴杭沉的博客</title>
+    <title>Linux 中的动态链接库和静态链接库 | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -267,13 +266,13 @@ $ rm -i    &amp;lt;== 请求确认你可以使用 unalias 命令以">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/28.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Linux 技巧
+                        Linux 中的动态链接库和静态链接库
                     </div>
                 </div>
             </div>
@@ -408,7 +407,7 @@ $ rm -i    &amp;lt;== 请求确认你可以使用 unalias 命令以">
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-07-29
+                    2025-08-16
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -422,14 +421,14 @@ $ rm -i    &amp;lt;== 请求确认你可以使用 unalias 命令以">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3k
+                    1.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    11 分
+                    4 分
                 </div>
                 
                 
@@ -445,69 +444,17 @@ $ rm -i    &amp;lt;== 请求确认你可以使用 unalias 命令以">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>如果要谨慎使用 rm 命令，可以为它设置一个别名，在删除文件之前需要进行确认才能删除。有些系统管理员会默认使用这个别名，<br>对于这种情况，你可能需要看看下一个技巧。</p>
-<pre><code>$ rm -i    &lt;== 请求确认</code></pre><p>你可以使用 unalias 命令以交互方式禁用别名。它不会更改别名的配置，而仅仅是暂时禁用，直到下次登录或重新设置了这一个别名才会重新生效。<br>$ unalias rm如果已经将 rm -i 默认设置为 rm 的别名，但你希望在删除文件之前不必进行确认，则可以将 unalias 命令放在一个启动文件（例如 ~/.bashrc）中。<br>如果你经常在只有 root 用户才能执行的命令前忘记使用 sudo，这里有两个方法可以解决。一是利用命令历史记录，<br>可以使用 sudo !!（使用 !! 来运行最近的命令，并在前面添加 sudo）来重复执行，二是设置一些附加了所需 sudo 的命令别名。</p>
-<pre><code>$ alias update=’sudo apt update’</code></pre><p>有时命令行技巧并不仅仅是一个别名。毕竟，别名能帮你做的只有替换命令以及增加一些命令参数，节省了输入的时间。<br>但如果需要比别名更复杂功能，可以通过编写脚本、向 .bashrc 或其他启动文件添加函数来实现。<br>例如，下面这个函数会在创建一个目录后进入到这个目录下。在设置完毕后，执行 source .bashrc，<br>就可以使用 md temp 这样的命令来创建目录立即进入这个目录下。</p>
-<pre><code>md () { mkdir -p &quot;$@&quot; &amp;&amp; cd &quot;$1&quot;; }</code></pre><p>这里有很多快捷键可以帮我们修正自己的命令。接下来使用光标二字代替光标的位置。</p>
-<h1 id="删除从开头到光标处的命令文本"><a href="#删除从开头到光标处的命令文本" class="headerlink" title="删除从开头到光标处的命令文本"></a>删除从开头到光标处的命令文本</h1><p>ctrl + u，例如：$ cd /proc/tty;ls -al光标如果此时使用ctrl+u快捷键，那么该条命令都会被清除，而不需要长按backspace键。</p>
-<h1 id="删除从光标到结尾处的命令文本"><a href="#删除从光标到结尾处的命令文本" class="headerlink" title="删除从光标到结尾处的命令文本"></a>删除从光标到结尾处的命令文本</h1><p>ctrl + k，例如：$ cd /proc/tty光标;ls -al如果此时使用ctrl + k快捷键，那么从光标开始处到结尾的命令文本将会被删除。<br>还有其他的操作，不再举例，例如：<br>ctrl + a:光标移动到命令开头<br>ctrl + e：光标移动到命令结尾<br>alt  f:光标向前移动一个单词<br>alt  b：光标向前移动一个单词<br>ctrl w：删除一个词（以空格隔开的字符串）<br>我们都知道history记录了执行的历史命令，而使用!＋历史命令前的数字，可快速执行历史命令。</p>
-<h1 id="部分历史命令查看"><a href="#部分历史命令查看" class="headerlink" title="部分历史命令查看"></a>部分历史命令查看</h1><p>history会显示大量的历史命令，而fs -l只会显示部分。<br>$ tail -f filename.logtail -f 加文件名，可以实时显示日志文件内容。当然，使用less命令查看文件内容，并且使用shift+f键，也可达到类似的效果。<br>怎么知道当前磁盘是否满了呢？</p>
-<pre><code>$ df -h
-/dev/sda14      4.6G   10M  4.4G   1% /tmp
-/dev/sda11      454M  366M   61M  86% /boot
-/dev/sda15       55G   18G   35G  35% /home
-/dev/sda1       256M   31M  226M  12% /boot/efi
-tmpfs           786M   64K  786M   1% /run/user/1000</code></pre><p>使用df命令可以快速查看各挂载路径磁盘占用情况。</p>
-<h1 id="当前目录各个子目录占用空间大小"><a href="#当前目录各个子目录占用空间大小" class="headerlink" title="当前目录各个子目录占用空间大小"></a>当前目录各个子目录占用空间大小</h1><p>如果你已经知道home目录占用空间较大了，你想知道home目录下各个目录占用情况：<br>这里指定了目录深度，否则的话，它会递归统计子目录占用空间大小，可自行尝试。</p>
-<pre><code>$ free -h
-              total        used        free      shared  buff/cache   available
-Mem:           7.7G        3.5G        452M        345M        3.7G        3.5G
-Swap:          7.6G          0B        7.6G</code></pre><p>通过free的结果，很容易看到当前总共内存多少，剩余可用内存多少等等。<br>不知道你是否注意到，我们在前面几个命令中，都使用了-h参数，它的作用是使得结果以人类可读的方式呈现，<br>所以我们看到它呈现的单位是G,M等，如果不使用-h参数，可以自己尝试一下会是什么样的结果呈现。</p>
-<h2 id="根据名称查找进程id"><a href="#根据名称查找进程id" class="headerlink" title="根据名称查找进程id"></a>根据名称查找进程id</h2><p>想快速直接查找进程id，可以使用：<br>pgrep hello2.22692或者：</p>
-<pre><code>$ pidof hello
-22692</code></pre><p>其中，hello是进程名称。</p>
-<h1 id="根据名称杀死进程"><a href="#根据名称杀死进程" class="headerlink" title="根据名称杀死进程"></a>根据名称杀死进程</h1><p>一般我们可以使用kill　-9 pid方式杀死一个进程，但是这样就需要先找到这个进程的进程id，实际上我们也可以直接根据名称杀死进程，例如：$ killall hello或者：<br>可以使用下面的命令查看进程已运行时间：</p>
-<pre><code>$ ps -p 24525 -o lstart,etime
-                 STARTED     ELAPSED
-Sat Mar 23 20:52:08 2019       02:45</code></pre><p>其中24525是你要查看进程的进程id。</p>
-<h1 id="快速目录切换"><a href="#快速目录切换" class="headerlink" title="快速目录切换"></a>快速目录切换</h1><p>cd -　回到上一个目录cd  回到用户家目录<br>我们知道使用分号隔开可以执行多条命令，例如：$ cd /temp/log/;rm -rf *但是如果当前目录是/目录，并且/temp/log目录不存在，<br>那么就会发生激动人心的一幕：</p>
-<pre><code>bash: cd: /temp/log: No such file or directory</code></pre><p>因为;可以执行多条命令，但是不会因为前一条命令失败，而导致后面的不会执行，因此，cd执行失败后，仍然会继续执行rm -rf <em>，<br>由于处于/目录下，结果可想而知。<br>所以你还以为这种事故是对rf -rf </em>的力量一无所知的情况下产生的吗？<br>如果解决呢？很简单，使用&amp;&amp;，例如:$ cd /temp/log/ &amp;&amp; rm -rf *<br>这样就会确保前一条命令执行成功，才会执行后面一条。<br>有时候日志文件是压缩的，那么能不能偷懒一下，不解压查看呢？当然可以啦。<br>例如</p>
-<pre><code>$ zcat test.gz
-test log</code></pre><p>或者：</p>
-<pre><code>$ zless test.gz
-test log</code></pre><p>比如有一个大文件，你想快速删除，或者不想删除，但是想清空内容：</p>
-<pre><code>&gt;filename</code></pre><h1 id="将日志同时记录文件并打印到控制台"><a href="#将日志同时记录文件并打印到控制台" class="headerlink" title="将日志同时记录文件并打印到控制台"></a>将日志同时记录文件并打印到控制台</h1><p>在执行shell脚本，常常会将日志重定向，但是这样的话，控制台就没有打印了，如何使得既能记录日志文件，又能将日志输出到控制台呢？</p>
-<pre><code>$ ./test.sh |tee test.log</code></pre><h1 id="终止并恢复进程执行"><a href="#终止并恢复进程执行" class="headerlink" title="终止并恢复进程执行"></a>终止并恢复进程执行</h1><p>我们使用ctrl+z 暂停一个进程的执行，也可以使用fg恢复执行。例如我们使用<br>当我们发现文件内容可能很多时，使用ctrl + z暂停程序，而如果又想要从刚才的地方继续执行，则只需要使用fg命令即可恢复执行。或者使用bg使得进程继续在后台执行。<br>我们可能会进程写一些小程序，并且想要知道它的运行时间，实际上我们可以很好的利用time命令帮我们计算，例如：</p>
-<pre><code>$ time ./fibo 30
-the 30 result is 832040
-real    0m0.088s
-user    0m0.084s
-sys    0m0.004s</code></pre><p>它会显示系统时间，用户时间以及实际使用的总时间。</p>
-<h1 id="查看内存占用前10的进程"><a href="#查看内存占用前10的进程" class="headerlink" title="查看内存占用前10的进程"></a>查看内存占用前10的进程</h1><pre><code>$ ps -aux |sort -k4nr | head -n 10</code></pre><p>我们都知道man可以查看命令的帮助手册，但是如果我们想要某个功能却不知道使用哪个命令呢？别着急，还是可以使用man：</p>
-<pre><code>$ man -k &quot;copy files&quot;
-cp (1)               - copy files and directories
-cpio (1)             - copy files to and from archives
-git-checkout-index (1) - Copy files from the index to the working tree
-gvfs-copy (1)        - Copy files
-gvfs-move (1)        - Copy files
-install (1)          - copy files and set attributes</code></pre><p>使用-k参数，使得与copy files相关的帮助手册都显示出来了。<br>我们知道，在命令行下，复制不能再是ctrl + c了，因为它表示终止当前进程，而控制台下的复制粘贴需要使用下面的快捷键：</p>
-<pre><code>ctrl +  insertshift + insert</code></pre><h1 id="例如，要在当前目录下查找包含test字符串的文件："><a href="#例如，要在当前目录下查找包含test字符串的文件：" class="headerlink" title="例如，要在当前目录下查找包含test字符串的文件："></a>例如，要在当前目录下查找包含test字符串的文件：</h1><pre><code>$ grep -rn &quot;test&quot;
-test2.txt:1:test</code></pre><p>它便可以找到该字符串在哪个文件的第几行。<br>程序运行时，终端可能输出大量的日志，你想简单查看一下，又不想记录日志文件，此时可以使用ctrl+s键，冻结屏幕，使得日志不再继续输出，而如果想要恢复，可使用ctrl+q退出冻结。<br>如果在某些系统上连基本的vi编辑器都没有，那么可以使用下面的方式进行编辑内容：</p>
-<pre><code>$ cat &gt;file.txt
-some words
-(ctrl+d)</code></pre><p>编辑完成后，ctrl+d即可保存。</p>
-<h1 id="查看elf文件头信息"><a href="#查看elf文件头信息" class="headerlink" title="查看elf文件头信息"></a>查看elf文件头信息</h1><p>例如：</p>
-<pre><code>$ readelf -h filename</code></pre><p>我们在显示结果中，可以看到运行的平台，elf文件类型，大小端情况等。<br>查看库中是否包含某个接口</p>
-<pre><code>$ nm filename |grep interface</code></pre><p>这里是从文件filename中查看是否包含interface接口，前提是该文件包含符号表。<br>如果要对一个已输入的命令进行修改，可以使用 ^a（ctrl + a）或 ^e（ctrl + e）将光标快速移动到命令的开头或命令的末尾。<br>还可以使用 ^ 字符实现对上一个命令的文本替换并重新执行命令，例如 ^before^after^ 相当于把上一个命令中的 before 替换为 after 然后重新执行一次。</p>
-<h1 id="使用远程机器的名称登录到机器上"><a href="#使用远程机器的名称登录到机器上" class="headerlink" title="使用远程机器的名称登录到机器上"></a>使用远程机器的名称登录到机器上</h1><p>如果使用命令行登录其它机器上，可以考虑添加别名。在别名中，可以填入需要登录的用户名（与本地系统上的用户名可能相同，也可能不同）以及远程机器的登录信息。<br>例如使用 server_name =’ssh -v -l username IP-address’ 这样的别名命令：</p>
-<pre><code>$ alias butterfly=”ssh -v -l jdoe 192.168.0.11”</code></pre><p>也可以通过在 /etc/hosts 文件中添加记录或者在 DNS 服务器中加入解析记录来把 IP 地址替换成易记的机器名称。<br>执行 alias 命令可以列出机器上已有的别名。</p>
-<pre><code>$ aliasalias butterfly=&#39;ssh -v -l jdoe 192.168.0.11&#39;
-alias c=&#39;clear&#39;
-alias egrep=&#39;egrep --color=auto&#39;
-alias fgrep=&#39;fgrep --color=auto&#39;
-alias grep=&#39;grep --color=auto&#39;
-alias l=&#39;ls -CF&#39;alias la=&#39;ls -A&#39;</code></pre><p>只要将新的别名添加到 ~/.bashrc 或类似的文件中，就可以让别名在每次登录后都能立即生效。<br>^s（ctrl + s）将通过执行流量控制命令 XOFF 来停止终端输出内容，这会对 PuTTY 会话和桌面终端窗口产生影响。<br>如果误输入了这个命令，可以使用 ^q（ctrl + q）让终端重新响应。所以只需要记住 ^q 这个组合键就可以了，毕竟这种情况并不多见。<br>Linux 提供了很多让用户复用命令的方法，其核心是通过历史缓冲区收集执行过的命令。复用命令的最简单方法是输入 ! 然后接最近使用过的命令的开头字母；<br>当然也可以按键盘上的向上箭头，直到看到要复用的命令，然后按回车键。还可以先使用 history 显示命令历史，然后输入 ! 后面再接命令历史记录中需要复用的命令旁边的数字。<br>!! &lt;== 复用上一条命令!ec &lt;== 复用上一条以 “ec” 开头的命令!76 &lt;== 复用命令历史中的 76 号命令</p>
-<h1 id="查看日志文件并动态显示更新内容"><a href="#查看日志文件并动态显示更新内容" class="headerlink" title="查看日志文件并动态显示更新内容"></a>查看日志文件并动态显示更新内容</h1><p>使用形如 tail -f /var/log/syslog 的命令可以查看指定的日志文件，并动态显示文件中增加的内容，<br>需要监控向日志文件中追加内容的的事件时相当有用。这个命令会输出文件内容的末尾部分，并逐渐显示新增的内容。</p>
+                <p>库是写好的现有的，成熟的，可以复用的代码。现实中每个程序都要依赖很多基础的底层库，不可能每个人的代码都从零开始，因此库的存在意义非同寻常。<br>本质上来说库是一种可执行代码的二进制形式，可以被操作系统载入内存执行。库有两种：静态库（.a、.lib）和动态库（.so、.dll）。 windows上对应的是.lib .dll linux上对应的是.a .so</p>
+<p>在这里先介绍下Linux下的gcc编译的几个选项</p>
+<pre><code>g++ -c hellospeak.cpp</code></pre><p>会将hellospeak.cpp 选项 -c 用来告诉编译器编译源代码但不要执行链接，输出结果为对象文件。文件默认名与源码文件名相同，只是将其后缀变为.o。例如，上面的命令将编译源码文件hellospeak.cpp 并生成对象文件 hellospeak.o；</p>
+<p>下面这条命令将上述两个源码文件编译链接成一个单一的可执行程序：</p>
+<pre><code>$ g++ hellospeak.cpp speak.cpp -o hellospeak</code></pre><p>如果没有-o和后面的参数，编译器采用默认的 a.out<br>本例中就会生成hellospeak 这样的可执行程序<br>所谓静态、动态是指链接。回顾一下，将一个程序编译成可执行程序的步骤：</p>
+<h2 id="静态库"><a href="#静态库" class="headerlink" title="静态库"></a>静态库</h2><p>之所以成为【静态库】，是因为在链接阶段，会将汇编生成的目标文件.o与引用到的库一起链接打包到可执行文件中。因此对应的链接方式称为静态链接。<br>试想一下，静态库与汇编生成的目标文件一起链接为可执行文件，那么静态库必定跟.o文件格式相似。其实一个静态库可以简单看成是一组目标文件（.o/.obj文件）的集合，即很多目标文件经过压缩打包后形成的一个文件。<br>静态库特点总结：<br>    • 静态库对函数库的链接是放在编译时期完成的。<br>    • 程序在运行时与函数库再无瓜葛，移植方便。<br>    • 浪费空间和资源，因为所有相关的目标文件与牵涉到的函数库被链接合成一个可执行文件。</p>
+<h3 id="Linux下创建与使用静态库"><a href="#Linux下创建与使用静态库" class="headerlink" title="Linux下创建与使用静态库"></a>Linux下创建与使用静态库</h3><p>Linux静态库命名规则<br>Linux静态库命名规范，必须是”lib[your_library_name].a”：lib为前缀，中间是静态库名，扩展名为.a。<br>创建静态库（.a）<br>通过上面的流程可以知道，Linux创建静态库过程如下：<br>l 首先，将代码文件编译成目标文件.o（StaticMath.o）</p>
+<pre><code>g++ -c StaticMath.cpp</code></pre><p>注意带参数-c，否则直接编译为可执行文件<br>l 然后，通过ar工具将目标文件打包成.a静态库文件</p>
+<pre><code>ar -crv libstaticmath.a StaticMath.o</code></pre><p>生成静态库libstaticmath.a。</p>
+<h2 id="动态库"><a href="#动态库" class="headerlink" title="动态库"></a>动态库</h2><p>通过上面的介绍发现静态库，容易使用和理解，也达到了代码复用的目的，那为什么还需要动态库呢？<br>为什么还需要动态库？<br>为什么需要动态库，其实也是静态库的特点导致。<br>    • 空间浪费是静态库的一个问题。</p>
+<p>另一个问题是静态库对程序的更新、部署和发布页会带来麻烦。如果静态库liba更新了，所以使用它的应用程序都需要重新编译、发布给用户（对于玩家来说，可能是一个很小的改动，却导致整个程序重新下载，全量更新）。<br>动态库在程序编译时并不会被连接到目标代码中，而是在程序运行是才被载入。不同的应用程序如果调用相同的库，那么在内存里只需要有一份该共享库的实例，规避了空间浪费问题。动态库在程序运行是才被载入，也解决了<br>静态库对程序的更新、部署和发布页会带来麻烦。用户只需要更新动态库即可，增量更新。<br>动态库特点总结：<br>    • 动态库把对一些库函数的链接载入推迟到程序运行的时期。<br>    • 可以实现进程之间的资源共享。（因此动态库也称为共享库）<br>    • 将一些程序升级变得简单。<br>    • 甚至可以真正做到链接载入完全由程序员在程序代码中控制（显示调用）。<br>Window与Linux执行文件格式不同，在创建动态库的时候有一些差异。<br>    • 在Windows系统下的执行文件格式是PE格式，动态库需要一个DllMain函数做出初始化的入口，通常在导出函数的声明时需要有_declspec(dllexport)关键字。<br>    • Linux下gcc编译的执行文件默认是ELF格式，不需要初始化入口，亦不需要函数做特别的声明，编写比较方便。<br>与创建静态库不同的是，不需要打包工具（ar、lib.exe），直接使用编译器即可创建动态库。</p>
 
             </div>
             <hr />
@@ -542,9 +489,9 @@ alias l=&#39;ls -CF&#39;alias la=&#39;ls -A&#39;</code></pre><p>只要将新的�
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《Linux 技巧》
+                    《Linux 中的动态链接库和静态链接库》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/07/29/seventeen/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2025/08/16/linux-zhong-de-dong-tai-lian-jie-ku-he-jing-tai-lian-jie-ku/" property="cc:attributionName"
                rel="cc:attributionURL">
                 吴杭沉
             </a> 采用
@@ -585,7 +532,7 @@ alias l=&#39;ls -CF&#39;alias la=&#39;ls -A&#39;</code></pre><p>只要将新的�
         repo: 'wuhangchen.github.io',
         owner: 'wuhangchen',
         admin: "wuhangchen",
-        id: '2024/07/29/seventeen/',
+        id: '2025/08/16/linux-zhong-de-dong-tai-lian-jie-ku-he-jing-tai-lian-jie-ku/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -872,27 +819,24 @@ alias l=&#39;ls -CF&#39;alias la=&#39;ls -A&#39;</code></pre><p>只要将新的�
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2024/07/30/eighteen/">
+                <a href="/2025/08/16/linux-nc/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/25.jpg" class="responsive-img" alt="Linux dd命令">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="Linux-nc">
                         
-                        <span class="card-title">Linux dd命令</span>
+                        <span class="card-title">Linux-nc</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            dd 命令用于复制文件并对原文件的内容进行转换和格式化处理语法格式dd [OPTIONS]…选项说明
-if=文件名       #指定源文件。
-of=文件名       #指定目的文件。
-ibs=bytes       #指定一个块大小为b
+                            Netcat 号称 TCP/IP 的瑞士军刀并非浪得虚名，以体积小（可执行 200KB）功能灵活而著称，在各大发行版中都默认安装，你可以用它来做很多网络相关的工作，熟练使用它可以不依靠其他工具做一些很有用的事情。最初作者是叫做“霍比特人”的
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-30
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2025-08-16
                         </span>
                         <span class="publish-author">
                             
@@ -924,24 +868,24 @@ ibs=bytes       #指定一个块大小为b
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/07/29/sixteen/">
+                <a href="/2025/08/14/linux-fork-interview/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Linux inode资源耗尽问题">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Linux-fork-interview">
                         
-                        <span class="card-title">Linux inode资源耗尽问题</span>
+                        <span class="card-title">Linux-fork-interview</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Linux系统下文件数据储存在”块”中，文件的元信息，例如文件的创建者、文件的创建日期、文件的大小等。这种储存文件元信息的区域就叫做inode，中文译名为”索引节点”。inode也占用硬盘空间，硬盘格式化的时候，操作系统自动将硬盘分成两个区
+                            前两天有人问了个关于Unix的fork()系统调用的面试题，这个题正好是我大约十年前找工作时某公司问我的一个题，我觉得比较有趣，写篇文章与大家分享一下。这个题是这样的：每一轮fork操作产生的新进程数量是当前正在运行的进程数量。题目：请问下
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-29
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2025-08-14
                             </span>
                         <span class="publish-author">
                             
