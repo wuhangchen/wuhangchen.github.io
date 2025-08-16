@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>localhost/2024/06/29/linux-wang-luo-gong-ju/</loc>
+    <lastmod>2025-08-16</lastmod>
+  </url>  <url>
     <loc>localhost/2025/08/16/linux-nc/</loc>
     <lastmod>2025-08-16</lastmod>
   </url>  <url>
@@ -93,9 +96,6 @@
   </url>  <url>
     <loc>localhost/2024/07/29/seventeen/</loc>
     <lastmod>2025-05-08</lastmod>
-  </url>  <url>
-    <loc>localhost/2024/06/29/second/</loc>
-    <lastmod>2025-05-07</lastmod>
   </url>  <url>
     <loc>localhost/2024/07/30/nineteen/</loc>
     <lastmod>2025-05-07</lastmod>
