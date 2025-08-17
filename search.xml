@@ -980,10 +980,10 @@
     
     <entry>
       <title>Linux 系统查找大文件</title>
-      <link href="/2024/07/24/ten/"/>
-      <url>/2024/07/24/ten/</url>
+      <link href="/2024/07/24/linux-cha-zhao-da-wen-jian/"/>
+      <url>/2024/07/24/linux-cha-zhao-da-wen-jian/</url>
       
-        <content type="html"><![CDATA[<p>在Windows系统中，我们可以使用TreeSize工具查找一些大文件或文件夹，非常的方便高效，在Linux系统中，<br>如何去搜索一些比较大的文件呢？下面我整理了一下在Linux系统中如何查找大文件或文件夹的方法。</p><h1 id="如何查找大文件？"><a href="#如何查找大文件？" class="headerlink" title="如何查找大文件？"></a>如何查找大文件？</h1><p>其实很多时候，你需要了解当前系统下有哪些大文件，比如文件大小超过100M或1G（阀值视具体情况而定）。<br>那么如何把这些大文件搜索出来呢？例如我要搜索当前目录下，超过800M大小的文件<br>如上命令所示，我们仅仅能看到超过800M大小的文件的文件名称，但是对文件的信息（例如，文件大小、文件属性）一无所知，<br>那么能否更详细显示一些文件属性或信息呢如果你还需要对查找结果按照文件大小做一个排序，那么可以使用下面命令</p><pre><code>find . -type f -size +800M  -print0 | xargs -0 du -h | sort -nr</code></pre><h1 id="如何查找Linux下的大目录"><a href="#如何查找Linux下的大目录" class="headerlink" title="如何查找Linux下的大目录"></a>如何查找Linux下的大目录</h1><p>譬如有时候磁盘空间告警了，而你平时又疏于管理、监控文件的增长，那么我需要快速的了解哪些目录变得比较大，<br>那么此时我们可以借助du命令来帮我们解决这个问题。</p><pre><code>du -h --max-depth=1 16K    ./lost+found 33G    ./flash_recovery_area 37G    ./oradata 70G     .</code></pre><p>如果你想知道flash_recovery_area目录下面有哪些大文件夹，那么可以将参数max-depth=2 ，如果你想对搜索出来的结果进行排序，<br>那么可以借助于sort命令。如下所示</p><pre><code>du -h --max-depth=2 | sort -n</code></pre>]]></content>
+        <content type="html"><![CDATA[<p>在Windows系统中，我们可以使用TreeSize工具查找一些大文件或文件夹，非常的方便高效，在Linux系统中，如何去搜索一些比较大的文件呢？下面我整理了一下在Linux系统中如何查找大文件或文件夹的方法。</p><h1 id="如何查找大文件？"><a href="#如何查找大文件？" class="headerlink" title="如何查找大文件？"></a>如何查找大文件？</h1><p>其实很多时候，你需要了解当前系统下有哪些大文件，比如文件大小超过100M或1G（阀值视具体情况而定）。<br>那么如何把这些大文件搜索出来呢？例如我要搜索当前目录下，超过800M大小的文件<br>如上命令所示，我们仅仅能看到超过800M大小的文件的文件名称，但是对文件的信息（例如，文件大小、文件属性）一无所知，<br>那么能否更详细显示一些文件属性或信息呢如果你还需要对查找结果按照文件大小做一个排序，那么可以使用下面命令</p><pre><code>find . -type f -size +800M  -print0 | xargs -0 du -h | sort -nr</code></pre><h1 id="如何查找Linux下的大目录"><a href="#如何查找Linux下的大目录" class="headerlink" title="如何查找Linux下的大目录"></a>如何查找Linux下的大目录</h1><p>譬如有时候磁盘空间告警了，而你平时又疏于管理、监控文件的增长，那么我需要快速的了解哪些目录变得比较大，<br>那么此时我们可以借助du命令来帮我们解决这个问题。</p><pre><code>du -h --max-depth=1 16K    ./lost+found 33G    ./flash_recovery_area 37G    ./oradata 70G     .</code></pre><p>如果你想知道flash_recovery_area目录下面有哪些大文件夹，那么可以将参数max-depth=2 ，如果你想对搜索出来的结果进行排序，<br>那么可以借助于sort命令。如下所示</p><pre><code>du -h --max-depth=2 | sort -n</code></pre>]]></content>
       
       
       <categories>
