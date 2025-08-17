@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>localhost/2024/07/20/linux-xi-tong-mu-lu/</loc>
+    <lastmod>2025-08-17</lastmod>
+  </url>  <url>
     <loc>localhost/2024/06/29/linux-wang-luo-gong-ju/</loc>
     <lastmod>2025-08-16</lastmod>
   </url>  <url>
@@ -51,9 +54,6 @@
   </url>  <url>
     <loc>localhost/2024/09/08/thirytwo/</loc>
     <lastmod>2025-05-24</lastmod>
-  </url>  <url>
-    <loc>localhost/2024/07/20/three/</loc>
-    <lastmod>2025-05-13</lastmod>
   </url>  <url>
     <loc>localhost/2024/09/08/thirythree/</loc>
     <lastmod>2025-05-13</lastmod>
@@ -106,7 +106,7 @@
     <loc>localhost/2024/07/28/fourteen/</loc>
     <lastmod>2025-05-06</lastmod>
   </url>  <url>
-    <loc>localhost/2024/07/23/four/</loc>
+    <loc>localhost/2024/07/23/linux-shell-can-shu/</loc>
     <lastmod>2025-05-06</lastmod>
   </url>  <url>
     <loc>localhost/2024/10/29/fortytwo/</loc>
