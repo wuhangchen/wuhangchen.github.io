@@ -4,13 +4,14 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="C++ 引用, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="Ubuntu 完全卸载一个软件包, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="声明具名变量为引用，即既存对象或函数的别名。引用变量声明是声明符拥有下列形式的简单声明
-&amp;amp; attr(可选) 声明符     (1)
-&amp;amp;&amp;amp; attr(可选) 声明符     (2)     (C++11 起)1) 左">
+    <meta name="description" content="今天卸载一个软件，老是有配置残留，网上找到了解决方案：查看已安装的软件：
+dpkg -l |grep 软件名
+找到一大堆相关的包，然后卸载核心的包：
+sudo apt-get remove --purge 软件包名继续grep，直到找不到相">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +19,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>C++ 引用 | 吴杭沉的博客</title>
+    <title>Ubuntu 完全卸载一个软件包 | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -268,13 +269,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/24.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        C++ 引用
+                        Ubuntu 完全卸载一个软件包
                     </div>
                 </div>
             </div>
@@ -385,8 +386,8 @@
                     
                     <div class="article-tag">
                         
-                        <a href="/tags/C/" target="_blank">
-                            <span class="chip bg-color">C++</span>
+                        <a href="/tags/Linux/" target="_blank">
+                            <span class="chip bg-color">Linux</span>
                         </a>
                         
                     </div>
@@ -397,8 +398,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                        <a href="/categories/C/" class="post-category" target="_blank">
-                            C++
+                        <a href="/categories/Linux/" class="post-category" target="_blank">
+                            Linux
                         </a>
                         
                     </div>
@@ -409,7 +410,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-07-30
+                    2024-07-23
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -423,14 +424,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2k
+                    115
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    8 分
+                    1 分
                 </div>
                 
                 
@@ -446,142 +447,14 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>声明具名变量为引用，即既存对象或函数的别名。<br>引用变量声明是声明符拥有下列形式的简单声明</p>
-<pre><code>&amp; attr(可选) 声明符     (1)
-&amp;&amp; attr(可选) 声明符     (2)     (C++11 起)</code></pre><p>1) 左值引用声明符：声明 S&amp; D; 将 D 声明为到 声明说明符序列 所确定的类型 S 的左值引用。<br>2) 右值引用声明符：声明 S&amp;&amp; D; 将 D 声明为到 声明说明符序列 所确定的类型 S 的右值引用。<br>声明符     -     除引用声明符之外的任何其他声明符（不存在引用的引用）<br>attr(C++11)     -     可选的属性列表<br>引用必须被初始化为指代一个有效的对象或函数：见引用初始化。不存在 void 的引用，也不存在引用的引用。引用类型无法在顶层被cv限定；<br>声明中没有为此而设的语法，并且通过 typedef、decltype或模板类型实参所引入的限定性是被忽略的。<br>引用不是对象；它们不必占用存储，尽管若需要分配存储以实现所需语义（例如，引用类型的非静态数据成员通常会增加类的大小，量为存储内存地址所需），<br>则编译器会这么做。因为引用不是对象，故不存在引用的数组，不存在指向引用的指针，不存在引用的引用：</p>
-<pre><code>int&amp; a[3]; // 错误
-int&amp;* p;   // 错误
-int&amp; &amp;r;   // 错误</code></pre><h1 id="引用坍缩-C-11-起"><a href="#引用坍缩-C-11-起" class="headerlink" title="引用坍缩    (C++11 起)"></a>引用坍缩    (C++11 起)</h1><p>容许通过模板或 typedef 中的类型操作构成引用的引用，这种情况下适用引用坍缩（reference coolapsing）规则：<br>右值引用的右值引用坍缩成右值引用，所有其他组合均坍缩成左值引用：</p>
-<pre><code>typedef int&amp;  lref;
-typedef int&amp;&amp; rref;
-int n;
-lref&amp;  r1 = n; // r1 的类型是 int&amp;
-lref&amp;&amp; r2 = n; // r2 的类型是 int&amp;
-rref&amp;  r3 = n; // r3 的类型是 int&amp;
-rref&amp;&amp; r4 = 1; // r4 的类型是 int&amp;&amp;</code></pre><p>（这条规则，和将 T&amp;&amp; 用于函数模板时的模板实参推导的特殊规则一起，组成了使得 std::forward 可行的规则。）</p>
-<h1 id="左值引用"><a href="#左值引用" class="headerlink" title="左值引用"></a>左值引用</h1><p>左值引用可用于建立既存对象的别名（可选地拥有不同的 cv 限定）：</p>
-<pre><code>#include &lt;iostream&gt;
-#include &lt;string&gt;
-
-int main() {
-    std::string s = &quot;Ex&quot;;
-    std::string&amp; r1 = s;
-    const std::string&amp; r2 = s;
-
-    r1 += &quot;ample&quot;;           // 修改 s
-    //  r2 += &quot;!&quot;;               // 错误：不能通过到 const 的引用修改
-    std::cout &lt;&lt; r2 &lt;&lt; &#39;\n&#39;; // 打印 s，现在保有 &quot;Example&quot;
-}</code></pre><p>它们亦可用于在函数调用中实现按引用传递语义：</p>
-<pre><code>#include &lt;iostream&gt;
-#include &lt;string&gt;
-
-void double_string(std::string&amp; s) {
-    s += s; // &#39;s&#39; 与 main() 的 &#39;str&#39; 是同一对象
-}
-
-int main() {
-    std::string str = &quot;Test&quot;;
-    double_string(str);
-    std::cout &lt;&lt; str &lt;&lt; &#39;\n&#39;;
-}</code></pre><p>当函数的返回值是左值引用时，函数调用表达式成为左值表达式：</p>
-<pre><code>#include &lt;iostream&gt;
-#include &lt;string&gt;
-
-char&amp; char_number(std::string&amp; s, std::size_t n) {
-    return s.at(n); // string::at() 返回 char 的引用
-}
-
-int main() {
-    std::string str = &quot;Test&quot;;
-    char_number(str, 1) = &#39;a&#39;; // 函数调用是左值，可被赋值
-    std::cout &lt;&lt; str &lt;&lt; &#39;\n&#39;;
-}</code></pre><h1 id="右值引用-C-11-起"><a href="#右值引用-C-11-起" class="headerlink" title="右值引用    (C++11 起)"></a>右值引用    (C++11 起)</h1><p>右值引用可用于为临时对象延长生存期（注意，左值引用亦能延长临时对象生存期，但不能通过左值引用修改它们）：</p>
-<pre><code>#include &lt;iostream&gt;
-#include &lt;string&gt;
-
-int main()
-{
-    std::string s1 = &quot;Test&quot;;
-    //  std::string&amp;&amp; r1 = s1;           // 错误：不能绑定到左值
-
-    const std::string&amp; r2 = s1 + s1; // okay：到 const 的左值引用延长生存期
-    //  r2 += &quot;Test&quot;;                    // 错误：不能通过到 const 的引用修改
-    std::string&amp;&amp; r3 = s1 + s1;      // okay：右值引用延长生存期
-    r3 += &quot;Test&quot;;                    // okay：能通过到非 const 的引用修改
-    std::cout &lt;&lt; r3 &lt;&lt; &#39;\n&#39;;
-}</code></pre><p>更重要的是，当函数同时具有右值引用和左值引用的重载时，右值引用重载绑定到右值（包含纯右值和亡值），<br>而左值引用重载绑定到左值：</p>
-<pre><code>#include &lt;iostream&gt;
-#include &lt;utility&gt;
-
-void f(int&amp; x) {
-    std::cout &lt;&lt; &quot;lvalue reference overload f(&quot; &lt;&lt; x &lt;&lt; &quot;)\n&quot;;
-}
-
-void f(const int&amp; x) {
-    std::cout &lt;&lt; &quot;lvalue reference to const overload f(&quot; &lt;&lt; x &lt;&lt; &quot;)\n&quot;;
-}
-
-void f(int&amp;&amp; x) {
-    std::cout &lt;&lt; &quot;rvalue reference overload f(&quot; &lt;&lt; x &lt;&lt; &quot;)\n&quot;;
-}
-
-int main() {
-    int i = 1;
-    const int ci = 2;
-    f(i);  // 调用 f(int&amp;)
-    f(ci); // 调用 f(const int&amp;)
-    f(3);  // 调用 f(int&amp;&amp;)
-    // 若不提供 f(int&amp;&amp;) 重载则会调用 f(const int&amp;)
-    f(std::move(i)); // 调用 f(int&amp;&amp;)
-
-    // 右值引用变量在用于表达式时是左值
-    int&amp;&amp; x = 1;
-    f(x);            // calls f(int&amp; x)
-    f(std::move(x)); // calls f(int&amp;&amp; x)
-}</code></pre><p>这允许在适当时机自动选择移动构造函数、移动赋值运算符和其他具移动能力的函数（例如 <code>std::vector::push_back()</code>）。<br>因为右值引用能绑定到亡值，故它们能指代非临时对象：</p>
-<pre><code>int i2 = 42;
-int&amp;&amp; rri = std::move(i2); // 直接绑定到 i2</code></pre><p>这使得可以将作用域中不再需要的对象移动出去：</p>
-<pre><code>std::vector&lt;int&gt; v{1,2,3,4,5};
-std::vector&lt;int&gt; v2(std::move(v)); // 绑定右值引用到 v
-assert(v.empty());</code></pre><h1 id="转发引用-C-11-起"><a href="#转发引用-C-11-起" class="headerlink" title="转发引用    (C++11 起)"></a>转发引用    (C++11 起)</h1><p>转发引用是一种特殊的引用，它保持函数实参的值类别，使得能利用 std::forward 转发实参。转发引用是下列之一：</p>
-<h2 id="函数模板的函数形参，其被声明为同一函数模板的类型模板形参的无-cv-限定的右值引用："><a href="#函数模板的函数形参，其被声明为同一函数模板的类型模板形参的无-cv-限定的右值引用：" class="headerlink" title="函数模板的函数形参，其被声明为同一函数模板的类型模板形参的无 cv 限定的右值引用："></a>函数模板的函数形参，其被声明为同一函数模板的类型模板形参的无 cv 限定的右值引用：</h2><pre><code>template&lt;class T&gt;
-int f(T&amp;&amp; x) {                    // x 是转发引用
-    return g(std::forward&lt;T&gt;(x)); // 从而能被转发
-}
-int main() {
-    int i;
-    f(i); // 实参是左值，调用 f&lt;int&amp;&gt;(int&amp;), std::forward&lt;int&amp;&gt;(x) 是左值
-    f(0); // 实参是右值，调用 f&lt;int&gt;(int&amp;&amp;), std::forward&lt;int&gt;(x) 是右值
-}
-
-template&lt;class T&gt;
-int g(const T&amp;&amp; x); // x 不是转发引用：const T 不是无 cv 限定的
-
-template&lt;class T&gt; struct A {
-    template&lt;class U&gt;
-    A(T&amp;&amp; x, U&amp;&amp; y, int* p); // x 不是转发引用：T 不是构造函数的类型模板形参
-                             // 但 y 是转发引用
-};</code></pre><h2 id="auto-amp-amp-，但当其从花括号包围的初始化器列表推导时则不是："><a href="#auto-amp-amp-，但当其从花括号包围的初始化器列表推导时则不是：" class="headerlink" title="auto&amp;&amp;，但当其从花括号包围的初始化器列表推导时则不是："></a>auto&amp;&amp;，但当其从花括号包围的初始化器列表推导时则不是：</h2><pre><code>auto&amp;&amp; vec = foo();       // foo() 可以是左值或右值，vec 是转发引用
-auto i = std::begin(vec); // 也可以
-(*i)++;                   // 也可以
-g(std::forward&lt;decltype(vec)&gt;(vec)); // 转发，保持值类别
-
-for (auto&amp;&amp; x: f()) {
-  // x 是转发引用；这是使用范围 for 循环的最安全方式
-}
-
-auto&amp;&amp; z = {1, 2, 3}; // *不是*转发引用（初始化器列表的特殊情形）
-</code></pre><p>参阅模板实参推导和 std::forward。</p>
-<h1 id="悬垂引用"><a href="#悬垂引用" class="headerlink" title="悬垂引用"></a>悬垂引用</h1><p>尽管引用一旦初始化，就始终指代一个有效的对象或函数，但有可能创建一个程序，被指代对象的生存期结束，<br>但引用仍保持可访问（悬垂（dangling））。访问这种引用是未定义行为。 一个常见例子是返回自动变量的引用的函数：</p>
-<pre><code>std::string&amp; f()
-{
-    std::string s = &quot;Example&quot;;
-    return s; // 退出 s 的作用域: // 调用其析构函数并解分配其存储
-}
-std::string&amp; r = f(); // 悬垂引用
-std::cout &lt;&lt; r;       // 未定义行为：从悬垂引用读取
-std::string s = f();  // 未定义行为：从悬垂引用复制初始化</code></pre><p>注意，右值引用和到 const 的左值引用能延长临时对象的生存期。<br>若被指代对象被销毁（例如通过显式的析构函数调用），但存储尚未被解分配，则到生存期外的对象的引用仍能以有限的方式使用，且当在同一存储中重新创建对象时也可以变为有效。</p>
-
+                <p>今天卸载一个软件，老是有配置残留，网上找到了解决方案：<br>查看已安装的软件：</p>
+<pre><code>dpkg -l |grep 软件名
+</code></pre><p>找到一大堆相关的包，然后卸载核心的包：</p>
+<pre><code>sudo apt-get remove --purge 软件包名</code></pre><p>继续grep，直到找不到相关的包。<br>最后再来两把：</p>
+<pre><code>sudo apt-get autoremove
+sudo apt-get clean
+</code></pre><p>注销一下当前用户再登录 一般就干净了。<br>安装deb：</p>
+<pre><code>sudo dpkg -i xxxxx.deb</code></pre>
             </div>
             <hr />
 
@@ -615,9 +488,9 @@ std::string s = f();  // 未定义行为：从悬垂引用复制初始化</code>
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《C++ 引用》
+                    《Ubuntu 完全卸载一个软件包》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/07/30/nineteen/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/07/23/linux-xie-zai-ruan-jian/" property="cc:attributionName"
                rel="cc:attributionURL">
                 吴杭沉
             </a> 采用
@@ -658,7 +531,7 @@ std::string s = f();  // 未定义行为：从悬垂引用复制初始化</code>
         repo: 'wuhangchen.github.io',
         owner: 'wuhangchen',
         admin: "wuhangchen",
-        id: '2024/07/30/nineteen/',
+        id: '2024/07/23/linux-xie-zai-ruan-jian/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -945,34 +818,35 @@ std::string s = f();  // 未定义行为：从悬垂引用复制初始化</code>
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2024/07/30/c-zhi-zhen/">
+                <a href="/2024/07/24/eight/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="指针">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Linux Make 三连">
                         
-                        <span class="card-title">指针</span>
+                        <span class="card-title">Linux Make 三连</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            声明指针或指向成员指针类型的变量。
-语法指针的声明是简单声明，其声明符拥有下列形式
-* attr(可选) cv(可选) 声明符     (1)嵌套名说明符 * attr(可选) cv(可选) 声明符     (2)
-1) 指针声明符：声明 
+                            Unix开发过程中，经常性的操作是从源码编译安装相应库文件，所以下面三个命令便是家常便饭，俗称三连：
+./configure
+make
+make install下面来看看这三步分别做了什么。
+configure执行 ./configure文
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-30
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-24
                         </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C/" class="post-category" target="_blank">
-                                    C++
+                            <a href="/categories/Linux/" class="post-category" target="_blank">
+                                    Linux
                                 </a>
                             
                             
@@ -982,8 +856,8 @@ std::string s = f();  // 未定义行为：从悬垂引用复制初始化</code>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
+                    <a href="/tags/Linux/" target="_blank">
+                        <span class="chip bg-color">Linux</span>
                     </a>
                     
                 </div>
@@ -997,27 +871,24 @@ std::string s = f();  // 未定义行为：从悬垂引用复制初始化</code>
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/07/30/eighteen/">
+                <a href="/2024/07/23/linux-ming-ling-xing-tui-jian/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="Linux dd命令">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="Linux 命令行神器推荐">
                         
-                        <span class="card-title">Linux dd命令</span>
+                        <span class="card-title">Linux 命令行神器推荐</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            dd 命令用于复制文件并对原文件的内容进行转换和格式化处理语法格式dd [OPTIONS]…选项说明
-if=文件名       #指定源文件。
-of=文件名       #指定目的文件。
-ibs=bytes       #指定一个块大小为b
+                            • ag：比grep、ack更快的递归搜索文件内容。• jq: json文件处理以及格式化显示，支持高亮，可以替换python -m json.tool。• ncdu：可视化的空间分析程序你发现有人把 /home 空间撑爆了，影响了大家的工
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-30
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-23
                             </span>
                         <span class="publish-author">
                             

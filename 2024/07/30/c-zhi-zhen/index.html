@@ -4,13 +4,14 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="C++ 引用, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="指针, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="声明具名变量为引用，即既存对象或函数的别名。引用变量声明是声明符拥有下列形式的简单声明
-&amp;amp; attr(可选) 声明符     (1)
-&amp;amp;&amp;amp; attr(可选) 声明符     (2)     (C++11 起)1) 左">
+    <meta name="description" content="声明指针或指向成员指针类型的变量。
+语法指针的声明是简单声明，其声明符拥有下列形式
+* attr(可选) cv(可选) 声明符     (1)嵌套名说明符 * attr(可选) cv(可选) 声明符     (2)
+1) 指针声明符：声明 ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +19,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>C++ 引用 | 吴杭沉的博客</title>
+    <title>指针 | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -268,13 +269,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/24.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        C++ 引用
+                        指针
                     </div>
                 </div>
             </div>
@@ -423,14 +424,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2k
+                    3.6k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    8 分
+                    14 分
                 </div>
                 
                 
@@ -446,141 +447,227 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>声明具名变量为引用，即既存对象或函数的别名。<br>引用变量声明是声明符拥有下列形式的简单声明</p>
-<pre><code>&amp; attr(可选) 声明符     (1)
-&amp;&amp; attr(可选) 声明符     (2)     (C++11 起)</code></pre><p>1) 左值引用声明符：声明 S&amp; D; 将 D 声明为到 声明说明符序列 所确定的类型 S 的左值引用。<br>2) 右值引用声明符：声明 S&amp;&amp; D; 将 D 声明为到 声明说明符序列 所确定的类型 S 的右值引用。<br>声明符     -     除引用声明符之外的任何其他声明符（不存在引用的引用）<br>attr(C++11)     -     可选的属性列表<br>引用必须被初始化为指代一个有效的对象或函数：见引用初始化。不存在 void 的引用，也不存在引用的引用。引用类型无法在顶层被cv限定；<br>声明中没有为此而设的语法，并且通过 typedef、decltype或模板类型实参所引入的限定性是被忽略的。<br>引用不是对象；它们不必占用存储，尽管若需要分配存储以实现所需语义（例如，引用类型的非静态数据成员通常会增加类的大小，量为存储内存地址所需），<br>则编译器会这么做。因为引用不是对象，故不存在引用的数组，不存在指向引用的指针，不存在引用的引用：</p>
-<pre><code>int&amp; a[3]; // 错误
-int&amp;* p;   // 错误
-int&amp; &amp;r;   // 错误</code></pre><h1 id="引用坍缩-C-11-起"><a href="#引用坍缩-C-11-起" class="headerlink" title="引用坍缩    (C++11 起)"></a>引用坍缩    (C++11 起)</h1><p>容许通过模板或 typedef 中的类型操作构成引用的引用，这种情况下适用引用坍缩（reference coolapsing）规则：<br>右值引用的右值引用坍缩成右值引用，所有其他组合均坍缩成左值引用：</p>
-<pre><code>typedef int&amp;  lref;
-typedef int&amp;&amp; rref;
-int n;
-lref&amp;  r1 = n; // r1 的类型是 int&amp;
-lref&amp;&amp; r2 = n; // r2 的类型是 int&amp;
-rref&amp;  r3 = n; // r3 的类型是 int&amp;
-rref&amp;&amp; r4 = 1; // r4 的类型是 int&amp;&amp;</code></pre><p>（这条规则，和将 T&amp;&amp; 用于函数模板时的模板实参推导的特殊规则一起，组成了使得 std::forward 可行的规则。）</p>
-<h1 id="左值引用"><a href="#左值引用" class="headerlink" title="左值引用"></a>左值引用</h1><p>左值引用可用于建立既存对象的别名（可选地拥有不同的 cv 限定）：</p>
-<pre><code>#include &lt;iostream&gt;
-#include &lt;string&gt;
+                <p>声明指针或指向成员指针类型的变量。</p>
+<h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><p>指针的声明是简单声明，其声明符拥有下列形式</p>
+<pre><code>* attr(可选) cv(可选) 声明符     (1)</code></pre><p>嵌套名说明符 * attr(可选) cv(可选) 声明符     (2)</p>
+<pre><code>1) 指针声明符：声明 S* D; 将 D 声明为指向 嵌套名说明符 S 所确定类型的指针。
+2) 成员指针声明符：声明 S C::* D; 将 D 声明为指向 C 的 嵌套名说明符 S 所确定类型的非静态数据成员的指针。</code></pre><p>声明符     -     除引用声明符之外的任意声明符（无指向引用的指针）。它可以是另一指针声明符（允许指向指针的指针）,<br>attr(C++11)     -     属性的可选列表, cv     -     应用到被声明指针的 const/volatile 限定（而并非被指向类型，其限定是 声明说明符序列 的一部分）,<br>嵌套名说明符     -     名字和作用域解析运算符 :: 的序列,无指向引用的指针，无指向位域的指针。当没有详述地提及“指针”时，通常不包含指向（非静态）成员的指针。</p>
+<h1 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h1><p>指针类型的值是下列之一：<br>    • 指向对象或函数的指针（该情况下说该指针指向函数或对象）<br>    • 对象末尾后指针，<br>    • 该类型的空指针值，<br>    • 无效指针值。<br>指向对象的指针表示其地址，为内存中对象所占用的首字节的地址。对象的末尾后指针亦表示地址，为内存中对象所占用的存储之后的首个字节的地址。注意，两个表示同一地址的指针可能拥有不同的值。</p>
+<pre><code>struct C {
+   int x, y;
+} c;
 
-int main() {
-    std::string s = &quot;Ex&quot;;
-    std::string&amp; r1 = s;
-    const std::string&amp; r2 = s;
+int* px = &amp;c.x;   // px 的值为“指向 c.x 的指针”
+int* pxe = px + 1; // pxe 的值为“ c.x 的尾后指针”
+int* py = &amp;c.y;   // py 的值为“指向 c.y 的指针”
 
-    r1 += &quot;ample&quot;;           // 修改 s
-    //  r2 += &quot;!&quot;;               // 错误：不能通过到 const 的引用修改
-    std::cout &lt;&lt; r2 &lt;&lt; &#39;\n&#39;; // 打印 s，现在保有 &quot;Example&quot;
-}</code></pre><p>它们亦可用于在函数调用中实现按引用传递语义：</p>
-<pre><code>#include &lt;iostream&gt;
-#include &lt;string&gt;
+assert(pxe == py); // == 测试两个指针是否表示相同地址
+                   // 可能或可能不引发断言
+*pxe = 1; // 即使未引发断言，亦为未定义行为</code></pre><p>通过无效指针值间接寻址，和将无效指针值传递给解分配函数均拥有未定义行为。无效指针值的任何其他用法拥有由实现定义的行为。</p>
+<h1 id="对象指针"><a href="#对象指针" class="headerlink" title="对象指针"></a>对象指针</h1><p>对象指针，能以应用于任何对象类型（包含另一指针类型）的表达式的取址运算符的返回值初始化：</p>
+<pre><code>int n;
+int* np = &amp;n; // int 的指针
+int* const* npp = &amp;np; // 非 const int 的 const 指针的非 const 指针
 
-void double_string(std::string&amp; s) {
-    s += s; // &#39;s&#39; 与 main() 的 &#39;str&#39; 是同一对象
+int a[2];
+int (*ap)[2] = &amp;a; // int 的数组的指针
+
+struct S { int n; };
+S s = {1};
+int* sp = &amp;s.n; // 指向作为 s 的成员的 int 的指针</code></pre><p>指针可作为内建间接寻址运算符（一元 operator*）的操作数，返回指代被指向对象的左值表达式：</p>
+<pre><code>int n;
+int* p = &amp;n;     // 指向 n 的指针
+int&amp; r = *p;     // 绑定到指代 n 的左值表达式的引用
+r = 7;           // 存储 int 7 于 n
+std::cout &lt;&lt; *p; // 左值到右值隐式转换从 n 读取值</code></pre><p>指向类对象的指针亦可作为成员访问运算符 <code>operator-&gt;</code>和 <code>operator-&gt;*</code>的左侧操作数。由于数组到指针隐式转换的原因，可以以数组类型的表达式初始化指向数组首元素的指针：</p>
+<pre><code>int a[2];
+int* p1 = a; // 指向数组 a 首元素 a[0]（一个 int）的指针
+
+int b[6][3][8];
+int (*p2)[3][8] = b; // 指向数组 b 首元素 b[0] 的指针，
+                     // 被指者为 int 的 8 元素数组的 3 元素数组</code></pre><p>由于指针的派生类到基类隐式转换的原因，可以以派生类的地址初始化指向基类的指针：(使用基类的指针指向派生对象的地址)</p>
+<pre><code>struct Base {};
+struct Derived : Base {};
+
+Derived d;
+Base* p = &amp;d;</code></pre><p>若 Derived 是多态的，则这种指针可用于进行虚函数调用。某些加法、减法、自增和自减运算符对于指向数组元素的指针有定义：这种指针满足旧式随机访问迭代器(LegacyRandomAccessIterator) 要求，并允许 C++ 库算法工作于原始数组上。某些情况下，<br>比较运算符对指针有定义：两个表示相同地址的指针比较相等，两个空指针值比较相等，指向同一数组中的元素的指针的比较与各元素的数组下标的比较方式相同，而指向拥有相同成员访问的非静态数据成员的指针以各成员的声明顺序进行比较。多数实现亦为随机来源的指针提供严格全序，<br>例如将它们实现为连续虚拟地址空间中的地址。未能做到的实现（例如，其中并非指针的所有位都是内存地址的一部分因而在比较时必须忽略之，或者要求附带的计算，或者指针与整数并非一对一关系），为指针提供了具有此项保证的 std::less 特化。<br>这使得可在关联容器（如 std::set 或 std::map）中使用所有随机来源的指针。</p>
+<h1 id="void-的指针"><a href="#void-的指针" class="headerlink" title="void 的指针"></a>void 的指针</h1><p>指向任意类型对象的指针，可隐式转换成指向 void 的指针（可选地有 cv 限定）；不改变其值。逆向的转换要求 static_cast 或显式转型，生成其原指针值：</p>
+<pre><code>int n = 1;
+int* p1 = &amp;n;
+void* pv = p1;
+int* p2 = static_cast&lt;int*&gt;(pv);
+std::cout &lt;&lt; *p2 &lt;&lt; &#39;\n&#39;; // 打印 1</code></pre><p>若原指针指向某多态类型对象中的基类子对象，则可用 dynamic_cast 获得指向最终派生类型的完整对象的 void<em>。void 指针用于传递未知类型对象，这在 C 接口中常见：std::malloc 返回 void</em>，<br>std::qsort 期待接受两个 const void<em> 参数的用户提供回调。pthread_create 期待接受并返回 void</em> 的用户提供的回调。所有情况下，调用方负责在使用前将指针转型到正确类型。</p>
+<h1 id="函数指针"><a href="#函数指针" class="headerlink" title="函数指针"></a>函数指针</h1><p>函数指针能以非成员函数或静态成员函数的地址初始化。由于函数到指针隐式转换的原因，取址运算符是可选的：</p>
+<pre><code>void f(int);
+void (*p1)(int) = &amp;f;
+void (*p2)(int) = f; // 与 &amp;f 相同</code></pre><p>不同于函数或函数的引用，函数指针是对象，从而能存储于数组、被复制、被赋值等。函数指针可用作函数调用运算符的左侧操作数，这会调用被指向的函数：</p>
+<pre><code>int f(int n)
+{
+    std::cout &lt;&lt; n &lt;&lt; &#39;\n&#39;;
+    return n * n;
 }
-
-int main() {
-    std::string str = &quot;Test&quot;;
-    double_string(str);
-    std::cout &lt;&lt; str &lt;&lt; &#39;\n&#39;;
-}</code></pre><p>当函数的返回值是左值引用时，函数调用表达式成为左值表达式：</p>
-<pre><code>#include &lt;iostream&gt;
-#include &lt;string&gt;
-
-char&amp; char_number(std::string&amp; s, std::size_t n) {
-    return s.at(n); // string::at() 返回 char 的引用
-}
-
-int main() {
-    std::string str = &quot;Test&quot;;
-    char_number(str, 1) = &#39;a&#39;; // 函数调用是左值，可被赋值
-    std::cout &lt;&lt; str &lt;&lt; &#39;\n&#39;;
-}</code></pre><h1 id="右值引用-C-11-起"><a href="#右值引用-C-11-起" class="headerlink" title="右值引用    (C++11 起)"></a>右值引用    (C++11 起)</h1><p>右值引用可用于为临时对象延长生存期（注意，左值引用亦能延长临时对象生存期，但不能通过左值引用修改它们）：</p>
-<pre><code>#include &lt;iostream&gt;
-#include &lt;string&gt;
 
 int main()
 {
-    std::string s1 = &quot;Test&quot;;
-    //  std::string&amp;&amp; r1 = s1;           // 错误：不能绑定到左值
+    int (*p)(int) = f;
+    int x = p(7);
+}</code></pre><p>解引用函数指针生成标识被指向函数的左值：</p>
+<pre><code>int f();
+int (*p)() = f;  // 指针 p 指向 f
+int (&amp;r)() = *p; // 将标识 f 的左值绑定到引用
+r();             // 通过左值引用调用函数 f
+(*p)();          // 通过函数左值调用函数 f
+p();             // 直接通过指针调用函数 f</code></pre><p>若只有一个重载匹配指针类型的话，函数指针可以从可包含函数、函数模板特化及函数模板的一个重载集进行初始化（细节见重载函数的地址）：</p>
+<pre><code>template&lt;typename T&gt; T f(T n) { return n; }
+double f(double n) { return n; }
 
-    const std::string&amp; r2 = s1 + s1; // okay：到 const 的左值引用延长生存期
-    //  r2 += &quot;Test&quot;;                    // 错误：不能通过到 const 的引用修改
-    std::string&amp;&amp; r3 = s1 + s1;      // okay：右值引用延长生存期
-    r3 += &quot;Test&quot;;                    // okay：能通过到非 const 的引用修改
-    std::cout &lt;&lt; r3 &lt;&lt; &#39;\n&#39;;
-}</code></pre><p>更重要的是，当函数同时具有右值引用和左值引用的重载时，右值引用重载绑定到右值（包含纯右值和亡值），<br>而左值引用重载绑定到左值：</p>
-<pre><code>#include &lt;iostream&gt;
-#include &lt;utility&gt;
-
-void f(int&amp; x) {
-    std::cout &lt;&lt; &quot;lvalue reference overload f(&quot; &lt;&lt; x &lt;&lt; &quot;)\n&quot;;
-}
-
-void f(const int&amp; x) {
-    std::cout &lt;&lt; &quot;lvalue reference to const overload f(&quot; &lt;&lt; x &lt;&lt; &quot;)\n&quot;;
-}
-
-void f(int&amp;&amp; x) {
-    std::cout &lt;&lt; &quot;rvalue reference overload f(&quot; &lt;&lt; x &lt;&lt; &quot;)\n&quot;;
-}
-
-int main() {
-    int i = 1;
-    const int ci = 2;
-    f(i);  // 调用 f(int&amp;)
-    f(ci); // 调用 f(const int&amp;)
-    f(3);  // 调用 f(int&amp;&amp;)
-    // 若不提供 f(int&amp;&amp;) 重载则会调用 f(const int&amp;)
-    f(std::move(i)); // 调用 f(int&amp;&amp;)
-
-    // 右值引用变量在用于表达式时是左值
-    int&amp;&amp; x = 1;
-    f(x);            // calls f(int&amp; x)
-    f(std::move(x)); // calls f(int&amp;&amp; x)
-}</code></pre><p>这允许在适当时机自动选择移动构造函数、移动赋值运算符和其他具移动能力的函数（例如 <code>std::vector::push_back()</code>）。<br>因为右值引用能绑定到亡值，故它们能指代非临时对象：</p>
-<pre><code>int i2 = 42;
-int&amp;&amp; rri = std::move(i2); // 直接绑定到 i2</code></pre><p>这使得可以将作用域中不再需要的对象移动出去：</p>
-<pre><code>std::vector&lt;int&gt; v{1,2,3,4,5};
-std::vector&lt;int&gt; v2(std::move(v)); // 绑定右值引用到 v
-assert(v.empty());</code></pre><h1 id="转发引用-C-11-起"><a href="#转发引用-C-11-起" class="headerlink" title="转发引用    (C++11 起)"></a>转发引用    (C++11 起)</h1><p>转发引用是一种特殊的引用，它保持函数实参的值类别，使得能利用 std::forward 转发实参。转发引用是下列之一：</p>
-<h2 id="函数模板的函数形参，其被声明为同一函数模板的类型模板形参的无-cv-限定的右值引用："><a href="#函数模板的函数形参，其被声明为同一函数模板的类型模板形参的无-cv-限定的右值引用：" class="headerlink" title="函数模板的函数形参，其被声明为同一函数模板的类型模板形参的无 cv 限定的右值引用："></a>函数模板的函数形参，其被声明为同一函数模板的类型模板形参的无 cv 限定的右值引用：</h2><pre><code>template&lt;class T&gt;
-int f(T&amp;&amp; x) {                    // x 是转发引用
-    return g(std::forward&lt;T&gt;(x)); // 从而能被转发
-}
-int main() {
-    int i;
-    f(i); // 实参是左值，调用 f&lt;int&amp;&gt;(int&amp;), std::forward&lt;int&amp;&gt;(x) 是左值
-    f(0); // 实参是右值，调用 f&lt;int&gt;(int&amp;&amp;), std::forward&lt;int&gt;(x) 是右值
-}
-
-template&lt;class T&gt;
-int g(const T&amp;&amp; x); // x 不是转发引用：const T 不是无 cv 限定的
-
-template&lt;class T&gt; struct A {
-    template&lt;class U&gt;
-    A(T&amp;&amp; x, U&amp;&amp; y, int* p); // x 不是转发引用：T 不是构造函数的类型模板形参
-                             // 但 y 是转发引用
-};</code></pre><h2 id="auto-amp-amp-，但当其从花括号包围的初始化器列表推导时则不是："><a href="#auto-amp-amp-，但当其从花括号包围的初始化器列表推导时则不是：" class="headerlink" title="auto&amp;&amp;，但当其从花括号包围的初始化器列表推导时则不是："></a>auto&amp;&amp;，但当其从花括号包围的初始化器列表推导时则不是：</h2><pre><code>auto&amp;&amp; vec = foo();       // foo() 可以是左值或右值，vec 是转发引用
-auto i = std::begin(vec); // 也可以
-(*i)++;                   // 也可以
-g(std::forward&lt;decltype(vec)&gt;(vec)); // 转发，保持值类别
-
-for (auto&amp;&amp; x: f()) {
-  // x 是转发引用；这是使用范围 for 循环的最安全方式
-}
-
-auto&amp;&amp; z = {1, 2, 3}; // *不是*转发引用（初始化器列表的特殊情形）
-</code></pre><p>参阅模板实参推导和 std::forward。</p>
-<h1 id="悬垂引用"><a href="#悬垂引用" class="headerlink" title="悬垂引用"></a>悬垂引用</h1><p>尽管引用一旦初始化，就始终指代一个有效的对象或函数，但有可能创建一个程序，被指代对象的生存期结束，<br>但引用仍保持可访问（悬垂（dangling））。访问这种引用是未定义行为。 一个常见例子是返回自动变量的引用的函数：</p>
-<pre><code>std::string&amp; f()
+int main()
 {
-    std::string s = &quot;Example&quot;;
-    return s; // 退出 s 的作用域: // 调用其析构函数并解分配其存储
+    int (*p)(int) = f; // 实例化并选择 f&lt;int&gt;
+}</code></pre><p>相等比较运算符对于函数指针有定义（若指向同一函数则它们比较相等）。<br>    • 成员指针<br>    • 数据成员指针<br>指向作为类 C 的成员的非静态数据成员 m 的指针，能准确地以表达式 &amp;C::m 初始化。在 C 的成员函数中，如 &amp;(C::m) 或 &amp;m 这样的表达式不构成指向成员指针。这种指针能用作成员指针访问运算符 operator.<em> 与 operator-&gt;</em> 的右侧操作数：</p>
+<pre><code>struct C { int m; };
+
+int main()
+{
+    int C::*p = &amp;C::m;          // 指向类 C 的数据成员 m
+    C c = {7};
+    std::cout &lt;&lt; c.*p &lt;&lt; &#39;\n&#39;;   // 打印 7
+    C* cp = &amp;c;
+    cp-&gt;m = 10;
+    std::cout &lt;&lt; cp-&gt;*p &lt;&lt; &#39;\n&#39;; // 打印 10
+}</code></pre><p>指向可访问无歧义非虚基类的数据成员的指针，可以隐式转换成指向派生类的同一数据成员的指针：</p>
+<pre><code>struct Base { int m; };
+struct Derived : Base {};
+
+int main()
+{
+    int Base::* bp = &amp;Base::m;
+    int Derived::* dp = bp;
+    Derived d;
+    d.m = 1;
+    std::cout &lt;&lt; d.*dp &lt;&lt; &#39; &#39; &lt;&lt; d.*bp &lt;&lt; &#39;\n&#39;; // 打印 1 1
+}</code></pre><p>相反方向的转换，即从指向派生类的数据成员的指针到指向无歧义非虚基类的数据成员的指针，允许由 static_cast 和显式转型来进行，即使基类并无该成员（但当用该指针访问时，最终派生类中有）亦可：</p>
+<pre><code>struct Base {};
+struct Derived : Base { int m; };
+
+int main()
+{
+    int Derived::* dp = &amp;Derived::m;
+    int Base::* bp = static_cast&lt;int Base::*&gt;(dp);
+
+    Derived d;
+    d.m = 7;
+    std::cout &lt;&lt; d.*bp &lt;&lt; &#39;\n&#39;; // OK：打印 7
+
+    Base b;
+    std::cout &lt;&lt; b.*bp &lt;&lt; &#39;\n&#39;; // 未定义行为
 }
-std::string&amp; r = f(); // 悬垂引用
-std::cout &lt;&lt; r;       // 未定义行为：从悬垂引用读取
-std::string s = f();  // 未定义行为：从悬垂引用复制初始化</code></pre><p>注意，右值引用和到 const 的左值引用能延长临时对象的生存期。<br>若被指代对象被销毁（例如通过显式的析构函数调用），但存储尚未被解分配，则到生存期外的对象的引用仍能以有限的方式使用，且当在同一存储中重新创建对象时也可以变为有效。</p>
+</code></pre><p>成员指针的被指向类型也可以是成员指针自身：成员指针可为多级，而且在每级可以有不同的 cv 限定。亦允许指针和成员指针的混合多级组合：</p>
+<pre><code>struct A
+{
+    int m;
+    // 指向非 const 成员的 const 指针
+    int A::* const p;
+};
+
+int main()
+{
+    // 指向数据成员的非 const 指针，该成员是指向非 const 成员的 const 指针
+    int A::* const A::* p1 = &amp;A::p;
+
+    const A a = {1, &amp;A::m};
+    std::cout &lt;&lt; a.*(a.*p1) &lt;&lt; &#39;\n&#39;; // 打印 1
+
+    // 指向 const 的成员指针的常规非 const 指针
+    int A::* const* p2 = &amp;a.p;
+    std::cout &lt;&lt; a.**p2 &lt;&lt; &#39;\n&#39;; // 打印 1
+}
+</code></pre><h1 id="成员函数指针"><a href="#成员函数指针" class="headerlink" title="成员函数指针"></a>成员函数指针</h1><p>指向作为类 C 的成员的非静态成员函数 f 的指针，可准确地以表达式 <code>&amp;C::f</code>初始化。在 C 的成员函数内，如 <code>&amp;(C::f)</code>或 &amp;f 这样的表达式不构成成员函数指针。这种指针可以用作成员指针访问运算符 <code>operator.*</code>与 <code>operator-&gt;*</code>的右操作数。结果表达式只能用作函数调用运算符的左侧操作数：</p>
+<pre><code>struct C
+{
+    void f(int n) { std::cout &lt;&lt; n &lt;&lt; &#39;\n&#39;; }
+};
+
+int main()
+{
+    void (C::* p)(int) = &amp;C::f; // 指向类 C 的成员函数 f 的指针
+    C c;
+    (c.*p)(1);                  // 打印 1
+    C* cp = &amp;c;
+    (cp-&gt;*p)(2);                // 打印 2
+}</code></pre><p>指向基类的成员函数的指针可以隐式转换成指向派生类的同一成员函数的指针：</p>
+<pre><code>struct Base
+{
+    void f(int n) { std::cout &lt;&lt; n &lt;&lt; &#39;\n&#39;; }
+};
+struct Derived : Base {};
+
+int main()
+{
+    void (Base::* bp)(int) = &amp;Base::f;
+    void (Derived::* dp)(int) = bp;
+    Derived d;
+    (d.*dp)(1);
+    (d.*bp)(2);
+}</code></pre><p>相反方向的转换，即从指向派生类的成员函数的指针到指向无歧义非虚基类的成员函数的指针，允许由 static_cast 与显式转型来进行，即使基类无该成员函数（但在用该指针进行访问时，最终派生类有）：</p>
+<pre><code>struct Base {};
+struct Derived : Base
+{
+    void f(int n) { std::cout &lt;&lt; n &lt;&lt; &#39;\n&#39;; }
+};
+
+int main()
+{
+    void (Derived::* dp)(int) = &amp;Derived::f;
+    void (Base::* bp)(int) = static_cast&lt;void (Base::*)(int)&gt;(dp);
+    Derived d;
+    (d.*bp)(1); // OK：打印 1
+
+    Base b;
+    (b.*bp)(2); // 未定义行为
+}</code></pre><p>成员函数指针可用作回调或函数对象，通常在应用 std::mem_fn 或 std::bind 之后：</p>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;algorithm&gt;
+#include &lt;functional&gt;
+
+int main()
+{
+    std::vector&lt;std::string&gt; v = {&quot;a&quot;, &quot;ab&quot;, &quot;abc&quot;};
+    std::vector&lt;std::size_t&gt; l;
+    transform(v.begin(), v.end(), std::back_inserter(l),
+              std::mem_fn(&amp;std::string::size));
+    for(std::size_t n : l)
+        std::cout &lt;&lt; n &lt;&lt; &#39; &#39;;
+}</code></pre><p>输出：<br>1 2 3</p>
+<h1 id="空指针"><a href="#空指针" class="headerlink" title="空指针"></a>空指针</h1><p>每个类型的指针都拥有一个特殊值，称为该类型的空指针值（null pointer value）。值为空的指针不指向对象或函数（解引用空指针是未定义行为），并与所有亦为空值的同类型指针比较相等。为将指针初始化为空或赋空值给既存指针，可以使用空指针字面量 nullptr、空指针常量 NULL 或从整数值 0 的隐式转换。<br>零初始化和值初始化亦将指针初始化为其空值。空指针可用于指示对象不存在（例如 function::target()），或作为其他错误条件的指示器（例如 dynamic_cast）。通常，接受指针实参的函数始终需要检查值是否为空，并以不同方式处理该情况（例如，delete 表达式在传递空指针时不做任何事）。<br>    • 常量性<br>    • 若指针声明中 cv 在 <em> 之前出现，则它是 声明说明符序列 的一部分，并应用到被指向的对象。<br>    • 若指针声明中 cv 在 </em> 之后出现，则它是 声明符 的一部分，并应用到所声明的指针。<br>语法 含义</p>
+<pre><code>const T* 指向 const 对象的指针
+T const* 指向 const 对象的指针
+T* const 指向对象的 const 指针
+const T* const 指向 const 对象的 const 指针
+T const* const 指向 const 对象的 const 指针
+// pc 是 const int 的非 const 指针
+// cpc 是 const int 的 const 指针
+// ppc 是 const int 的非 const 指针的非 const 指针
+const int ci = 10, *pc = &amp;ci, *const cpc = pc, **ppc;
+// p 是非 const int 的非 const 指针
+// cp 是非 const int 的 const 指针
+int i, *p, *const cp = &amp;i;
+
+i = ci;    // OK：复制 const int 值到非 const int
+*cp = ci;  // OK：能修改非 const int（为 const 指针所指向）
+pc++;      // OK：能修改非 const 指针（指向 const int）
+pc = cpc;  // OK：能修改非 const 指针（指向 const int）
+pc = p;    // OK：能修改非 const 指针（指向 const int）
+ppc = &amp;pc; // OK：const int 的指针的地址是 const int 的指针的指针
+
+ci = 1;    // 错误：不能修改 const int
+ci++;      // 错误：不能修改 const int
+*pc = 2;   // 错误：不能修改被指向的 const int
+cp = &amp;ci;  // 错误：不能修改 const 指针（指向非 const int）
+cpc++;     // 错误：不能修改 const 指针（指向 const int）
+p = pc;    // 错误：非 const int 的指针不能指向 const int
+ppc = &amp;p;  // 错误：const int 的指针的指针不能指向非 const int 的指针</code></pre><p>通常，从一个多级指针到另一个的隐式转换，遵循限定转换和指针比较运算符中所描述的规则。</p>
 
             </div>
             <hr />
@@ -615,9 +702,9 @@ std::string s = f();  // 未定义行为：从悬垂引用复制初始化</code>
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《C++ 引用》
+                    《指针》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/07/30/nineteen/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/07/30/c-zhi-zhen/" property="cc:attributionName"
                rel="cc:attributionURL">
                 吴杭沉
             </a> 采用
@@ -658,7 +745,7 @@ std::string s = f();  // 未定义行为：从悬垂引用复制初始化</code>
         repo: 'wuhangchen.github.io',
         owner: 'wuhangchen',
         admin: "wuhangchen",
-        id: '2024/07/30/nineteen/',
+        id: '2024/07/30/c-zhi-zhen/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -945,27 +1032,25 @@ std::string s = f();  // 未定义行为：从悬垂引用复制初始化</code>
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2024/07/30/c-zhi-zhen/">
+                <a href="/2024/08/04/twentyone/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="指针">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="枚举申明">
                         
-                        <span class="card-title">指针</span>
+                        <span class="card-title">枚举申明</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            声明指针或指向成员指针类型的变量。
-语法指针的声明是简单声明，其声明符拥有下列形式
-* attr(可选) cv(可选) 声明符     (1)嵌套名说明符 * attr(可选) cv(可选) 声明符     (2)
-1) 指针声明符：声明 
+                            枚举（enumeration）是独立的类型，其值限制在一个取值范围内，它可以包含数个明确命名的常量。各常量的值是某个整型类型（称为该枚举的底层类型（underlying type））的值。
+enum-关键词 attr(可选) enum-名(
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-30
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-08-04
                         </span>
                         <span class="publish-author">
                             
@@ -997,22 +1082,21 @@ std::string s = f();  // 未定义行为：从悬垂引用复制初始化</code>
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/07/30/eighteen/">
+                <a href="/2024/07/30/nineteen/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="Linux dd命令">
+                        <img src="/medias/featureimages/24.jpg" class="responsive-img" alt="C++ 引用">
                         
-                        <span class="card-title">Linux dd命令</span>
+                        <span class="card-title">C++ 引用</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            dd 命令用于复制文件并对原文件的内容进行转换和格式化处理语法格式dd [OPTIONS]…选项说明
-if=文件名       #指定源文件。
-of=文件名       #指定目的文件。
-ibs=bytes       #指定一个块大小为b
+                            声明具名变量为引用，即既存对象或函数的别名。引用变量声明是声明符拥有下列形式的简单声明
+&amp; attr(可选) 声明符     (1)
+&amp;&amp; attr(可选) 声明符     (2)     (C++11 起)1) 左
                         
                     </div>
                     <div class="publish-info">
@@ -1023,8 +1107,8 @@ ibs=bytes       #指定一个块大小为b
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                            <a href="/categories/C/" class="post-category" target="_blank">
+                                    C++
                                 </a>
                             
                             
@@ -1034,8 +1118,8 @@ ibs=bytes       #指定一个块大小为b
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Linux/" target="_blank">
-                        <span class="chip bg-color">Linux</span>
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>
