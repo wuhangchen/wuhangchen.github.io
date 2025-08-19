@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>localhost/2025/08/19/linux-dong-tai-lian-jie-yu-jing-tai-lian-jie/</loc>
+    <lastmod>2025-08-19</lastmod>
+  </url>  <url>
     <loc>localhost/2024/07/24/linux-make/</loc>
     <lastmod>2025-08-19</lastmod>
   </url>  <url>
@@ -20,9 +23,6 @@
     <lastmod>2025-08-16</lastmod>
   </url>  <url>
     <loc>localhost/2025/08/16/linux-nc/</loc>
-    <lastmod>2025-08-16</lastmod>
-  </url>  <url>
-    <loc>localhost/2025/08/16/linux-zhong-de-dong-tai-lian-jie-ku-he-jing-tai-lian-jie-ku/</loc>
     <lastmod>2025-08-16</lastmod>
   </url>  <url>
     <loc>localhost/2025/08/14/linux-fork-interview/</loc>
@@ -115,7 +115,7 @@
     <loc>localhost/2024/07/23/linux-shell-can-shu/</loc>
     <lastmod>2025-05-06</lastmod>
   </url>  <url>
-    <loc>localhost/2024/10/29/fortytwo/</loc>
+    <loc>localhost/2024/10/29/c-bian-yi/</loc>
     <lastmod>2025-05-06</lastmod>
   </url>  <url>
     <loc>localhost/2024/10/30/fortythree/</loc>
