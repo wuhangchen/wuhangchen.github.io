@@ -4,11 +4,15 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Linux-fork-interview, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="Linux Make 三连, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="前两天有人问了个关于Unix的fork()系统调用的面试题，这个题正好是我大约十年前找工作时某公司问我的一个题，我觉得比较有趣，写篇文章与大家分享一下。这个题是这样的：每一轮fork操作产生的新进程数量是当前正在运行的进程数量。题目：请问下">
+    <meta name="description" content="Unix开发过程中，经常性的操作是从源码编译安装相应库文件，所以下面三个命令便是家常便饭，俗称三连：
+./configure
+make
+make install下面来看看这三步分别做了什么。
+configure执行 ./configure文">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -16,7 +20,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Linux-fork-interview | 吴杭沉的博客</title>
+    <title>Linux Make 三连 | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -266,13 +270,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Linux-fork-interview
+                        Linux Make 三连
                     </div>
                 </div>
             </div>
@@ -407,7 +411,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2025-08-14
+                    2024-07-24
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -421,14 +425,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.1k
+                    492
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    1 分
                 </div>
                 
                 
@@ -444,47 +448,16 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>前两天有人问了个关于Unix的fork()系统调用的面试题，这个题正好是我大约十年前找工作时某公司问我的一个题，我觉得比较有趣，写篇文章与大家分享一下。这个题是这样的：<br>每一轮<code>fork</code>操作产生的新进程数量是当前正在运行的进程数量。<br>题目：请问下面的程序一共输出多少个“-”？</p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;sys/types.h&gt;
-#include &lt;unistd.h&gt;
-int main()
-{
-        int i;
-        for(i=0; i&lt;2; i++){
-                fork();
-                printf(&quot;-&quot;);
-        }
-        return 0;
-}</code></pre><p>如果你对<code>fork()</code>的机制比较熟悉的话，这个题并不难，输出应该是6个“-”，但是，实际上这个程序会很tricky地输出8个“-”。<br>要讲清这个题，我们首先需要知道<code>fork()</code>系统调用的特性，<br>    • <code>fork()</code>系统调用是Unix下以自身进程创建子进程的系统调用，一次调用，两次返回，如果返回是0，则是子进程，如果返回值&gt;0，则是父进程（返回值是子进程的pid），这是众为周知的。<br>    • 还有一个很重要的东西是，在fork()的调用处，整个父进程空间会原模原样地复制到子进程中，包括指令，变量值，程序调用栈，环境变量，缓冲区，等等。<br>所以，上面的那个程序为什么会输入8个“-”，这是因为<code>printf(“-“)</code>;语句有buffer，所以，对于上述程序，<code>printf(“-“)</code>;把“-”放到了缓存中，并没有真正的输出（参看《C语言的迷题》中的第一题），在fork的时候，缓存被复制到了子进程空间，所以，就多了两个，就成了8个，而不是6个。<br>另外，多说一下，我们知道，Unix下的设备有“块设备”和“字符设备”的概念，所谓块设备，就是以一块一块的数据存取的设备，字符设备是一次存取一个字符的设备。磁盘、内存都是块设备，字符设备如键盘和串口。块设备一般都有缓存，而字符设备一般都没有缓存。<br>对于上面的问题，我们如果修改一下上面的printf的那条语句为：</p>
-<pre><code>printf(&quot;-\n&quot;);</code></pre><p>或是</p>
-<pre><code>printf(&quot;-&quot;);
-fflush(stdout);</code></pre><p>就没有问题了（就是6个“-”了），因为程序遇到<code>“\n”</code>，或是EOF，或是缓中区满，或是文件描述符关闭，或是主动flush，或是程序退出，就会把数据刷出缓冲区。需要注意的是，标准输出是行缓冲，所以遇到“\n”的时候会刷出缓冲区，但对于磁盘这个块设备来说，“\n”并不会引起缓冲区刷出的动作，那是全缓冲，你可以使用setvbuf来设置缓冲区大小，或是用fflush刷缓存。<br>我估计有些朋友可能对于fork()还不是很了解，那么我们把上面的程序改成下面这样：</p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;sys/types.h&gt;
-#include &lt;unistd.h&gt;
-int main(void)
-{
-        int i;
-        for(i=0; i&lt;2; i++){
-                fork();
-                //注意：下面的printf有“\n”
-                printf(&quot;ppid=%d, pid=%d, i=%d \n&quot;, getppid(), getpid(), i);
-        }
-        sleep(10); //让进程停留十秒，这样我们可以用pstree查看一下进程树
-        return 0;
-}
-</code></pre><p>于是，上面这段程序会输出下面的结果，（注：编译出的可执行的程序名为<code>fork</code>）</p>
-<pre><code>ppid=8858, pid=8518, i=0
-ppid=8858, pid=8518, i=1
-ppid=8518, pid=8519, i=0
-ppid=8518, pid=8519, i=1
-ppid=8518, pid=8520, i=1
-ppid=8519, pid=8521, i=1
-$ pstree -p | grep fork
-|-bash(8858)-+-fork(8518)-+-fork(8519)---fork(8521)
-| | `-fork(8520)</code></pre><p>面对这样的图你可能还是看不懂，没事，我好事做到底，画个图给你看看：<br>注意：上图中的我用了几个色彩，相同颜色的是同一个进程。于是，我们的<code>pstree</code>的图示就可以成为下面这个样子：（下图中的颜色与上图对应）<br>这样，对于<code>printf(“-“)</code>;这个语句，我们就可以很清楚的知道，哪个子进程复制了父进程标准输出缓中区里的的内容，而导致了多次输出了。（如下图所示，就是我阴影并双边框了那两个子进程）</p>
-
+                <p>Unix开发过程中，经常性的操作是从源码编译安装相应库文件，所以下面三个命令便是家常便饭，俗称三连：</p>
+<pre><code>./configure
+make
+make install</code></pre><p>下面来看看这三步分别做了什么。</p>
+<h2 id="configure"><a href="#configure" class="headerlink" title="configure"></a>configure</h2><p>执行 <code>./configure</code>文件一般是进行正式编译前的一些环境准备，准备编译需要的依赖项等。比如检测当前的系统平台，<br>检测需要的编译器是否存在如何调用，配置和生成相应编译所需文件。</p>
+<h2 id="make"><a href="#make" class="headerlink" title="make"></a>make</h2><p>前期准备工作完成无误后，就可能调用 make来执行编译了。实际执行的是 Makefile文件中定义的任务来从源码进行项目的编译。<br>通常情况下下载下来的 tar包中可能没有包含正式的 Makefile文件，而是另外形式呈现的临时文件，<br>比如 Makefile.in，Makefile.am,Makefile.MSVC 等，然后在执行 ./configure的时候根据相应环境来生成最终需要的 Makefile文件。</p>
+<h2 id="make-install"><a href="#make-install" class="headerlink" title="make install"></a>make install</h2><p>项目编译正常后，会生成相应的产出，可执行文件，so或o文件或 DLL 动态链接文件等。最后一步就是将生成的文件复制到相应的系统目录，<br>这个过程便是安装。比如将可执行文件复制到系统 PATH 能取到的地方，帮助文档复制到 MANPATH，其他文件复制到对应目录下。<br>这种默认安装路径的话，会把可执行文件拷贝到/usr/local/bin，如果没有sudo权限的话是会失败的，有两种方法指定安装路径如下：</p>
+<pre><code>./configure --prefix=安装路径
+make install DESTDIR=安装路径</code></pre><h2 id="pip-install"><a href="#pip-install" class="headerlink" title="pip install"></a>pip install</h2><p>在Linux下直接用pip install packageName，有些文件会被放到根目录下，如果没有sudo权限的话，是会安装失败的。这个以后我们就需要指定安装的目录了。</p>
+<pre><code>pip install --install-option=&quot;--prefix=绝对路径&quot; packageName</code></pre>
             </div>
             <hr />
 
@@ -518,9 +491,9 @@ $ pstree -p | grep fork
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《Linux-fork-interview》
+                    《Linux Make 三连》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2025/08/14/linux-fork-interview/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/07/24/linux-make/" property="cc:attributionName"
                rel="cc:attributionURL">
                 吴杭沉
             </a> 采用
@@ -561,7 +534,7 @@ $ pstree -p | grep fork
         repo: 'wuhangchen.github.io',
         owner: 'wuhangchen',
         admin: "wuhangchen",
-        id: '2025/08/14/linux-fork-interview/',
+        id: '2024/07/24/linux-make/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -848,24 +821,25 @@ $ pstree -p | grep fork
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2025/08/16/linux-zhong-de-dong-tai-lian-jie-ku-he-jing-tai-lian-jie-ku/">
+                <a href="/2024/07/24/linux-zhong-duan/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Linux 中的动态链接库和静态链接库">
+                        <img src="/medias/featureimages/28.jpg" class="responsive-img" alt="Linux 终端诡异家伙">
                         
-                        <span class="card-title">Linux 中的动态链接库和静态链接库</span>
+                        <span class="card-title">Linux 终端诡异家伙</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            库是写好的现有的，成熟的，可以复用的代码。现实中每个程序都要依赖很多基础的底层库，不可能每个人的代码都从零开始，因此库的存在意义非同寻常。本质上来说库是一种可执行代码的二进制形式，可以被操作系统载入内存执行。库有两种：静态库（.a、.lib
+                            这篇文章，我们一起来到 Linux 的诡异的一面……你知道吗？在我们日常使用的 Unix、Linux及其各种各样的分支系统中，
+daemondaemon 有一个很高大上的中文名字，叫守护进程 。有句话是这么说的，如果 Unix 中没有了守护
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2025-08-16
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-24
                         </span>
                         <span class="publish-author">
                             
@@ -897,24 +871,27 @@ $ pstree -p | grep fork
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2025/08/14/linux-fork-clone/">
+                <a href="/2024/07/23/linux-xie-zai-ruan-jian/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="Linux-fork-clone">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="Ubuntu 完全卸载一个软件包">
                         
-                        <span class="card-title">Linux-fork-clone</span>
+                        <span class="card-title">Ubuntu 完全卸载一个软件包</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            在本文中，传统UNIX fork之后，我给出传统的UNIX fork在Linux内核中的变体clone系统调用的精彩。若要理解fork的原始意义，还是要看Melvin Conway提出fork思想的原始论文 A Multiprocessor
+                            今天卸载一个软件，老是有配置残留，网上找到了解决方案：查看已安装的软件：
+dpkg -l |grep 软件名
+找到一大堆相关的包，然后卸载核心的包：
+sudo apt-get remove --purge 软件包名继续grep，直到找不到相
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2025-08-14
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-07-23
                             </span>
                         <span class="publish-author">
                             
