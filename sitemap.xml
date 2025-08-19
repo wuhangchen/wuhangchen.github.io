@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>localhost/2024/07/24/linux-make/</loc>
+    
+    <lastmod>2025-08-19T13:45:59.522Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>localhost/2024/07/29/linux-hao-yong-de-shell-ming-ling/</loc>
+    
+    <lastmod>2025-08-19T13:44:02.862Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>localhost/2024/07/24/linux-cha-zhao-da-wen-jian/</loc>
     
     <lastmod>2025-08-17T05:49:52.575Z</lastmod>
@@ -226,13 +240,6 @@
   </url>
   
   <url>
-    <loc>localhost/2024/07/29/seventeen/</loc>
-    
-    <lastmod>2025-05-08T13:26:56.114Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>localhost/2024/07/30/nineteen/</loc>
     
     <lastmod>2025-05-07T13:56:28.601Z</lastmod>
@@ -320,13 +327,6 @@
     <loc>localhost/2024/07/30/eighteen/</loc>
     
     <lastmod>2025-04-21T12:59:25.078Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>localhost/2024/07/24/eight/</loc>
-    
-    <lastmod>2025-04-19T13:11:32.700Z</lastmod>
     
   </url>
   

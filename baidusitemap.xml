@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>localhost/2024/07/24/linux-make/</loc>
+    <lastmod>2025-08-19</lastmod>
+  </url>  <url>
+    <loc>localhost/2024/07/29/linux-hao-yong-de-shell-ming-ling/</loc>
+    <lastmod>2025-08-19</lastmod>
+  </url>  <url>
     <loc>localhost/2024/07/24/linux-cha-zhao-da-wen-jian/</loc>
     <lastmod>2025-08-17</lastmod>
   </url>  <url>
@@ -97,9 +103,6 @@
     <loc>localhost/2024/07/23/linux-xie-zai-ruan-jian/</loc>
     <lastmod>2025-05-08</lastmod>
   </url>  <url>
-    <loc>localhost/2024/07/29/seventeen/</loc>
-    <lastmod>2025-05-08</lastmod>
-  </url>  <url>
     <loc>localhost/2024/07/30/nineteen/</loc>
     <lastmod>2025-05-07</lastmod>
   </url>  <url>
@@ -138,9 +141,6 @@
   </url>  <url>
     <loc>localhost/2024/07/30/eighteen/</loc>
     <lastmod>2025-04-21</lastmod>
-  </url>  <url>
-    <loc>localhost/2024/07/24/eight/</loc>
-    <lastmod>2025-04-19</lastmod>
   </url>  <url>
     <loc>localhost/2024/07/28/thirteen/</loc>
     <lastmod>2024-08-25</lastmod>
