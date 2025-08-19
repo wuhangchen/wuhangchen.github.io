@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2025-08-16T10:26:02.507Z</updated>
+  <updated>2025-08-19T13:53:26.251Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux-动态链接与静态链接</title>
+    <link href="localhost/2025/08/19/linux-dong-tai-lian-jie-yu-jing-tai-lian-jie/"/>
+    <id>localhost/2025/08/19/linux-dong-tai-lian-jie-yu-jing-tai-lian-jie/</id>
+    <published>2025-08-19T13:51:41.000Z</published>
+    <updated>2025-08-19T13:53:26.251Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;库是写好的现有的，成熟的，可以复用的代码。现实中每个程序都要依赖很多基础的底层库，不可能每个人的代码都从零开始，因此库的存在意义非同寻常。&lt;br&gt;本质上来说库是一种可执行代码的二进制形式，可以被操作系统载入内存执行。库有两种：静态库（.a、.lib）和动态库（.so、.dl
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>Linux-nc</title>
@@ -30,32 +56,6 @@
         
         
           &lt;p&gt;Netcat 号称 TCP/IP 的瑞士军刀并非浪得虚名，以体积小（可执行 200KB）功能灵活而著称，在各大发行版中都默认安装，你可以用它来做很多网络相关的工作，熟练使用它可以不依靠其他工具做一些很有用的事情。最初作者是叫做“霍比特人”的网友 Hobbit &lt;a
-        
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="localhost/categories/Linux/"/>
-    
-    
-      <category term="Linux" scheme="localhost/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux 中的动态链接库和静态链接库</title>
-    <link href="localhost/2025/08/16/linux-zhong-de-dong-tai-lian-jie-ku-he-jing-tai-lian-jie-ku/"/>
-    <id>localhost/2025/08/16/linux-zhong-de-dong-tai-lian-jie-ku-he-jing-tai-lian-jie-ku/</id>
-    <published>2025-08-16T09:12:42.000Z</published>
-    <updated>2025-08-16T09:26:35.755Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;库是写好的现有的，成熟的，可以复用的代码。现实中每个程序都要依赖很多基础的底层库，不可能每个人的代码都从零开始，因此库的存在意义非同寻常。&lt;br&gt;本质上来说库是一种可执行代码的二进制形式，可以被操作系统载入内存执行。库有两种：静态库（.a、.lib）和动态库（.so、.dl
         
       
     
@@ -252,8 +252,8 @@
   
   <entry>
     <title>C++ 静态库与动态库</title>
-    <link href="localhost/2024/10/29/fortytwo/"/>
-    <id>localhost/2024/10/29/fortytwo/</id>
+    <link href="localhost/2024/10/29/c-bian-yi/"/>
+    <id>localhost/2024/10/29/c-bian-yi/</id>
     <published>2024-10-29T13:21:55.000Z</published>
     <updated>2025-05-06T13:50:29.078Z</updated>
     
