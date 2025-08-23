@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="localhost/"/>
-  <updated>2025-08-19T13:53:26.251Z</updated>
+  <updated>2025-08-23T10:06:07.544Z</updated>
   <id>localhost/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux-netstat</title>
+    <link href="localhost/2025/08/19/linux-netstat/"/>
+    <id>localhost/2025/08/19/linux-netstat/</id>
+    <published>2025-08-19T14:01:50.000Z</published>
+    <updated>2025-08-23T10:06:07.544Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;p&gt;Netstat 命令用于显示各种网络相关信息，如网络连接，路由表，接口状态 (Interface
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>Linux-动态链接与静态链接</title>
@@ -505,32 +531,6 @@ else
         
         
           &lt;h2 id=&quot;摘要：&quot;&gt;&lt;a href=&quot;#摘要：&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="C++" scheme="localhost/categories/C/"/>
-    
-    
-      <category term="C++" scheme="localhost/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C++中new与malloc区别</title>
-    <link href="localhost/2024/09/08/thirytwo/"/>
-    <id>localhost/2024/09/08/thirytwo/</id>
-    <published>2024-09-08T07:54:23.000Z</published>
-    <updated>2025-05-24T03:36:00.043Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;申请的内存所在位置&quot;&gt;&lt;a href=&quot;#申请的内存所在位置&quot; class=&quot;headerlink&quot;
         
       
     
