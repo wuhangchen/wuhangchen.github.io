@@ -4,11 +4,11 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="C++工程实践, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="Linux-netstat, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="什么是值语义值语义指的是对象的拷贝与原对象无关，就像拷贝 int一样。C++ 的内置类型bool、int、double、char都是值语义，标准库里的 complex&amp;lt;&amp;gt; 、pair&amp;lt;&amp;gt;、vector&amp;lt;&amp;gt;">
+    <meta name="description" content="简介Netstat 命令用于显示各种网络相关信息，如网络连接，路由表，接口状态 (Interface Statistics)，masquerade 连接，多播成员 (Multicast Memberships) 等等。输出信息含义执行net">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -16,7 +16,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>C++工程实践 | 吴杭沉的博客</title>
+    <title>Linux-netstat | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -266,13 +266,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        C++工程实践
+                        Linux-netstat
                     </div>
                 </div>
             </div>
@@ -383,8 +383,8 @@
                     
                     <div class="article-tag">
                         
-                        <a href="/tags/C/" target="_blank">
-                            <span class="chip bg-color">C++</span>
+                        <a href="/tags/Linux/" target="_blank">
+                            <span class="chip bg-color">Linux</span>
                         </a>
                         
                     </div>
@@ -395,8 +395,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                        <a href="/categories/C/" class="post-category" target="_blank">
-                            C++
+                        <a href="/categories/Linux/" class="post-category" target="_blank">
+                            Linux
                         </a>
                         
                     </div>
@@ -407,7 +407,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-10-30
+                    2025-08-19
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -421,14 +421,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.6k
+                    1.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    10 分
+                    9 分
                 </div>
                 
                 
@@ -444,151 +444,164 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="什么是值语义"><a href="#什么是值语义" class="headerlink" title="什么是值语义"></a>什么是值语义</h2><p>值语义指的是对象的拷贝与原对象无关，就像拷贝 <code>int</code>一样。C++ 的内置类型<code>bool、int、double、char</code>都是值语义，标准库里的 <code>complex&lt;&gt; 、pair&lt;&gt;、vector&lt;&gt;、map&lt;&gt;、string</code>等等类型也都是值语意，拷贝之后就与原对象脱离关系。Java 语言的 <code>primitive types</code>也是值语义。<br>与值语义对应的是对象语义，或者叫做引用语义，由于引用一词在 C++里有特殊含义，所以我在本文中使用对象语义这个术语。对象语义指的是面向对象意义下的对象，对象拷贝是禁止的。例如 <code>muduo</code>里的 <code>Thread</code>是对象语义，拷贝 <code>Thread</code>是无意义的，也是被禁止的：因为 <code>Thread</code>代表线程，拷贝一个 <code>Thread</code>对象并不能让系统增加一个一模一样的线程。<br>同样的道理，拷贝一个 <code>Employee</code>对象是没有意义的，一个雇员不会变成两个雇员，他也不会领两份薪水。拷贝 <code>TcpConnection</code>对象也没有意义，系统里边只有一个 <code>TCP</code>连接，拷贝 <code>TcpConnection</code>对象不会让我们拥有两个连接。<code>Printer</code>也是不能拷贝的，系统只连接了一个打印机，拷贝 <code>Printer</code>并不能凭空增加打印机。凡此总总，面向对象意义下的“对象”是 ``````。<br>Java 里边的 class对象都是对象语义/引用语义。<code>ArrayList&lt;Integer&gt; a = new ArrayList&lt;Integer&gt;(); ArrayList&lt;Integer&gt; b = a;</code>那么 a 和 b 指向的是同一个<code>ArrayList</code>对象，修改a同时也会影响 b。<br>值语义与 <code>immutable</code>无关。Java 有 value object 一说，按PoEAA 486的定义，它实际上是 <code>immutable object</code>，例如 <code>String、Integer、BigInteger、joda.time.DateTime</code>等等, 因为 Java 没有办法实现真正的值语义class，只好用immutable object来模拟。尽管immutable object有其自身的用处，但不是本文的主题。<code>muduo</code>中的 <code>Date、Timestamp</code>也都是immutable的。<br>C++中的值语义对象也可以是mutable，比如<code>complex&lt;&gt;、pair&lt;&gt;、vector&lt;&gt;、map&lt;&gt;、string</code>都是可以修改的。<code>muduo</code>的 <code>InetAddress</code>和 <code>Buffer</code>都具有值语义，它们都是可以修改的。<br>值语义的对象不一定是 POD，例如 <code>string</code>就不是 POD，但它是值语义的。<br>值语义的对象不一定小，例如 <code>vector&lt;int&gt;</code> 的元素可多可少，但它始终是值语义的。当然，很多值语义的对象都是小的，例如<code>complex&lt;&gt;、muduo::Date、muduo::Timestamp</code>。</p>
-<h2 id="值语义与生命期"><a href="#值语义与生命期" class="headerlink" title="值语义与生命期"></a>值语义与生命期</h2><p>值语义的一个巨大好处是生命期管理很简单，就跟 <code>int</code>一样————你不需要操心 <code>int</code>的生命期。值语义的对象要么是stack object，或者直接作为其他object的成员，因此我们不用担心它的生命期，一个函数使用自己stack上的对象，一个成员函数使用自己的数据成员对象。相反，对象语义的object由于不能拷贝，我们只能通过指针或引用来使用它。<br>一旦使用指针和引用来操作对象，那么就要担心所指的对象是否已被释放，这一度是C++程序bug的一大来源。此外，由于C++只能通过指针或引用来获得多态性，那么在C++里从事基于继承和多态的面向对象编程有其本质的困难——资源管理。<br>考虑一个简单的对象建模——家长与子女：a Parent has a Child, a Child knows his/her Parent。在 Java 里边很好写，不用担心内存泄漏，也不用担心空悬指针：</p>
-<pre><code>public class Parent
-{
-    private Child myChild;
-}
-public class Child
-{
-    private Parent myParent;
-}</code></pre><p>只要正确初始化 myChild 和 myParent，那么 Java 程序员就不用担心出现访问错误。一个 handle 是否有效，只需要判断其是否 non null。<br>在C++里边就要为资源管理费一番脑筋：Parent和Child都代表的是真人，肯定是不能拷贝的，因此具有对象语义。Parent是直接持有Child吗？抑或Parent和Child通过指针互指？Child的生命期由Parent控制吗？如果还有ParentClub和School两个 class，分别代表家长俱乐部和学校：ParentClub has many Parents，School has many Child，那么如何保证它们始终持有有效的 Parent 对象和 Child 对象？何时才能安全地释放 Parent 和 Child ？<br>直接但是易错的写法：</p>
-<pre><code>class Child;
-class Parent : boost::noncopyable
-{
-private:
-    Child* myChild;
-};
+                <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Netstat 命令用于显示各种网络相关信息，如网络连接，路由表，接口状态 (Interface Statistics)，masquerade 连接，多播成员 (Multicast Memberships) 等等。<br>输出信息含义<br>执行netstat后，其输出结果为</p>
+<pre><code>Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address Foreign Address State
+tcp 0 2 210.34.6.89:telnet 210.34.6.96:2873 ESTABLISHED
+tcp 296 0 210.34.6.89:1165 210.34.6.84:netbios-ssn ESTABLISHED
+tcp 0 0 localhost.localdom:9001 localhost.localdom:1162 ESTABLISHED
+tcp 0 0 localhost.localdom:1162 localhost.localdom:9001 ESTABLISHED
+tcp 0 80 210.34.6.89:1161 210.34.6.10:netbios-ssn CLOSE
 
-class Child : boost::noncopyable
-{
-private:
-    Parent* myParent;
-};</code></pre><p>如果直接使用指针作为成员，那么如何确保指针的有效性？如何防止出现空悬指针？Child 和 Parent 由谁负责释放？在释放某个 Parent 对象的时候，如何确保程序中没有指向它的指针？在释放某个 Child 对象的时候，如何确保程序中没有指向它的指针？<br>这一系列问题一度是C++面向对象编程头疼的问题，不过现在有了smart pointer，我们可以借助 smart pointer 把对象语义转换为值语义，从而轻松解决对象生命期：让 Parent 持有 Child 的 smart pointer，同时让 Child 持有 Parent 的 smart pointer，这样始终引用对方的时候就不用担心出现空悬指针。当然，其中一个 smart pointer 应该是 weak reference，否则会出现循环引用，导致内存泄漏。到底哪一个是 weak reference，则取决于具体应用场景。<br>如果 Parent 拥有 Child，Child 的生命期由其 Parent 控制，Child 的生命期小于 Parent，那么代码就比较简单：</p>
-<pre><code>class Parent;
-class Child : boost::noncopyable
-{
-public:
-    explicit Child(Parent* myParent_)
-    : myParent(myParent_)
-    {
-    }
-private:
-    Parent* myParent;
-};
-class Parent : boost::noncopyable
-{
-public:
-    Parent()
-    : myChild(new Child(this))
-    {
-    }
-private:
-    boost::scoped_ptr&lt;Child&gt; myChild;
-};
-</code></pre><p>在上面这个设计中，Child 的指针不能泄露给外界，否则仍然有可能出现空悬指针。<br>如果 Parent 与 Child 的生命期相互独立，就要麻烦一些：</p>
-<pre><code>class Parent;
-typedef boost::shared_ptr&lt;Parent&gt; ParentPtr;
-class Child : boost::noncopyable
-{
-public:
-    explicit Child(const ParentPtr&amp; myParent_)
-    : myParent(myParent_)
-    {
-    }
-
-private:
-    boost::weak_ptr&lt;Parent&gt; myParent;
-};
-typedef boost::shared_ptr&lt;Child&gt; ChildPtr;
-class Parent : public boost::enable_shared_from_this&lt;Parent&gt;,
-               private boost::noncopyable
-{
-public:
-    Parent()
-    {
-    }
-    void addChild()
-    {
-        myChild.reset(new Child(shared_from_this()));
-    }
-private:
-    ChildPtr myChild;
-};
-int main()
-{
-    ParentPtr p(new Parent);
-    p-&gt;addChild();
-}</code></pre><p>上面这个 shared_ptr+weak_ptr 的做法似乎有点小题大做。<br>考虑一个稍微复杂一点的对象模型：<br>a Child has parents: mom and dad;<br>a Parent has one or more Child(ren);<br>a Parent knows his/her spouser. 这个对象模型用 Java 表述一点都不复杂，垃圾收集会帮我们搞定对象生命期。</p>
-<pre><code>public class Parent
-{
-    private Parent mySpouser;
-    private ArrayList&lt;Child&gt; myChildren;
-}
-
-public class Child
-{
-    private Parent myMom;
-    private Parent myDad;
-}</code></pre><p>如果用 C++ 来实现，如何才能避免出现空悬指针，同时避免出现内存泄漏呢？借助 shared_ptr 把裸指针转换为值语义，我们就不用担心这两个问题了：</p>
-<pre><code>class Parent;
-typedef boost::shared_ptr&lt;Parent&gt; ParentPtr;
-class Child : boost::noncopyable
-{
-public:
-    explicit Child(const ParentPtr&amp; myMom_,
-                 const ParentPtr&amp; myDad_)
-    : myMom(myMom_),
-      myDad(myDad_)
-    {
-    }
-
-private:
-    boost::weak_ptr&lt;Parent&gt; myMom;
-    boost::weak_ptr&lt;Parent&gt; myDad;
-};
-typedef boost::shared_ptr&lt;Child&gt; ChildPtr;
-class Parent : boost::noncopyable
-{
-public:
-    Parent()
-    {
-    }
-    void setSpouser(const ParentPtr&amp; spouser)
-    {
-        mySpouser = spouser;
-    }
-    void addChild(const ChildPtr&amp; child)
-    {
-        myChildren.push_back(child);
-    }
-
-private:
-    boost::weak_ptr&lt;Parent&gt; mySpouser;
-    std::vector&lt;ChildPtr&gt; myChildren;
-};
-
-int main()
-{
-    ParentPtr mom(new Parent);
-    ParentPtr dad(new Parent);
-    mom-&gt;setSpouser(dad);
-    dad-&gt;setSpouser(mom);
-    {
-        ChildPtr child(new Child(mom, dad));
-        mom-&gt;addChild(child);
-        dad-&gt;addChild(child);
-    }
-    {
-        ChildPtr child(new Child(mom, dad));
-        mom-&gt;addChild(child);
-        dad-&gt;addChild(child);
-    }
-}</code></pre><p>如果不使用 smart pointer，用 C++做面向对象编程将会困难重重。</p>
-<h2 id="值语义与标准库"><a href="#值语义与标准库" class="headerlink" title="值语义与标准库"></a>值语义与标准库</h2><p>C++ 要求凡是能放入标准容器的类型必须具有值语义。准确地说：type 必须是 SGI Assignable concept 的 model。但是，由于C++ 编译器会为 class 默认提供 copy constructor 和 assignment operator，因此除非明确禁止，否则 class 总是可以作为标准库的元素类型——尽管程序可以编译通过，但是隐藏了资源管理方面的 bug。<br>因此，在写一个 class 的时候，先让它继承 <code>boost::noncopyable</code>，几乎总是正确的。<br>在现代 C++ 中，一般不需要自己编写 copy constructor 或 assignment operator，因为只要每个数据成员都具有值语义的话，编译器自动生成的 member-wise copying&amp;assigning 就能正常工作；如果以 smart ptr 为成员来持有其他对象，那么就能自动启用或禁用 copying&amp;assigning。例外：编写 HashMap 这类底层库时还是需要自己实现 copy control。</p>
-<h2 id="值语义与C-语言"><a href="#值语义与C-语言" class="headerlink" title="值语义与C++语言"></a>值语义与C++语言</h2><p>C++ 的 class 本质上是值语义的，这才会出现 object slicing 这种语言独有的问题，也才会需要程序员注意 pass-by-value 和 pass-by-const-reference 的取舍。在其他面向对象编程语言中，这都不需要费脑筋。<br>值语义是C++语言的三大约束之一，C++ 的设计初衷是让用户定义的类型能像内置类型一样工作，具有同等的地位。为此C++做了以下设计：<br>• class 的 layout 与 C struct 一样，没有额外的开销。定义一个“只包含一个 int 成员的 class”的对象开销和定义一个 int 一样。<br>• 甚至 class data member 都默认是 uninitialized，因为函数局部的 int 是 uninitialized。<br>• class 可以在 stack 上创建，也可以在 heap 上创建。因为 int 可以是 stack variable。<br>• class 的数组就是一个个 class 对象挨着，没有额外的 indirection。因为 int 数组就是这样。<br>• 编译器会为 class 默认生成 copy constructor 和 assignment operator。其他语言没有 copy constructor 一说，也不允许重载 assignment operator。C++ 的对象默认是可以拷贝的，这是一个尴尬的特性。<br>• 当 class type 传入函数时，默认是 make a copy。因为把 int 传入函数时是 make a copy。<br>• 当函数返回一个 class type 时，只能通过 make a copy, C++ 不得不定义 RVO 来解决性能问题。因为函数返回 int 时是 make a copy。<br>• 以 class type 为成员时，数据成员是嵌入的。例如 <code>pair&lt;complex&lt;double&gt;, size_t&gt; 的</code>layout 就是 <code>complex&lt;double&gt;</code>挨着 <code>size_t</code>。<br>这些设计带来了性能上的好处，原因是 memory locality。比方说我们在 C++ 里定义 <code>complex&lt;double&gt; class，array of complex&lt;double&gt;， vector&lt;complex&lt;double&gt; &gt;</code>它们的 layout 分别是：re 和 im 分别是复数的实部和虚部。<br>而如果我们在 Java 里干同样的事情，layout 大不一样，memory locality 也差很多：<br>Java 里边每个 object 都有 header，至少有两个 word 的开销。对比 Java 和 C++，可见 C++ 的对象模型要紧凑得多。</p>
-
+Active UNIX domain sockets (w/o servers)
+Proto RefCnt Flags Type State I-Node Path
+unix 1 [ ] STREAM CONNECTED 16178 @000000dd
+unix 1 [ ] STREAM CONNECTED 16176 @000000dc
+unix 9 [ ] DGRAM 5292 /dev/log
+unix 1 [ ] STREAM CONNECTED 16182 @000000df</code></pre><p>从整体上看，netstat的输出结果可以分为两个部分：<br>一个是Active Internet connections，称为有源TCP连接，其中”Recv-Q”和”Send-Q”指%0A的是接收队列和发送队列。这些数字一般都应该是0。如果不是则表示软件包正在队列中堆积。这种情况只能在非常少的情况见到。<br>另一个是Active UNIX domain sockets，称为有源Unix域套接口(和网络套接字一样，但是只能用于本机通信，性能可以提高一倍)。<br>Proto显示连接使用的协议,RefCnt表示连接到本套接口上的进程号,Types显示套接口的类型,State显示套接口当前的状态,Path表示连接到套接口的其它进程使用的路径名。<br>常见参数<br>-a (all)显示所有选项，默认不显示LISTEN相关<br>-t (tcp)仅显示tcp相关选项<br>-u (udp)仅显示udp相关选项<br>-n 拒绝显示别名，能显示数字的全部转化成数字。<br>-l 仅列出有在 Listen (监听) 的服務状态<br>-p 显示建立相关链接的程序名<br>-r 显示路由信息，路由表<br>-e 显示扩展信息，例如uid等<br>-s 按各个协议进行统计<br>-c 每隔一个固定时间，执行该netstat命令。<br>提示：LISTEN和LISTENING的状态只有用-a或者-l才能看到<br>实用命令实例</p>
+<h3 id="1-列出所有端口-包括监听和未监听的"><a href="#1-列出所有端口-包括监听和未监听的" class="headerlink" title="1. 列出所有端口 (包括监听和未监听的)"></a>1. 列出所有端口 (包括监听和未监听的)</h3><p>列出所有端口 netstat -a</p>
+<pre><code># netstat -a | more
+ Active Internet connections (servers and established)
+ Proto Recv-Q Send-Q Local Address           Foreign Address         State
+ tcp        0      0 localhost:30037         *:*                     LISTEN
+ udp        0      0 *:bootpc                *:*
+Active UNIX domain sockets (servers and established)
+ Proto RefCnt Flags       Type       State         I-Node   Path
+ unix  2      [ ACC ]     STREAM     LISTENING     6135     /tmp/.X11-unix/X0
+ unix  2      [ ACC ]     STREAM     LISTENING     5140     /var/run/acpid.socket</code></pre><p>列出所有 tcp 端口 netstat -at</p>
+<pre><code># netstat -at
+ Active Internet connections (servers and established)
+ Proto Recv-Q Send-Q Local Address           Foreign Address         State
+ tcp        0      0 localhost:30037         *:*                     LISTEN
+ tcp        0      0 localhost:ipp           *:*                     LISTEN
+ tcp        0      0 *:smtp                  *:*                     LISTEN
+ tcp6       0      0 localhost:ipp           [::]:*                  LISTEN</code></pre><p>列出所有 udp 端口 netstat -au</p>
+<pre><code># netstat -au
+ Active Internet connections (servers and established)
+ Proto Recv-Q Send-Q Local Address           Foreign Address         State
+ udp        0      0 *:bootpc                *:*
+ udp        0      0 *:49119                 *:*
+ udp        0      0 *:mdns                  *:*</code></pre><h3 id="2-列出所有处于监听状态的-Sockets"><a href="#2-列出所有处于监听状态的-Sockets" class="headerlink" title="2. 列出所有处于监听状态的 Sockets"></a>2. 列出所有处于监听状态的 Sockets</h3><p>只显示监听端口 netstat -l</p>
+<pre><code># netstat -l
+ Active Internet connections (only servers)
+ Proto Recv-Q Send-Q Local Address           Foreign Address         State
+ tcp        0      0 localhost:ipp           *:*                     LISTEN
+ tcp6       0      0 localhost:ipp           [::]:*                  LISTEN
+ udp        0      0 *:49119                 *:*</code></pre><p>只列出所有监听 tcp 端口 netstat -lt</p>
+<pre><code># netstat -lt
+ Active Internet connections (only servers)
+ Proto Recv-Q Send-Q Local Address           Foreign Address         State
+ tcp        0      0 localhost:30037         *:*                     LISTEN
+ tcp        0      0 *:smtp                  *:*                     LISTEN
+ tcp6       0      0 localhost:ipp           [::]:*                  LISTEN</code></pre><p>只列出所有监听 udp 端口 netstat -lu</p>
+<pre><code># netstat -lu
+ Active Internet connections (only servers)
+ Proto Recv-Q Send-Q Local Address           Foreign Address         State
+ udp        0      0 *:49119                 *:*
+ udp        0      0 *:mdns                  *:*</code></pre><p>只列出所有监听 UNIX 端口 netstat -lx</p>
+<pre><code># netstat -lx
+ Active UNIX domain sockets (only servers)
+ Proto RefCnt Flags       Type       State         I-Node   Path
+ unix  2      [ ACC ]     STREAM     LISTENING     6294     private/maildrop
+ unix  2      [ ACC ]     STREAM     LISTENING     6203     public/cleanup
+ unix  2      [ ACC ]     STREAM     LISTENING     6302     private/ifmail
+ unix  2      [ ACC ]     STREAM     LISTENING     6306     private/bsmtp</code></pre><h3 id="3-显示每个协议的统计信息"><a href="#3-显示每个协议的统计信息" class="headerlink" title="3. 显示每个协议的统计信息"></a>3. 显示每个协议的统计信息</h3><p>显示所有端口的统计信息 netstat -s</p>
+<pre><code># netstat -s
+ Ip:
+ 11150 total packets received
+ 1 with invalid addresses
+ 0 forwarded
+ 0 incoming packets discarded
+ 11149 incoming packets delivered
+ 11635 requests sent out
+ Icmp:
+ 0 ICMP messages received
+ 0 input ICMP message failed.
+ Tcp:
+ 582 active connections openings
+ 2 failed connection attempts
+ 25 connection resets received
+ Udp:
+ 1183 packets received
+ 4 packets to unknown port received.
+ .....</code></pre><p>显示 TCP 或 UDP 端口的统计信息 netstat -st 或 -su</p>
+<pre><code># netstat -st
+# netstat -su</code></pre><h3 id="4-在-netstat-输出中显示-PID-和进程名称-netstat-p"><a href="#4-在-netstat-输出中显示-PID-和进程名称-netstat-p" class="headerlink" title="4. 在 netstat 输出中显示 PID 和进程名称 netstat -p"></a>4. 在 netstat 输出中显示 PID 和进程名称 netstat -p</h3><p>netstat -p 可以与其它开关一起使用，就可以添加 “PID/进程名称” 到 netstat 输出中，这样 debugging 的时候可以很方便的发现特定端口运行的程序。</p>
+<pre><code># netstat -pt
+ Active Internet connections (w/o servers)
+ Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+ tcp        1      0 ramesh-laptop.loc:47212 192.168.185.75:www        CLOSE_WAIT  2109/firefox
+ tcp        0      0 ramesh-laptop.loc:52750 lax:www ESTABLISHED 2109/firefox</code></pre><h3 id="5-在-netstat-输出中不显示主机，端口和用户名-host-port-or-user"><a href="#5-在-netstat-输出中不显示主机，端口和用户名-host-port-or-user" class="headerlink" title="5. 在 netstat 输出中不显示主机，端口和用户名 (host, port or user)"></a>5. 在 netstat 输出中不显示主机，端口和用户名 (host, port or user)</h3><p>当你不想让主机，端口和用户名显示，使用 netstat -n。将会使用数字代替那些名称。<br>同样可以加速输出，因为不用进行比对查询。</p>
+<pre><code># netstat -an</code></pre><p>如果只是不想让这三个名称中的一个被显示，使用以下命令</p>
+<pre><code># netsat -a --numeric-ports
+# netsat -a --numeric-hosts
+# netsat -a --numeric-users</code></pre><h3 id="6-持续输出-netstat-信息"><a href="#6-持续输出-netstat-信息" class="headerlink" title="6. 持续输出 netstat 信息"></a>6. 持续输出 netstat 信息</h3><p>netstat 将每隔一秒输出网络信息。</p>
+<pre><code># netstat -c
+ Active Internet connections (w/o servers)
+ Proto Recv-Q Send-Q Local Address           Foreign Address         State
+ tcp        0      0 ramesh-laptop.loc:36130 101-101-181-225.ama:www ESTABLISHED
+ tcp        1      1 ramesh-laptop.loc:52564 101.11.169.230:www      CLOSING
+ tcp        0      0 ramesh-laptop.loc:43758 server-101-101-43-2:www ESTABLISHED
+ tcp        1      1 ramesh-laptop.loc:42367 101.101.34.101:www      CLOSING</code></pre><h3 id="7-显示系统不支持的地址族-Address-Families"><a href="#7-显示系统不支持的地址族-Address-Families" class="headerlink" title="7. 显示系统不支持的地址族 (Address Families)"></a>7. 显示系统不支持的地址族 (Address Families)</h3><pre><code>netstat --verbose</code></pre><p>在输出的末尾，会有如下的信息</p>
+<pre><code>netstat: no support for `AF IPX&#39; on this system.
+netstat: no support for `AF AX25&#39; on this system.
+netstat: no support for `AF X25&#39; on this system.
+netstat: no support for `AF NETROM&#39; on this system.</code></pre><h3 id="8-显示核心路由信息-netstat-r"><a href="#8-显示核心路由信息-netstat-r" class="headerlink" title="8. 显示核心路由信息 netstat -r"></a>8. 显示核心路由信息 netstat -r</h3><pre><code># netstat -r
+ Kernel IP routing table
+ Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+ 192.168.1.0     *               255.255.255.0   U         0 0          0 eth2
+ link-local      *               255.255.0.0     U         0 0          0 eth2
+ default         192.168.1.1     0.0.0.0         UG        0 0          0 eth2
+</code></pre><p>注意： 使用 netstat -rn 显示数字格式，不查询主机名称。</p>
+<h3 id="9-找出程序运行的端口"><a href="#9-找出程序运行的端口" class="headerlink" title="9. 找出程序运行的端口"></a>9. 找出程序运行的端口</h3><p>并不是所有的进程都能找到，没有权限的会不显示，使用 root 权限查看所有的信息。</p>
+<pre><code># netstat -ap | grep ssh
+ tcp        1      0 dev-db:ssh           101.174.100.22:39213        CLOSE_WAIT  -
+ tcp        1      0 dev-db:ssh           101.174.100.22:57643        CLOSE_WAIT  -</code></pre><p>找出运行在指定端口的进程</p>
+<pre><code># netstat -an | grep &#39;:80&#39;</code></pre><h3 id="10-显示网络接口列表"><a href="#10-显示网络接口列表" class="headerlink" title="10. 显示网络接口列表"></a>10. 显示网络接口列表</h3><pre><code># netstat -i
+ Kernel Interface table
+ Iface   MTU Met   RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg
+ eth0       1500 0         0      0      0 0             0      0      0      0 BMU
+ eth2       1500 0     26196      0      0 0         26883      6      0      0 BMRU
+ lo        16436 0         4      0      0 0             4      0      0      0 LRU</code></pre><p>显示详细信息，像是 ifconfig 使用 netstat -ie:</p>
+<pre><code># netstat -ie
+ Kernel Interface table
+ eth0      Link encap:Ethernet  HWaddr 00:10:40:11:11:11
+ UP BROADCAST MULTICAST  MTU:1500  Metric:1
+ RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+ TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+ collisions:0 txqueuelen:1000
+ RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+ Memory:f6ae0000-f6b00000</code></pre><h3 id="11-IP和TCP分析"><a href="#11-IP和TCP分析" class="headerlink" title="11. IP和TCP分析"></a>11. IP和TCP分析</h3><p>查看连接某服务端口最多的的IP地址</p>
+<pre><code>wss8848@ubuntu:~$ netstat -nat | grep &quot;192.168.1.15:22&quot; | awk &#39;{print $5}&#39;| awk -F: &#39;{print $1}&#39;| sort | uniq -c | sort -nr | head -20
+18 221.136.168.36
+3 154.74.45.242
+2 78.173.31.236
+2 62.183.207.98
+2 192.168.1.14
+2 182.48.111.215
+2 124.193.219.34
+2 119.145.41.2
+2 114.255.41.30
+1 75.102.11.99</code></pre><p>TCP各种状态列表</p>
+<pre><code>wss8848@ubuntu:~$ netstat -nat | awk &#39;{print $6}&#39;
+established)
+Foreign
+LISTEN
+TIME_WAIT
+ESTABLISHED
+TIME_WAIT
+SYN_SENT</code></pre><p>先把状态全都取出来,然后使用uniq -c统计，之后再进行排序。</p>
+<pre><code>wss8848@ubuntu:~$ netstat -nat | awk &#39;{print $6}&#39;| sort| uniq -c
+143 ESTABLISHED
+1 FIN_WAIT1
+1 Foreign
+1 LAST_ACK
+36 LISTEN
+6 SYN_SENT
+113 TIME_WAIT
+1 established)</code></pre><p>最后的命令如下:</p>
+<pre><code>netstat -nat | awk &#39;{print $6}&#39;| sort | uniq -c | sort -rn</code></pre><p>分析access.log获得访问前10位的ip地址</p>
+<pre><code>awk &#39;{print $1}&#39; access.log | sort | uniq -c | sort -nr | head -10</code></pre>
             </div>
             <hr />
 
@@ -622,9 +635,9 @@ int main()
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《C++工程实践》
+                    《Linux-netstat》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/10/30/fortythree/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2025/08/19/linux-netstat/" property="cc:attributionName"
                rel="cc:attributionURL">
                 吴杭沉
             </a> 采用
@@ -665,7 +678,7 @@ int main()
         repo: 'wuhangchen.github.io',
         owner: 'wuhangchen',
         admin: "wuhangchen",
-        id: '2024/10/30/fortythree/',
+        id: '2025/08/19/linux-netstat/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -948,48 +961,48 @@ int main()
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2024/11/03/fortyfour/">
+                <a href="/2025/08/19/linux-netstat/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="右值引用">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Linux-netstat">
                         
-                        <span class="card-title">右值引用</span>
+                        <span class="card-title">Linux-netstat</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            概述右值引用的概念有些读者可能会感到陌生，其实他和C++98/03中的左值引用有些类似，例如，c++98/03中的左值引用是这样的：
-int i = 0;
-int&amp; j = i;这里的int&amp;是对左值进行绑定但是int&am
+                            简介Netstat 命令用于显示各种网络相关信息，如网络连接，路由表，接口状态 (Interface Statistics)，masquerade 连接，多播成员 (Multicast Memberships) 等等。输出信息含义执行net
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-11-03
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2025-08-19
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C/" class="post-category" target="_blank">
-                                    C++
+                            <a href="/categories/Linux/" class="post-category" target="_blank">
+                                    Linux
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
+                    <a href="/tags/Linux/" target="_blank">
+                        <span class="chip bg-color">Linux</span>
                     </a>
                     
                 </div>
@@ -1003,31 +1016,31 @@ int&amp; j = i;这里的int&amp;是对左值进行绑定但是int&am
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/10/29/c-bian-yi/">
+                <a href="/2025/08/19/linux-dong-tai-lian-jie-yu-jing-tai-lian-jie/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/24.jpg" class="responsive-img" alt="C++ 静态库与动态库">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Linux-动态链接与静态链接">
                         
-                        <span class="card-title">C++ 静态库与动态库</span>
+                        <span class="card-title">Linux-动态链接与静态链接</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            这次分享的宗旨是——让大家学会创建与使用静态库、动态库，知道静态库与动态库的区别，知道使用的时候如何选择。这里不深入介绍静态库、动态库的底层格式，内存布局等，有兴趣的同学，推荐一本书《程序员的自我修养——链接、装载与库》。库是写好的现有的，
+                            库是写好的现有的，成熟的，可以复用的代码。现实中每个程序都要依赖很多基础的底层库，不可能每个人的代码都从零开始，因此库的存在意义非同寻常。本质上来说库是一种可执行代码的二进制形式，可以被操作系统载入内存执行。库有两种：静态库（.a、.lib
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-10-29
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2025-08-19
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C/" class="post-category" target="_blank">
-                                    C++
+                            <a href="/categories/Linux/" class="post-category" target="_blank">
+                                    Linux
                                 </a>
                             
                             
@@ -1037,8 +1050,8 @@ int&amp; j = i;这里的int&amp;是对左值进行绑定但是int&am
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
+                    <a href="/tags/Linux/" target="_blank">
+                        <span class="chip bg-color">Linux</span>
                     </a>
                     
                 </div>
