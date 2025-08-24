@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>localhost/2024/09/08/c-malloc-new/</loc>
+    
+    <lastmod>2025-08-24T12:10:58.152Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>localhost/2025/08/19/linux-netstat/</loc>
     
     <lastmod>2025-08-23T10:06:07.544Z</lastmod>
@@ -156,13 +163,6 @@
   </url>
   
   <url>
-    <loc>localhost/2024/09/08/thirytwo/</loc>
-    
-    <lastmod>2025-05-24T03:36:00.043Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>localhost/2024/09/08/thirythree/</loc>
     
     <lastmod>2025-05-13T13:41:49.949Z</lastmod>
@@ -198,7 +198,7 @@
   </url>
   
   <url>
-    <loc>localhost/2024/10/08/thirtynine/</loc>
+    <loc>localhost/2024/10/08/linux-dong-tai-ku-lian-jie/</loc>
     
     <lastmod>2025-05-08T13:42:30.665Z</lastmod>
     
