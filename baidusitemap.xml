@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>localhost/2024/08/26/c-er-wei-shu-zu/</loc>
+    <lastmod>2025-08-24</lastmod>
+  </url>  <url>
     <loc>localhost/2024/09/08/c-malloc-new/</loc>
     <lastmod>2025-08-24</lastmod>
   </url>  <url>
@@ -52,10 +55,7 @@
     <loc>localhost/2024/07/28/linux-history/</loc>
     <lastmod>2025-06-08</lastmod>
   </url>  <url>
-    <loc>localhost/2024/08/26/twentyfour/</loc>
-    <lastmod>2025-06-08</lastmod>
-  </url>  <url>
-    <loc>localhost/2024/08/27/twentyfive/</loc>
+    <loc>localhost/2024/08/27/c-strlen-sizeof/</loc>
     <lastmod>2025-06-08</lastmod>
   </url>  <url>
     <loc>localhost/2024/09/03/twentyeight/</loc>
