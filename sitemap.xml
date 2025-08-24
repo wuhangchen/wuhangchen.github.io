@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>localhost/2024/08/26/c-er-wei-shu-zu/</loc>
+    
+    <lastmod>2025-08-24T12:20:52.169Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>localhost/2024/09/08/c-malloc-new/</loc>
     
     <lastmod>2025-08-24T12:10:58.152Z</lastmod>
@@ -121,14 +128,7 @@
   </url>
   
   <url>
-    <loc>localhost/2024/08/26/twentyfour/</loc>
-    
-    <lastmod>2025-06-08T07:43:20.050Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>localhost/2024/08/27/twentyfive/</loc>
+    <loc>localhost/2024/08/27/c-strlen-sizeof/</loc>
     
     <lastmod>2025-06-08T07:37:24.654Z</lastmod>
     
