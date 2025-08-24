@@ -4,12 +4,12 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="C++命令行参数, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="std::ref, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="前言我们在Linux用到的命令常常支持很多参数，那么如何写一个程序，也像Linux命令一样支持很多参数呢？有什么什么优雅的处理方法？
-命令行参数在介绍如何处理命令行参数之前，简单介绍一下命令行参数，已经了解的朋友可以跳过此小节。我们用一段代">
+    <meta name="description" content="C++本身有引用&amp;amp;，为什么C++11又引入了std::ref?主要是考虑函数式编程如std::bind在使用时，是对参数直接拷贝，而不是引用。如下例子：
+void f(int&amp;amp; n1, int&amp;amp; n2, const ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>C++命令行参数 | 吴杭沉的博客</title>
+    <title>std::ref | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -267,13 +267,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        C++命令行参数
+                        std::ref
                     </div>
                 </div>
             </div>
@@ -422,14 +422,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.9k
+                    269
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    7 分
+                    1 分
                 </div>
                 
                 
@@ -445,154 +445,29 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>我们在Linux用到的命令常常支持很多参数，那么如何写一个程序，也像Linux命令一样支持很多参数呢？有什么什么优雅的处理方法？</p>
-<h1 id="命令行参数"><a href="#命令行参数" class="headerlink" title="命令行参数"></a>命令行参数</h1><p>在介绍如何处理命令行参数之前，简单介绍一下命令行参数，已经了解的朋友可以跳过此小节。<br>我们用一段代码，打印传给程序的每一个参数</p>
-<pre><code>int main(int argc, char *argv[])
+                <p>C++本身有引用&amp;，为什么C++11又引入了<code>std::ref</code>?<br>主要是考虑函数式编程如<code>std::bind</code>在使用时，是对参数直接拷贝，而不是引用。如下例子：</p>
+<pre><code>void f(int&amp; n1, int&amp; n2, const int&amp; n3)
 {
-    int i = 0;
-    for(i = 0; i &lt; argc; i++)
-    {
-        printf(&quot;the %d para is %s\n&quot;,i,argv[i]);
-    }
-    return 0;
-}</code></pre><p>其中argc代表输入的参数个数，而argv中保存着参数具体的值，我们编译运行：</p>
-<pre><code>$ gcc -o main main.c
-$ ./main 编程珠玑 C C++ Java 博客
-the 0 para is ./main
-the 1 para is 编程珠玑
-the 2 para is C
-the 3 para is C++
-the 4 para is Java
-the 5 para is 博客</code></pre><p>我们依次打印了程序的输入参数，其中特别注意的是，第一个的参数是程序本身。</p>
-<h1 id="如何优雅地处理命令行参数"><a href="#如何优雅地处理命令行参数" class="headerlink" title="如何优雅地处理命令行参数"></a>如何优雅地处理命令行参数</h1><p>实际上我们通过getopt函数很容易实现。<br>函数声明<br>getopt就可以非常方便地处理简单参数了，其声明如下：</p>
-<pre><code>extern int optind,opterr,optopt;
-extern char *optarg;
-int getopt(int argc,char *const argv[],const char *optstring);</code></pre><h1 id="参数介绍"><a href="#参数介绍" class="headerlink" title="参数介绍"></a>参数介绍</h1><p>几个参数说明如下：<br>• argc 参数个数，可从main函数入口传入<br>• argv 参数字符串数组，可从main函数入口传入<br>• optstring 支持的选项字符串<br>第一个和第二个参数我们很熟悉，它和main函数的参数是一样的：</p>
-<pre><code>int main(int argc,char *argv[]);</code></pre><p>第三个参数是什么意思呢？指的是你支持的选项，假设你的程序支持-h,-a,-n选项，并且-n选项后面要跟具体参数，那么optstring可以是：<br>“han:”<br>选项后面有一个冒号表示这个选项需要带参数。<br>它的返回值是int类型，如果出错，则返回-1，如果命令参数不识别，则返回’?‘。</p>
-<h1 id="外部变量"><a href="#外部变量" class="headerlink" title="外部变量"></a>外部变量</h1><p>它有四个外部变量，含义分别如下：<br>• optind 存放下一个要处理的字符串在argv数组中的下标，从1开始<br>• opterr 如果选项发生错误，getopt会打印出错消息，如果设置为0，则不打印。<br>• optopt 如果选项处理发生错误，它会指向导致出错的选项字符串<br>• optarg 如果一个选项需要参数，如前面提到的n参数，由于后面有:，所以它需要参数，处理到它时，optarg会指向这个参数。<br>程序示例<br>我们仍然通过一个示例程序来看：</p>
-<pre><code>extern int optind,opterr,optopt;
-extern char *optarg;
-int main(int argc,char *argv[])
-{
-    int c = 0; //用于接收选项
-    /*循环处理参数*/
-    while(EOF != (c = getopt(argc,argv,&quot;han:&quot;)))
-    {
-        //打印处理的参数
-        printf(&quot;start to process %d para\n&quot;,optind);
-        switch(c)
-        {
-            case &#39;h&#39;:
-                printf(&quot;we get option -h\n&quot;);
-                break;
-            case &#39;a&#39;:
-                printf(&quot;we get option -a\n&quot;);
-                break;
-            //-n选项必须要参数
-            case &#39;n&#39;:
-                printf(&quot;we get option -n,para is %s\n&quot;,optarg);
-                break;
-            //表示选项不支持
-            case &#39;?&#39;:
-                printf(&quot;unknow option:%c\n&quot;,optopt);
-                break;
-            default:
-                break;
-        }
-    }
+    std::cout &lt;&lt; &quot;In function: &quot; &lt;&lt; n1 &lt;&lt; &#39; &#39; &lt;&lt; n2 &lt;&lt; &#39; &#39; &lt;&lt; n3 &lt;&lt; &#39;\n&#39;;
+    ++n1; // increments the copy of n1 stored in the function object
+    ++n2; // increments the main()&#39;s n2
+    // ++n3; // compile error
+}
 
-    return 0;
-}</code></pre><p>编译运行：</p>
-<pre><code>$ gcc -o main1 main1.c</code></pre><p>输入正常选项时，我们可以看到能正确获取到选项，获取到之后自然就可以做对应的动作了。</p>
-<pre><code>$ ./main1 -h -a
-start to process 2 para
-we get option -h
-start to process 3 para
-we get option -a</code></pre><p>如果输入的选项不支持，就会提示未知选项：</p>
-<pre><code>$ ./main1 -u
-./main1: invalid option -- &#39;u&#39;
-start to process 2 para
-unknow option:u</code></pre><p>对于-n选项，我们需要参数，如果没有参数会怎样？</p>
-<pre><code>$ ./main1 -n
-./main1: option requires an argument -- &#39;n&#39;
-start to process 2 para
-unknow option:n</code></pre><p>它会提示我们n选项需要参数，于是带上参数：</p>
-<pre><code>$ ./main1 -n
-start to process 3 para
-we get option -n,para is 2</code></pre><p>怎么样？是不是很简单？</p>
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>但是不知道你有没有发现，上面的处理有个问题，那就是不支持长选项。什么意思呢？</p>
-<pre><code>$ ./main1 -ha
-start to process 1 para
-we get option -h
-start to process 2 para
-we get option -a</code></pre><p>这种情况下，-ha被当成了两个选项，而不是一个选项，选项名为ha。<br>那么这种情况应该如何处理呢？就需要用到后面的函数啦。<br>长选项处理<br>为了应对前面说的这种情况，需要用到下面两个函数中的一个：</p>
-<pre><code>int getopt_long(int argc, char * const argv[],
-                  const char *optstring,
-                  const struct option *longopts, int *longindex);
-
-int getopt_long_only(int argc, char * const argv[],
-                  const char *optstring,
-                  const struct option *longopts, int *longindex);
-struct option {
-               const char *name;
-               int         has_arg;
-               int        *flag;
-               int         val;
-           };</code></pre><p>它们的第一个第二个参数和getopt一样，第三个参数是一个struct option指针：<br>其成员含义分别如下：<br>• name  长选项名称<br>• has_arg 参数可选项，no_argument表示该选项后不带参，required_argument表示该选项后面带参数<br>• *flag 匹配到选项后，如果flag是NULL，则返回val；如果不是NULL，则返回0，并且将val的值赋给flag指向的内存<br>• val  匹配到选项后的返回值<br>longindex表示长选项在longopts中的索引值。<br>那getopt_long和getopt_long_only有什么区别呢？<br>实际上主要功能是差不多的，只是前者一个-时被解析成短选项，–被解析成长选项，而后者都被解析为长选项，举个例子，-help在前者被解析为h,e,l,p四个选项，而在后者是和–help一样的效果，即被认为是长选项。在getopt_long_only中，optstring可以为“”。<br>我们来看一个示例程序：</p>
-<pre><code>extern int optind,opterr,optopt;
-extern char *optargi;
-//定义长选项
-static struct option long_options[] =
+int main()
 {
-    {&quot;help&quot;,no_argument,NULL,&#39;h&#39;},
-    {&quot;verbose&quot;,no_argument,NULL,&#39;v&#39;},
-    {&quot;number&quot;,required_argument,NULL,&#39;n&#39;}
-};
-int main(int argc,char *argv[])
-{
-    int index = 0;
-    int c = 0; //用于接收选项
-    /*循环处理参数*/
-    while(EOF != (c = getopt_long(argc,argv,&quot;hvn:&quot;,long_options,&amp;index)))
-    {
-        switch(c)
-        {
-            case &#39;h&#39;:
-                printf(&quot;we get option -h，index %d\n&quot;,index);
-                break;
-            case &#39;v&#39;:
-                printf(&quot;we get option -v，index %d\n&quot;,index);
-                break;
-            //-n选项必须要参数
-            case &#39;n&#39;:
-                printf(&quot;we get option -n,para is %s\n&quot;,optarg);
-                break;
-            //表示选项不支持
-            case &#39;?&#39;:
-                printf(&quot;unknow option:%c\n&quot;,optopt);
-                break;
-            default:
-                break;
-        }
-    }
-    return 0;
-}</code></pre><p>编译运行：</p>
-<pre><code>$ gcc -o main2 main2.c
-$ ./main2 --verbose --help
-we get option -v，index 1
-we get option -h，index 0</code></pre><p>注意，为什么-v参数的index是0？因为只有长选项才会对应index。<br>可以看到，使用–跟长选项，单个-后面跟短选项，但是如果是下面这样呢？</p>
-<pre><code>$ ./main2 -help
-we get option -h，index 0
-./main2: invalid option -- &#39;e&#39;
-unknow option:e
-./main2: invalid option -- &#39;l&#39;
-unknow option:l
-./main2: invalid option -- &#39;p&#39;
-unknow option:p</code></pre><p>在这里，由于使用的getopt_long，它对于单个-的字符串，里面每个字符都当成了一个选项，因此help对它来说，其实是四个选项，但是后三个不被识别。如果想要-help也被当成长选项，那么就需要用到getopt_long_only函数了。<br>最后，再完整的用一遍：</p>
-<pre><code>$ ./main2 --help --verbose --number 10
-we get option -h，index 0
-we get option -v，index 1
-we get option -n,para is 10</code></pre><h1 id="扩展说明"><a href="#扩展说明" class="headerlink" title="扩展说明"></a>扩展说明</h1><p>其实在处理选项的时候，如果参数前面有-，比如：<br>rm -bar<br>这里的-bar会被当成一个选项，而不是文件名，因此想要把它当成文件名，而不是选项，需要采用下面这种方式：<br>rm – -bar</p>
+    int n1 = 1, n2 = 2, n3 = 3;
+    std::function&lt;void()&gt; bound_f = std::bind(f, n1, std::ref(n2), std::cref(n3));
+    n1 = 10;
+    n2 = 11;
+    n3 = 12;
+    std::cout &lt;&lt; &quot;Before function: &quot; &lt;&lt; n1 &lt;&lt; &#39; &#39; &lt;&lt; n2 &lt;&lt; &#39; &#39; &lt;&lt; n3 &lt;&lt; &#39;\n&#39;;
+    bound_f();
+    std::cout &lt;&lt; &quot;After function: &quot; &lt;&lt; n1 &lt;&lt; &#39; &#39; &lt;&lt; n2 &lt;&lt; &#39; &#39; &lt;&lt; n3 &lt;&lt; &#39;\n&#39;;
+}</code></pre><p>Output:</p>
+<pre><code>Before function: 10 11 12
+In function: 1 11 12
+After function: 10 12 12</code></pre><p>上述代码在执行<code>std::bind</code>后，在函数<code>f()</code>中n1的值仍然是1，n2和n3改成了修改的值。说明<code>std::bind</code>使用的是参数的拷贝而不是引用。</p>
 
             </div>
             <hr />
@@ -627,9 +502,9 @@ we get option -n,para is 10</code></pre><h1 id="扩展说明"><a href="#扩展�
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《C++命令行参数》
+                    《std::ref》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/09/03/thirtyone/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/09/03/c-ref/" property="cc:attributionName"
                rel="cc:attributionURL">
                 吴杭沉
             </a> 采用
@@ -670,7 +545,7 @@ we get option -n,para is 10</code></pre><h1 id="扩展说明"><a href="#扩展�
         repo: 'wuhangchen.github.io',
         owner: 'wuhangchen',
         admin: "wuhangchen",
-        id: '2024/09/03/thirtyone/',
+        id: '2024/09/03/c-ref/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -957,26 +832,25 @@ we get option -n,para is 10</code></pre><h1 id="扩展说明"><a href="#扩展�
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2024/09/04/thirtyone-1/">
+                <a href="/2024/09/03/thirtyone/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/24.jpg" class="responsive-img" alt="C++ 流缓冲区">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="C++命令行参数">
                         
-                        <span class="card-title">C++ 流缓冲区</span>
+                        <span class="card-title">C++命令行参数</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            C++ 的 I/O 是通过标准库中输入输出流来实现的。标准库在 iostream头文件当中，预定义了六个流对象，他们是：
-• istream &lt;- std::cin/std::wcin，对应标准输入的输入流；
-• ostream &l
+                            前言我们在Linux用到的命令常常支持很多参数，那么如何写一个程序，也像Linux命令一样支持很多参数呢？有什么什么优雅的处理方法？
+命令行参数在介绍如何处理命令行参数之前，简单介绍一下命令行参数，已经了解的朋友可以跳过此小节。我们用一段代
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-09-04
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-09-03
                         </span>
                         <span class="publish-author">
                             
@@ -1008,20 +882,20 @@ we get option -n,para is 10</code></pre><h1 id="扩展说明"><a href="#扩展�
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/09/03/c-ref/">
+                <a href="/2024/09/03/twentynine/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="std::ref">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="friend">
                         
-                        <span class="card-title">std::ref</span>
+                        <span class="card-title">friend</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            C++本身有引用&amp;，为什么C++11又引入了std::ref?主要是考虑函数式编程如std::bind在使用时，是对参数直接拷贝，而不是引用。如下例子：
-void f(int&amp; n1, int&amp; n2, const 
+                            原则上, 类的私有（private）和受保护（protected）成员不能从声明它们的同一类外部访问。但是, 此规则不适用于友元 “friends”。以friend关键字修饰的函数或类称为友元函数或友元类。
+友元函数友元函数是可以直接访问类
                         
                     </div>
                     <div class="publish-info">

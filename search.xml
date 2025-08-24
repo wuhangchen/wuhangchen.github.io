@@ -580,8 +580,8 @@
     
     <entry>
       <title>std::ref</title>
-      <link href="/2024/09/03/thirty/"/>
-      <url>/2024/09/03/thirty/</url>
+      <link href="/2024/09/03/c-ref/"/>
+      <url>/2024/09/03/c-ref/</url>
       
         <content type="html"><![CDATA[<p>C++本身有引用&amp;，为什么C++11又引入了<code>std::ref</code>?<br>主要是考虑函数式编程如<code>std::bind</code>在使用时，是对参数直接拷贝，而不是引用。如下例子：</p><pre><code>void f(int&amp; n1, int&amp; n2, const int&amp; n3){    std::cout &lt;&lt; &quot;In function: &quot; &lt;&lt; n1 &lt;&lt; &#39; &#39; &lt;&lt; n2 &lt;&lt; &#39; &#39; &lt;&lt; n3 &lt;&lt; &#39;\n&#39;;    ++n1; // increments the copy of n1 stored in the function object    ++n2; // increments the main()&#39;s n2    // ++n3; // compile error}int main(){    int n1 = 1, n2 = 2, n3 = 3;    std::function&lt;void()&gt; bound_f = std::bind(f, n1, std::ref(n2), std::cref(n3));    n1 = 10;    n2 = 11;    n3 = 12;    std::cout &lt;&lt; &quot;Before function: &quot; &lt;&lt; n1 &lt;&lt; &#39; &#39; &lt;&lt; n2 &lt;&lt; &#39; &#39; &lt;&lt; n3 &lt;&lt; &#39;\n&#39;;    bound_f();    std::cout &lt;&lt; &quot;After function: &quot; &lt;&lt; n1 &lt;&lt; &#39; &#39; &lt;&lt; n2 &lt;&lt; &#39; &#39; &lt;&lt; n3 &lt;&lt; &#39;\n&#39;;}</code></pre><p>Output:</p><pre><code>Before function: 10 11 12In function: 1 11 12After function: 10 12 12</code></pre><p>上述代码在执行<code>std::bind</code>后，在函数<code>f()</code>中n1的值仍然是1，n2和n3改成了修改的值。说明<code>std::bind</code>使用的是参数的拷贝而不是引用。</p>]]></content>
       
