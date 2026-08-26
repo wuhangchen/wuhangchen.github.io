@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>吴杭沉的博客</title>
+  
+  <subtitle>小吴同学</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="localhost/"/>
+  <updated>2026-08-26T06:49:36.104Z</updated>
+  <id>localhost/</id>
+  
+  <author>
+    <name>吴杭沉</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux-netstat</title>
+    <link href="localhost/2018/09/24/linux-netstat/"/>
+    <id>localhost/2018/09/24/linux-netstat/</id>
+    <published>2018-09-24T04:00:00.000Z</published>
+    <updated>2026-08-26T06:49:36.104Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;p&gt;Netstat 命令用于显示各种网络相关信息，如网络连接，路由表，接口状态 Interface Statistics、masquerade
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux-动态链接与静态链接</title>
+    <link href="localhost/2018/09/21/linux-dong-tai-lian-jie-yu-jing-tai-lian-jie/"/>
+    <id>localhost/2018/09/21/linux-dong-tai-lian-jie-yu-jing-tai-lian-jie/</id>
+    <published>2018-09-21T04:00:00.000Z</published>
+    <updated>2026-08-26T06:49:36.104Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;库是写好的现有的，成熟的，可以复用的代码。现实中每个程序都要依赖很多基础的底层库，不可能每个人的代码都从零开始，因此库的存在意义非同寻常。&lt;/p&gt;
+&lt;p&gt;本质上来说库是一种可执行代码的二进制形式，可以被操作系统载入内存执行。库有两种：静态库（.a、.lib）和动态库（.so
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux-nc</title>
+    <link href="localhost/2018/09/18/linux-nc/"/>
+    <id>localhost/2018/09/18/linux-nc/</id>
+    <published>2018-09-18T04:00:00.000Z</published>
+    <updated>2026-08-26T06:49:36.104Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Netcat 号称 TCP/IP 的瑞士军刀并非浪得虚名，以体积小（可执行 200KB）功能灵活而著称，在各大发行版中都默认安装，你可以用它来做很多网络相关的工作，熟练使用它可以不依靠其他工具做一些很有用的事情。最初作者是叫做“霍比特人”的网友 Hobbit &lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux-fork-interview</title>
+    <link href="localhost/2018/09/15/linux-fork-interview/"/>
+    <id>localhost/2018/09/15/linux-fork-interview/</id>
+    <published>2018-09-15T04:00:00.000Z</published>
+    <updated>2026-08-26T06:49:36.104Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;前两天有人问了个关于 Unix 的 fork()系统调用的面试题，这个题正好是我大约几年前找工作时某公司问我的一个题，我觉得比较有趣，写篇文章与大家分享一下。这个题是这样的：每一轮 &lt;code&gt;fork&lt;/code&gt;
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux-fork-clone</title>
+    <link href="localhost/2018/09/12/linux-fork-clone/"/>
+    <id>localhost/2018/09/12/linux-fork-clone/</id>
+    <published>2018-09-12T04:00:00.000Z</published>
+    <updated>2026-08-26T06:49:36.104Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;在本文中，传统 UNIX fork 之后，我给出传统的 UNIX fork 在 Linux 内核中的变体 clone 系统调用的精彩。若要理解 fork 的原始意义，还是要看 Melvin Conway 提出 fork 思想的原始论文 A Multiprocessor
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux-fork-risk</title>
+    <link href="localhost/2018/09/09/linux-fork-risk/"/>
+    <id>localhost/2018/09/09/linux-fork-risk/</id>
+    <published>2018-09-09T04:00:00.000Z</published>
+    <updated>2026-08-26T06:49:36.104Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;fork 是一个拥有 50 年历史的陈年系统调用，它是一个传奇！时至今日，它依旧灿烂。一个程序员可以永远不用 read/write，也可以不懂 mmap，但必须懂 fork。这是一种格调！fork 没有参数，它是如此简单，是 UNIX
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux-fork-Pre</title>
+    <link href="localhost/2018/09/06/linux-fork-pre/"/>
+    <id>localhost/2018/09/06/linux-fork-pre/</id>
+    <published>2018-09-06T04:00:00.000Z</published>
+    <updated>2026-08-26T06:49:36.104Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;fork 的思想在 UNIX 出现几年前就出现了，时间大概是 1963 年，这比 UNIX 在 PDP-7 上的第一个版本早了 6 年。1963 年，计算机科学家 Melvin Conway（以 Conway’s Law 闻名于世）写下一篇论文，正式提出了 fork
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux 数据类型 json </title>
+    <link href="localhost/2018/09/03/linux-shu-ju-lei-xing-json/"/>
+    <id>localhost/2018/09/03/linux-shu-ju-lei-xing-json/</id>
+    <published>2018-09-03T04:00:00.000Z</published>
+    <updated>2026-08-26T06:49:36.104Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;前几天，我才知道有一种简化的数据交换格式，叫做
+        
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="localhost/categories/Linux/"/>
+    
+    
+      <category term="Linux+" scheme="localhost/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>右值引用</title>
+    <link href="localhost/2018/08/31/fortythree/"/>
+    <id>localhost/2018/08/31/fortythree/</id>
+    <published>2018-08-31T04:00:00.000Z</published>
+    <updated>2026-08-26T06:49:36.105Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h2&gt;&lt;p&gt;右值引用的概念有些读者可能会感到陌生，其实它和 C++98/03 中的左值引用有些类似，例如，C++98/03
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C++工程实践</title>
+    <link href="localhost/2018/08/28/fortyfour/"/>
+    <id>localhost/2018/08/28/fortyfour/</id>
+    <published>2018-08-28T04:00:00.000Z</published>
+    <updated>2026-08-26T06:49:36.104Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;什么是值语义&quot;&gt;&lt;a href=&quot;#什么是值语义&quot; class=&quot;headerlink&quot; title=&quot;什么是值语义&quot;&gt;&lt;/a&gt;什么是值语义&lt;/h2&gt;&lt;p&gt;值语义指的是对象的拷贝与原对象无关，就像拷贝 &lt;code&gt;int&lt;/code&gt; 一样。C++ 的内置类型
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C++ 静态库与动态库</title>
+    <link href="localhost/2018/08/25/c-bian-yi/"/>
+    <id>localhost/2018/08/25/c-bian-yi/</id>
+    <published>2018-08-25T04:00:00.000Z</published>
+    <updated>2026-08-26T06:49:36.105Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;这次分享的宗旨是——让大家学会创建与使用静态库、动态库，知道静态库与动态库的区别，知道使用的时候如何选择。这里不深入介绍静态库、动态库的底层格式，内存布局等，有兴趣的同学，推荐一本书《程序员的自我修养——链接、装载与库》。库是写好的现有的，成熟的，可以复用的代码。现实中每个
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C++对象模型：对象内存布局详解</title>
+    <link href="localhost/2018/08/22/c-dui-xiang-mo-xing/"/>
+    <id>localhost/2018/08/22/c-dui-xiang-mo-xing/</id>
+    <published>2018-08-22T04:00:00.000Z</published>
+    <updated>2026-08-26T06:49:36.105Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;这篇文章希望对 C++对象的内存布局、虚表指针、虚基类指针等有深入介绍。&lt;/p&gt;
+&lt;h2 id=&quot;何为-C-对象模型&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C/C++整型变量赋值操作是原子性的吗？</title>
+    <link href="localhost/2018/08/19/c-yuan-zi-bian-liang/"/>
+    <id>localhost/2018/08/19/c-yuan-zi-bian-liang/</id>
+    <published>2018-08-19T04:00:00.000Z</published>
+    <updated>2026-08-26T06:49:36.104Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;那么为什么整型变量的操作不是原子性的呢？常见的整型变量操作有如下几种情况：给整型变量赋值一个确定的值，如&lt;/p&gt;
+&lt;pre class=&quot;line-numbers language-cpp&quot;&gt;&lt;code class=&quot;language-cpp&quot;&gt;&lt;span
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>so出现undefined symbol------ldd, nm, c++filt</title>
+    <link href="localhost/2018/08/16/linux-dong-tai-ku-lian-jie/"/>
+    <id>localhost/2018/08/16/linux-dong-tai-ku-lian-jie/</id>
+    <published>2018-08-16T04:00:00.000Z</published>
+    <updated>2026-08-26T06:49:36.104Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;最近发版本，灰度发布的时候，发现进程没起来，回包自然是异常的。立即进行版本回退，发现 OK。&lt;/p&gt;
+&lt;p&gt;哪里出问题了呢？直接 &lt;code&gt;ldd -r libtest.so&lt;/code&gt; 一下，就知道了，原来是缺符号。看看简化后的示例代码：&lt;/p&gt;
+&lt;pre
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Lambda 表达式捕获列表</title>
+    <link href="localhost/2018/08/13/thirtyeight/"/>
+    <id>localhost/2018/08/13/thirtyeight/</id>
+    <published>2018-08-13T04:00:00.000Z</published>
+    <updated>2026-08-26T06:49:36.105Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;捕获值列表，是允许我们在 Lambda
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>内存分配malloc</title>
+    <link href="localhost/2018/08/10/thirtyseven/"/>
+    <id>localhost/2018/08/10/thirtyseven/</id>
+    <published>2018-08-10T04:00:00.000Z</published>
+    <updated>2026-08-26T06:49:36.104Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;下面的代码片段输出是什么？为什么？&lt;/p&gt;
+&lt;pre class=&quot;line-numbers language-cpp&quot;&gt;&lt;code class=&quot;language-cpp&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;char&lt;/span&gt; &lt;span
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C++成员修饰const和mutable</title>
+    <link href="localhost/2018/08/07/thirtysex/"/>
+    <id>localhost/2018/08/07/thirtysex/</id>
+    <published>2018-08-07T04:00:00.000Z</published>
+    <updated>2026-08-26T06:49:36.105Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;code&gt;const&lt;/code&gt;：常量，不变的 &lt;code&gt;mutable&lt;/code&gt;：易变的从意思上理解，可见 &lt;code&gt;const&lt;/code&gt; 和 &lt;code&gt;mutable&lt;/code&gt; 是一对反义词，它们都是
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用++i还是i++</title>
+    <link href="localhost/2018/08/04/thirtyfive/"/>
+    <id>localhost/2018/08/04/thirtyfive/</id>
+    <published>2018-08-04T04:00:00.000Z</published>
+    <updated>2026-08-26T06:49:36.104Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;我们经常使用 &lt;code&gt;for&lt;/code&gt; 循环来遍历东西，循环变量可以前自增也可以后自增，发现对遍历结果没啥影响，但是该如何选择呢？我们应该尽量使用前自增运算符而不是后自增运算符，即用 &lt;code&gt;++Iter&lt;/code&gt; 代替
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C++面试题</title>
+    <link href="localhost/2018/08/01/thirtyfour/"/>
+    <id>localhost/2018/08/01/thirtyfour/</id>
+    <published>2018-08-01T04:00:00.000Z</published>
+    <updated>2026-08-26T06:49:36.105Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;1.&lt;code&gt;char c = &amp;#39;\72&amp;#39;&lt;/code&gt;; 中的 &lt;code&gt;\72&lt;/code&gt; 代表一个字符，72 是八进制数，代表 ASCII 码字符 &lt;code&gt;:&lt;/code&gt;。2.&lt;code&gt;10*a++&lt;/code&gt; 中 a
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C++细说sizeof</title>
+    <link href="localhost/2018/07/29/thirythree/"/>
+    <id>localhost/2018/07/29/thirythree/</id>
+    <published>2018-07-29T04:00:00.000Z</published>
+    <updated>2026-08-26T06:49:36.105Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;摘要&quot;&gt;&lt;a href=&quot;#摘要&quot; class=&quot;headerlink&quot; title=&quot;摘要&quot;&gt;&lt;/a&gt;摘要&lt;/h2&gt;&lt;p&gt;&lt;code&gt;sizeof&lt;/code&gt; 的作用非常简单：求对象或者类型的大小。然而 &lt;code&gt;sizeof&lt;/code&gt;
+        
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="localhost/categories/C/"/>
+    
+    
+      <category term="C++" scheme="localhost/tags/C/"/>
+    
+  </entry>
+  
+</feed>

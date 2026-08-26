@@ -1,0 +1,32 @@
+/* Here is your custom css styles. */
+
+/* 全局统一中英文字体，消除大小不一致 */
+html, body, h1, h2, h3, h4, h5, h6,
+#articleContent, #articleContent h1, #articleContent h2,
+#articleContent h3, #articleContent h4, #articleContent h5,
+#articleContent h6, #articleContent p, #articleContent li,
+#toc-content, #toc-content a, #toc-content li,
+.toc-widget, .toc-widget .toc-title, .toc-link,
+.article-info, .post-info, .card-content,
+.tag-cate, .chip, .post-cate, .article-tag {
+    font-family: "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif !important;
+}
+
+/* 代码块保持等宽字体 */
+code, pre, pre code, code[class*="language-"], pre[class*="language-"] {
+    font-family: "Noto Sans Mono CJK SC", "Courier New", Consolas, monospace !important;
+}
+
+/* 文章标题、目录、卡片标题中的行内 code 与周围文字统一，
+   避免 sizeof/void 等英文以等宽字体+背景色渲染显得又大又突兀 */
+h1 code, h2 code, h3 code, h4 code, h5 code, h6 code,
+.title code, .post-title code,
+.toc-link code, .toc-list-item code, #toc-content code {
+    font-family: inherit !important;
+    font-size: 1em !important;
+    font-weight: inherit !important;
+    padding: 0 !important;
+    color: inherit !important;
+    background: none !important;
+    border-radius: 0 !important;
+}
