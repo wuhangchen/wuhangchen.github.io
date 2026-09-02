@@ -19,6 +19,8 @@
     <title>C++中new与malloc区别 | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5/400.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5/700.css">
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
     <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
@@ -248,7 +250,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -429,7 +431,7 @@
             <div id="articleContent">
                 <h2 id="申请的内存所在位置"><a href="#申请的内存所在位置" class="headerlink" title="申请的内存所在位置"></a>申请的内存所在位置</h2><p><code>new</code> 操作符从自由存储区上为对象动态分配内存空间，而 <code>malloc</code> 函数从堆上动态分配内存。自由存储区是 C++ 基于 <code>new</code> 操作符的一个抽象概念，凡是通过 <code>new</code> 操作符进行内存申请，该内存即为自由存储区。而堆是操作系统中的术语，是操作系统所维护的一块特殊内存，用于程序的内存动态分配，C 语言使用 <code>malloc</code> 从堆上分配内存，使用 <code>free</code> 释放已分配的对应内存。那么自由存储区是否能够是堆，问题等价于 <code>new</code> 是否能在堆上动态分配内存，这取决于 <code>operator new</code> 的实现细节。自由存储区不仅可以是堆，还可以是静态存储区，这都看 <code>operator new</code> 在哪里为对象分配内存。特别的，<code>new</code> 甚至可以不为对象分配内存！定位 <code>new</code> 的功能可以办到这一点：</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">new</span> <span class="token punctuation">(</span>place_address<span class="token punctuation">)</span> type<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>place_address 为一个指针，代表一块内存的地址。当使用上面这种仅以一个地址调用 <code>new</code> 操作符时，<code>new</code> 操作符。调用特殊的 <code>operator new</code>，也就是下面这个版本：</p>
+<p><code>place_address</code>为一个指针，代表一块内存的地址。当使用上面这种仅以一个地址调用 <code>new</code> 操作符时，<code>new</code> 操作符。调用特殊的 <code>operator new</code>，也就是下面这个版本：</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token operator">*</span> <span class="token keyword">operator</span> <span class="token keyword">new</span> <span class="token punctuation">(</span>size_t<span class="token punctuation">,</span> <span class="token keyword">void</span> <span class="token operator">*</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//不允许重定义这个版本的operator new</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>这个 <code>operator new</code> 不分配任何的内存，它只是简单地返回指针实参，然后右 <code>new</code> 表达式负责在 <code>place_address</code> 指定的地址进行对象的初始化工作。</p>
 <h2 id="返回类型安全性"><a href="#返回类型安全性" class="headerlink" title="返回类型安全性"></a>返回类型安全性</h2><p><code>new</code> 操作符内存分配成功时，返回的是对象类型的指针，类型严格与对象匹配，无须进行类型转换，故 <code>new</code> 是符合类型安全性的操作符。而 <code>malloc</code> 内存分配成功则是返回 <code>void *</code>，需要通过强制类型转换将 <code>void *</code> 指针转换成我们需要的类型。类型安全很大程度上可以等价于内存安全，类型安全的代码不会试图访问自己没被授权的内存区域。关于 C++ 的类型安全性可说的又有很多了。</p>
@@ -519,7 +521,8 @@ A <span class="token operator">*</span> ptr <span class="token operator">=</span
     new_handler <span class="token function">set_new_handler</span><span class="token punctuation">(</span>new_handler p <span class="token punctuation">)</span> <span class="token keyword">throw</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p><code>set_new_handler</code> 的参数为 <code>new_handler</code> 指针，指向了 <code>operator new</code> 无法分配足够内存时该调用的函数。其返回值也是个指针，指向 <code>set_new_handler</code> 被调用前正在执行，但马上就要发生替换的那个 <code>new_handler</code> 函数。对于 <code>malloc</code>，客户并不能够去编程决定内存不足以分配时要干什么事，只能看着 <code>malloc</code> 返回 <code>NULL</code>。</p>
-<h2 id="总结将上面所述的-10-点差别"><a href="#总结将上面所述的-10-点差别" class="headerlink" title="总结将上面所述的 10 点差别"></a>总结将上面所述的 10 点差别</h2><p>特征 new/delete malloc/free 分配内存的位置    自由存储区    堆内存分配成功返回值    完整类型指针    void*内存分配失败返回值    默认抛出异常    返回 NULL 分配内存的大小    由编译器根据类型计算得出    必须显式指定字节数处理数组    有处理数组的 new 版本 new[]    需要用户计算数组的大小后进行内存分配已分配内存的扩充    无法直观地处理    使用 realloc 简单完成是否相互调用    可以，看具体的 operator new/delete 实现    不可调用 new 分配内存时内存不足    客户能够指定处理函数或重新制定分配器    无法通过用户代码进行处理函数重载    允许    不允许构造函数与析构函数    调用    不调用 <code>malloc</code> 给你的就好像一块原始的土地，你要种什么需要自己在土地上来播种， 而 <code>new</code> 帮你划好了田地的分块（数组），帮你播了种（构造函数），还提供其他的设施给你使用：当然，<code>malloc</code> 并不是说比不上 <code>new</code>，它们各自有适用的地方。在 C++ 这种偏重 OOP 的语言，使用 <code>new</code>/<code>delete</code> 自然是更合适的。</p>
+<h2 id="总结将上面所述的-10-点差别"><a href="#总结将上面所述的-10-点差别" class="headerlink" title="总结将上面所述的 10 点差别"></a>总结将上面所述的 10 点差别</h2><p>特征 <code>new/delete malloc/free</code><br>1.分配内存的位置    自由存储区    堆内存<br>2.分配成功返回值    完整类型指针    <code>void*</code><br>3.内存分配失败返回值    默认抛出异常    返回 <code>NULL</code><br>4.分配内存的大小    由编译器根据类型计算得出    必须显式指定字节数处理数组<br>5.有处理数组的 <code>new</code>版本 <code>new[]</code><br>6.需要用户计算数组的大小后进行内存分配已分配内存的扩充    无法直观地处理    使用 <code>realloc</code><br>7.简单完成是否相互调用    可以，看具体的 <code>operator new/delete</code>实现    不可调用<br>8.new 分配内存时内存不足    客户能够指定处理函数或重新制定分配器<br>9.无法通过用户代码进行处理函数重载    允许    不允许<br>10.构造函数与析构函数    调用    不调用</p>
+<p><code>malloc</code> 给你的就好像一块原始的土地，你要种什么需要自己在土地上来播种， 而 <code>new</code> 帮你划好了田地的分块（数组），帮你播了种（构造函数），还提供其他的设施给你使用：当然，<code>malloc</code> 并不是说比不上 <code>new</code>，它们各自有适用的地方。在 C++ 这种偏重 OOP 的语言，使用 <code>new</code>/<code>delete</code> 自然是更合适的。</p>
 
             </div>
             <hr />
@@ -624,11 +627,11 @@ A <span class="token operator">*</span> ptr <span class="token operator">=</span
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2018/07/29/thirythree/">
+                <a href="/2018/07/29/c-sizeof-xiang-jie/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="C++细说sizeof">
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="C++细说sizeof">
                         
                         <span class="card-title">C++细说sizeof</span>
                     </div>
@@ -673,11 +676,11 @@ A <span class="token operator">*</span> ptr <span class="token operator">=</span
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2018/07/23/thirtyone-1/">
+                <a href="/2018/07/23/c-liu-huan-chong-qu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="C++ 流缓冲区">
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="C++ 流缓冲区">
                         
                         <span class="card-title">C++ 流缓冲区</span>
                     </div>
@@ -886,7 +889,7 @@ A <span class="token operator">*</span> ptr <span class="token operator">=</span
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">76.7k</span>
+            <span class="white-color">76.2k</span>
             
 
             <br>

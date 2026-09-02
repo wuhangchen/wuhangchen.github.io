@@ -20,6 +20,8 @@
     <title>C++对象模型：对象内存布局详解 | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5/400.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5/700.css">
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
     <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
@@ -249,7 +251,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -864,40 +866,38 @@ d<span class="token punctuation">.</span>B2<span class="token operator">::</span
   <span class="token keyword">float</span> x<span class="token punctuation">;</span>
   <span class="token keyword">float</span> y<span class="token punctuation">;</span>
   <span class="token keyword">float</span> z<span class="token punctuation">;</span>
-<span class="token punctuation">}</span> Point3<span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-</ul>
-<pre><code>为了打印这个 Point3d，我们可以定义一个函数：
-```cpp
-void Point3d_print(const Point3d *pd)
-{
-    printf(&quot;(%f,%f,%f)&quot;,pd-&gt;x,pd-&gt;y,pd-&gt;z);
-}</code></pre><p>而在 C++中，我们更倾向于定义一个 Point3d 类，以 ADT 来实现上面的操作：</p>
+<span class="token punctuation">}</span> Point3<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>为了打印这个 Point3d，我们可以定义一个函数：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">Point3d_print</span><span class="token punctuation">(</span><span class="token keyword">const</span> Point3d <span class="token operator">*</span>pd<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+  <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"(%f,%f,%f)"</span><span class="token punctuation">,</span>pd<span class="token operator">-</span><span class="token operator">></span>x<span class="token punctuation">,</span>pd<span class="token operator">-</span><span class="token operator">></span>y<span class="token punctuation">,</span>pd<span class="token operator">-</span><span class="token operator">></span>z<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>而在 C++中，我们更倾向于定义一个 Point3d 类，以 ADT 来实现上面的操作：</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Point3d</span>
 <span class="token punctuation">{</span>
-    <span class="token keyword">public</span><span class="token operator">:</span>
-        <span class="token function">point3d</span> <span class="token punctuation">(</span><span class="token keyword">float</span> x <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">,</span><span class="token keyword">float</span> y <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">,</span><span class="token keyword">float</span> z <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">)</span>
-            <span class="token operator">:</span> <span class="token function">_x</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">_y</span><span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">_z</span><span class="token punctuation">(</span>z<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+  <span class="token keyword">public</span><span class="token operator">:</span>
+      <span class="token function">point3d</span> <span class="token punctuation">(</span><span class="token keyword">float</span> x <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">,</span><span class="token keyword">float</span> y <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">,</span><span class="token keyword">float</span> z <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">)</span>
+          <span class="token operator">:</span> <span class="token function">_x</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">_y</span><span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">_z</span><span class="token punctuation">(</span>z<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
 
-        <span class="token keyword">float</span> <span class="token function">x</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">{</span><span class="token keyword">return</span> _x<span class="token punctuation">;</span><span class="token punctuation">}</span>
-        <span class="token keyword">float</span> <span class="token function">y</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">{</span><span class="token keyword">return</span> _y<span class="token punctuation">;</span><span class="token punctuation">}</span>
-        <span class="token keyword">float</span> <span class="token function">z</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">{</span><span class="token keyword">return</span> _z<span class="token punctuation">;</span><span class="token punctuation">}</span>
-    <span class="token keyword">private</span><span class="token operator">:</span>
-        <span class="token keyword">float</span> _x<span class="token punctuation">;</span>
-        <span class="token keyword">float</span> _y<span class="token punctuation">;</span>
-        <span class="token keyword">float</span> _z<span class="token punctuation">;</span>
+      <span class="token keyword">float</span> <span class="token function">x</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">{</span><span class="token keyword">return</span> _x<span class="token punctuation">;</span><span class="token punctuation">}</span>
+      <span class="token keyword">float</span> <span class="token function">y</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">{</span><span class="token keyword">return</span> _y<span class="token punctuation">;</span><span class="token punctuation">}</span>
+      <span class="token keyword">float</span> <span class="token function">z</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">{</span><span class="token keyword">return</span> _z<span class="token punctuation">;</span><span class="token punctuation">}</span>
+  <span class="token keyword">private</span><span class="token operator">:</span>
+      <span class="token keyword">float</span> _x<span class="token punctuation">;</span>
+      <span class="token keyword">float</span> _y<span class="token punctuation">;</span>
+      <span class="token keyword">float</span> _z<span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
-
 <span class="token keyword">inline</span> ostream<span class="token operator">&amp;</span> <span class="token keyword">operator</span><span class="token operator">&lt;&lt;</span><span class="token punctuation">(</span>ostream <span class="token operator">&amp;</span>os<span class="token punctuation">,</span> <span class="token keyword">const</span> Point3d <span class="token operator">&amp;</span>pt<span class="token punctuation">)</span>
 <span class="token punctuation">{</span>
-    os<span class="token operator">&lt;&lt;</span><span class="token string">"("</span><span class="token operator">&lt;&lt;</span>pt<span class="token punctuation">.</span><span class="token function">x</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">&lt;&lt;</span><span class="token string">","</span>
-            <span class="token operator">&lt;&lt;</span>pt<span class="token punctuation">.</span><span class="token function">y</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">&lt;&lt;</span><span class="token string">","</span><span class="token operator">&lt;&lt;</span>pt<span class="token punctuation">.</span><span class="token function">z</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">&lt;&lt;</span><span class="token string">")"</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+  os<span class="token operator">&lt;&lt;</span><span class="token string">"("</span><span class="token operator">&lt;&lt;</span>pt<span class="token punctuation">.</span><span class="token function">x</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">&lt;&lt;</span><span class="token string">","</span>
+          <span class="token operator">&lt;&lt;</span>pt<span class="token punctuation">.</span><span class="token function">y</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">&lt;&lt;</span><span class="token string">","</span><span class="token operator">&lt;&lt;</span>pt<span class="token punctuation">.</span><span class="token function">z</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">&lt;&lt;</span><span class="token string">")"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>看到这段代码，很多人第一个疑问可能是：加上了封装，布局成本增加了多少？答案是 <code>class Point3d</code> 并没有增加成本。学过了 C++对象模型，我们知道，<code>Point3d</code> 类对象的内存中，只有三个数据成员。上面的类声明中，三个数据成员直接内含在每一个 <code>Point3d</code> 对象中，而成员函数虽然在类中声明，却不出现在类对象 object 之中，这些函数 non-inline 属于类而不属于类对象，只会为类产生唯一的函数实例。所以，<code>Point3d</code> 的封装并没有带来任何空间或执行期的效率影响。而在下面这种情况下，C++的封装额外成本才会显示出来：</p>
-<ul>
-<li>虚函数机制 virtual function , 用以支持执行期绑定，实现多态。</li>
-<li>虚基类 virtual base class，虚继承关系产生虚基类，用于在多重继承下保证基类在子类中拥有唯一实例。<br>不仅如此，<code>Point3d</code> 类数据成员的内存布局与 c 语言的结构体 <code>Point3d</code> 成员内存布局是相同的。C++中处在同一个访问标识符指 public、private、protected 下的声明的数据成员，在内存中必定保证以其声明顺序出现。而处于不同访问标识符声明下的成员则无此规定。对于 <code>Point3</code> 类来说，它的三个数据成员都处于 <code>private</code> 下，在内存中一起声明顺序出现。我们可以做下实验：<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">TestPoint3Member</span><span class="token punctuation">(</span><span class="token keyword">const</span> Point3d<span class="token operator">&amp;</span> p<span class="token punctuation">)</span>
+</li>
+<li><p>虚函数机制 virtual function , 用以支持执行期绑定，实现多态。</p>
+</li>
+<li><p>虚基类 virtual base class，虚继承关系产生虚基类，用于在多重继承下保证基类在子类中拥有唯一实例。<br>不仅如此，<code>Point3d</code> 类数据成员的内存布局与 c 语言的结构体 <code>Point3d</code> 成员内存布局是相同的。C++中处在同一个访问标识符指 public、private、protected 下的声明的数据成员，在内存中必定保证以其声明顺序出现。而处于不同访问标识符声明下的成员则无此规定。对于 <code>Point3</code> 类来说，它的三个数据成员都处于 <code>private</code> 下，在内存中一起声明顺序出现。我们可以做下实验：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">TestPoint3Member</span><span class="token punctuation">(</span><span class="token keyword">const</span> Point3d<span class="token operator">&amp;</span> p<span class="token punctuation">)</span>
 <span class="token punctuation">{</span>
   cout <span class="token operator">&lt;&lt;</span> <span class="token string">"推测_x的地址是："</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation">(</span><span class="token keyword">float</span> <span class="token operator">*</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token operator">&amp;</span>p<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
   cout <span class="token operator">&lt;&lt;</span> <span class="token string">"推测_y的地址是："</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation">(</span><span class="token keyword">float</span> <span class="token operator">*</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token operator">&amp;</span>p<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
@@ -906,7 +906,10 @@ void Point3d_print(const Point3d *pd)
   cout <span class="token operator">&lt;&lt;</span> <span class="token string">"根据推测出的地址输出_y的值："</span> <span class="token operator">&lt;&lt;</span> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">float</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>p<span class="token punctuation">)</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
   cout <span class="token operator">&lt;&lt;</span> <span class="token string">"根据推测出的地址输出_z的值："</span> <span class="token operator">&lt;&lt;</span> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">float</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>p<span class="token punctuation">)</span><span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-运行结果：从结果可以看到，_x,_y,_z 三个数据成员在内存中紧挨着。<h3 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h3>不考虑虚函数与虚继承，当数据都在同一个访问标识符下，C++的类与 C 语言的结构体在对象大小和内存布局上是一致的，C++的封装并没有带来空间时间上的影响。<h3 id="下面这个空类构成的继承层次中，每个类的大小是多少"><a href="#下面这个空类构成的继承层次中，每个类的大小是多少" class="headerlink" title="下面这个空类构成的继承层次中，每个类的大小是多少"></a>下面这个空类构成的继承层次中，每个类的大小是多少</h3>今有类如下：<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">B</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<p>运行结果：从结果可以看到，_x,_y,_z 三个数据成员在内存中紧挨着。</p>
+<h3 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h3><p>不考虑虚函数与虚继承，当数据都在同一个访问标识符下，C++的类与 C 语言的结构体在对象大小和内存布局上是一致的，C++的封装并没有带来空间时间上的影响。</p>
+<h3 id="下面这个空类构成的继承层次中，每个类的大小是多少"><a href="#下面这个空类构成的继承层次中，每个类的大小是多少" class="headerlink" title="下面这个空类构成的继承层次中，每个类的大小是多少"></a>下面这个空类构成的继承层次中，每个类的大小是多少</h3><p>今有类如下：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">B</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token keyword">class</span> <span class="token class-name">B1</span> <span class="token operator">:</span><span class="token keyword">public</span> <span class="token keyword">virtual</span>  B <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token keyword">class</span> <span class="token class-name">B2</span> <span class="token operator">:</span><span class="token keyword">public</span> <span class="token keyword">virtual</span>  B <span class="token punctuation">{</span>  <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token keyword">class</span> <span class="token class-name">D</span> <span class="token operator">:</span> <span class="token keyword">public</span> B1<span class="token punctuation">,</span> <span class="token keyword">public</span> B2 <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
@@ -922,10 +925,14 @@ void Point3d_print(const Point3d *pd)
   cout <span class="token operator">&lt;&lt;</span> <span class="token string">"sizeof(d)="</span> <span class="token operator">&lt;&lt;</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>d<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 </li>
-<li>编译器为空类安插 1 字节的 char，以使该类对象在内存得以配置一个地址。</li>
-<li>b1 虚继承于 b，编译器为其安插一个 8 字节的虚基类表指针 64 位机器，此时 b1 已不为空，编译器不再为其安插 1 字节的 char 优化。</li>
-<li>b2 同理。</li>
-<li>d 含有来自 b1 与 b2 两个父类的两个虚基类表指针，大小为 16 字节。</li>
+<li><p>编译器为空类安插 1 字节的 char，以使该类对象在内存得以配置一个地址。</p>
+</li>
+<li><p>b1 虚继承于 b，编译器为其安插一个 8 字节的虚基类表指针 64 位机器，此时 b1 已不为空，编译器不再为其安插 1 字节的 char 优化。</p>
+</li>
+<li><p>b2 同理。</p>
+</li>
+<li><p>d 含有来自 b1 与 b2 两个父类的两个虚基类表指针，大小为 16 字节。</p>
+</li>
 </ul>
 
             </div>
@@ -1035,7 +1042,7 @@ void Point3d_print(const Point3d *pd)
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="C++ 静态库与动态库">
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="C++ 静态库与动态库">
                         
                         <span class="card-title">C++ 静态库与动态库</span>
                     </div>
@@ -1043,7 +1050,7 @@ void Point3d_print(const Point3d *pd)
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            这次分享的宗旨是——让大家学会创建与使用静态库、动态库，知道静态库与动态库的区别，知道使用的时候如何选择。这里不深入介绍静态库、动态库的底层格式，内存布局等，有兴趣的同学，推荐一本书《程序员的自我修养——链接、装载与库》。库是写好的现有的，
+                            这篇文章的目的如何使用静态库、动态库，知道静态库与动态库的区别。这里不深入介绍静态库、动态库的底层格式，内存布局等，有兴趣的同学，推荐一本书《程序员的自我修养——链接、装载与库》。库是写好的现有的，成熟的，可以复用的代码。本质上来说库是一种
                         
                     </div>
                     <div class="publish-info">
@@ -1084,7 +1091,7 @@ void Point3d_print(const Point3d *pd)
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="C/C++整型变量赋值操作是原子性的吗？">
+                        <img src="/medias/featureimages/25.jpg" class="responsive-img" alt="C/C++整型变量赋值操作是原子性的吗？">
                         
                         <span class="card-title">C/C++整型变量赋值操作是原子性的吗？</span>
                     </div>
@@ -1292,7 +1299,7 @@ int a = 1;
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">76.7k</span>
+            <span class="white-color">76.2k</span>
             
 
             <br>

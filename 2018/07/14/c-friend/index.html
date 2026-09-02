@@ -8,8 +8,8 @@
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="原则上， 类的私有（private）和受保护（protected）成员不能从声明它们的同一类外部访问。但是， 此规则不适用于友元 “friends”。以 friend 关键字修饰的函数或类称为友元函数或友元类。
-友元函数友元函数是可以直接访">
+    <meta name="description" content="原则上， 类的私有和受保护成员不能从声明它们的同一类外部访问。但是， 此规则不适用于友元friends。以 friend关键字修饰的函数或类称为友元函数或友元类。
+友元函数友元函数是可以直接访问类的私有成员的非成员函数。它是定义在类外的普通">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -20,6 +20,8 @@
     <title>friend | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5/400.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5/700.css">
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
     <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
@@ -249,7 +251,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -405,7 +407,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    741
+                    737
                 </div>
                 
 
@@ -428,13 +430,13 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>原则上， 类的私有（private）和受保护（protected）成员不能从声明它们的同一类外部访问。但是， 此规则不适用于友元 “friends”。以 friend 关键字修饰的函数或类称为友元函数或友元类。</p>
-<h1 id="友元函数"><a href="#友元函数" class="headerlink" title="友元函数"></a>友元函数</h1><p>友元函数是可以直接访问类的私有成员的非成员函数。它是定义在类外的普通函数，它不属于任何类，但需要在类的定义中加以声明，声明时只需在友元的名称前加上关键字 friend，其格式如下：</p>
+                <p>原则上， 类的私有和受保护成员不能从声明它们的同一类外部访问。但是， 此规则不适用于友元<code>friends</code>。以 <code>friend</code>关键字修饰的函数或类称为友元函数或友元类。</p>
+<h1 id="友元函数"><a href="#友元函数" class="headerlink" title="友元函数"></a>友元函数</h1><p>友元函数是可以直接访问类的私有成员的非成员函数。它是定义在类外的普通函数，它不属于任何类，但需要在类的定义中加以声明，声明时只需在友元的名称前加上关键字<code>friend</code>，其格式如下：</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">friend</span> 类型 函数名<span class="token punctuation">(</span>形式参数<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>友元函数的声明可以放在类的私有部分，也可以放在公有部分，它们是没有区别的，都说明是该类的一个友元函数。一个函数可以是多个类的友元函数，只需要在各个类中分别声明。友元函数的调用与一般函数的调用方式和原理一致。</p>
 <h1 id="友元类"><a href="#友元类" class="headerlink" title="友元类"></a>友元类</h1><p>友元类的所有成员函数都是另一个类的友元函数，都可以访问另一个类中的隐藏信息（包括私有成员和保护成员）。当希望一个类可以存取另一个类的私有成员时，可以将该类声明为另一类的友元类。定义友元类的语句格式如下：</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">friend</span> <span class="token keyword">class</span> 类名<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>其中：friend 和 class 是关键字，类名必须是程序中的一个已定义过的类。综合例子</p>
+<p>其中：<code>friend</code>和 <code>class</code>是关键字，类名必须是程序中的一个已定义过的类。综合例子</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
 
 <span class="token keyword">class</span> <span class="token class-name">Square</span><span class="token punctuation">;</span>
@@ -487,7 +489,7 @@ Rectangle <span class="token function">duplicate</span><span class="token punctu
 
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>说明：duplicate 函数为类 Rectangle 的一个友元函数，可以访问该类的不同对象的私有成员 m_nWidth 和 m_nHeight，形式上看 duplicate 声明为该类的一个成员函数，但是其仅仅有该类私有成员的访问权限而已，并不是该类的一个成员函数！类 Rectangle 为类 Square 的一个友元类，则允许类 Rectangle 的成员函数可以访问类 Square 的私有或保护成员。使用友元类时注意：1、友元关系不能被继承。2、友元关系是单向的，不具有交换性。若类 B 是类 A 的友元，类 A 不一定是类 B 的友元，要看在类中是否有相应的声明。3、友元关系具有非传递性。若类 B 是类 A 的友元，类 C 是 B 的友元，类 C 不一定是类 A 的友元，同样要看类中是否有相应的申明。</p>
+<p>说明：<code>duplicate</code>函数为类 <code>Rectangle</code>的一个友元函数，可以访问该类的不同对象的私有成员 <code>m_nWidth</code>和 <code>m_nHeight</code>，形式上看<code>duplicate</code>声明为该类的一个成员函数，但是其仅仅有该类私有成员的访问权限而已，并不是该类的一个成员函数！类<code>Rectangle</code>为类<code>Square</code>的一个友元类，则允许类<code>Rectangle</code>的成员函数可以访问类<code>Square</code>的私有或保护成员。<br>使用友元类时注意：<br>1、友元关系不能被继承。<br>2、友元关系是单向的，不具有交换性。若类 B 是类 A 的友元，类 A 不一定是类 B 的友元，要看在类中是否有相应的声明。<br>3、友元关系具有非传递性。若类 B 是类 A 的友元，类 C 是 B 的友元，类 C 不一定是类 A 的友元，同样要看类中是否有相应的申明。</p>
 
             </div>
             <hr />
@@ -596,7 +598,7 @@ Rectangle <span class="token function">duplicate</span><span class="token punctu
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="std::ref">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="std::ref">
                         
                         <span class="card-title">std::ref</span>
                     </div>
@@ -642,11 +644,11 @@ void f(int&amp; n1, int&amp; n2,
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2018/07/11/twentyeight/">
+                <a href="/2018/07/11/c-kao-bei-gou-zao/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="拷贝构造函数与赋值函数">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="拷贝构造函数与赋值函数">
                         
                         <span class="card-title">拷贝构造函数与赋值函数</span>
                     </div>
@@ -853,7 +855,7 @@ void f(int&amp; n1, int&amp; n2,
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">76.7k</span>
+            <span class="white-color">76.2k</span>
             
 
             <br>

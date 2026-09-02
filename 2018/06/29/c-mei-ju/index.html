@@ -8,8 +8,8 @@
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="枚举（enumeration）是独立的类型，其值限制在一个取值范围内，它可以包含数个明确命名的常量。各常量的值是某个整型类型（称为该枚举的底层类型（underlying type））的值。
-enum-关键词 attr(可选) enum-名(">
+    <meta name="description" content="枚举enumeration是独立的类型，其值限制在一个取值范围内，它可以包含数个明确命名的常量。各常量的值是某个整型类型（称为该枚举的底层类型underlying type）的值。
+enum-关键词 attr(可选) enum-名(可选) ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -20,6 +20,8 @@ enum-关键词 attr(可选) enum-名(">
     <title>枚举申明 | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5/400.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5/700.css">
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
     <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
@@ -249,7 +251,7 @@ enum-关键词 attr(可选) enum-名(">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -428,18 +430,22 @@ enum-关键词 attr(可选) enum-名(">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>枚举（enumeration）是独立的类型，其值限制在一个取值范围内，它可以包含数个明确命名的常量。各常量的值是某个整型类型（称为该枚举的底层类型（underlying type））的值。</p>
+                <p>枚举<code>enumeration</code>是独立的类型，其值限制在一个取值范围内，它可以包含数个明确命名的常量。各常量的值是某个整型类型（称为该枚举的底层类型<code>underlying type</code>）的值。</p>
 <pre class="line-numbers language-text"><code class="language-text">enum-关键词 attr(可选) enum-名(可选) enum-基(可选)(C++11) { 枚举项列表(可选) }     (1)
 enum-关键字 attr(可选) enum-名 enum-基(可选) ;     (2)     (C++11 起)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p>1) enum 说明符，出现于声明语法的声明说明符序列：定义枚举类型与其枚举项。2) 不可见（opaque）枚举声明：定义枚举类型，但不定义其枚举项：在此声明后，该类型是完整类型，且其大小已知。注意：仅有的在 enum-名 之前出现 嵌套名说明符 的情况，是类模板的有作用域枚举成员的显式特化声明 C++14 起。</p>
+<p>1) <code>enum</code>说明符，出现于声明语法的声明说明符序列：定义枚举类型与其枚举项。<br>2) 不可见（opaque）枚举声明：定义枚举类型，但不定义其枚举项：在此声明后，该类型是完整类型，且其大小已知。注意：仅有的在 enum-名 之前出现 嵌套名说明符 的情况，是类模板的有作用域枚举成员的显式特化声明 C++14 起。</p>
 <pre class="line-numbers language-text"><code class="language-text">enum-关键字     -     enum、enum class(C++11 起)或enum struct(C++11 起) 之一
 attr(C++11)     -     任意数量的属性的可选序列
 enum-名     -     所声明的枚举的名字。若存在，且若此声明为重声明，则其之前可带有 嵌套名说明符(C++11 起)，<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>即名字和作用域解析运算符 :: 的序列并以作用域解析运算符结尾。仅可在无作用域枚举声明中省略名字。enum-基 C++11     -     冒号 (:)，后随指名某个整型类型的 类型说明符序列（若它为 cv 限定，则忽略其限定性），该类型将作为此枚举类型的固定底层类型枚举项列表     -     枚举项定义的逗号分隔列表，每项要么是简单的 标识符，它成为枚举项之名，要么是带初始化器的标识符：标识符 = 常量表达式。任一情况下，标识符 可直接后随一个可选的属性说明符序列。C++17 起有两种截然不同的枚举：无作用域枚举以 enum-关键词 enum 声明和有作用域枚举以 enum-关键词 enum class 或 enum struct 声明。</p>
+<p>即名字和作用域解析运算符 :: 的序列并以作用域解析运算符结尾。仅可在无作用域枚举声明中省略名字。</p>
+<ul>
+<li>冒号 (:) 后随指名某个整型类型的 类型说明符序列（若它为 cv 限定，则忽略其限定性），该类型将作为此枚举类型的固定底层类型枚举项列表。</li>
+<li>枚举项定义的逗号分隔列表，每项要么是简单的 标识符，它成为枚举项之名，要么是带初始化器的标识符：标识符 = 常量表达式。任一情况下，标识符 可直接后随一个可选的属性说明符序列。C++17 起有两种截然不同的枚举：无作用域枚举以 enum-关键词 enum 声明和有作用域枚举以 enum-关键词 enum class 或 enum struct 声明。</li>
+</ul>
 <h1 id="无作用域枚举"><a href="#无作用域枚举" class="headerlink" title="无作用域枚举"></a>无作用域枚举</h1><pre class="line-numbers language-text"><code class="language-text">enum 名字 { 枚举项 = 常量表达式 , 枚举项 = 常量表达式 , ... }     (1)
 enum 名字 : 类型 { 枚举项 = 常量表达式 , 枚举项 = 常量表达式 , ... }     (2)     (C++11 起)
 enum 名字 : 类型 ;     (3)     (C++11 起)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>1) 声明无作用域枚举类型，其底层类型不固定（此情况中，底层类型是由实现定义的某个能表示所有枚举项值的整型类型；此类型不大于 int，除非枚举项的值不能放入 int 或 unsigned int。若枚举项列表为空，则底层类型为如同枚举拥有单个值为 0 的枚举项）。2) 声明底层类型固定的无作用域枚举类型。3) 无作用域枚举的不可见枚举声明必须指定底层类型。每个枚举项都成为该枚举类型即名字的一个具名常量，在其外围作用域可见，且可用于要求常量的任何位置。</p>
+<p>1) 声明无作用域枚举类型，其底层类型不固定（此情况中，底层类型是由实现定义的某个能表示所有枚举项值的整型类型；此类型不大于 int，除非枚举项的值不能放入 int 或 unsigned int。若枚举项列表为空，则底层类型为如同枚举拥有单个值为 0 的枚举项）。<br>2) 声明底层类型固定的无作用域枚举类型。<br>3) 无作用域枚举的不可见枚举声明必须指定底层类型。每个枚举项都成为该枚举类型即名字的一个具名常量，在其外围作用域可见，且可用于要求常量的任何位置。</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">enum</span> Color <span class="token punctuation">{</span> red<span class="token punctuation">,</span> green<span class="token punctuation">,</span> blue <span class="token punctuation">}</span><span class="token punctuation">;</span>
 Color r <span class="token operator">=</span> red<span class="token punctuation">;</span>
 <span class="token keyword">switch</span><span class="token punctuation">(</span>r<span class="token punctuation">)</span>
@@ -459,11 +465,10 @@ color col <span class="token operator">=</span> red<span class="token punctuatio
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">enum</span> access_t <span class="token punctuation">{</span> read <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span> write <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">,</span> exec <span class="token operator">=</span> <span class="token number">4</span> <span class="token punctuation">}</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//枚举项：1、2、4 范围：0..7</span>
 access_t rwe <span class="token operator">=</span> <span class="token keyword">static_cast</span><span class="token operator">&lt;</span>access_t<span class="token operator">></span><span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token function">assert</span><span class="token punctuation">(</span><span class="token punctuation">(</span>rwe <span class="token operator">&amp;</span> read<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>rwe <span class="token operator">&amp;</span> write<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>rwe <span class="token operator">&amp;</span> exec<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
 access_t x <span class="token operator">=</span> <span class="token keyword">static_cast</span><span class="token operator">&lt;</span>access_t<span class="token operator">></span><span class="token punctuation">(</span><span class="token number">8.0</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// C++17 起为未定义行为</span>
 access_t y <span class="token operator">=</span> <span class="token keyword">static_cast</span><span class="token operator">&lt;</span>access_t<span class="token operator">></span><span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// C++17 起为未定义行为</span>
 <span class="token keyword">enum</span> foo <span class="token punctuation">{</span> a <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> b <span class="token operator">=</span> UINT_MAX <span class="token punctuation">}</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 范围：[0, UINT_MAX]</span>
-foo x<span class="token operator">=</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// C++17 起为未定义行为，即使 foo 的底层类型为 unsigned int</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+foo x<span class="token operator">=</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// C++17 起为未定义行为，即使 foo 的底层类型为 unsigned int</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>无作用域枚举的 名字 可以忽略：这种声明仅将各枚举项引入到其外围作用域中：</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">enum</span> <span class="token punctuation">{</span> a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> d <span class="token operator">=</span> a <span class="token operator">+</span> <span class="token number">2</span> <span class="token punctuation">}</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 定义 a = 0, b = 1, c = 0, d = 2</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>当无作用域枚举是类成员时，其枚举项可用类成员访问运算符 . 和 -&gt; 访问：</p>
@@ -473,16 +478,15 @@ foo x<span class="token operator">=</span> <span class="token function">foo</spa
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 X x<span class="token punctuation">;</span>
 X<span class="token operator">*</span> p <span class="token operator">=</span> <span class="token operator">&amp;</span>x<span class="token punctuation">;</span>
-
 <span class="token keyword">int</span> a <span class="token operator">=</span> X<span class="token operator">::</span>direction<span class="token operator">::</span>left<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 仅于 C++11 及之后允许</span>
 <span class="token keyword">int</span> b <span class="token operator">=</span> X<span class="token operator">::</span>left<span class="token punctuation">;</span>
 <span class="token keyword">int</span> c <span class="token operator">=</span> x<span class="token punctuation">.</span>left<span class="token punctuation">;</span>
-<span class="token keyword">int</span> d <span class="token operator">=</span> p<span class="token operator">-</span><span class="token operator">></span>left<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h1 id="有作用域枚举-C-11-起"><a href="#有作用域枚举-C-11-起" class="headerlink" title="有作用域枚举 C++11 起"></a>有作用域枚举 C++11 起</h1><pre class="line-numbers language-text"><code class="language-text">enum struct|class 名字 { 枚举项 = 常量表达式 , 枚举项 = 常量表达式 , ... }
+<span class="token keyword">int</span> d <span class="token operator">=</span> p<span class="token operator">-</span><span class="token operator">></span>left<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="有作用域枚举-C-11"><a href="#有作用域枚举-C-11" class="headerlink" title="有作用域枚举 C++11"></a>有作用域枚举 C++11</h1><pre class="line-numbers language-text"><code class="language-text">enum struct|class 名字 { 枚举项 = 常量表达式 , 枚举项 = 常量表达式 , ... }
 enum struct|class 名字 : 类型 { 枚举项 = 常量表达式 , 枚举项 = 常量表达式 , ... }
 enum struct|class 名字 ;
 enum struct|class 名字 : 类型 ;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<p>1) 声明底层类型为 int 的有作用域枚举类型（关键词 class 与 struct 完全等价）2) 声明底层类型为类型的有作用域枚举类型 3) 底层类型为 int 的有作用域枚举类型的不可见枚举声明 4) 底层类型为类型的有作用域枚举类型的不可见枚举声明每个枚举项都成为该枚举的类型即名字的具名常量，它为该枚举的作用域所包含，且可用作用域解析运算符访问。没有从有作用域枚举项到整数类型的隐式转换，尽管 static_cast 可用于获得枚举项的数值。</p>
+<p>1) 声明底层类型为 int 的有作用域枚举类型（关键词 class 与 struct 完全等价）<br>2) 声明底层类型为类型的有作用域枚举类型<br>3) 底层类型为 int 的有作用域枚举类型的不可见枚举声明<br>4) 底层类型为类型的有作用域枚举类型的不可见枚举声明每个枚举项都成为该枚举的类型即名字的具名常量，它为该枚举的作用域所包含，且可用作用域解析运算符访问。没有从有作用域枚举项到整数类型的隐式转换，尽管 static_cast 可用于获得枚举项的数值。</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">enum</span> <span class="token keyword">class</span> <span class="token class-name">Color</span> <span class="token punctuation">{</span> red<span class="token punctuation">,</span> green <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">,</span> blue <span class="token punctuation">}</span><span class="token punctuation">;</span>
 Color r <span class="token operator">=</span> Color<span class="token operator">::</span>blue<span class="token punctuation">;</span>
 <span class="token keyword">switch</span><span class="token punctuation">(</span>r<span class="token punctuation">)</span>
@@ -493,7 +497,7 @@ Color r <span class="token operator">=</span> Color<span class="token operator">
 <span class="token punctuation">}</span>
 <span class="token comment" spellcheck="true">// int n = r; // 错误：不存在从有作用域枚举到 int 的转换</span>
 <span class="token keyword">int</span> n <span class="token operator">=</span> <span class="token keyword">static_cast</span><span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span><span class="token punctuation">(</span>r<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// OK, n = 21</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>底层类型固定的有作用域枚举类型和无作用域枚举类型，若下列全部条件为真，则都能用列表初始化从一个整数初始化而无需转型：     （C++17 起）</p>
+<p>底层类型固定的有作用域枚举类型和无作用域枚举类型，若下列全部条件为真，则都能用列表初始化从一个整数初始化而无需转型：（C++17 起）</p>
 <ul>
 <li>初始化是直接列表初始化</li>
 <li>初始化器列表仅有单个元素</li>
@@ -503,76 +507,73 @@ byte b <span class="token punctuation">{</span> <span class="token number">42</s
 byte c <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token number">42</span> <span class="token punctuation">}</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 错误</span>
 byte d <span class="token operator">=</span> byte<span class="token punctuation">{</span> <span class="token number">42</span> <span class="token punctuation">}</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// C++17 起 OK；与 b 的值相同</span>
 byte e <span class="token punctuation">{</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 错误</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token keyword">struct</span> A <span class="token punctuation">{</span> byte b<span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+A a1 <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token punctuation">{</span> <span class="token number">42</span> <span class="token punctuation">}</span> <span class="token punctuation">}</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 错误</span>
+A a2 <span class="token operator">=</span> <span class="token punctuation">{</span> byte<span class="token punctuation">{</span> <span class="token number">42</span> <span class="token punctuation">}</span> <span class="token punctuation">}</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// C++17 起 OK</span>
+<span class="token keyword">void</span> <span class="token function">f</span><span class="token punctuation">(</span>byte<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token number">42</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 错误</span>
+<span class="token keyword">enum</span> <span class="token keyword">class</span> <span class="token class-name">Handle</span> <span class="token operator">:</span> std<span class="token operator">::</span>uint32_t <span class="token punctuation">{</span> Invalid <span class="token operator">=</span> <span class="token number">0</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+Handle h <span class="token punctuation">{</span> <span class="token number">42</span> <span class="token punctuation">}</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// C++17 起 OK</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+示例<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream></span></span>
+<span class="token comment" spellcheck="true">// 采用 16 位的 enum</span>
+<span class="token keyword">enum</span> smallenum<span class="token operator">:</span> int16_t
+<span class="token punctuation">{</span>
+  a<span class="token punctuation">,</span>
+  b<span class="token punctuation">,</span>
+  c
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// color 可为 red（值 0）、yellow（值 1）、green（值 20）或 blue（值 21）</span>
+<span class="token keyword">enum</span> color
+<span class="token punctuation">{</span>
+  red<span class="token punctuation">,</span>
+  yellow<span class="token punctuation">,</span>
+  green <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">,</span>
+  blue
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// altitude 可为 altitude::high 或 altitude::low</span>
+<span class="token keyword">enum</span> <span class="token keyword">class</span> <span class="token class-name">altitude</span><span class="token operator">:</span> <span class="token keyword">char</span>
+<span class="token punctuation">{</span>
+   high<span class="token operator">=</span><span class="token string">'h'</span><span class="token punctuation">,</span>
+   low<span class="token operator">=</span><span class="token string">'l'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// C++11 允许尾随逗号</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 常量 d 为 0，常量 e 为 1，常量 f 为 3</span>
+<span class="token keyword">enum</span>
+<span class="token punctuation">{</span>
+  d<span class="token punctuation">,</span>
+  e<span class="token punctuation">,</span>
+  f <span class="token operator">=</span> e <span class="token operator">+</span> <span class="token number">2</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 枚举类型（有作用域和无作用域）能拥有重载的运算符</span>
+std<span class="token operator">::</span>ostream<span class="token operator">&amp;</span> <span class="token keyword">operator</span><span class="token operator">&lt;&lt;</span><span class="token punctuation">(</span>std<span class="token operator">::</span>ostream<span class="token operator">&amp;</span> os<span class="token punctuation">,</span> color c<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+  <span class="token keyword">switch</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span>
+  <span class="token punctuation">{</span>
+      <span class="token keyword">case</span> red   <span class="token operator">:</span> os <span class="token operator">&lt;&lt;</span> <span class="token string">"red"</span><span class="token punctuation">;</span>    <span class="token keyword">break</span><span class="token punctuation">;</span>
+      <span class="token keyword">case</span> yellow<span class="token operator">:</span> os <span class="token operator">&lt;&lt;</span> <span class="token string">"yellow"</span><span class="token punctuation">;</span> <span class="token keyword">break</span><span class="token punctuation">;</span>
+      <span class="token keyword">case</span> green <span class="token operator">:</span> os <span class="token operator">&lt;&lt;</span> <span class="token string">"green"</span><span class="token punctuation">;</span>  <span class="token keyword">break</span><span class="token punctuation">;</span>
+      <span class="token keyword">case</span> blue  <span class="token operator">:</span> os <span class="token operator">&lt;&lt;</span> <span class="token string">"blue"</span><span class="token punctuation">;</span>   <span class="token keyword">break</span><span class="token punctuation">;</span>
+      <span class="token keyword">default</span>    <span class="token operator">:</span> os<span class="token punctuation">.</span><span class="token function">setstate</span><span class="token punctuation">(</span>std<span class="token operator">::</span>ios_base<span class="token operator">::</span>failbit<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> os<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+std<span class="token operator">::</span>ostream<span class="token operator">&amp;</span> <span class="token keyword">operator</span><span class="token operator">&lt;&lt;</span><span class="token punctuation">(</span>std<span class="token operator">::</span>ostream<span class="token operator">&amp;</span> os<span class="token punctuation">,</span> altitude al<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+  <span class="token keyword">return</span> os <span class="token operator">&lt;&lt;</span> <span class="token keyword">static_cast</span><span class="token operator">&lt;</span><span class="token keyword">char</span><span class="token operator">></span><span class="token punctuation">(</span>al<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+  color col <span class="token operator">=</span> red<span class="token punctuation">;</span>
+  altitude a<span class="token punctuation">;</span>
+  a <span class="token operator">=</span> altitude<span class="token operator">::</span>low<span class="token punctuation">;</span>
+  std<span class="token operator">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"col = "</span> <span class="token operator">&lt;&lt;</span> col <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span>
+            <span class="token operator">&lt;&lt;</span> <span class="token string">"a = "</span>   <span class="token operator">&lt;&lt;</span> a   <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span>
+            <span class="token operator">&lt;&lt;</span> <span class="token string">"f = "</span>   <span class="token operator">&lt;&lt;</span> f   <span class="token operator">&lt;&lt;</span> <span class="token string">'\n'</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+输出：<pre class="line-numbers language-text"><code class="language-text">col = red
+a = l
+f = 3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 </li>
 </ul>
-<p>struct A { byte b; };<br>A a1 = { { 42 } }; // 错误<br>A a2 = { byte{ 42 } }; // C++17 起 OK<br>void f(byte);<br>f({ 42 }); // 错误</p>
-<p>enum class Handle : std::uint32_t { Invalid = 0 };<br>Handle h { 42 }; // C++17 起 OK</p>
-<pre><code>示例
-```cpp
-#include &lt;iostream&gt;
-
-// 采用 16 位的 enum
-enum smallenum: int16_t
-{
-    a,
-    b,
-    c
-};
-// color 可为 red（值 0）、yellow（值 1）、green（值 20）或 blue（值 21）
-enum color
-{
-    red,
-    yellow,
-    green = 20,
-    blue
-};
-
-// altitude 可为 altitude::high 或 altitude::low
-
-enum class altitude: char
-{
-     high=&#39;h&#39;,
-     low=&#39;l&#39;, // C++11 允许尾随逗号
-};
-
-// 常量 d 为 0，常量 e 为 1，常量 f 为 3
-enum
-{
-    d,
-    e,
-    f = e + 2
-};
-
-// 枚举类型（有作用域和无作用域）能拥有重载的运算符
-std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, color c)
-{
-    switch(c)
-    {
-        case red   : os &lt;&lt; &quot;red&quot;;    break;
-        case yellow: os &lt;&lt; &quot;yellow&quot;; break;
-        case green : os &lt;&lt; &quot;green&quot;;  break;
-        case blue  : os &lt;&lt; &quot;blue&quot;;   break;
-        default    : os.setstate(std::ios_base::failbit);
-    }
-    return os;
-}
-
-std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, altitude al)
-{
-    return os &lt;&lt; static_cast&lt;char&gt;(al);
-}
-
-int main()
-{
-    color col = red;
-    altitude a;
-    a = altitude::low;
-
-    std::cout &lt;&lt; &quot;col = &quot; &lt;&lt; col &lt;&lt; &#39;\n&#39;
-              &lt;&lt; &quot;a = &quot;   &lt;&lt; a   &lt;&lt; &#39;\n&#39;
-              &lt;&lt; &quot;f = &quot;   &lt;&lt; f   &lt;&lt; &#39;\n&#39;;
-}</code></pre><p>输出：<br>col = red<br>a = l<br>f = 3</p>
 
             </div>
             <hr />
@@ -681,7 +682,7 @@ int main()
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="语言链接">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="语言链接">
                         
                         <span class="card-title">语言链接</span>
                     </div>
@@ -733,7 +734,7 @@ extern 字符串字面量 声明     (2)
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="指针">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="指针">
                         
                         <span class="card-title">指针</span>
                     </div>
@@ -943,7 +944,7 @@ extern 字符串字面量 声明     (2)
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">76.7k</span>
+            <span class="white-color">76.2k</span>
             
 
             <br>

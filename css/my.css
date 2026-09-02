@@ -12,9 +12,18 @@ html, body, h1, h2, h3, h4, h5, h6,
     font-family: "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif !important;
 }
 
-/* 代码块保持等宽字体 */
+/* 代码块字体：优先使用 webfont JetBrains Mono（连字、易读），
+   中文注释回退到系统 CJK 字体，避免回退到 Courier New */
 code, pre, pre code, code[class*="language-"], pre[class*="language-"] {
-    font-family: "Noto Sans Mono CJK SC", "Courier New", Consolas, monospace !important;
+    font-family: "JetBrains Mono", "Noto Sans Mono CJK SC", "PingFang SC", "Microsoft YaHei", Consolas, "Courier New", monospace !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* 代码块排版：JetBrains Mono 字面较大，稍微缩小字号并放宽行距更易读 */
+pre, pre[class*="language-"], code[class*="language-"] {
+    font-size: 0.88rem !important;
+    line-height: 1.7 !important;
 }
 
 /* 文章标题、目录、卡片标题中的行内 code 与周围文字统一，

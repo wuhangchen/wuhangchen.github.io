@@ -227,8 +227,8 @@
   
   <entry>
     <title>右值引用</title>
-    <link href="localhost/2018/08/31/fortythree/"/>
-    <id>localhost/2018/08/31/fortythree/</id>
+    <link href="localhost/2018/08/31/c-you-zhi-yin-yong/"/>
+    <id>localhost/2018/08/31/c-you-zhi-yin-yong/</id>
     <published>2018-08-31T04:00:00.000Z</published>
     <updated>2026-08-26T06:49:36.105Z</updated>
     
@@ -253,10 +253,10 @@
   
   <entry>
     <title>C++工程实践</title>
-    <link href="localhost/2018/08/28/fortyfour/"/>
-    <id>localhost/2018/08/28/fortyfour/</id>
+    <link href="localhost/2018/08/28/c-zhi-yu-yi/"/>
+    <id>localhost/2018/08/28/c-zhi-yu-yi/</id>
     <published>2018-08-28T04:00:00.000Z</published>
-    <updated>2026-08-26T06:49:36.104Z</updated>
+    <updated>2026-09-02T09:48:56.900Z</updated>
     
     <summary type="html">
     
@@ -282,7 +282,7 @@
     <link href="localhost/2018/08/25/c-bian-yi/"/>
     <id>localhost/2018/08/25/c-bian-yi/</id>
     <published>2018-08-25T04:00:00.000Z</published>
-    <updated>2026-08-26T06:49:36.105Z</updated>
+    <updated>2026-08-31T09:28:24.957Z</updated>
     
     <summary type="html">
     
@@ -290,7 +290,7 @@
       
         
         
-          &lt;p&gt;这次分享的宗旨是——让大家学会创建与使用静态库、动态库，知道静态库与动态库的区别，知道使用的时候如何选择。这里不深入介绍静态库、动态库的底层格式，内存布局等，有兴趣的同学，推荐一本书《程序员的自我修养——链接、装载与库》。库是写好的现有的，成熟的，可以复用的代码。现实中每个
+          &lt;p&gt;这篇文章的目的如何使用静态库、动态库，知道静态库与动态库的区别。&lt;br&gt;这里不深入介绍静态库、动态库的底层格式，内存布局等，有兴趣的同学，推荐一本书《程序员的自我修养——链接、装载与库》。库是写好的现有的，成熟的，可以复用的代码。本质上来说库是一种可执行代码的二进制形式，可
         
       
     
@@ -308,7 +308,7 @@
     <link href="localhost/2018/08/22/c-dui-xiang-mo-xing/"/>
     <id>localhost/2018/08/22/c-dui-xiang-mo-xing/</id>
     <published>2018-08-22T04:00:00.000Z</published>
-    <updated>2026-08-28T09:54:06.126Z</updated>
+    <updated>2026-09-02T09:53:18.428Z</updated>
     
     <summary type="html">
     
@@ -335,7 +335,7 @@
     <link href="localhost/2018/08/19/c-yuan-zi-bian-liang/"/>
     <id>localhost/2018/08/19/c-yuan-zi-bian-liang/</id>
     <published>2018-08-19T04:00:00.000Z</published>
-    <updated>2026-08-26T06:49:36.104Z</updated>
+    <updated>2026-08-31T08:02:04.661Z</updated>
     
     <summary type="html">
     
@@ -387,10 +387,10 @@
   
   <entry>
     <title>Lambda 表达式捕获列表</title>
-    <link href="localhost/2018/08/13/thirtyeight/"/>
-    <id>localhost/2018/08/13/thirtyeight/</id>
+    <link href="localhost/2018/08/13/c-lambda-bu-huo/"/>
+    <id>localhost/2018/08/13/c-lambda-bu-huo/</id>
     <published>2018-08-13T04:00:00.000Z</published>
-    <updated>2026-08-26T06:49:36.105Z</updated>
+    <updated>2026-09-02T11:35:31.729Z</updated>
     
     <summary type="html">
     
@@ -398,7 +398,7 @@
       
         
         
-          &lt;p&gt;捕获值列表，是允许我们在 Lambda
+          &lt;p&gt;捕获值列表，是 Lambda
         
       
     
@@ -413,8 +413,8 @@
   
   <entry>
     <title>内存分配malloc</title>
-    <link href="localhost/2018/08/10/thirtyseven/"/>
-    <id>localhost/2018/08/10/thirtyseven/</id>
+    <link href="localhost/2018/08/10/c-malloc-zero/"/>
+    <id>localhost/2018/08/10/c-malloc-zero/</id>
     <published>2018-08-10T04:00:00.000Z</published>
     <updated>2026-08-26T06:49:36.104Z</updated>
     
@@ -440,8 +440,8 @@
   
   <entry>
     <title>C++成员修饰const和mutable</title>
-    <link href="localhost/2018/08/07/thirtysex/"/>
-    <id>localhost/2018/08/07/thirtysex/</id>
+    <link href="localhost/2018/08/07/c-const-mutable/"/>
+    <id>localhost/2018/08/07/c-const-mutable/</id>
     <published>2018-08-07T04:00:00.000Z</published>
     <updated>2026-08-26T06:49:36.105Z</updated>
     
@@ -466,8 +466,8 @@
   
   <entry>
     <title>使用++i还是i++</title>
-    <link href="localhost/2018/08/04/thirtyfive/"/>
-    <id>localhost/2018/08/04/thirtyfive/</id>
+    <link href="localhost/2018/08/04/c-zi-zeng-yun-suan-fu/"/>
+    <id>localhost/2018/08/04/c-zi-zeng-yun-suan-fu/</id>
     <published>2018-08-04T04:00:00.000Z</published>
     <updated>2026-08-26T06:49:36.104Z</updated>
     
@@ -492,8 +492,8 @@
   
   <entry>
     <title>C++面试题</title>
-    <link href="localhost/2018/08/01/thirtyfour/"/>
-    <id>localhost/2018/08/01/thirtyfour/</id>
+    <link href="localhost/2018/08/01/c-mian-shi-ti/"/>
+    <id>localhost/2018/08/01/c-mian-shi-ti/</id>
     <published>2018-08-01T04:00:00.000Z</published>
     <updated>2026-08-26T06:49:36.105Z</updated>
     
@@ -518,8 +518,8 @@
   
   <entry>
     <title>C++细说sizeof</title>
-    <link href="localhost/2018/07/29/thirythree/"/>
-    <id>localhost/2018/07/29/thirythree/</id>
+    <link href="localhost/2018/07/29/c-sizeof-xiang-jie/"/>
+    <id>localhost/2018/07/29/c-sizeof-xiang-jie/</id>
     <published>2018-07-29T04:00:00.000Z</published>
     <updated>2026-08-26T06:49:36.105Z</updated>
     
