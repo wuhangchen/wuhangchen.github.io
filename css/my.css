@@ -1,5 +1,22 @@
 /* Here is your custom css styles. */
 
+/* 本地自托管 JetBrains Mono，避免外部 CDN 阻塞页面渲染 */
+@font-face {
+    font-family: "JetBrains Mono";
+    font-style: normal;
+    font-display: swap;
+    font-weight: 400;
+    src: url("/fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "JetBrains Mono";
+    font-style: normal;
+    font-display: swap;
+    font-weight: 700;
+    src: url("/fonts/jetbrains-mono-latin-700-normal.woff2") format("woff2");
+}
+
 /* 全局统一中英文字体，消除大小不一致 */
 html, body, h1, h2, h3, h4, h5, h6,
 #articleContent, #articleContent h1, #articleContent h2,

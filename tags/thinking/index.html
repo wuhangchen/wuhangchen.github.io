@@ -19,8 +19,6 @@
     <title>标签: thinking | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5/400.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5/700.css">
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
     <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
@@ -285,20 +283,20 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                 </a>
                 
                 
-                <a href="/tags/Linux/" title="Linux: 23">
+                <a href="/tags/Linux/" title="Linux: 24">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
                             data-tagname="Linux" style="background-color: #F5EEF8;">Linux
-                        <span class="tag-length">23</span>
+                        <span class="tag-length">24</span>
                     </span>
                 </a>
                 
                 
-                <a href="/tags/Linux/" title="Linux+: 1">
+                <a href="/tags/Linux/" title="Linux+: 0">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
                             data-tagname="Linux+" style="background-color: #D5F5E3;">Linux+
-                        <span class="tag-length">1</span>
+                        <span class="tag-length">0</span>
                     </span>
                 </a>
                 
@@ -328,7 +326,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                         <div class="card-image tag-image">
                             
                             
-                            <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="随想">
+                            <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="随想">
                             
                             <span class="card-title">随想</span>
                         </div>
@@ -365,7 +363,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">76.2k</span>
+            <span class="white-color">79.8k</span>
             
 
             <br>
@@ -428,10 +426,16 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
     $(document).ready(function () {
 
         var int = setInterval(fixCount, 50);
+        var fixTries = 0;
         var pvcountOffset = 80000;
         var uvcountOffset = 20000;
 
         function fixCount() {
+            // 本地环境不加载不蒜子时避免无限轮询：最多等待 10 秒
+            if (++fixTries > 200) {
+                clearInterval(int);
+                return;
+            }
             if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
                 $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
                 clearInterval(int);
@@ -519,17 +523,6 @@ $(function () {
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=查教程获取"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-
-    gtag('js', new Date());
-    gtag('config', '查教程获取');
-</script>
-
 
 
     
@@ -537,7 +530,16 @@ $(function () {
     
 
     
-    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    <script>
+        // 本地调试（localhost/127.0.0.1）不加载不蒜子：
+        // 不蒜子按 Referer 计数，所有开发者本地环境的 localhost 计数是共用的，数值严重失真
+        if (!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) {
+            var bsz = document.createElement('script');
+            bsz.src = '/libs/others/busuanzi.pure.mini.js';
+            bsz.async = true;
+            document.body.appendChild(bsz);
+        }
+    </script>
     
 
     <!-- 雪花特效 -->
