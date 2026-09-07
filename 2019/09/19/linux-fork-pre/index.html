@@ -8,7 +8,7 @@
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="fork 的思想在 UNIX 出现几年前就出现了，时间大概是 1963 年，这比 UNIX 在 PDP-7 上的第一个版本早了 6 年。1963 年，计算机科学家 Melvin Conway（以 Conway’s Law 闻名于世）写下一篇">
+    <meta name="description" content="fork的思想在 UNIX 出现几年前就出现了，时间大概是 1963 年，这比 UNIX 在 PDP-7 上的第一个版本早了6年。1963 年，计算机科学家 Melvin Conway写下一篇论文，正式提出了fork思想，该论文链接：A M">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -248,7 +248,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/26.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -404,14 +404,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.4k
+                    3.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    12 分
+                    11 分
                 </div>
                 
                 
@@ -427,25 +427,38 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>fork 的思想在 UNIX 出现几年前就出现了，时间大概是 1963 年，这比 UNIX 在 PDP-7 上的第一个版本早了 6 年。1963 年，计算机科学家 Melvin Conway（以 Conway’s Law 闻名于世）写下一篇论文，正式提出了 fork 思想，该论文链接：<br>A Multiprocessor System Design：<br><a href="https://archive.org/details/AMultiprocessorSystemDesignConway1963/page/n7" target="_blank" rel="noopener">https://archive.org/details/AMultiprocessorSystemDesignConway1963/page/n7</a><br>fork 的思想最初是 Conway 作为一种多处理器并行的方案提出来的，这个想法非常有意思。简而言之，fork 思想来源于流程图。我们看一个普通的流程图：如果我们承认一个计算机程序可以表示为一个流程，那么我们就不能否认这种并行方案是正确的。你看，流程图的分枝处，fork-叉子，多么形象！一个流程图上的分支点分裂出来的分支显然是逻辑独立的，这便是可并行的前提，于是它们便可以表现为不同的处理进程(process) 的形式，当时的表达还只是“process”这个术语，它还不是现代操作系统意义上的“进程”的概念。join 同步点表现为多个并行处理的进程由于某种原因不得不同步的点，也就是多个并行流程汇合的点，直到现在，在多线程编程中，这个点依然叫 join。比如 Java Thread 的 join 方法以及 pthread 库的 pthread_join 函数。广义来讲，join 也表示诸如临界区等必须串行通过的点， 减少 join 点的数量将会提高并行的效率。我们来看看 Conway 论文中关于 fork 的原始图示：Conway 在论文中的另一个创举是，他将处理进程（也就是后来操作系统中的 process 的概念）以及执行该进程的处理器（即 CPU 核）分离了开来，抽象出了 schedule 层。大意是说， “只要满足系统中的活动处理器数量是总处理器数量和并行处理进程的最小值即可。” 这意味着调度程序可以将多处理器系统的所有处理器和系统所有处理进程分别看作是统一的资源池和消费者，执行统一调度：在 UNIX 引入 fork 之后，这种多处理器并行的设计思想就深入到了 UNIX 的核心。这个思想最终也影响了 UNIX 以及后来的 Linux，直到现在。关于这个设计思想为什么可以影响 UNIX 这么久，我想和 Conway 本人的“Conway’s law”不无关系，在这个 law 中，他提到：<br>Any organization that designs a system (defined broadly) will produce a design whose structure is a copy of the organization’s communication structure.<br>真正的大牛一枚！好了，fork 本身的由来我们已经了解，就像做菜一样，现在我们把它放在一边备用。花开两朵，各表一枝。接下来看 UNIX fork 的另一个脉络。早期 UNIX 的覆盖(overlaying)技术 1969 年最初的 UNIX 用一种在现在看来非常奇怪的方式运行。一般的资料都是从 UNIX v6 版本开始讲起，那个版本已经是比较 “现代” 的版本了，所以很少有人能看到最初的 UNIX 是什么样子的。即便是能查阅到的 1970 年的 PDP-7 上运行的 UNIX 源码，也是引入 fork 之后的版本，在那之前的最原始版本几乎找不到了（你可能会说，那时的 UNIX 不叫 UNIX，but who cares…）。1969 年的汤普森版 UNIX 超级简陋，这可以在 Dennis M. Ritchie 的一篇论文中见一斑：<br>The Evolution of the Unix Time-sharing System：<br><a href="http://www.read.seas.harvard.edu/~kohler/class/aosref/ritchie84evolution.pdf" target="_blank" rel="noopener">http://www.read.seas.harvard.edu/~kohler/class/aosref/ritchie84evolution.pdf</a><br>建议细读。最初的 UNIX 是一个分时系统，它只有两个 shell 进程，分别属于两个终端：可见其简陋。这里插叙一段关于分时系统的文字：分时系统最初并不是基于进程分时的，那时根本还没有完整的进程的概念，分时系统是针对终端分时的，而操作员坐在终端前，为了让每个操作员在操作过程中感觉上是在独占机器资源，每个终端享受一段时间的时间片，在该时间片内，该终端前的操作员完全享受机器，但是为了公平，超过了时间片，时间片就要给另一个终端。时间片的大小一般是十几秒到分钟级别。这个和现如今的进程调度时间片完全是两个概念。就是这样，最初的 UNIX 为了体现分时特性，实现了最少的两个终端。注意，最初的 UNIX 没有 fork，没有 exec，甚至没有多进程的概念，为了实现分时，系统中仅有两个朴素的 shell 进程。事实上，最初的 UNIX 用只有两个元素的表来容纳所有进程（显然，这看起来好笑…），当然，这里的 “表” 的概念也是抽象的朴素概念，因为当时的系统是用 PDP-7 的汇编写的，还没有后来 C 语言数据结构。我们现在考虑其中一个终端的 shell 进程如何工作。马上问题就来了， 这个 shell 进程如何执行别的命令程序？如果说系统中最多只能容纳两个进程，一个终端只有一个 shell 进程的话，当该终端的 shell 进程执行其它命令程序时，它自己怎么办？这个问题得思考一会儿…注意，不要用现代的眼光去评价 1969 年的初版 UNIX，按照现代的眼光，执行一个程序要生成一个新的进程，显然这在初版 UNIX 中并不正确。答案是根本不用产生新的进程，直接将命令程序的代码载入内存并覆盖掉 shell 进程的代码即可！当命令执行完后，再用 shell 的代码覆盖掉命令程序的代码，针对单独的终端，系统其实一直在执行下面的覆盖循环（摘自论文的 Process control 章节）：这会让很多人大跌眼镜的吧。然而，在 fork 被引入 UNIX 之前，事实就是这样。一个终端上一直都是那一个进程，一会儿它执行 shell 的代码，一会儿它执行具体命令程序的代码，以下是一个覆盖程序的结构（图片来自《FreeBSD 操作系统设计与实现》一书）：结合上图和无聊的覆盖循环的第 3)步，你会发现，这个第 3)步其实就是 exec 的逻辑。如果你熟悉 Linux 内核 execve 系统调用加载 ELF 可执行文件的逻辑，你会发现，对于 ELF 文件而言，这里所谓的 bootstrap 其实就是 load_elf_binary 函数。然而，当时毕竟还没有将这个逻辑封装成 exec 系统调用，这些都是每一个进程显式完成的：</p>
+                <p><code>fork</code>的思想在 UNIX 出现几年前就出现了，时间大概是 1963 年，这比 UNIX 在 PDP-7 上的第一个版本早了6年。1963 年，计算机科学家 Melvin Conway写下一篇论文，正式提出了<code>fork</code>思想，该论文链接：<a href="https://archive.org/details/AMultiprocessorSystemDesignConway1963/page/n7" target="_blank" rel="noopener">A Multiprocessor System Design</a><code>fork</code>的思想最初是 Conway 作为一种多处理器并行的方案提出来的，这个想法非常有意思。简而言之，<code>fork</code>思想来源于流程图。我们看一个普通的流程图：如果我们承认一个计算机程序可以表示为一个流程，那么我们就不能否认这种并行方案是正确的。你看，流程图的分枝处，<code>fork</code>-叉子，多么形象！一个流程图上的分支点分裂出来的分支显然是逻辑独立的，这便是可并行的前提，于是它们便可以表现为不同的处理进程的形式，当时的表达还只是process这个术语，它还不是现代操作系统意义上的进程的概念。join 同步点表现为多个并行处理的进程由于某种原因不得不同步的点，也就是多个并行流程汇合的点，直到现在，在多线程编程中，这个点依然叫join。比如 Java Thread 的<code>join</code>方法以及 pthread 库的<code>pthread_join</code>函数。<br>广义来讲，<code>join</code>也表示诸如临界区等必须串行通过的点，减少<code>join</code>点的数量将会提高并行的效率。我们来看看 Conway 论文中关于<code>fork</code>的原始图示：Conway 在论文中的另一个创举是，他将处理进程以及执行该进程的处理器分离了开来，抽象出了<code>schedule</code>层。大意是说，“只要满足系统中的活动处理器数量是总处理器数量和并行处理进程的最小值即可。” 这意味着调度程序可以将多处理器系统的所有处理器和系统所有处理进程分别看作是统一的资源池和消费者，执行统一调度：在 UNIX 引入<code>fork</code>之后，这种多处理器并行的设计思想就深入到了UNIX的核心。这个思想最终也影响了 UNIX 以及后来的 Linux，直到现在。</p>
+<pre><code>Any organization that designs a system (defined broadly) will produce a design whose structure is a copy of the organization’s communication structure.</code></pre><p>真正的大牛一枚！好了，<code>fork</code>本身的由来我们已经了解，就像做菜一样，现在我们把它放在一边备用。花开两朵，各表一枝。接下来看 UNIX<code>fork</code>的另一个脉络。早期 UNIX 的覆盖技术 1969 年最初的 UNIX 用一种在现在看来非常奇怪的方式运行。一般的资料都是从 UNIX v6 版本开始讲起，那个版本已经是比较 “现代” 的版本了，所以很少有人能看到最初的 UNIX 是什么样子的。即便是能查阅到的 1970 年的 PDP-7 上运行的 UNIX 源码，也是引入 fork 之后的版本，在那之前的最原始版本几乎找不到了。1969 年的汤普森版 UNIX 超级简陋，这可以在 Dennis M. Ritchie 的一篇论文中见一斑：<br><a href="http://www.read.seas.harvard.edu/~kohler/class/aosref/ritchie84evolution.pdf" target="_blank" rel="noopener">The Evolution of the Unix Time-sharing System</a><br>最初的 UNIX 是一个分时系统，它只有两个shell进程，分别属于两个终端：可见其简陋。这里插叙一段关于分时系统的文字：分时系统最初并不是基于进程分时的，那时根本还没有完整的进程的概念，分时系统是针对终端分时的，而操作员坐在终端前，为了让每个操作员在操作过程中感觉上是在独占机器资源，每个终端享受一段时间的时间片，在该时间片内，该终端前的操作员完全享受机器，但是为了公平，超过了时间片，时间片就要给另一个终端。时间片的大小一般是十几秒到分钟级别。这个和现如今的进程调度时间片完全是两个概念。就是这样，最初的 UNIX 为了体现分时特性，实现了最少的两个终端。<br>注意，最初的 UNIX 没有<code>fork</code>，没有<code>exec</code>，甚至没有多进程的概念，为了实现分时，系统中仅有两个朴素的 shell 进程。事实上，最初的 UNIX 用只有两个元素的表来容纳所有进程（显然，这看起来好笑…），当然，这里的 “表” 的概念也是抽象的朴素概念，因为当时的系统是用 PDP-7 的汇编写的，还没有后来 C 语言数据结构。我们现在考虑其中一个终端的 shell 进程如何工作。马上问题就来了， 这个 shell 进程如何执行别的命令程序？如果说系统中最多只能容纳两个进程，一个终端只有一个 shell 进程的话，当该终端的 shell 进程执行其它命令程序时，它自己怎么办？这个问题得思考一会儿…注意，不要用现代的眼光去评价 1969 年的初版 UNIX，按照现代的眼光，执行一个程序要生成一个新的进程，显然这在初版 UNIX 中并不正确。<br>答案是根本不用产生新的进程，直接将命令程序的代码载入内存并覆盖掉 shell 进程的代码即可！当命令执行完后，再用 shell 的代码覆盖掉命令程序的代码，针对单独的终端，系统其实一直在执行下面的覆盖循环：这会让很多人大跌眼镜的吧。然而，在 fork 被引入 UNIX 之前，事实就是这样。一个终端上一直都是那一个进程，一会儿它执行 shell 的代码，一会儿它执行具体命令程序的代码，以下是一个覆盖程序的结构（图片来自《FreeBSD 操作系统设计与实现》一书）：结合上图和无聊的覆盖循环的第 3)步，你会发现，这个第 3)步其实就是<code>exec</code>的逻辑。如果你熟悉 Linux 内核 execve 系统调用加载 ELF 可执行文件的逻辑，你会发现，对于 ELF 文件而言，这里所谓的 bootstrap 其实就是 load_elf_binary 函数。然而，当时毕竟还没有将这个逻辑封装成 exec 系统调用，这些都是每一个进程显式完成的：</p>
 <ul>
 <li>对于 shell 执行命令程序而言，shell 自己执行 disk IO 来载入命令程序覆盖掉自身；</li>
-<li>对于命令程序执行结束时，exit 调用内部执行 disk IO 载入 shell 程序。<br>exec 逻辑是 shell 程序的一部分，由于它会被所有的命令程序所使用，该逻辑也被封装到了 exit 调用中。fork 引入 UNIX 前的表象好了，目前为止，我们看完了两条线索：</li>
+<li>对于命令程序执行结束时，exit 调用内部执行 disk IO 载入 shell 程序。</li>
 </ul>
+<p><code>exec</code>逻辑是 shell 程序的一部分，由于它会被所有的命令程序所使用，该逻辑也被封装到了 exit 调用中。fork 引入 UNIX 前的表象好了，目前为止，我们看完了两条线索：</p>
 <ol>
 <li>1963 年 Melvin Conway 提出了 fork 思想，作为在多处理器中并行执行进程的一个手段。</li>
-<li>1969 年汤普森版 UNIX 仅有两个 shell 进程，使用覆盖(overlaying)技术执行命令。<br>截止目前，我们看到的表象是：</li>
+<li>1969 年汤普森版 UNIX 仅有两个 shell 进程，使用覆盖(overlaying)技术执行命令。</li>
 </ol>
+<p>截止目前，我们看到的表象是：</p>
 <ul>
-<li>汤普森版 UNIX 没有 fork，没有 exec，没有 wait，仅有的库函数般的 exit 也和现在的 exit 系统调用大相径庭，显然汤普森版 UNIX 并非一个多进程系统，而只是一个可以跑的简陋的两终端分时系统！<br>UNIX fork 的诞生 fork 是如何引入 UNIX 的呢？这还要从采用覆盖技术的汤普森版 UNIX 所固有的问题说起，还是看论文原文：若要解决这些问题，很简单的方案汤普森都想到了：</li>
+<li>汤普森版 UNIX 没有 fork，没有 exec，没有 wait，仅有的库函数般的 exit 也和现在的 exit 系统调用大相径庭，显然汤普森版 UNIX 并非一个多进程系统，而只是一个可以跑的简陋的两终端分时系统！UNIX fork 的诞生 fork 是如何引入 UNIX 的呢？这还要从采用覆盖技术的汤普森版 UNIX 所固有的问题说起，还是看论文原文：若要解决这些问题，很简单的方案汤普森都想到了：</li>
 <li>保持 shell 进程的驻留而不是销毁。命令执行时，将其交换到磁盘便是了<br>很显然，命令程序是不能覆盖掉 shell 进程了。解决方案是使用 “交换” 技术。交换技术和覆盖技术其实都是解决有限内存的多进程使用问题的，不同点在于方向不同：</li>
 <li>覆盖技术指的是用不同的进程磁盘映像覆盖当前的进程内存映像。</li>
-<li>交换技术指的是用将进程的内存映像交换到磁盘，载入一个别的进程磁盘映像。<br>使用交换技术解决覆盖的问题，意味着要创建新的进程：</li>
-<li>在新的进程中执行命令程序。<br>UNIX 需要进行改动，两个配额的进程表显然不够用了。当然，解决方案也并不麻烦：现在，剩下唯一的问题就是如何创建新进程了！谁来临门一脚呢？要讲效率，创造不如抄袭，创建新进程的最直接的就是 copy 当前 shell 进程，在 copy 的新进程中执行覆盖，命令程序覆盖 copy 的新进程，而当前的终端 shell 进程则被交换到磁盘保得全身。覆盖和交换相结合了，UNIX 离现代化更近了一步！确定了 copy 当前进程的方案后，进一步的问题是如何来 copy 进程。现在要说回 fork 了。Conway 提出 fork 思想后，马上就有了 fork 的实现原型（正如 Conway 自己所说，他只是提出了一个可能造就存在的想法，并没有实现它），Project Genie 算是实现 fork 比较完善的系统之一了。Project Genie 系统的 fork 不仅仅是盲目地 copy 进程，它对 fork 的过程拥有精细的控制权，比如分配多大的内存空间，copy 哪些必要的资源等等。显然，Project Genie 的 fork 是冲着 Conway 的多处理器并行逻辑去的。还是那句话，创造不如抄袭，UNIX 若想实现进程 copy，有一个现成的模版就是 Project Genie，但是 Project Genie 的 fork 对于 UNIX 太过复杂，太过精细化了，UNIX 显然用不到这些精细的控制， UNIX 仅仅是想让 fork 出来的新进程被覆盖，而不是让它去执行什么多处理器上的并行逻辑。换句话说，UNIX 只是借用了 fork 的 copy 逻辑的实现，来完成一件别的事。于是，UNIX 非常粗暴的实现了 fork！即完全 copy 父进程，这就是直到现在我们依然在使用的 fork 系统调用：没有参数，非常简洁，显得这很优雅。取了个巧，奇技淫巧：</li>
-<li>fork 本来就不是让你用来覆盖新进程的，不然为何多此一举。fork 是让你来分解程序流程得以并行处理的。<br>UNIX fork 就此诞生！我们再次回顾一下 UNIX fork 诞生之前的景象：每个终端单一的进程兜兜转转循环覆盖，再没有别的可能性。再来看看 fork 诞生之后的景象：有了 fork 之后，UNIX 进程便可以组合出无限的可能，正式成为一个名副其实的多用户多进程现代操作系统了。fork 孕育了无限的可能性（Linux 上可用 pstree 命令观测）：于是 UNIX 正式迈开了现代化建设的步伐，一直走到了今天。<br>UNIX fork-exec<br>关于 exec，故事没什么好讲的，它事实上就是关于上述覆盖逻辑的封装，此后程序员不必自己写覆盖逻辑了，直接调用 exec 系统调用即可。于是经典的 UNIX fork-exec 序列便形成了。<br>UNIX fork/exec/exit/wait<br>值得一提的是，fork 被引入 UNIX 后，exit 的语义发生了巨大的改变。在原始的 1969 年汤普森版 UNIX 中，由于每一个终端有且仅有一个进程，这意味着覆盖永远是在 shell 程序和某个命令程序之间进行的：</li>
-<li>shell 执行命令 A：命令程序 A 覆盖内存中的 shell 代码。</li>
-<li>命令 A 执行结束：shell 覆盖结束的命令 A 的内存代码。<br>然而，在 fork 被引入后，虽然 shell 执行某个命令依然是特定的命令程序覆盖 fork 出来的 shell 子进程，但是当命令执行完毕后，exit 逻辑却不能再让 shell 覆盖当前命令程序了，因为 shell 从来就没有结束过，它作为父进程只是被交换到了磁盘而已（后来内存到了，可以容纳多个进程时，连交换都不需要了）。那么 exit 将让谁来覆盖当前进程呢？答案是不用覆盖，按照 exit 的字面意思，它只要结束自己就可以了。本着自己的资源自己管理的责任原则 exit 只需要清理掉自己分配的资源即可。比如清理掉自己的内存空间以及一些其它的数据结构。对于子进程本身而言，由于它是父进程生成的，所以它便由父进程来管理释放。于是经典的 UNIX 进程管理四件套正式形成：</li>
+<li>交换技术指的是用将进程的内存映像交换到磁盘，载入一个别的进程磁盘映像。</li>
 </ul>
+<p>使用交换技术解决覆盖的问题，意味着要创建新的进程：</p>
+<ul>
+<li>在新的进程中执行命令程序。</li>
+</ul>
+<p>UNIX 需要进行改动，两个配额的进程表显然不够用了。当然，解决方案也并不麻烦：现在，剩下唯一的问题就是如何创建新进程了！谁来临门一脚呢？要讲效率，创造不如抄袭，创建新进程的最直接的就是 copy 当前 shell 进程，在 copy 的新进程中执行覆盖，命令程序覆盖 copy 的新进程，而当前的终端 shell 进程则被交换到磁盘保得全身。覆盖和交换相结合了，UNIX 离现代化更近了一步！确定了 copy 当前进程的方案后，进一步的问题是如何来 copy 进程。现在要说回 fork 了。Conway 提出 fork 思想后，马上就有了 fork 的实现原型（正如 Conway 自己所说，他只是提出了一个可能造就存在的想法，并没有实现它），Project Genie 算是实现 fork 比较完善的系统之一了。Project Genie 系统的 fork 不仅仅是盲目地 copy 进程，它对 fork 的过程拥有精细的控制权，比如分配多大的内存空间，copy 哪些必要的资源等等。显然，Project Genie 的 fork 是冲着 Conway 的多处理器并行逻辑去的。还是那句话，创造不如抄袭，UNIX 若想实现进程 copy，有一个现成的模版就是 Project Genie，但是 Project Genie 的 fork 对于 UNIX 太过复杂，太过精细化了，UNIX 显然用不到这些精细的控制， UNIX 仅仅是想让 fork 出来的新进程被覆盖，而不是让它去执行什么多处理器上的并行逻辑。换句话说，UNIX 只是借用了 fork 的 copy 逻辑的实现，来完成一件别的事。于是，UNIX 非常粗暴的实现了 fork！即完全 copy 父进程，这就是直到现在我们依然在使用的 fork 系统调用：没有参数，非常简洁，显得这很优雅。取了个巧，奇技淫巧：</p>
+<ul>
+<li>fork 本来就不是让你用来覆盖新进程的，不然为何多此一举。fork 是让你来分解程序流程得以并行处理的。<br>UNIX fork 就此诞生！我们再次回顾一下 UNIX fork 诞生之前的景象：每个终端单一的进程兜兜转转循环覆盖，再没有别的可能性。再来看看 fork 诞生之后的景象：有了 fork 之后，UNIX 进程便可以组合出无限的可能，正式成为一个名副其实的多用户多进程现代操作系统了。<code>fork</code>孕育了无限的可能性（Linux 上可用 <code>pstree</code>命令观测）：于是 UNIX 正式迈开了现代化建设的步伐，一直走到了今天。</li>
+</ul>
+<p>关于 exec，故事没什么好讲的，它事实上就是关于上述覆盖逻辑的封装，此后程序员不必自己写覆盖逻辑了，直接调用<code>exec</code>系统调用即可。于是经典的 UNIX <code>fork-exec</code>序列便形成了。<br>值得一提的是，fork 被引入 UNIX 后，exit 的语义发生了巨大的改变。在原始的 1969 年汤普森版 UNIX 中，由于每一个终端有且仅有一个进程，这意味着覆盖永远是在 shell 程序和某个命令程序之间进行的：</p>
+<ul>
+<li>shell 执行命令 A：命令程序 A 覆盖内存中的 shell 代码。</li>
+<li>命令 A 执行结束：shell 覆盖结束的命令 A 的内存代码。</li>
+</ul>
+<p>然而，在<code>fork</code>被引入后，虽然 shell 执行某个命令依然是特定的命令程序覆盖 <code>fork</code>出来的 shell 子进程，但是当命令执行完毕后，exit 逻辑却不能再让 shell 覆盖当前命令程序了，因为 shell 从来就没有结束过，它作为父进程只是被交换到了磁盘而已（后来内存到了，可以容纳多个进程时，连交换都不需要了）。那么 exit 将让谁来覆盖当前进程呢？答案是不用覆盖，按照 exit 的字面意思，它只要结束自己就可以了。本着自己的资源自己管理的责任原则 exit 只需要清理掉自己分配的资源即可。比如清理掉自己的内存空间以及一些其它的数据结构。对于子进程本身而言，由于它是父进程生成的，所以它便由父进程来管理释放。</p>
 
             </div>
             <hr />
@@ -584,7 +597,7 @@
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="Linux-fork-risk">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Linux-fork-risk">
                         
                         <span class="card-title">Linux-fork-risk</span>
                     </div>
@@ -592,7 +605,7 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            fork 是一个拥有 50 年历史的陈年系统调用，它是一个传奇！时至今日，它依旧灿烂。一个程序员可以永远不用 read/write，也可以不懂 mmap，但必须懂 fork。这是一种格调！fork 没有参数，它是如此简单，是 UNIX 哲学
+                            fork是一个拥有 50 年历史的陈年系统调用，它是一个传奇！时至今日，它依旧灿烂。一个程序员可以永远不用 read/write，也可以不懂 mmap，但必须懂 fork。这是一种格调！fork没有参数，它是如此简单，是 UNIX 哲学的布
                         
                     </div>
                     <div class="publish-info">
@@ -633,7 +646,7 @@
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Linux-数据类型-json">
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="Linux-数据类型-json">
                         
                         <span class="card-title">Linux-数据类型-json</span>
                     </div>
@@ -839,7 +852,7 @@
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">79.8k</span>
+            <span class="white-color">77.7k</span>
             
 
             <br>

@@ -47,7 +47,7 @@
     <link href="https://wuhangchen.github.io/2019/11/18/linux-dong-tai-lian-jie-yu-jing-tai-lian-jie/"/>
     <id>https://wuhangchen.github.io/2019/11/18/linux-dong-tai-lian-jie-yu-jing-tai-lian-jie/</id>
     <published>2019-11-18T04:00:00.000Z</published>
-    <updated>2026-09-03T07:04:32.096Z</updated>
+    <updated>2026-09-03T11:20:24.060Z</updated>
     
     <summary type="html">
     
@@ -55,8 +55,7 @@
       
         
         
-          &lt;p&gt;库是写好的现有的，成熟的，可以复用的代码。现实中每个程序都要依赖很多基础的底层库，不可能每个人的代码都从零开始，因此库的存在意义非同寻常。&lt;/p&gt;
-&lt;p&gt;本质上来说库是一种可执行代码的二进制形式，可以被操作系统载入内存执行。库有两种：静态库（.a、.lib）和动态库（.so
+          &lt;p&gt;库是写好的现有的，成熟的，可以复用的代码。现实中每个程序都要依赖很多基础的底层库，不可能每个人的代码都从零开始，因此库的存在意义非同寻常。&lt;br&gt;本质上来说库是一种可执行代码的二进制形式，可以被操作系统载入内存执行。&lt;br&gt;库有两种：静态库（.a、.lib）和动态库（.so
         
       
     
@@ -74,7 +73,7 @@
     <link href="https://wuhangchen.github.io/2019/11/06/linux-nc/"/>
     <id>https://wuhangchen.github.io/2019/11/06/linux-nc/</id>
     <published>2019-11-06T04:00:00.000Z</published>
-    <updated>2026-09-03T07:04:32.096Z</updated>
+    <updated>2026-09-03T11:26:35.123Z</updated>
     
     <summary type="html">
     
@@ -82,7 +81,7 @@
       
         
         
-          &lt;p&gt;Netcat 号称 TCP/IP 的瑞士军刀并非浪得虚名，以体积小（可执行 200KB）功能灵活而著称，在各大发行版中都默认安装，你可以用它来做很多网络相关的工作，熟练使用它可以不依靠其他工具做一些很有用的事情。最初作者是叫做“霍比特人”的网友 Hobbit &lt;a
+          &lt;p&gt;&lt;code&gt;netcat&lt;/code&gt;号称 TCP/IP 的瑞士军刀并非浪得虚名，以体积小（可执行 200KB）功能灵活而著称，在各大发行版中都默认安装，你可以用它来做很多网络相关的工作，熟练使用它可以不依靠其他工具做一些很有用的事情。netcat 主要有 GNU 版本的
         
       
     
@@ -100,7 +99,7 @@
     <link href="https://wuhangchen.github.io/2019/10/25/linux-fork-interview/"/>
     <id>https://wuhangchen.github.io/2019/10/25/linux-fork-interview/</id>
     <published>2019-10-25T04:00:00.000Z</published>
-    <updated>2026-09-03T07:04:32.096Z</updated>
+    <updated>2026-09-04T03:29:25.342Z</updated>
     
     <summary type="html">
     
@@ -126,7 +125,7 @@
     <link href="https://wuhangchen.github.io/2019/10/13/linux-fork-clone/"/>
     <id>https://wuhangchen.github.io/2019/10/13/linux-fork-clone/</id>
     <published>2019-10-13T04:00:00.000Z</published>
-    <updated>2026-09-03T07:04:32.096Z</updated>
+    <updated>2026-09-07T07:18:33.818Z</updated>
     
     <summary type="html">
     
@@ -134,7 +133,7 @@
       
         
         
-          &lt;p&gt;在本文中，传统 UNIX fork 之后，我给出传统的 UNIX fork 在 Linux 内核中的变体 clone 系统调用的精彩。若要理解 fork 的原始意义，还是要看 Melvin Conway 提出 fork 思想的原始论文 A Multiprocessor
+          &lt;p&gt;在本文中，传统 UNIX fork 之后，我给出传统的 UNIX fork 在 Linux 内核中的变体 clone 系统调用的精彩。若要理解 fork 的原始意义，还是要看 Melvin Conway 提出 fork 思想的原始论文 &lt;a
         
       
     
@@ -152,7 +151,7 @@
     <link href="https://wuhangchen.github.io/2019/10/01/linux-fork-risk/"/>
     <id>https://wuhangchen.github.io/2019/10/01/linux-fork-risk/</id>
     <published>2019-10-01T04:00:00.000Z</published>
-    <updated>2026-09-03T07:04:32.096Z</updated>
+    <updated>2026-09-07T11:33:19.725Z</updated>
     
     <summary type="html">
     
@@ -160,7 +159,7 @@
       
         
         
-          &lt;p&gt;fork 是一个拥有 50 年历史的陈年系统调用，它是一个传奇！时至今日，它依旧灿烂。一个程序员可以永远不用 read/write，也可以不懂 mmap，但必须懂 fork。这是一种格调！fork 没有参数，它是如此简单，是 UNIX
+          &lt;p&gt;&lt;code&gt;fork&lt;/code&gt;是一个拥有 50 年历史的陈年系统调用，它是一个传奇！时至今日，它依旧灿烂。一个程序员可以永远不用 &lt;code&gt;read/write&lt;/code&gt;，也可以不懂 &lt;code&gt;mmap&lt;/code&gt;，但必须懂
         
       
     
@@ -178,7 +177,7 @@
     <link href="https://wuhangchen.github.io/2019/09/19/linux-fork-pre/"/>
     <id>https://wuhangchen.github.io/2019/09/19/linux-fork-pre/</id>
     <published>2019-09-19T04:00:00.000Z</published>
-    <updated>2026-09-03T07:04:32.095Z</updated>
+    <updated>2026-09-07T11:55:01.905Z</updated>
     
     <summary type="html">
     
@@ -186,7 +185,7 @@
       
         
         
-          &lt;p&gt;fork 的思想在 UNIX 出现几年前就出现了，时间大概是 1963 年，这比 UNIX 在 PDP-7 上的第一个版本早了 6 年。1963 年，计算机科学家 Melvin Conway（以 Conway’s Law 闻名于世）写下一篇论文，正式提出了 fork
+          &lt;p&gt;&lt;code&gt;fork&lt;/code&gt;的思想在 UNIX 出现几年前就出现了，时间大概是 1963 年，这比 UNIX 在 PDP-7 上的第一个版本早了6年。1963 年，计算机科学家 Melvin
         
       
     

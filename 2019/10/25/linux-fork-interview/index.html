@@ -248,7 +248,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -404,7 +404,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    889
+                    876
                 </div>
                 
 
@@ -428,42 +428,39 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>前两天有人问了个关于 Unix 的 fork()系统调用的面试题，这个题正好是我大约几年前找工作时某公司问我的一个题，我觉得比较有趣，写篇文章与大家分享一下。这个题是这样的：每一轮 <code>fork</code> 操作产生的新进程数量是当前正在运行的进程数量。题目：请问下面的程序一共输出多少个“-”？</p>
-<pre class="line-numbers language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
 <span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;sys/types.h></span></span>
 <span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;unistd.h></span></span>
 <span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token punctuation">{</span>
-        <span class="token keyword">int</span> i<span class="token punctuation">;</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span>i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span><span class="token number">2</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-                <span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"-"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-        <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span>i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span><span class="token number">2</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"-"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>如果你对 <code>fork()</code> 的机制比较熟悉的话，这个题并不难，输出应该是 6 个“-”，但是，实际上这个程序会很 tricky 地输出 8 个“-”。要讲清这个题，我们首先需要知道 <code>fork()</code> 系统调用的特性，</p>
+<p>如果你对 <code>fork()</code> 的机制比较熟悉的话，这个题并不难，输出应该是 6 个“-”，但是，实际上这个程序会很<code>tricky</code>地输出 8 个“-”。要讲清这个题，我们首先需要知道 <code>fork()</code> 系统调用的特性，</p>
 <ul>
-<li><code>fork()</code> 系统调用是 Unix 下以自身进程创建子进程的系统调用，一次调用，两次返回，如果返回是 0，则是子进程，如果返回值&gt;0，则是父进程（返回值是子进程的 pid），这是众所周知的。</li>
-<li>还有一个很重要的东西是，在 fork()的调用处，整个父进程空间会原模原样地复制到子进程中，包括指令，变量值，程序调用栈，环境变量，缓冲区，等等。<br>所以，上面的那个程序为什么会输入 8 个“-”，这是因为 <code>printf(“-“)</code>；语句有 buffer，所以，对于上述程序，<code>printf(“-“)</code>；把“-”放到了缓存中，并没有真正的输出（参看《C 语言的迷题》中的第一题），在 fork 的时候，缓存被复制到了子进程空间，所以，就多了两个，就成了 8 个，而不是 6 个。另外，多说一下，我们知道，Unix 下的设备有“块设备”和“字符设备”的概念，所谓块设备，就是以一块一块的数据存取的设备，字符设备是一次存取一个字符的设备。磁盘、内存都是块设备，字符设备如键盘和串口。块设备一般都有缓存，而字符设备一般都没有缓存。对于上面的问题，我们如果修改一下上面的 printf 的那条语句为：<pre class="line-numbers language-text"><code class="language-text">printf("-\n");<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-或是<pre class="line-numbers language-text"><code class="language-text">printf("-");
-fflush(stdout);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-就没有问题了（就是 6 个“-”了），因为程序遇到 <code>“\n”</code>，或是 EOF，或是缓冲区满，或是文件描述符关闭，或是主动 flush，或是程序退出，就会把数据刷出缓冲区。需要注意的是，标准输出是行缓冲，所以遇到“\n”的时候会刷出缓冲区，但对于磁盘这个块设备来说，“\n”并不会引起缓冲区刷出的动作，那是全缓冲，你可以使用 setvbuf 来设置缓冲区大小，或是用 fflush 刷缓存。我估计有些朋友可能对于 fork()还不是很了解，那么我们把上面的程序改成下面这样：<pre class="line-numbers language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<li><code>fork()</code> 系统调用是 Unix 下以自身进程创建子进程的系统调用，一次调用，两次返回，如果返回是 0，则是子进程，如果返回值&gt;0，则是父进程（返回值是子进程的 <code>pid</code>），这是众所周知的。</li>
+<li>还有一个很重要的东西是，在 <code>fork()</code>的调用处，整个父进程空间会原模原样地复制到子进程中，包括指令，变量值，程序调用栈，环境变量，缓冲区，等等。<br>所以，上面的那个程序为什么会输入 8 个“-”，这是因为 <code>printf(“-“)</code>；语句有 buffer，所以，对于上述程序，<code>printf(“-“)</code>；把“-”放到了缓存中，并没有真正的输出，在<code>fork</code>的时候，缓存被复制到了子进程空间，所以，就多了两个，就成了 8 个，而不是 6 个。另外，多说一下，我们知道，Unix 下的设备有“块设备”和“字符设备”的概念，所谓块设备，就是以一块一块的数据存取的设备，字符设备是一次存取一个字符的设备。磁盘、内存都是块设备，字符设备如键盘和串口。块设备一般都有缓存，而字符设备一般都没有缓存。对于上面的问题，我们如果修改一下上面的<code>printf</code>的那条语句为：<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"-\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+或是<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"-"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">fflush</span><span class="token punctuation">(</span><span class="token constant">stdout</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+就没有问题了（就是 6 个“-”了），因为程序遇到 <code>“\n”</code>，或是 EOF，或是缓冲区满，或是文件描述符关闭，或是主动<code>flush</code>，或是程序退出，就会把数据刷出缓冲区。需要注意的是，标准输出是行缓冲，所以遇到“\n”的时候会刷出缓冲区，但对于磁盘这个块设备来说，“\n”并不会引起缓冲区刷出的动作，那是全缓冲，你可以使用<code>setvbuf</code>来设置缓冲区大小，或是用<code>fflush</code>刷缓存。我估计有些朋友可能对于<code>fork()</code>还不是很了解，那么我们把上面的程序改成下面这样：<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
 <span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;sys/types.h></span></span>
 <span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;unistd.h></span></span>
 <span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>
 <span class="token punctuation">{</span>
-      <span class="token keyword">int</span> i<span class="token punctuation">;</span>
-      <span class="token keyword">for</span><span class="token punctuation">(</span>i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span><span class="token number">2</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-              <span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-              <span class="token comment" spellcheck="true">//注意：下面的printf有“\n”</span>
-              <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"ppid=%d, pid=%d, i=%d \n"</span><span class="token punctuation">,</span> <span class="token function">getppid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">getpid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> i<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span>
-      <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//让进程停留十秒，这样我们可以用pstree查看一下进程树</span>
-      <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+  <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+  <span class="token keyword">for</span><span class="token punctuation">(</span>i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span><span class="token number">2</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+      <span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">//注意：下面的printf有“\n”</span>
+      <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"ppid=%d, pid=%d, i=%d \n"</span><span class="token punctuation">,</span> <span class="token function">getppid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">getpid</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//让进程停留十秒，这样我们可以用pstree查看一下进程树</span>
+  <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-</ul>
-<p>于是，上面这段程序会输出下面的结果，（注：编译出的可执行的程序名为 <code>fork</code>）</p>
-<pre class="line-numbers language-bash"><code class="language-bash">ppid<span class="token operator">=</span>8858, pid<span class="token operator">=</span>8518, i<span class="token operator">=</span>0
+于是，上面这段程序会输出下面的结果，（注：编译出的可执行的程序名为 <code>fork</code>）<pre class="line-numbers language-bash"><code class="language-bash">ppid<span class="token operator">=</span>8858, pid<span class="token operator">=</span>8518, i<span class="token operator">=</span>0
 ppid<span class="token operator">=</span>8858, pid<span class="token operator">=</span>8518, i<span class="token operator">=</span>1
 ppid<span class="token operator">=</span>8518, pid<span class="token operator">=</span>8519, i<span class="token operator">=</span>0
 ppid<span class="token operator">=</span>8518, pid<span class="token operator">=</span>8519, i<span class="token operator">=</span>1
@@ -472,6 +469,8 @@ ppid<span class="token operator">=</span>8519, pid<span class="token operator">=
 $ pstree -p <span class="token operator">|</span> <span class="token function">grep</span> fork
 <span class="token operator">|</span>-bash<span class="token punctuation">(</span>8858<span class="token punctuation">)</span>-+-fork<span class="token punctuation">(</span>8518<span class="token punctuation">)</span>-+-fork<span class="token punctuation">(</span>8519<span class="token punctuation">)</span>---fork<span class="token punctuation">(</span>8521<span class="token punctuation">)</span>
 <span class="token operator">|</span> <span class="token operator">|</span> `-fork<span class="token punctuation">(</span>8520<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ul>
 
             </div>
             <hr />
@@ -610,7 +609,7 @@ $ pstree -p <span class="token operator">|</span> <span class="token function">g
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="Linux-nc">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="Linux-nc">
                         
                         <span class="card-title">Linux-nc</span>
                     </div>
@@ -618,7 +617,7 @@ $ pstree -p <span class="token operator">|</span> <span class="token function">g
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Netcat 号称 TCP/IP 的瑞士军刀并非浪得虚名，以体积小（可执行 200KB）功能灵活而著称，在各大发行版中都默认安装，你可以用它来做很多网络相关的工作，熟练使用它可以不依靠其他工具做一些很有用的事情。最初作者是叫做“霍比特人”的
+                            netcat号称 TCP/IP 的瑞士军刀并非浪得虚名，以体积小（可执行 200KB）功能灵活而著称，在各大发行版中都默认安装，你可以用它来做很多网络相关的工作，熟练使用它可以不依靠其他工具做一些很有用的事情。netcat 主要有 GNU 
                         
                     </div>
                     <div class="publish-info">
@@ -659,7 +658,7 @@ $ pstree -p <span class="token operator">|</span> <span class="token function">g
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="Linux-fork-clone">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Linux-fork-clone">
                         
                         <span class="card-title">Linux-fork-clone</span>
                     </div>
@@ -865,7 +864,7 @@ $ pstree -p <span class="token operator">|</span> <span class="token function">g
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">79.8k</span>
+            <span class="white-color">77.7k</span>
             
 
             <br>
