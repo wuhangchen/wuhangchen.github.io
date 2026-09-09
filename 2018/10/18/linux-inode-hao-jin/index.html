@@ -8,8 +8,7 @@
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="Linux 系统下文件数据储存在“块”中，文件的元信息，例如文件的创建者、文件的创建日期、文件的大小等。这种储存文件元信息的区域就叫做 inode，中文译名为“索引节点”。
-inode 也占用硬盘空间，硬盘格式化的时候，操作系统自动将硬盘分">
+    <meta name="description" content="Linux 系统下文件数据储存在块中，文件的元信息，例如文件的创建者、文件的创建日期、文件的大小等。这种储存文件元信息的区域就叫做inode，中文译名为索引节点。inode也占用硬盘空间，硬盘格式化的时候，操作系统自动将硬盘分成两个区域。一">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -249,7 +248,7 @@ inode 也占用硬盘空间，硬盘格式化的时候，操作系统自动将�
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -405,14 +404,14 @@ inode 也占用硬盘空间，硬盘格式化的时候，操作系统自动将�
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    839
+                    793
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    2 分
                 </div>
                 
                 
@@ -428,20 +427,9 @@ inode 也占用硬盘空间，硬盘格式化的时候，操作系统自动将�
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Linux 系统下文件数据储存在“块”中，文件的元信息，例如文件的创建者、文件的创建日期、文件的大小等。这种储存文件元信息的区域就叫做 inode，中文译名为“索引节点”。</p>
-<p>inode 也占用硬盘空间，硬盘格式化的时候，操作系统自动将硬盘分成两个区域。一个是数据区，存放文件数据；另一个是 inode 区（inode table），存放 inode 所包含的信息。</p>
-<p>每个 inode 节点的大小，一般是 128 字节或 256 字节。inode 节点的总数，在格式化时就给定，一般是每 1KB 或每 2KB 就设置一个 inode。假定在一块 1GB 的硬盘中，每个 inode 节点的大小为 128 字节，每 1KB 就设置一个 inode，那么 inode table 的大小就会达到 128MB，占整块硬盘的 12.8%。</p>
-<p>inodes 使用完与存储空间使用完相似，都是创建不了文件或无法正常执行一些命令。inodes 使用完，存储空间可能还有，这种情况一般是生成了大量的小文件，把 inode table 占满。一般情况下存储空间使用完，inodes 往往才使用百分之几，所以容易忽视对 inodes 使用情况的监控。</p>
-<p>借用网图来说明 inodes 用尽，而磁盘空间还未用完的情况：查看磁盘空间使用情况，使用 df 命令。</p>
-<p>查看 inodes 使用情况，使用 df -i 命令。</p>
-<p>上述两个命令可以使用 -h 参数，命令为 <code>df -h</code> 和 <code>df -hi</code>。从图中看见磁盘空间使用 71%，但是 inodes 使用 100%。</p>
-<p>inodes 的大小在磁盘格式化分区时确定，跟分区的大小相关，分区越大，inodes 越大，反之亦然。</p>
-<p>linux 操作系统根目录一般分区比较小，如果有定时性的小文件产生而又未及时清理，则很容易造成 inodes 占满。</p>
-<p>inodes 占满解决步骤：</p>
+                <p>Linux 系统下文件数据储存在块中，文件的元信息，例如文件的创建者、文件的创建日期、文件的大小等。这种储存文件元信息的区域就叫做<code>inode</code>，中文译名为索引节点。<code>inode</code>也占用硬盘空间，硬盘格式化的时候，操作系统自动将硬盘分成两个区域。一个是数据区，存放文件数据；另一个是 <code>inode</code>区，存放<code>inode</code>所包含的信息。每个<code>inode</code>节点的大小，一般是 128 字节或 256 字节。inode 节点的总数，在格式化时就给定，一般是每 1KB 或每 2KB 就设置一个<code>inode</code>。假定在一块 1GB 的硬盘中，每个<code>inode</code>节点的大小为 128 字节，每 1KB 就设置一个<code>inode</code>，那么 inode table 的大小就会达到 128MB，占整块硬盘的 12.8%。<code>inodes</code>使用完与存储空间使用完相似，都是创建不了文件或无法正常执行一些命令。<code>inodes</code>使用完，存储空间可能还有，这种情况一般是生成了大量的小文件，把 inode table 占满。一般情况下存储空间使用完，<code>inodes</code>往往才使用百分之几，所以容易忽视对<code>inodes</code>使用情况的监控。<br>查看 <code>inodes</code>使用情况，使用<code>df -i</code>命令。上述两个命令可以使用 -h 参数，命令为 <code>df -h</code> 和 <code>df -hi</code>。从图中看见磁盘空间使用 71%，但是<code>inodes</code>使用 100%。inodes 的大小在磁盘格式化分区时确定，跟分区的大小相关，分区越大，<code>inodes</code>越大，反之亦然。linux 操作系统根目录一般分区比较小，如果有定时性的小文件产生而又未及时清理，则很容易造成<code>inodes</code>占满。</p>
 <h2 id="查看文件最多的目录"><a href="#查看文件最多的目录" class="headerlink" title="查看文件最多的目录"></a>查看文件最多的目录</h2><pre class="line-numbers language-bash"><code class="language-bash"><span class="token keyword">for</span> i <span class="token keyword">in</span> /*<span class="token punctuation">;</span> <span class="token keyword">do</span> <span class="token keyword">echo</span> <span class="token variable">$i</span><span class="token punctuation">;</span> <span class="token function">find</span> <span class="token variable">$i</span> <span class="token operator">|</span> <span class="token function">wc</span> -l<span class="token punctuation">;</span> <span class="token keyword">done</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>如果确定目录范围，把 <code>/*</code> 写的具体点。</p>
-<p>最终发现是 <code>/var/spool/postfix/maildrop</code> 目录下小文件过多，原因如下：由于 linux 在执行 cron 时，会将 cron 执行脚本中的 output 和 warning 信息，都会以邮件的形式发送给 cron 所有者。由于客户环境中的 sendmail 和 postfix 没有正常运行，邮件发送不成功，导致全部小文件都堆积在 maildrop 目录下，另由于缺乏自动清理的机制，故此目录下堆积了大量的文件。</p>
-<p>经过排查 root 用户下发现有个每分钟进行一次时钟同步的定时任务，该定时任务每分钟产生一个小文件。</p>
+<p>如果确定目录范围，把 <code>/*</code> 写的具体点。<br>最终发现是 <code>/var/spool/postfix/maildrop</code> 目录下小文件过多，原因如下：由于 linux 在执行<code>cron</code>时，会将<code>cron</code>执行脚本中的 output 和 warning 信息，都会以邮件的形式发送给<code>cron</code>所有者。由于客户环境中的 sendmail 和 postfix 没有正常运行，邮件发送不成功，导致全部小文件都堆积在 maildrop 目录下，另由于缺乏自动清理的机制，故此目录下堆积了大量的文件。经过排查 root 用户下发现有个每分钟进行一次时钟同步的定时任务，该定时任务每分钟产生一个小文件。</p>
 <h2 id="删除大量文件"><a href="#删除大量文件" class="headerlink" title="删除大量文件"></a>删除大量文件</h2><pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">ls</span> <span class="token operator">|</span> <span class="token function">xargs</span> -n 1000 <span class="token function">rm</span> -rf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>需要使用 xargs 命令，不然会删除失败。</p>
 <h3 id="设置方面"><a href="#设置方面" class="headerlink" title="设置方面"></a>设置方面</h3><p>在 crontab -e 第一行增加 <code>MAILTO=&quot;&quot;</code>，就没有文件产生啦。</p>
@@ -587,7 +575,7 @@ inode 也占用硬盘空间，硬盘格式化的时候，操作系统自动将�
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="Linux 技巧">
+                        <img src="/medias/featureimages/25.jpg" class="responsive-img" alt="Linux 技巧">
                         
                         <span class="card-title">Linux 技巧</span>
                     </div>
@@ -595,9 +583,9 @@ inode 也占用硬盘空间，硬盘格式化的时候，操作系统自动将�
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            如果要谨慎使用 rm 命令，可以为它设置一个别名，在删除文件之前需要进行确认才能删除。有些系统管理员会默认使用这个别名，对于这种情况，你可能需要看看下一个技巧。
+                            如果要谨慎使用rm命令，可以为它设置一个别名，在删除文件之前需要进行确认才能删除。有些系统管理员会默认使用这个别名，对于这种情况，你可能需要看看下一个技巧。
 $ rm -i    &lt;== 请求确认
-你可以使用 unalias 命令
+你可以使用unalias命令以交互方
                         
                     </div>
                     <div class="publish-info">
@@ -638,7 +626,7 @@ $ rm -i    &lt;== 请求确认
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="Linux grep文本查找">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="Linux grep文本查找">
                         
                         <span class="card-title">Linux grep文本查找</span>
                     </div>
@@ -646,9 +634,8 @@ $ rm -i    &lt;== 请求确认
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            之前介绍过很多 linux 下查找相关的命令，而对文件内容搜索的命令似乎还没有涉及，因此本文介绍文本搜索命令–grep。
-我们会经常结合管道符（|）来使用它，即在前面命令执行的结果中查找包含相关字符串的内容。例如：
-$ ps -ef | g
+                            之前介绍过很多 linux 下查找相关的命令，而对文件内容搜索的命令似乎还没有涉及，因此本文介绍文本搜索命令grep。我们会经常结合管道符（|）来使用它，即在前面命令执行的结果中查找包含相关字符串的内容。例如：
+$ ps -ef | gre
                         
                     </div>
                     <div class="publish-info">
@@ -846,7 +833,7 @@ $ ps -ef | g
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">77.7k</span>
+            <span class="white-color">76.7k</span>
             
 
             <br>

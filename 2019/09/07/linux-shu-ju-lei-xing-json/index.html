@@ -8,7 +8,9 @@
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="前几天，我才知道有一种简化的数据交换格式，叫做 yaml。我翻了一遍它的文档，看懂的地方不多，但是有一句话令我茅塞顿开。它说，从结构上看，所有的数据最终都可以分解成三种类型：第一种类型是标量scalar，也就是一个单独的字符串string或">
+    <meta name="description" content="前几天，我才知道有一种简化的数据交换格式，叫做 yaml。我翻了一遍它的文档，看懂的地方不多，但是有一句话令我茅塞顿开。它说，从结构上看，所有的数据最终都可以分解成三种类型：
+
+第一种类型是标量scalar，也就是一个单独的字符串strin">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -248,7 +250,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -404,14 +406,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    946
+                    809
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    2 分
                 </div>
                 
                 
@@ -427,27 +429,38 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>前几天，我才知道有一种简化的数据交换格式，叫做 yaml。我翻了一遍它的文档，看懂的地方不多，但是有一句话令我茅塞顿开。<br>它说，从结构上看，所有的数据最终都可以分解成三种类型：<br>第一种类型是标量<code>scalar</code>，也就是一个单独的字符串<code>string</code>或数字<code>numbers</code>，比如“北京”这个单独的词。<br>第二种类型是序列<code>sequence</code>，也就是若干个相关的数据按照一定顺序并列在一起，又叫做数组<code>array</code>或列表<code>List</code>，比如“北京，上海”。<br>第三种类型是映射<code>mapping</code>，也就是一个名/值对<code>name/value</code>，即数据有一个名称，还有一个与之相对应的值，这又称作散列<code>hash</code>或字典<code>dictionary</code>，比如“首都：北京”。<br>我恍然大悟，数据构成的最小单位原来如此简单！难怪在编程语言中，只要有了数组<code>array</code>和对象<code>object</code>就能够储存一切数据了。我马上想到了 json。21 世纪初，Douglas Crockford 寻找一种简便的数据交换格式，能够在服务器之间交换数据。当时通用的数据交换语言是 XML，但是 Douglas Crockford 觉得 XML 的生成和解析都太麻烦，所以他提出了一种简化格式，也就是 Json。Json 的规格非常简单，只用一个页面几百个字就能说清楚，而且 Douglas Crockford 声称这个规格永远不必升级，因为该规定的都规定了。</p>
+                <p>前几天，我才知道有一种简化的数据交换格式，叫做 yaml。我翻了一遍它的文档，看懂的地方不多，但是有一句话令我茅塞顿开。<br>它说，从结构上看，所有的数据最终都可以分解成三种类型：</p>
+<ul>
+<li>第一种类型是标量<code>scalar</code>，也就是一个单独的字符串<code>string</code>或数字<code>numbers</code>，比如“北京”这个单独的词。</li>
+<li>第二种类型是序列<code>sequence</code>，也就是若干个相关的数据按照一定顺序并列在一起，又叫做数组<code>array</code>或列表<code>List</code>，比如“北京，上海”。</li>
+<li>第三种类型是映射<code>mapping</code>，也就是一个名值对<code>name/value</code>，即数据有一个名称，还有一个与之相对应的值，这又称作散列<code>hash</code>或字典<code>dictionary</code>，比如“首都：北京”。</li>
+</ul>
+<p>我恍然大悟，数据构成的最小单位原来如此简单！难怪在编程语言中，只要有了数组<code>array</code>和对象<code>object</code>就能够储存一切数据了。</p>
 <ul>
 <li>并列的数据之间用逗号（”, “）分隔。</li>
 <li>映射用冒号（”: “）表示。</li>
 <li>并列数据的集合（数组）用方括号(“[]”)表示。</li>
-<li>映射的集合（对象）用大括号（”{}”）表示。<br>上面四条规则，就是 Json 格式的所有内容。比如，下面这句话：<pre class="line-numbers language-text"><code class="language-text">北京市的面积为 16800 平方公里，常住人口 1600 万人。
+<li>映射的集合（对象）用大括号（”{}”）表示。</li>
+</ul>
+<p>上面四条规则，就是 Json 格式的所有内容。比如，下面这句话：</p>
+<pre class="line-numbers language-text"><code class="language-text">北京市的面积为 16800 平方公里，常住人口 1600 万人。
 上海市的面积为 6400 平方公里，常住人口 1800 万。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-写成 json 格式就是这样：<pre class="line-numbers language-text"><code class="language-text">[
-  {"城市":"北京","面积":16800,"人口":1600},
-  {"城市":"上海","面积":6400,"人口":1800}
+<p>写成 json 格式就是这样：</p>
+<pre class="line-numbers language-text"><code class="language-text">[
+    {"城市":"北京","面积":16800,"人口":1600},
+    {"城市":"上海","面积":6400,"人口":1800}
 ]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-如果事先知道数据的结构，上面的写法还可以进一步简化：<pre class="line-numbers language-text"><code class="language-text">[
-  ["北京",16800,1600],
-  ["上海",6400,1800]
+<p>如果事先知道数据的结构，上面的写法还可以进一步简化：</p>
+<pre class="line-numbers language-text"><code class="language-text">[
+    ["北京",16800,1600],
+    ["上海",6400,1800]
 ]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-由此可以看到，json 非常易学易用。所以，在短短几年中，它就取代 xml，成为了互联网上最受欢迎的数据交换格式。我猜想，Douglas Crockford 一定事先就知道，数据结构可以简化成三种形式，否则怎么可能将 json 定义得如此精炼呢！学习 javascript 的时候，我曾经一度搞不清楚“数组”(array)和“对象”(object)的根本区别在哪里，两者都可以用来表示数据的集合。比如有一个数组 <code>a=[1,2,3,4]</code>，还有一个对象 <code>a={0:1,1:2,2:3,3:4}</code>，然后你运行 <code>alert(a[1])</code>，两种情况下的运行结果是相同的！这就是说，数据集合既可以用数组表示，也可以用对象表示，那么我到底该用哪一种呢？我后来才知道，数组表示有序数据的集合，而对象表示无序数据的集合。如果数据的顺序很重要，就用数组，否则就用对象。当然，数组和对象的另一个区别是，数组的数据没有“名称”（name），对象的数据有“名称”（name）。但是问题是，很多编程语言中，都有一种叫做“关联数组” <code>associative array</code>的东西。这种数组中的数据是有名称的。比如在 javascript 中，可以这样定义一个对象：<pre class="line-numbers language-text"><code class="language-text">var a={"城市":"北京","面积":16800,"人口":1600};<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-但是，也可以定义成一个关联数组：<pre class="line-numbers language-text"><code class="language-text">a["城市"]="北京";
+<p>由此可以看到，json 非常易学易用。所以，在短短几年中，它就取代 xml，成为了互联网上最受欢迎的数据交换格式。我猜想，Douglas Crockford 一定事先就知道，数据结构可以简化成三种形式，否则怎么可能将 json 定义得如此精炼呢！学习 javascript 的时候，我曾经一度搞不清楚数组和对象的根本区别在哪里，两者都可以用来表示数据的集合。比如有一个数组 <code>a=[1,2,3,4]</code>，还有一个对象 <code>a={0:1,1:2,2:3,3:4}</code>，然后你运行 <code>alert(a[1])</code>，两种情况下的运行结果是相同的！这就是说，数据集合既可以用数组表示，也可以用对象表示，那么我到底该用哪一种呢？我后来才知道，数组表示有序数据的集合，而对象表示无序数据的集合。如果数据的顺序很重要，就用数组，否则就用对象。当然，数组和对象的另一个区别是，数组的数据没有名称，对象的数据有名称。但是问题是，很多编程语言中，都有一种叫做关联数组<code>associative array</code>的东西。这种数组中的数据是有名称的。比如在 javascript 中，可以这样定义一个对象：</p>
+<pre class="line-numbers language-text"><code class="language-text">var a={"城市":"北京","面积":16800,"人口":1600};<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>但是，也可以定义成一个关联数组：</p>
+<pre class="line-numbers language-text"><code class="language-text">a["城市"]="北京";
 a["面积"]=16800;
 a["人口"]=1600;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-</li>
-</ul>
 
             </div>
             <hr />
@@ -586,7 +599,7 @@ a["人口"]=1600;<span aria-hidden="true" class="line-numbers-rows"><span></span
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Linux-fork-Pre">
+                        <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="Linux-fork-Pre">
                         
                         <span class="card-title">Linux-fork-Pre</span>
                     </div>
@@ -635,7 +648,7 @@ a["人口"]=1600;<span aria-hidden="true" class="line-numbers-rows"><span></span
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="右值引用">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="右值引用">
                         
                         <span class="card-title">右值引用</span>
                     </div>
@@ -844,7 +857,7 @@ int&amp; j = i;
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">77.7k</span>
+            <span class="white-color">76.7k</span>
             
 
             <br>

@@ -248,7 +248,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/27.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -451,9 +451,9 @@
 </ul>
 <p>UNIX 需要进行改动，两个配额的进程表显然不够用了。当然，解决方案也并不麻烦：现在，剩下唯一的问题就是如何创建新进程了！谁来临门一脚呢？要讲效率，创造不如抄袭，创建新进程的最直接的就是 copy 当前 shell 进程，在 copy 的新进程中执行覆盖，命令程序覆盖 copy 的新进程，而当前的终端 shell 进程则被交换到磁盘保得全身。覆盖和交换相结合了，UNIX 离现代化更近了一步！确定了 copy 当前进程的方案后，进一步的问题是如何来 copy 进程。现在要说回 fork 了。Conway 提出 fork 思想后，马上就有了 fork 的实现原型（正如 Conway 自己所说，他只是提出了一个可能造就存在的想法，并没有实现它），Project Genie 算是实现 fork 比较完善的系统之一了。Project Genie 系统的 fork 不仅仅是盲目地 copy 进程，它对 fork 的过程拥有精细的控制权，比如分配多大的内存空间，copy 哪些必要的资源等等。显然，Project Genie 的 fork 是冲着 Conway 的多处理器并行逻辑去的。还是那句话，创造不如抄袭，UNIX 若想实现进程 copy，有一个现成的模版就是 Project Genie，但是 Project Genie 的 fork 对于 UNIX 太过复杂，太过精细化了，UNIX 显然用不到这些精细的控制， UNIX 仅仅是想让 fork 出来的新进程被覆盖，而不是让它去执行什么多处理器上的并行逻辑。换句话说，UNIX 只是借用了 fork 的 copy 逻辑的实现，来完成一件别的事。于是，UNIX 非常粗暴的实现了 fork！即完全 copy 父进程，这就是直到现在我们依然在使用的 fork 系统调用：没有参数，非常简洁，显得这很优雅。取了个巧，奇技淫巧：</p>
 <ul>
-<li>fork 本来就不是让你用来覆盖新进程的，不然为何多此一举。fork 是让你来分解程序流程得以并行处理的。<br>UNIX fork 就此诞生！我们再次回顾一下 UNIX fork 诞生之前的景象：每个终端单一的进程兜兜转转循环覆盖，再没有别的可能性。再来看看 fork 诞生之后的景象：有了 fork 之后，UNIX 进程便可以组合出无限的可能，正式成为一个名副其实的多用户多进程现代操作系统了。<code>fork</code>孕育了无限的可能性（Linux 上可用 <code>pstree</code>命令观测）：于是 UNIX 正式迈开了现代化建设的步伐，一直走到了今天。</li>
+<li>fork 本来就不是让你用来覆盖新进程的，不然为何多此一举。fork 是让你来分解程序流程得以并行处理的。</li>
 </ul>
-<p>关于 exec，故事没什么好讲的，它事实上就是关于上述覆盖逻辑的封装，此后程序员不必自己写覆盖逻辑了，直接调用<code>exec</code>系统调用即可。于是经典的 UNIX <code>fork-exec</code>序列便形成了。<br>值得一提的是，fork 被引入 UNIX 后，exit 的语义发生了巨大的改变。在原始的 1969 年汤普森版 UNIX 中，由于每一个终端有且仅有一个进程，这意味着覆盖永远是在 shell 程序和某个命令程序之间进行的：</p>
+<p>UNIX fork 就此诞生！我们再次回顾一下 UNIX fork 诞生之前的景象：每个终端单一的进程兜兜转转循环覆盖，再没有别的可能性。再来看看 fork 诞生之后的景象：有了 fork 之后，UNIX 进程便可以组合出无限的可能，正式成为一个名副其实的多用户多进程现代操作系统了。<code>fork</code>孕育了无限的可能性（Linux 上可用 <code>pstree</code>命令观测）：于是 UNIX 正式迈开了现代化建设的步伐，一直走到了今天。<br>关于 exec，故事没什么好讲的，它事实上就是关于上述覆盖逻辑的封装，此后程序员不必自己写覆盖逻辑了，直接调用<code>exec</code>系统调用即可。于是经典的 UNIX <code>fork-exec</code>序列便形成了。<br>值得一提的是，fork 被引入 UNIX 后，exit 的语义发生了巨大的改变。在原始的 1969 年汤普森版 UNIX 中，由于每一个终端有且仅有一个进程，这意味着覆盖永远是在 shell 程序和某个命令程序之间进行的：</p>
 <ul>
 <li>shell 执行命令 A：命令程序 A 覆盖内存中的 shell 代码。</li>
 <li>命令 A 执行结束：shell 覆盖结束的命令 A 的内存代码。</li>
@@ -597,7 +597,7 @@
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Linux-fork-risk">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Linux-fork-risk">
                         
                         <span class="card-title">Linux-fork-risk</span>
                     </div>
@@ -646,7 +646,7 @@
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="Linux-数据类型-json">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Linux-数据类型-json">
                         
                         <span class="card-title">Linux-数据类型-json</span>
                     </div>
@@ -654,7 +654,9 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            前几天，我才知道有一种简化的数据交换格式，叫做 yaml。我翻了一遍它的文档，看懂的地方不多，但是有一句话令我茅塞顿开。它说，从结构上看，所有的数据最终都可以分解成三种类型：第一种类型是标量scalar，也就是一个单独的字符串string或
+                            前几天，我才知道有一种简化的数据交换格式，叫做 yaml。我翻了一遍它的文档，看懂的地方不多，但是有一句话令我茅塞顿开。它说，从结构上看，所有的数据最终都可以分解成三种类型：
+
+第一种类型是标量scalar，也就是一个单独的字符串strin
                         
                     </div>
                     <div class="publish-info">
@@ -852,7 +854,7 @@
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">77.7k</span>
+            <span class="white-color">76.7k</span>
             
 
             <br>

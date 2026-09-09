@@ -249,7 +249,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -429,9 +429,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>在 Windows 系统中，我们可以使用 TreeSize 工具查找一些大文件或文件夹，非常的方便高效，在 Linux 系统中，如何去搜索一些比较大的文件呢？下面我整理了一下在 Linux 系统中如何查找大文件或文件夹的方法。</p>
-<h2 id="如何查找大文件"><a href="#如何查找大文件" class="headerlink" title="如何查找大文件"></a>如何查找大文件</h2><p>其实很多时候，你需要了解当前系统下有哪些大文件，比如文件大小超过 100M 或 1G（阈值视具体情况而定）。</p>
-<p>那么如何把这些大文件搜索出来呢？例如我要搜索当前目录下，超过 800M 大小的文件。</p>
-<p>如上命令所示，我们仅仅能看到超过 800M 大小的文件的文件名称，但是对文件的信息（例如，文件大小、文件属性）一无所知，那么能否更详细显示一些文件属性或信息呢？如果你还需要对查找结果按照文件大小做一个排序，那么可以使用下面命令：</p>
+<h2 id="如何查找大文件"><a href="#如何查找大文件" class="headerlink" title="如何查找大文件"></a>如何查找大文件</h2><p>其实很多时候，你需要了解当前系统下有哪些大文件，比如文件大小超过 100M 或 1G（阈值视具体情况而定）。那么如何把这些大文件搜索出来呢？例如我要搜索当前目录下，超过 800M 大小的文件。<br>如上命令所示，我们仅仅能看到超过 800M 大小的文件的文件名称，但是对文件的信息（例如，文件大小、文件属性）一无所知，那么能否更详细显示一些文件属性或信息呢？如果你还需要对查找结果按照文件大小做一个排序，那么可以使用下面命令：</p>
 <pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">find</span> <span class="token keyword">.</span> -type f -size +800M -print0 <span class="token operator">|</span> <span class="token function">xargs</span> -0 <span class="token function">du</span> -h <span class="token operator">|</span> <span class="token function">sort</span> -nr<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <h2 id="如何查找-Linux-下的大目录"><a href="#如何查找-Linux-下的大目录" class="headerlink" title="如何查找 Linux 下的大目录"></a>如何查找 Linux 下的大目录</h2><p>譬如有时候磁盘空间告警了，而你平时又疏于管理、监控文件的增长，那么我需要快速的了解哪些目录变得比较大，那么此时我们可以借助 du 命令来帮我们解决这个问题。</p>
 <pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">du</span> -h --max-depth<span class="token operator">=</span>1
@@ -439,7 +437,7 @@
 33G     ./flash_recovery_area
 37G     ./oradata
 70G     <span class="token keyword">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>如果你想知道 flash_recovery_area 目录下面有哪些大文件夹，那么可以将参数 max-depth=2，如果你想对搜索出来的结果进行排序，那么可以借助于 sort 命令。如下所示：</p>
+<p>如果你想知道 flash_recovery_area 目录下面有哪些大文件夹，那么可以将参数 <code>max-depth=2</code>，如果你想对搜索出来的结果进行排序，那么可以借助于<code>sort</code>命令。如下所示：</p>
 <pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">du</span> -h --max-depth<span class="token operator">=</span>2 <span class="token operator">|</span> <span class="token function">sort</span> -n<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
             </div>
@@ -579,7 +577,7 @@
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Linux 删除大量文件效率对比">
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="Linux 删除大量文件效率对比">
                         
                         <span class="card-title">Linux 删除大量文件效率对比</span>
                     </div>
@@ -631,7 +629,7 @@ sure you want to delete all the files
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Linux 终端诡异家伙">
+                        <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="Linux 终端诡异家伙">
                         
                         <span class="card-title">Linux 终端诡异家伙</span>
                     </div>
@@ -639,8 +637,8 @@ sure you want to delete all the files
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            这篇文章，我们一起来到 Linux 的诡异的一面……你知道吗？在我们日常使用的 Unix、Linux 及其各种各样的分支系统中，
-daemondaemon 有一个很高大上的中文名字，叫守护进程。有句话是这么说的，如果 Unix 中没有了守护
+                            这篇文章，我们一起来到 Linux 的诡异的一面……你知道吗？在我们日常使用的 Linux 及其各种各样的分支系统中。
+daemondaemon 有一个很高大上的中文名字，叫守护进程。有句话是这么说的，如果 Unix 中没有了守护进程，那么
                         
                     </div>
                     <div class="publish-info">
@@ -838,7 +836,7 @@ daemondaemon 有一个很高大上的中文名字，叫守护进程。有句话�
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">77.7k</span>
+            <span class="white-color">76.7k</span>
             
 
             <br>
