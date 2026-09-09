@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://wuhangchen.github.io/"/>
-  <updated>2026-09-03T07:04:32.097Z</updated>
+  <updated>2026-09-09T09:13:18.700Z</updated>
   <id>https://wuhangchen.github.io/</id>
   
   <author>
@@ -18,10 +18,10 @@
   
   <entry>
     <title>Linux-netstat</title>
-    <link href="https://wuhangchen.github.io/2019/11/30/linux-netstat/"/>
-    <id>https://wuhangchen.github.io/2019/11/30/linux-netstat/</id>
-    <published>2019-11-30T04:00:00.000Z</published>
-    <updated>2026-09-03T07:04:32.097Z</updated>
+    <link href="https://wuhangchen.github.io/2020/03/05/linux-netstat/"/>
+    <id>https://wuhangchen.github.io/2020/03/05/linux-netstat/</id>
+    <published>2020-03-05T04:00:00.000Z</published>
+    <updated>2026-09-09T09:13:18.700Z</updated>
     
     <summary type="html">
     
@@ -44,10 +44,10 @@
   
   <entry>
     <title>Linux-动态链接与静态链接</title>
-    <link href="https://wuhangchen.github.io/2019/11/18/linux-dong-tai-lian-jie-yu-jing-tai-lian-jie/"/>
-    <id>https://wuhangchen.github.io/2019/11/18/linux-dong-tai-lian-jie-yu-jing-tai-lian-jie/</id>
-    <published>2019-11-18T04:00:00.000Z</published>
-    <updated>2026-09-03T11:20:24.060Z</updated>
+    <link href="https://wuhangchen.github.io/2020/02/20/linux-dong-tai-lian-jie-yu-jing-tai-lian-jie/"/>
+    <id>https://wuhangchen.github.io/2020/02/20/linux-dong-tai-lian-jie-yu-jing-tai-lian-jie/</id>
+    <published>2020-02-20T04:00:00.000Z</published>
+    <updated>2026-09-09T09:13:18.673Z</updated>
     
     <summary type="html">
     
@@ -70,10 +70,10 @@
   
   <entry>
     <title>Linux-nc</title>
-    <link href="https://wuhangchen.github.io/2019/11/06/linux-nc/"/>
-    <id>https://wuhangchen.github.io/2019/11/06/linux-nc/</id>
-    <published>2019-11-06T04:00:00.000Z</published>
-    <updated>2026-09-03T11:26:35.123Z</updated>
+    <link href="https://wuhangchen.github.io/2020/02/06/linux-nc/"/>
+    <id>https://wuhangchen.github.io/2020/02/06/linux-nc/</id>
+    <published>2020-02-06T04:00:00.000Z</published>
+    <updated>2026-09-09T09:13:18.699Z</updated>
     
     <summary type="html">
     
@@ -96,10 +96,10 @@
   
   <entry>
     <title>Linux-fork-interview</title>
-    <link href="https://wuhangchen.github.io/2019/10/25/linux-fork-interview/"/>
-    <id>https://wuhangchen.github.io/2019/10/25/linux-fork-interview/</id>
-    <published>2019-10-25T04:00:00.000Z</published>
-    <updated>2026-09-04T03:29:25.342Z</updated>
+    <link href="https://wuhangchen.github.io/2020/01/23/linux-fork-interview/"/>
+    <id>https://wuhangchen.github.io/2020/01/23/linux-fork-interview/</id>
+    <published>2020-01-23T04:00:00.000Z</published>
+    <updated>2026-09-09T09:13:18.690Z</updated>
     
     <summary type="html">
     
@@ -122,10 +122,10 @@
   
   <entry>
     <title>Linux-fork-clone</title>
-    <link href="https://wuhangchen.github.io/2019/10/13/linux-fork-clone/"/>
-    <id>https://wuhangchen.github.io/2019/10/13/linux-fork-clone/</id>
-    <published>2019-10-13T04:00:00.000Z</published>
-    <updated>2026-09-07T07:18:33.818Z</updated>
+    <link href="https://wuhangchen.github.io/2020/01/09/linux-fork-clone/"/>
+    <id>https://wuhangchen.github.io/2020/01/09/linux-fork-clone/</id>
+    <published>2020-01-09T04:00:00.000Z</published>
+    <updated>2026-09-09T09:13:18.688Z</updated>
     
     <summary type="html">
     
@@ -148,10 +148,10 @@
   
   <entry>
     <title>Linux-fork-risk</title>
-    <link href="https://wuhangchen.github.io/2019/10/01/linux-fork-risk/"/>
-    <id>https://wuhangchen.github.io/2019/10/01/linux-fork-risk/</id>
-    <published>2019-10-01T04:00:00.000Z</published>
-    <updated>2026-09-07T11:33:19.725Z</updated>
+    <link href="https://wuhangchen.github.io/2019/12/26/linux-fork-risk/"/>
+    <id>https://wuhangchen.github.io/2019/12/26/linux-fork-risk/</id>
+    <published>2019-12-26T04:00:00.000Z</published>
+    <updated>2026-09-09T09:13:18.692Z</updated>
     
     <summary type="html">
     
@@ -174,10 +174,10 @@
   
   <entry>
     <title>Linux-fork-Pre</title>
-    <link href="https://wuhangchen.github.io/2019/09/19/linux-fork-pre/"/>
-    <id>https://wuhangchen.github.io/2019/09/19/linux-fork-pre/</id>
-    <published>2019-09-19T04:00:00.000Z</published>
-    <updated>2026-09-08T01:38:32.492Z</updated>
+    <link href="https://wuhangchen.github.io/2019/12/12/linux-fork-pre/"/>
+    <id>https://wuhangchen.github.io/2019/12/12/linux-fork-pre/</id>
+    <published>2019-12-12T04:00:00.000Z</published>
+    <updated>2026-09-09T09:13:18.690Z</updated>
     
     <summary type="html">
     
@@ -200,10 +200,10 @@
   
   <entry>
     <title>Linux-数据类型-json</title>
-    <link href="https://wuhangchen.github.io/2019/09/07/linux-shu-ju-lei-xing-json/"/>
-    <id>https://wuhangchen.github.io/2019/09/07/linux-shu-ju-lei-xing-json/</id>
-    <published>2019-09-07T04:00:00.000Z</published>
-    <updated>2026-09-08T01:47:20.889Z</updated>
+    <link href="https://wuhangchen.github.io/2019/11/28/linux-shu-ju-lei-xing-json/"/>
+    <id>https://wuhangchen.github.io/2019/11/28/linux-shu-ju-lei-xing-json/</id>
+    <published>2019-11-28T04:00:00.000Z</published>
+    <updated>2026-09-09T09:13:18.679Z</updated>
     
     <summary type="html">
     
@@ -226,10 +226,10 @@
   
   <entry>
     <title>右值引用</title>
-    <link href="https://wuhangchen.github.io/2019/08/26/c-you-zhi-yin-yong/"/>
-    <id>https://wuhangchen.github.io/2019/08/26/c-you-zhi-yin-yong/</id>
-    <published>2019-08-26T04:00:00.000Z</published>
-    <updated>2026-09-03T07:04:32.095Z</updated>
+    <link href="https://wuhangchen.github.io/2019/11/14/c-you-zhi-yin-yong/"/>
+    <id>https://wuhangchen.github.io/2019/11/14/c-you-zhi-yin-yong/</id>
+    <published>2019-11-14T04:00:00.000Z</published>
+    <updated>2026-09-09T09:13:18.657Z</updated>
     
     <summary type="html">
     
@@ -252,10 +252,10 @@
   
   <entry>
     <title>C++工程实践</title>
-    <link href="https://wuhangchen.github.io/2019/08/14/c-zhi-yu-yi/"/>
-    <id>https://wuhangchen.github.io/2019/08/14/c-zhi-yu-yi/</id>
-    <published>2019-08-14T04:00:00.000Z</published>
-    <updated>2026-09-03T07:58:42.336Z</updated>
+    <link href="https://wuhangchen.github.io/2019/10/31/c-zhi-yu-yi/"/>
+    <id>https://wuhangchen.github.io/2019/10/31/c-zhi-yu-yi/</id>
+    <published>2019-10-31T04:00:00.000Z</published>
+    <updated>2026-09-09T09:13:18.660Z</updated>
     
     <summary type="html">
     
@@ -278,10 +278,10 @@
   
   <entry>
     <title>C++ 静态库与动态库</title>
-    <link href="https://wuhangchen.github.io/2019/08/02/c-bian-yi/"/>
-    <id>https://wuhangchen.github.io/2019/08/02/c-bian-yi/</id>
-    <published>2019-08-02T04:00:00.000Z</published>
-    <updated>2026-09-03T08:05:54.726Z</updated>
+    <link href="https://wuhangchen.github.io/2019/10/17/c-bian-yi/"/>
+    <id>https://wuhangchen.github.io/2019/10/17/c-bian-yi/</id>
+    <published>2019-10-17T04:00:00.000Z</published>
+    <updated>2026-09-09T09:13:18.641Z</updated>
     
     <summary type="html">
     
@@ -304,10 +304,10 @@
   
   <entry>
     <title>C++对象模型：对象内存布局详解</title>
-    <link href="https://wuhangchen.github.io/2019/07/21/c-dui-xiang-mo-xing/"/>
-    <id>https://wuhangchen.github.io/2019/07/21/c-dui-xiang-mo-xing/</id>
-    <published>2019-07-21T04:00:00.000Z</published>
-    <updated>2026-09-03T07:04:32.094Z</updated>
+    <link href="https://wuhangchen.github.io/2019/10/03/c-dui-xiang-mo-xing/"/>
+    <id>https://wuhangchen.github.io/2019/10/03/c-dui-xiang-mo-xing/</id>
+    <published>2019-10-03T04:00:00.000Z</published>
+    <updated>2026-09-09T09:13:18.643Z</updated>
     
     <summary type="html">
     
@@ -331,10 +331,10 @@
   
   <entry>
     <title>C/C++整型变量赋值操作是原子性的吗？</title>
-    <link href="https://wuhangchen.github.io/2019/07/09/c-yuan-zi-bian-liang/"/>
-    <id>https://wuhangchen.github.io/2019/07/09/c-yuan-zi-bian-liang/</id>
-    <published>2019-07-09T04:00:00.000Z</published>
-    <updated>2026-09-03T07:04:32.094Z</updated>
+    <link href="https://wuhangchen.github.io/2019/09/19/c-yuan-zi-bian-liang/"/>
+    <id>https://wuhangchen.github.io/2019/09/19/c-yuan-zi-bian-liang/</id>
+    <published>2019-09-19T04:00:00.000Z</published>
+    <updated>2026-09-09T09:13:18.659Z</updated>
     
     <summary type="html">
     
@@ -358,10 +358,10 @@
   
   <entry>
     <title>so出现undefined symbol------ldd, nm, c++filt</title>
-    <link href="https://wuhangchen.github.io/2019/06/27/linux-dong-tai-ku-lian-jie/"/>
-    <id>https://wuhangchen.github.io/2019/06/27/linux-dong-tai-ku-lian-jie/</id>
-    <published>2019-06-27T04:00:00.000Z</published>
-    <updated>2026-09-03T07:04:32.094Z</updated>
+    <link href="https://wuhangchen.github.io/2019/09/05/linux-dong-tai-ku-lian-jie/"/>
+    <id>https://wuhangchen.github.io/2019/09/05/linux-dong-tai-ku-lian-jie/</id>
+    <published>2019-09-05T04:00:00.000Z</published>
+    <updated>2026-09-09T09:13:18.672Z</updated>
     
     <summary type="html">
     
@@ -386,10 +386,10 @@
   
   <entry>
     <title>Lambda 表达式捕获列表</title>
-    <link href="https://wuhangchen.github.io/2019/06/15/c-lambda-bu-huo/"/>
-    <id>https://wuhangchen.github.io/2019/06/15/c-lambda-bu-huo/</id>
-    <published>2019-06-15T04:00:00.000Z</published>
-    <updated>2026-09-03T07:04:32.094Z</updated>
+    <link href="https://wuhangchen.github.io/2019/08/22/c-lambda-bu-huo/"/>
+    <id>https://wuhangchen.github.io/2019/08/22/c-lambda-bu-huo/</id>
+    <published>2019-08-22T04:00:00.000Z</published>
+    <updated>2026-09-09T09:13:18.665Z</updated>
     
     <summary type="html">
     
@@ -412,10 +412,10 @@
   
   <entry>
     <title>内存分配malloc</title>
-    <link href="https://wuhangchen.github.io/2019/06/03/c-malloc-zero/"/>
-    <id>https://wuhangchen.github.io/2019/06/03/c-malloc-zero/</id>
-    <published>2019-06-03T04:00:00.000Z</published>
-    <updated>2026-09-03T07:04:32.094Z</updated>
+    <link href="https://wuhangchen.github.io/2019/08/08/c-malloc-zero/"/>
+    <id>https://wuhangchen.github.io/2019/08/08/c-malloc-zero/</id>
+    <published>2019-08-08T04:00:00.000Z</published>
+    <updated>2026-09-09T09:13:18.666Z</updated>
     
     <summary type="html">
     
@@ -439,10 +439,10 @@
   
   <entry>
     <title>C++成员修饰const和mutable</title>
-    <link href="https://wuhangchen.github.io/2019/05/22/c-const-mutable/"/>
-    <id>https://wuhangchen.github.io/2019/05/22/c-const-mutable/</id>
-    <published>2019-05-22T04:00:00.000Z</published>
-    <updated>2026-09-03T07:04:32.093Z</updated>
+    <link href="https://wuhangchen.github.io/2019/07/25/c-const-mutable/"/>
+    <id>https://wuhangchen.github.io/2019/07/25/c-const-mutable/</id>
+    <published>2019-07-25T04:00:00.000Z</published>
+    <updated>2026-09-09T09:13:18.663Z</updated>
     
     <summary type="html">
     
@@ -465,10 +465,10 @@
   
   <entry>
     <title>使用++i还是i++</title>
-    <link href="https://wuhangchen.github.io/2019/05/10/c-zi-zeng-yun-suan-fu/"/>
-    <id>https://wuhangchen.github.io/2019/05/10/c-zi-zeng-yun-suan-fu/</id>
-    <published>2019-05-10T04:00:00.000Z</published>
-    <updated>2026-09-03T07:04:32.093Z</updated>
+    <link href="https://wuhangchen.github.io/2019/07/11/c-zi-zeng-yun-suan-fu/"/>
+    <id>https://wuhangchen.github.io/2019/07/11/c-zi-zeng-yun-suan-fu/</id>
+    <published>2019-07-11T04:00:00.000Z</published>
+    <updated>2026-09-09T09:13:18.662Z</updated>
     
     <summary type="html">
     
@@ -491,10 +491,10 @@
   
   <entry>
     <title>C++面试题</title>
-    <link href="https://wuhangchen.github.io/2019/04/28/c-mian-shi-ti/"/>
-    <id>https://wuhangchen.github.io/2019/04/28/c-mian-shi-ti/</id>
-    <published>2019-04-28T04:00:00.000Z</published>
-    <updated>2026-09-03T07:04:32.093Z</updated>
+    <link href="https://wuhangchen.github.io/2019/06/27/c-mian-shi-ti/"/>
+    <id>https://wuhangchen.github.io/2019/06/27/c-mian-shi-ti/</id>
+    <published>2019-06-27T04:00:00.000Z</published>
+    <updated>2026-09-09T09:13:18.653Z</updated>
     
     <summary type="html">
     
@@ -519,10 +519,10 @@
   
   <entry>
     <title>C++细说sizeof</title>
-    <link href="https://wuhangchen.github.io/2019/04/16/c-sizeof-xiang-jie/"/>
-    <id>https://wuhangchen.github.io/2019/04/16/c-sizeof-xiang-jie/</id>
-    <published>2019-04-16T04:00:00.000Z</published>
-    <updated>2026-09-03T07:37:42.203Z</updated>
+    <link href="https://wuhangchen.github.io/2019/06/13/c-sizeof-xiang-jie/"/>
+    <id>https://wuhangchen.github.io/2019/06/13/c-sizeof-xiang-jie/</id>
+    <published>2019-06-13T04:00:00.000Z</published>
+    <updated>2026-09-09T09:13:18.669Z</updated>
     
     <summary type="html">
     

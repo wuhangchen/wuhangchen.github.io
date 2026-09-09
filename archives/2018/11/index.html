@@ -371,41 +371,39 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
 
             
             <div class="cd-timeline-img day" data-aos="zoom-in-up">
-                <span>23</span>
+                <span>29</span>
             </div>
             <article class="cd-timeline-content" data-aos="fade-up">
                 <div class="article col s12 m6">
                     <div class="card">
-                        <a href="/2018/11/23/c-yin-yong/">
+                        <a href="/2018/11/29/linux-hao-yong-de-shell-ming-ling/">
                             <div class="card-image">
                                 
                                 
-                                <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="C++ 引用">
+                                <img src="/medias/featureimages/25.jpg" class="responsive-img" alt="Linux 技巧">
                                 
-                                <span class="card-title">C++ 引用</span>
+                                <span class="card-title">Linux 技巧</span>
                             </div>
                         </a>
                         <div class="card-content article-content">
                             <div class="summary block-with-text">
                                 
-                                声明具名变量为引用，即既存对象或函数的别名。
-引用变量声明是声明符拥有下列形式的简单声明
-& attr(可选) 声明符     (1)
-&& attr(可选) 声明符    (2)     (C++11 起)
-1) 左值引用声明符：声明 S
+                                如果要谨慎使用rm命令，可以为它设置一个别名，在删除文件之前需要进行确认才能删除。有些系统管理员会默认使用这个别名，对于这种情况，你可能需要看看下一个技巧。
+$ rm -i    &lt;== 请求确认
+你可以使用unalias命令以交互方
                                 
                             </div>
                             <div class="publish-info">
                                 <span class="publish-date">
                                     <i
-                                        class="fa fa-clock-o fa-fw icon-date"></i>2018-11-23
+                                        class="fa fa-clock-o fa-fw icon-date"></i>2018-11-29
                                 </span>
                                 <span class="publish-author">
                                     
                                     <i class="fa fa-bookmark fa-fw icon-category"></i>
                                     
-                                    <a href="/categories/C/" class="post-category" target="_blank">
-                                        C++
+                                    <a href="/categories/Linux/" class="post-category" target="_blank">
+                                        Linux
                                     </a>
                                     
                                     
@@ -416,7 +414,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                         
                         <div class="card-action article-tags">
                             
-                            <a href="/tags/C/"><span class="chip bg-color">C++</span></a>
+                            <a href="/tags/Linux/"><span class="chip bg-color">Linux</span></a>
                             
                         </div>
                         
@@ -435,34 +433,91 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
 
             
             <div class="cd-timeline-img day" data-aos="zoom-in-up">
-                <span>11</span>
+                <span>15</span>
             </div>
             <article class="cd-timeline-content" data-aos="fade-up">
                 <div class="article col s12 m6">
                     <div class="card">
-                        <a href="/2018/11/11/linux-dd-ming-ling/">
+                        <a href="/2018/11/15/linux-inode-hao-jin/">
                             <div class="card-image">
                                 
                                 
-                                <img src="/medias/featureimages/28.jpg" class="responsive-img" alt="Linux dd命令">
+                                <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Linux inode资源耗尽问题">
                                 
-                                <span class="card-title">Linux dd命令</span>
+                                <span class="card-title">Linux inode资源耗尽问题</span>
                             </div>
                         </a>
                         <div class="card-content article-content">
                             <div class="summary block-with-text">
                                 
-                                dd 命令用于复制文件并对原文件的内容进行转换和格式化处理。
-语法格式dd [OPTIONS]...
-选项说明if=文件名       #指定源文件。
-of=文件名       #指定目的文件。
-ibs=bytes       #指定一个块
+                                Linux 系统下文件数据储存在块中，文件的元信息，例如文件的创建者、文件的创建日期、文件的大小等。这种储存文件元信息的区域就叫做inode，中文译名为索引节点。inode也占用硬盘空间，硬盘格式化的时候，操作系统自动将硬盘分成两个区域。一
                                 
                             </div>
                             <div class="publish-info">
                                 <span class="publish-date">
                                     <i
-                                        class="fa fa-clock-o fa-fw icon-date"></i>2018-11-11
+                                        class="fa fa-clock-o fa-fw icon-date"></i>2018-11-15
+                                </span>
+                                <span class="publish-author">
+                                    
+                                    <i class="fa fa-bookmark fa-fw icon-category"></i>
+                                    
+                                    <a href="/categories/Linux/" class="post-category" target="_blank">
+                                        Linux
+                                    </a>
+                                    
+                                    
+                                </span>
+                            </div>
+                        </div>
+
+                        
+                        <div class="card-action article-tags">
+                            
+                            <a href="/tags/Linux/"><span class="chip bg-color">Linux</span></a>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </article>
+        </div>
+        
+        <div class="cd-timeline-block">
+
+            
+            
+
+            
+            
+
+            
+            <div class="cd-timeline-img day" data-aos="zoom-in-up">
+                <span>01</span>
+            </div>
+            <article class="cd-timeline-content" data-aos="fade-up">
+                <div class="article col s12 m6">
+                    <div class="card">
+                        <a href="/2018/11/01/linux-grep-cha-zhao/">
+                            <div class="card-image">
+                                
+                                
+                                <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="Linux grep文本查找">
+                                
+                                <span class="card-title">Linux grep文本查找</span>
+                            </div>
+                        </a>
+                        <div class="card-content article-content">
+                            <div class="summary block-with-text">
+                                
+                                之前介绍过很多 linux 下查找相关的命令，而对文件内容搜索的命令似乎还没有涉及，因此本文介绍文本搜索命令grep。我们会经常结合管道符（|）来使用它，即在前面命令执行的结果中查找包含相关字符串的内容。例如：
+$ ps -ef | gre
+                                
+                            </div>
+                            <div class="publish-info">
+                                <span class="publish-date">
+                                    <i
+                                        class="fa fa-clock-o fa-fw icon-date"></i>2018-11-01
                                 </span>
                                 <span class="publish-author">
                                     

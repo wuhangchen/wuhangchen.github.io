@@ -371,30 +371,34 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
 
             
             <div class="cd-timeline-img day" data-aos="zoom-in-up">
-                <span>24</span>
+                <span>20</span>
             </div>
             <article class="cd-timeline-content" data-aos="fade-up">
                 <div class="article col s12 m6">
                     <div class="card">
-                        <a href="/2018/09/24/linux-risk-command/">
+                        <a href="/2018/09/20/linux-history/">
                             <div class="card-image">
                                 
                                 
-                                <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Linux 10个危险的命令">
+                                <img src="/medias/featureimages/28.jpg" class="responsive-img" alt="Linux history 显示命令执行的时间">
                                 
-                                <span class="card-title">Linux 10个危险的命令</span>
+                                <span class="card-title">Linux history 显示命令执行的时间</span>
                             </div>
                         </a>
                         <div class="card-content article-content">
                             <div class="summary block-with-text">
                                 
-                                Linux 命令行很有用、很高效，也很有趣，但有时候也很危险，尤其是在你不确定你自己在正在做什么的时候。这篇文章将会向你介绍十条命令，但你最好不要尝试着去使用。当然，以下命令通常都是在 root 权限下才能将愚蠢发挥到无可救药；在普通用户身
+                                显示历史命令执行时间
+echo "export HISTTIMEFORMAT=\"%F %T\"" >> ~/.bashrc
+一次会话的话先执行
+export HISTTIMEFORMAT="%F %T"
+然后使用 history 命令就行
                                 
                             </div>
                             <div class="publish-info">
                                 <span class="publish-date">
                                     <i
-                                        class="fa fa-clock-o fa-fw icon-date"></i>2018-09-24
+                                        class="fa fa-clock-o fa-fw icon-date"></i>2018-09-20
                                 </span>
                                 <span class="publish-author">
                                     
@@ -431,35 +435,33 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
 
             
             <div class="cd-timeline-img day" data-aos="zoom-in-up">
-                <span>12</span>
+                <span>06</span>
             </div>
             <article class="cd-timeline-content" data-aos="fade-up">
                 <div class="article col s12 m6">
                     <div class="card">
-                        <a href="/2018/09/12/linux-shell-kuai-jie-jian/">
+                        <a href="/2018/09/06/linux-pi-liang-shan-chu-wen-jian/">
                             <div class="card-image">
                                 
                                 
-                                <img src="/medias/featureimages/28.jpg" class="responsive-img" alt="Linux Shell一些快捷键">
+                                <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="Linux 删除大量文件效率对比">
                                 
-                                <span class="card-title">Linux Shell一些快捷键</span>
+                                <span class="card-title">Linux 删除大量文件效率对比</span>
                             </div>
                         </a>
                         <div class="card-content article-content">
                             <div class="summary block-with-text">
                                 
-                                
-ctrl + a — 光标移到行首。
-ctrl + e — 光标移到行尾。
-ctrl + b — 光标左移一个字母， 向行首移动一个字符。
-ctrl + f — 光标右移一个字母， 向行尾移动一个字符。
-ctrl + c — 杀死当前进程
+                                首先建立 50 万个文件
+for i in $(seq 1 500000);do echo text >>$i.txt;done
+rm 删除time rm -f *
+sure you want to delete all the files
                                 
                             </div>
                             <div class="publish-info">
                                 <span class="publish-date">
                                     <i
-                                        class="fa fa-clock-o fa-fw icon-date"></i>2018-09-12
+                                        class="fa fa-clock-o fa-fw icon-date"></i>2018-09-06
                                 </span>
                                 <span class="publish-author">
                                     

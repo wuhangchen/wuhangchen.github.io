@@ -371,32 +371,30 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
 
             
             <div class="cd-timeline-img day" data-aos="zoom-in-up">
-                <span>09</span>
+                <span>11</span>
             </div>
             <article class="cd-timeline-content" data-aos="fade-up">
                 <div class="article col s12 m6">
                     <div class="card">
-                        <a href="/2019/07/09/c-yuan-zi-bian-liang/">
+                        <a href="/2019/07/11/c-zi-zeng-yun-suan-fu/">
                             <div class="card-image">
                                 
                                 
-                                <img src="/medias/featureimages/25.jpg" class="responsive-img" alt="C/C++整型变量赋值操作是原子性的吗？">
+                                <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="使用++i还是i++">
                                 
-                                <span class="card-title">C/C++整型变量赋值操作是原子性的吗？</span>
+                                <span class="card-title">使用++i还是i++</span>
                             </div>
                         </a>
                         <div class="card-content article-content">
                             <div class="summary block-with-text">
                                 
-                                那么为什么整型变量的操作不是原子性的呢？常见的整型变量操作有如下几种情况：给整型变量赋值一个确定的值，如
-int a = 1;
-这条指令操作一般是原子的，因为对应着一条计算机指令，cpu 将立即数 1 搬运到变量 a 的内存地址中即可，汇编
+                                我们经常使用 for 循环来遍历东西，循环变量可以前自增也可以后自增，发现对遍历结果没啥影响，但是该如何选择呢？我们应该尽量使用前自增运算符而不是后自增运算符，即用 ++Iter 代替 Iter++。前缀和后缀形式之间的区别是众所周知的。我
                                 
                             </div>
                             <div class="publish-info">
                                 <span class="publish-date">
                                     <i
-                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-07-09
+                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-07-11
                                 </span>
                                 <span class="publish-author">
                                     
@@ -443,21 +441,22 @@ int a = 1;
             <article class="cd-timeline-content" data-aos="fade-up">
                 <div class="article col s12 m6">
                     <div class="card">
-                        <a href="/2019/06/27/linux-dong-tai-ku-lian-jie/">
+                        <a href="/2019/06/27/c-mian-shi-ti/">
                             <div class="card-image">
                                 
                                 
-                                <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="so出现undefined symbol------ldd, nm, c++filt">
+                                <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="C++面试题">
                                 
-                                <span class="card-title">so出现undefined symbol------ldd, nm, c++filt</span>
+                                <span class="card-title">C++面试题</span>
                             </div>
                         </a>
                         <div class="card-content article-content">
                             <div class="summary block-with-text">
                                 
-                                最近发版本，灰度发布的时候，发现进程没起来，回包自然是异常的。立即进行版本回退，发现 OK。
-哪里出问题了呢？直接 ldd -r libtest.so 一下，就知道了，原来是缺符号。看看简化后的示例代码：
-#include &lt;iost
+                                
+char c = &#39;\72&#39;; 中的 \72 代表一个字符，72 是八进制数，代表 ASCII 码字符 :。
+10*a++ 中 a 先进行乘法运算再自增。
+const 和 static 的作用static 关键字：1）函数
                                 
                             </div>
                             <div class="publish-info">
@@ -500,95 +499,30 @@ int a = 1;
 
             
             <div class="cd-timeline-img day" data-aos="zoom-in-up">
-                <span>15</span>
+                <span>13</span>
             </div>
             <article class="cd-timeline-content" data-aos="fade-up">
                 <div class="article col s12 m6">
                     <div class="card">
-                        <a href="/2019/06/15/c-lambda-bu-huo/">
+                        <a href="/2019/06/13/c-sizeof-xiang-jie/">
                             <div class="card-image">
                                 
                                 
-                                <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Lambda 表达式捕获列表">
+                                <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="C++细说sizeof">
                                 
-                                <span class="card-title">Lambda 表达式捕获列表</span>
+                                <span class="card-title">C++细说sizeof</span>
                             </div>
                         </a>
                         <div class="card-content article-content">
                             <div class="summary block-with-text">
                                 
-                                捕获值列表，是 Lambda 表达式的函数体中直接使用这些值含义，捕获值列表能捕获的值是所有在此作用域可以访问的值，包括这个作用域里面的临时变量，类的可访问成员，全局变量。捕获值的方式分两种，一种是按值捕获，一种是按引用捕获。顾名思义，按值
+                                摘要sizeof 的作用非常简单：求对象或者类型的大小。然而 sizeof 又非常复杂，它涉及到很多特殊情况，总结出了 sizeof 的 9 个特性：(1)sizeof 不能求得 void 类型的长度；(2)sizeof 能求得 void 
                                 
                             </div>
                             <div class="publish-info">
                                 <span class="publish-date">
                                     <i
-                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-06-15
-                                </span>
-                                <span class="publish-author">
-                                    
-                                    <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                    
-                                    <a href="/categories/C/" class="post-category" target="_blank">
-                                        C++
-                                    </a>
-                                    
-                                    
-                                </span>
-                            </div>
-                        </div>
-
-                        
-                        <div class="card-action article-tags">
-                            
-                            <a href="/tags/C/"><span class="chip bg-color">C++</span></a>
-                            
-                        </div>
-                        
-                    </div>
-                </div>
-            </article>
-        </div>
-        
-        <div class="cd-timeline-block">
-
-            
-            
-
-            
-            
-
-            
-            <div class="cd-timeline-img day" data-aos="zoom-in-up">
-                <span>03</span>
-            </div>
-            <article class="cd-timeline-content" data-aos="fade-up">
-                <div class="article col s12 m6">
-                    <div class="card">
-                        <a href="/2019/06/03/c-malloc-zero/">
-                            <div class="card-image">
-                                
-                                
-                                <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="内存分配malloc">
-                                
-                                <span class="card-title">内存分配malloc</span>
-                            </div>
-                        </a>
-                        <div class="card-content article-content">
-                            <div class="summary block-with-text">
-                                
-                                下面的代码片段输出是什么？
-char *ptr;
-if((ptr = (char *)malloc(0)) == NULL)
-    puts("Got a null pointer");
-else
-    puts("Got a vali
-                                
-                            </div>
-                            <div class="publish-info">
-                                <span class="publish-date">
-                                    <i
-                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-06-03
+                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-06-13
                                 </span>
                                 <span class="publish-author">
                                     
@@ -630,158 +564,30 @@ else
 
             
             <div class="cd-timeline-img day" data-aos="zoom-in-up">
-                <span>22</span>
+                <span>30</span>
             </div>
             <article class="cd-timeline-content" data-aos="fade-up">
                 <div class="article col s12 m6">
                     <div class="card">
-                        <a href="/2019/05/22/c-const-mutable/">
+                        <a href="/2019/05/30/c-malloc-new/">
                             <div class="card-image">
                                 
                                 
-                                <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="C++成员修饰const和mutable">
+                                <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="C++中new与malloc区别">
                                 
-                                <span class="card-title">C++成员修饰const和mutable</span>
+                                <span class="card-title">C++中new与malloc区别</span>
                             </div>
                         </a>
                         <div class="card-content article-content">
                             <div class="summary block-with-text">
                                 
-                                const：常量，不变的 mutable：易变的从意思上理解，可见 const 和 mutable 是一对反义词，它们都是 C++的关键字。const 成员函数不能修改调用它的对象。类的成员函数可以被声明为 const，这将使得函数的隐式参
+                                申请的内存所在位置new 操作符从自由存储区上为对象动态分配内存空间，而 malloc 函数从堆上动态分配内存。自由存储区是 C++ 基于 new 操作符的一个抽象概念，凡是通过 new 操作符进行内存申请，该内存即为自由存储区。而堆是操作
                                 
                             </div>
                             <div class="publish-info">
                                 <span class="publish-date">
                                     <i
-                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-05-22
-                                </span>
-                                <span class="publish-author">
-                                    
-                                    <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                    
-                                    <a href="/categories/C/" class="post-category" target="_blank">
-                                        C++
-                                    </a>
-                                    
-                                    
-                                </span>
-                            </div>
-                        </div>
-
-                        
-                        <div class="card-action article-tags">
-                            
-                            <a href="/tags/C/"><span class="chip bg-color">C++</span></a>
-                            
-                        </div>
-                        
-                    </div>
-                </div>
-            </article>
-        </div>
-        
-        <div class="cd-timeline-block">
-
-            
-            
-
-            
-            
-
-            
-            <div class="cd-timeline-img day" data-aos="zoom-in-up">
-                <span>10</span>
-            </div>
-            <article class="cd-timeline-content" data-aos="fade-up">
-                <div class="article col s12 m6">
-                    <div class="card">
-                        <a href="/2019/05/10/c-zi-zeng-yun-suan-fu/">
-                            <div class="card-image">
-                                
-                                
-                                <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="使用++i还是i++">
-                                
-                                <span class="card-title">使用++i还是i++</span>
-                            </div>
-                        </a>
-                        <div class="card-content article-content">
-                            <div class="summary block-with-text">
-                                
-                                我们经常使用 for 循环来遍历东西，循环变量可以前自增也可以后自增，发现对遍历结果没啥影响，但是该如何选择呢？我们应该尽量使用前自增运算符而不是后自增运算符，即用 ++Iter 代替 Iter++。前缀和后缀形式之间的区别是众所周知的。我
-                                
-                            </div>
-                            <div class="publish-info">
-                                <span class="publish-date">
-                                    <i
-                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-05-10
-                                </span>
-                                <span class="publish-author">
-                                    
-                                    <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                    
-                                    <a href="/categories/C/" class="post-category" target="_blank">
-                                        C++
-                                    </a>
-                                    
-                                    
-                                </span>
-                            </div>
-                        </div>
-
-                        
-                        <div class="card-action article-tags">
-                            
-                            <a href="/tags/C/"><span class="chip bg-color">C++</span></a>
-                            
-                        </div>
-                        
-                    </div>
-                </div>
-            </article>
-        </div>
-        
-        <div class="cd-timeline-block">
-
-            
-            
-
-            
-            
-            
-            <div class="cd-timeline-img month" data-aos="zoom-in-up">
-                <a href="/archives/2019/04">04</a>
-            </div>
-            
-
-            
-            <div class="cd-timeline-img day" data-aos="zoom-in-up">
-                <span>28</span>
-            </div>
-            <article class="cd-timeline-content" data-aos="fade-up">
-                <div class="article col s12 m6">
-                    <div class="card">
-                        <a href="/2019/04/28/c-mian-shi-ti/">
-                            <div class="card-image">
-                                
-                                
-                                <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="C++面试题">
-                                
-                                <span class="card-title">C++面试题</span>
-                            </div>
-                        </a>
-                        <div class="card-content article-content">
-                            <div class="summary block-with-text">
-                                
-                                
-char c = &#39;\72&#39;; 中的 \72 代表一个字符，72 是八进制数，代表 ASCII 码字符 :。
-10*a++ 中 a 先进行乘法运算再自增。
-const 和 static 的作用static 关键字：1）函数
-                                
-                            </div>
-                            <div class="publish-info">
-                                <span class="publish-date">
-                                    <i
-                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-04-28
+                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-05-30
                                 </span>
                                 <span class="publish-author">
                                     
@@ -823,25 +629,155 @@ const 和 static 的作用static 关键字：1）函数
             <article class="cd-timeline-content" data-aos="fade-up">
                 <div class="article col s12 m6">
                     <div class="card">
-                        <a href="/2019/04/16/c-sizeof-xiang-jie/">
+                        <a href="/2019/05/16/c-liu-huan-chong-qu/">
                             <div class="card-image">
                                 
                                 
-                                <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="C++细说sizeof">
+                                <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="C++ 流缓冲区">
                                 
-                                <span class="card-title">C++细说sizeof</span>
+                                <span class="card-title">C++ 流缓冲区</span>
                             </div>
                         </a>
                         <div class="card-content article-content">
                             <div class="summary block-with-text">
                                 
-                                摘要sizeof 的作用非常简单：求对象或者类型的大小。然而 sizeof 又非常复杂，它涉及到很多特殊情况，总结出了 sizeof 的 9 个特性：(1)sizeof 不能求得 void 类型的长度；(2)sizeof 能求得 void 
+                                C++ 的 I/O 是通过标准库中输入输出流来实现的。标准库在 iostream 头文件当中，预定义了六个流对象，他们是：
+* istream 
+> class basic_ios;  // : public ios_base
+由于 std
                                 
                             </div>
                             <div class="publish-info">
                                 <span class="publish-date">
                                     <i
-                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-04-16
+                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-05-16
+                                </span>
+                                <span class="publish-author">
+                                    
+                                    <i class="fa fa-bookmark fa-fw icon-category"></i>
+                                    
+                                    <a href="/categories/C/" class="post-category" target="_blank">
+                                        C++
+                                    </a>
+                                    
+                                    
+                                </span>
+                            </div>
+                        </div>
+
+                        
+                        <div class="card-action article-tags">
+                            
+                            <a href="/tags/C/"><span class="chip bg-color">C++</span></a>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </article>
+        </div>
+        
+        <div class="cd-timeline-block">
+
+            
+            
+
+            
+            
+
+            
+            <div class="cd-timeline-img day" data-aos="zoom-in-up">
+                <span>02</span>
+            </div>
+            <article class="cd-timeline-content" data-aos="fade-up">
+                <div class="article col s12 m6">
+                    <div class="card">
+                        <a href="/2019/05/02/c-ming-ling-xing-can-shu/">
+                            <div class="card-image">
+                                
+                                
+                                <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="C++命令行参数">
+                                
+                                <span class="card-title">C++命令行参数</span>
+                            </div>
+                        </a>
+                        <div class="card-content article-content">
+                            <div class="summary block-with-text">
+                                
+                                前言我们在 Linux 用到的命令常常支持很多参数，那么如何写一个程序，也像 Linux 命令一样支持很多参数呢？有什么优雅的处理方法？
+命令行参数在介绍如何处理命令行参数之前，简单介绍一下命令行参数，已经了解的朋友可以跳过此小节。我们用一
+                                
+                            </div>
+                            <div class="publish-info">
+                                <span class="publish-date">
+                                    <i
+                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-05-02
+                                </span>
+                                <span class="publish-author">
+                                    
+                                    <i class="fa fa-bookmark fa-fw icon-category"></i>
+                                    
+                                    <a href="/categories/C/" class="post-category" target="_blank">
+                                        C++
+                                    </a>
+                                    
+                                    
+                                </span>
+                            </div>
+                        </div>
+
+                        
+                        <div class="card-action article-tags">
+                            
+                            <a href="/tags/C/"><span class="chip bg-color">C++</span></a>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </article>
+        </div>
+        
+        <div class="cd-timeline-block">
+
+            
+            
+
+            
+            
+            
+            <div class="cd-timeline-img month" data-aos="zoom-in-up">
+                <a href="/archives/2019/04">04</a>
+            </div>
+            
+
+            
+            <div class="cd-timeline-img day" data-aos="zoom-in-up">
+                <span>18</span>
+            </div>
+            <article class="cd-timeline-content" data-aos="fade-up">
+                <div class="article col s12 m6">
+                    <div class="card">
+                        <a href="/2019/04/18/c-ref/">
+                            <div class="card-image">
+                                
+                                
+                                <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="std::ref">
+                                
+                                <span class="card-title">std::ref</span>
+                            </div>
+                        </a>
+                        <div class="card-content article-content">
+                            <div class="summary block-with-text">
+                                
+                                C++ 本身有引用 &amp;，为什么 C++11 又引入了 std::ref？主要是考虑函数式编程如 std::bind 在使用时，是对参数直接拷贝，而不是引用。如下例子：
+void f(int&amp; n1, int&amp; n2,
+                                
+                            </div>
+                            <div class="publish-info">
+                                <span class="publish-date">
+                                    <i
+                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-04-18
                                 </span>
                                 <span class="publish-author">
                                     
@@ -883,19 +819,20 @@ const 和 static 的作用static 关键字：1）函数
             <article class="cd-timeline-content" data-aos="fade-up">
                 <div class="article col s12 m6">
                     <div class="card">
-                        <a href="/2019/04/04/c-malloc-new/">
+                        <a href="/2019/04/04/c-friend/">
                             <div class="card-image">
                                 
                                 
-                                <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="C++中new与malloc区别">
+                                <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="friend">
                                 
-                                <span class="card-title">C++中new与malloc区别</span>
+                                <span class="card-title">friend</span>
                             </div>
                         </a>
                         <div class="card-content article-content">
                             <div class="summary block-with-text">
                                 
-                                申请的内存所在位置new 操作符从自由存储区上为对象动态分配内存空间，而 malloc 函数从堆上动态分配内存。自由存储区是 C++ 基于 new 操作符的一个抽象概念，凡是通过 new 操作符进行内存申请，该内存即为自由存储区。而堆是操作
+                                原则上， 类的私有和受保护成员不能从声明它们的同一类外部访问。但是， 此规则不适用于友元friends。以 friend关键字修饰的函数或类称为友元函数或友元类。
+友元函数友元函数是可以直接访问类的私有成员的非成员函数。它是定义在类外的普通
                                 
                             </div>
                             <div class="publish-info">
@@ -943,33 +880,31 @@ const 和 static 的作用static 关键字：1）函数
 
             
             <div class="cd-timeline-img day" data-aos="zoom-in-up">
-                <span>23</span>
+                <span>21</span>
             </div>
             <article class="cd-timeline-content" data-aos="fade-up">
                 <div class="article col s12 m6">
                     <div class="card">
-                        <a href="/2019/03/23/c-liu-huan-chong-qu/">
+                        <a href="/2019/03/21/c-kao-bei-gou-zao/">
                             <div class="card-image">
                                 
                                 
-                                <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="C++ 流缓冲区">
+                                <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="拷贝构造函数与赋值函数">
                                 
-                                <span class="card-title">C++ 流缓冲区</span>
+                                <span class="card-title">拷贝构造函数与赋值函数</span>
                             </div>
                         </a>
                         <div class="card-content article-content">
                             <div class="summary block-with-text">
                                 
-                                C++ 的 I/O 是通过标准库中输入输出流来实现的。标准库在 iostream 头文件当中，预定义了六个流对象，他们是：
-* istream 
-> class basic_ios;  // : public ios_base
-由于 std
+                                在进行 C++类编写的过程之中，通常会涉及到类的拷贝构造函数与类的赋值函数。初涉类编写的代码，对于两类函数的用法一直是挺让人困惑的内容。这篇文章我们会详细来梳理拷贝构造函数与赋值函数的区别。
+调用了哪个函数上述两种函数的使用和 C++之中类
                                 
                             </div>
                             <div class="publish-info">
                                 <span class="publish-date">
                                     <i
-                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-03-23
+                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-03-21
                                 </span>
                                 <span class="publish-author">
                                     
@@ -1006,31 +941,32 @@ const 和 static 的作用static 关键字：1）函数
 
             
             <div class="cd-timeline-img day" data-aos="zoom-in-up">
-                <span>11</span>
+                <span>07</span>
             </div>
             <article class="cd-timeline-content" data-aos="fade-up">
                 <div class="article col s12 m6">
                     <div class="card">
-                        <a href="/2019/03/11/c-ming-ling-xing-can-shu/">
+                        <a href="/2019/03/07/c-strlen-sizeof/">
                             <div class="card-image">
                                 
                                 
-                                <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="C++命令行参数">
+                                <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="sizeof、strlen、数组、字符串">
                                 
-                                <span class="card-title">C++命令行参数</span>
+                                <span class="card-title">sizeof、strlen、数组、字符串</span>
                             </div>
                         </a>
                         <div class="card-content article-content">
                             <div class="summary block-with-text">
                                 
-                                前言我们在 Linux 用到的命令常常支持很多参数，那么如何写一个程序，也像 Linux 命令一样支持很多参数呢？有什么优雅的处理方法？
-命令行参数在介绍如何处理命令行参数之前，简单介绍一下命令行参数，已经了解的朋友可以跳过此小节。我们用一
+                                对于初学者来说，sizeof，strlen，数组，字符串整在一起是痛苦的，本文看看它们在一起能挖什么坑。
+例子在说明这些问题之前，先看一段代码，看看你是否都理解了。注：以下代码结果为编译为 64 位程序后运行结果。
+void testArr
                                 
                             </div>
                             <div class="publish-info">
                                 <span class="publish-date">
                                     <i
-                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-03-11
+                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-03-07
                                 </span>
                                 <span class="publish-author">
                                     
@@ -1072,31 +1008,96 @@ const 和 static 的作用static 关键字：1）函数
 
             
             <div class="cd-timeline-img day" data-aos="zoom-in-up">
-                <span>27</span>
+                <span>21</span>
             </div>
             <article class="cd-timeline-content" data-aos="fade-up">
                 <div class="article col s12 m6">
                     <div class="card">
-                        <a href="/2019/02/27/c-ref/">
+                        <a href="/2019/02/21/c-er-wei-shu-zu/">
                             <div class="card-image">
                                 
                                 
-                                <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="std::ref">
+                                <img src="/medias/featureimages/24.jpg" class="responsive-img" alt="二维数组">
                                 
-                                <span class="card-title">std::ref</span>
+                                <span class="card-title">二维数组</span>
                             </div>
                         </a>
                         <div class="card-content article-content">
                             <div class="summary block-with-text">
                                 
-                                C++ 本身有引用 &amp;，为什么 C++11 又引入了 std::ref？主要是考虑函数式编程如 std::bind 在使用时，是对参数直接拷贝，而不是引用。如下例子：
-void f(int&amp; n1, int&amp; n2,
+                                二维数组我们知道 C 语言没有真正意义上的二维数组。二维数组的实现，只是简单地通过“线性扩展”的方式进行。
+int b[4][5];
+就是定义 4 个元素，每个元素都是一个包含 5 个整型变量的一维数组。它在内存中依然是以线性的形式存储。
+
                                 
                             </div>
                             <div class="publish-info">
                                 <span class="publish-date">
                                     <i
-                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-02-27
+                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-02-21
+                                </span>
+                                <span class="publish-author">
+                                    
+                                    <i class="fa fa-bookmark fa-fw icon-category"></i>
+                                    
+                                    <a href="/categories/C/" class="post-category" target="_blank">
+                                        C++
+                                    </a>
+                                    
+                                    
+                                </span>
+                            </div>
+                        </div>
+
+                        
+                        <div class="card-action article-tags">
+                            
+                            <a href="/tags/C/"><span class="chip bg-color">C++</span></a>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </article>
+        </div>
+        
+        <div class="cd-timeline-block">
+
+            
+            
+
+            
+            
+
+            
+            <div class="cd-timeline-img day" data-aos="zoom-in-up">
+                <span>07</span>
+            </div>
+            <article class="cd-timeline-content" data-aos="fade-up">
+                <div class="article col s12 m6">
+                    <div class="card">
+                        <a href="/2019/02/07/c-yu-yan-lian-jie/">
+                            <div class="card-image">
+                                
+                                
+                                <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="语言链接">
+                                
+                                <span class="card-title">语言链接</span>
+                            </div>
+                        </a>
+                        <div class="card-content article-content">
+                            <div class="summary block-with-text">
+                                
+                                提供以不同程序语言编写的模块间的连接。
+extern 字符串字面量 { 声明序列(可选) }     (1)
+extern 字符串字面量 声明     (2)
+1) 将语言说明字符串字面量应用到声明于声明序列中的所有函数类型，具有外部连接的
+                                
+                            </div>
+                            <div class="publish-info">
+                                <span class="publish-date">
+                                    <i
+                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-02-07
                                 </span>
                                 <span class="publish-author">
                                     

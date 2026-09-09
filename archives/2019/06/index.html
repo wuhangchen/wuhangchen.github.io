@@ -376,21 +376,22 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             <article class="cd-timeline-content" data-aos="fade-up">
                 <div class="article col s12 m6">
                     <div class="card">
-                        <a href="/2019/06/27/linux-dong-tai-ku-lian-jie/">
+                        <a href="/2019/06/27/c-mian-shi-ti/">
                             <div class="card-image">
                                 
                                 
-                                <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="so出现undefined symbol------ldd, nm, c++filt">
+                                <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="C++面试题">
                                 
-                                <span class="card-title">so出现undefined symbol------ldd, nm, c++filt</span>
+                                <span class="card-title">C++面试题</span>
                             </div>
                         </a>
                         <div class="card-content article-content">
                             <div class="summary block-with-text">
                                 
-                                最近发版本，灰度发布的时候，发现进程没起来，回包自然是异常的。立即进行版本回退，发现 OK。
-哪里出问题了呢？直接 ldd -r libtest.so 一下，就知道了，原来是缺符号。看看简化后的示例代码：
-#include &lt;iost
+                                
+char c = &#39;\72&#39;; 中的 \72 代表一个字符，72 是八进制数，代表 ASCII 码字符 :。
+10*a++ 中 a 先进行乘法运算再自增。
+const 和 static 的作用static 关键字：1）函数
                                 
                             </div>
                             <div class="publish-info">
@@ -433,95 +434,30 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
 
             
             <div class="cd-timeline-img day" data-aos="zoom-in-up">
-                <span>15</span>
+                <span>13</span>
             </div>
             <article class="cd-timeline-content" data-aos="fade-up">
                 <div class="article col s12 m6">
                     <div class="card">
-                        <a href="/2019/06/15/c-lambda-bu-huo/">
+                        <a href="/2019/06/13/c-sizeof-xiang-jie/">
                             <div class="card-image">
                                 
                                 
-                                <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Lambda 表达式捕获列表">
+                                <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="C++细说sizeof">
                                 
-                                <span class="card-title">Lambda 表达式捕获列表</span>
+                                <span class="card-title">C++细说sizeof</span>
                             </div>
                         </a>
                         <div class="card-content article-content">
                             <div class="summary block-with-text">
                                 
-                                捕获值列表，是 Lambda 表达式的函数体中直接使用这些值含义，捕获值列表能捕获的值是所有在此作用域可以访问的值，包括这个作用域里面的临时变量，类的可访问成员，全局变量。捕获值的方式分两种，一种是按值捕获，一种是按引用捕获。顾名思义，按值
+                                摘要sizeof 的作用非常简单：求对象或者类型的大小。然而 sizeof 又非常复杂，它涉及到很多特殊情况，总结出了 sizeof 的 9 个特性：(1)sizeof 不能求得 void 类型的长度；(2)sizeof 能求得 void 
                                 
                             </div>
                             <div class="publish-info">
                                 <span class="publish-date">
                                     <i
-                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-06-15
-                                </span>
-                                <span class="publish-author">
-                                    
-                                    <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                    
-                                    <a href="/categories/C/" class="post-category" target="_blank">
-                                        C++
-                                    </a>
-                                    
-                                    
-                                </span>
-                            </div>
-                        </div>
-
-                        
-                        <div class="card-action article-tags">
-                            
-                            <a href="/tags/C/"><span class="chip bg-color">C++</span></a>
-                            
-                        </div>
-                        
-                    </div>
-                </div>
-            </article>
-        </div>
-        
-        <div class="cd-timeline-block">
-
-            
-            
-
-            
-            
-
-            
-            <div class="cd-timeline-img day" data-aos="zoom-in-up">
-                <span>03</span>
-            </div>
-            <article class="cd-timeline-content" data-aos="fade-up">
-                <div class="article col s12 m6">
-                    <div class="card">
-                        <a href="/2019/06/03/c-malloc-zero/">
-                            <div class="card-image">
-                                
-                                
-                                <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="内存分配malloc">
-                                
-                                <span class="card-title">内存分配malloc</span>
-                            </div>
-                        </a>
-                        <div class="card-content article-content">
-                            <div class="summary block-with-text">
-                                
-                                下面的代码片段输出是什么？
-char *ptr;
-if((ptr = (char *)malloc(0)) == NULL)
-    puts("Got a null pointer");
-else
-    puts("Got a vali
-                                
-                            </div>
-                            <div class="publish-info">
-                                <span class="publish-date">
-                                    <i
-                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-06-03
+                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-06-13
                                 </span>
                                 <span class="publish-author">
                                     

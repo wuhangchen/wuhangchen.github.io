@@ -371,93 +371,31 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
 
             
             <div class="cd-timeline-img day" data-aos="zoom-in-up">
-                <span>28</span>
+                <span>18</span>
             </div>
             <article class="cd-timeline-content" data-aos="fade-up">
                 <div class="article col s12 m6">
                     <div class="card">
-                        <a href="/2019/04/28/c-mian-shi-ti/">
+                        <a href="/2019/04/18/c-ref/">
                             <div class="card-image">
                                 
                                 
-                                <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="C++面试题">
+                                <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="std::ref">
                                 
-                                <span class="card-title">C++面试题</span>
+                                <span class="card-title">std::ref</span>
                             </div>
                         </a>
                         <div class="card-content article-content">
                             <div class="summary block-with-text">
                                 
-                                
-char c = &#39;\72&#39;; 中的 \72 代表一个字符，72 是八进制数，代表 ASCII 码字符 :。
-10*a++ 中 a 先进行乘法运算再自增。
-const 和 static 的作用static 关键字：1）函数
+                                C++ 本身有引用 &amp;，为什么 C++11 又引入了 std::ref？主要是考虑函数式编程如 std::bind 在使用时，是对参数直接拷贝，而不是引用。如下例子：
+void f(int&amp; n1, int&amp; n2,
                                 
                             </div>
                             <div class="publish-info">
                                 <span class="publish-date">
                                     <i
-                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-04-28
-                                </span>
-                                <span class="publish-author">
-                                    
-                                    <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                    
-                                    <a href="/categories/C/" class="post-category" target="_blank">
-                                        C++
-                                    </a>
-                                    
-                                    
-                                </span>
-                            </div>
-                        </div>
-
-                        
-                        <div class="card-action article-tags">
-                            
-                            <a href="/tags/C/"><span class="chip bg-color">C++</span></a>
-                            
-                        </div>
-                        
-                    </div>
-                </div>
-            </article>
-        </div>
-        
-        <div class="cd-timeline-block">
-
-            
-            
-
-            
-            
-
-            
-            <div class="cd-timeline-img day" data-aos="zoom-in-up">
-                <span>16</span>
-            </div>
-            <article class="cd-timeline-content" data-aos="fade-up">
-                <div class="article col s12 m6">
-                    <div class="card">
-                        <a href="/2019/04/16/c-sizeof-xiang-jie/">
-                            <div class="card-image">
-                                
-                                
-                                <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="C++细说sizeof">
-                                
-                                <span class="card-title">C++细说sizeof</span>
-                            </div>
-                        </a>
-                        <div class="card-content article-content">
-                            <div class="summary block-with-text">
-                                
-                                摘要sizeof 的作用非常简单：求对象或者类型的大小。然而 sizeof 又非常复杂，它涉及到很多特殊情况，总结出了 sizeof 的 9 个特性：(1)sizeof 不能求得 void 类型的长度；(2)sizeof 能求得 void 
-                                
-                            </div>
-                            <div class="publish-info">
-                                <span class="publish-date">
-                                    <i
-                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-04-16
+                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-04-18
                                 </span>
                                 <span class="publish-author">
                                     
@@ -499,19 +437,20 @@ const 和 static 的作用static 关键字：1）函数
             <article class="cd-timeline-content" data-aos="fade-up">
                 <div class="article col s12 m6">
                     <div class="card">
-                        <a href="/2019/04/04/c-malloc-new/">
+                        <a href="/2019/04/04/c-friend/">
                             <div class="card-image">
                                 
                                 
-                                <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="C++中new与malloc区别">
+                                <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="friend">
                                 
-                                <span class="card-title">C++中new与malloc区别</span>
+                                <span class="card-title">friend</span>
                             </div>
                         </a>
                         <div class="card-content article-content">
                             <div class="summary block-with-text">
                                 
-                                申请的内存所在位置new 操作符从自由存储区上为对象动态分配内存空间，而 malloc 函数从堆上动态分配内存。自由存储区是 C++ 基于 new 操作符的一个抽象概念，凡是通过 new 操作符进行内存申请，该内存即为自由存储区。而堆是操作
+                                原则上， 类的私有和受保护成员不能从声明它们的同一类外部访问。但是， 此规则不适用于友元friends。以 friend关键字修饰的函数或类称为友元函数或友元类。
+友元函数友元函数是可以直接访问类的私有成员的非成员函数。它是定义在类外的普通
                                 
                             </div>
                             <div class="publish-info">

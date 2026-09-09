@@ -371,30 +371,30 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
 
             
             <div class="cd-timeline-img day" data-aos="zoom-in-up">
-                <span>22</span>
+                <span>30</span>
             </div>
             <article class="cd-timeline-content" data-aos="fade-up">
                 <div class="article col s12 m6">
                     <div class="card">
-                        <a href="/2019/05/22/c-const-mutable/">
+                        <a href="/2019/05/30/c-malloc-new/">
                             <div class="card-image">
                                 
                                 
-                                <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="C++成员修饰const和mutable">
+                                <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="C++中new与malloc区别">
                                 
-                                <span class="card-title">C++成员修饰const和mutable</span>
+                                <span class="card-title">C++中new与malloc区别</span>
                             </div>
                         </a>
                         <div class="card-content article-content">
                             <div class="summary block-with-text">
                                 
-                                const：常量，不变的 mutable：易变的从意思上理解，可见 const 和 mutable 是一对反义词，它们都是 C++的关键字。const 成员函数不能修改调用它的对象。类的成员函数可以被声明为 const，这将使得函数的隐式参
+                                申请的内存所在位置new 操作符从自由存储区上为对象动态分配内存空间，而 malloc 函数从堆上动态分配内存。自由存储区是 C++ 基于 new 操作符的一个抽象概念，凡是通过 new 操作符进行内存申请，该内存即为自由存储区。而堆是操作
                                 
                             </div>
                             <div class="publish-info">
                                 <span class="publish-date">
                                     <i
-                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-05-22
+                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-05-30
                                 </span>
                                 <span class="publish-author">
                                     
@@ -431,30 +431,94 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
 
             
             <div class="cd-timeline-img day" data-aos="zoom-in-up">
-                <span>10</span>
+                <span>16</span>
             </div>
             <article class="cd-timeline-content" data-aos="fade-up">
                 <div class="article col s12 m6">
                     <div class="card">
-                        <a href="/2019/05/10/c-zi-zeng-yun-suan-fu/">
+                        <a href="/2019/05/16/c-liu-huan-chong-qu/">
                             <div class="card-image">
                                 
                                 
-                                <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="使用++i还是i++">
+                                <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="C++ 流缓冲区">
                                 
-                                <span class="card-title">使用++i还是i++</span>
+                                <span class="card-title">C++ 流缓冲区</span>
                             </div>
                         </a>
                         <div class="card-content article-content">
                             <div class="summary block-with-text">
                                 
-                                我们经常使用 for 循环来遍历东西，循环变量可以前自增也可以后自增，发现对遍历结果没啥影响，但是该如何选择呢？我们应该尽量使用前自增运算符而不是后自增运算符，即用 ++Iter 代替 Iter++。前缀和后缀形式之间的区别是众所周知的。我
+                                C++ 的 I/O 是通过标准库中输入输出流来实现的。标准库在 iostream 头文件当中，预定义了六个流对象，他们是：
+* istream 
+> class basic_ios;  // : public ios_base
+由于 std
                                 
                             </div>
                             <div class="publish-info">
                                 <span class="publish-date">
                                     <i
-                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-05-10
+                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-05-16
+                                </span>
+                                <span class="publish-author">
+                                    
+                                    <i class="fa fa-bookmark fa-fw icon-category"></i>
+                                    
+                                    <a href="/categories/C/" class="post-category" target="_blank">
+                                        C++
+                                    </a>
+                                    
+                                    
+                                </span>
+                            </div>
+                        </div>
+
+                        
+                        <div class="card-action article-tags">
+                            
+                            <a href="/tags/C/"><span class="chip bg-color">C++</span></a>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </article>
+        </div>
+        
+        <div class="cd-timeline-block">
+
+            
+            
+
+            
+            
+
+            
+            <div class="cd-timeline-img day" data-aos="zoom-in-up">
+                <span>02</span>
+            </div>
+            <article class="cd-timeline-content" data-aos="fade-up">
+                <div class="article col s12 m6">
+                    <div class="card">
+                        <a href="/2019/05/02/c-ming-ling-xing-can-shu/">
+                            <div class="card-image">
+                                
+                                
+                                <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="C++命令行参数">
+                                
+                                <span class="card-title">C++命令行参数</span>
+                            </div>
+                        </a>
+                        <div class="card-content article-content">
+                            <div class="summary block-with-text">
+                                
+                                前言我们在 Linux 用到的命令常常支持很多参数，那么如何写一个程序，也像 Linux 命令一样支持很多参数呢？有什么优雅的处理方法？
+命令行参数在介绍如何处理命令行参数之前，简单介绍一下命令行参数，已经了解的朋友可以跳过此小节。我们用一
+                                
+                            </div>
+                            <div class="publish-info">
+                                <span class="publish-date">
+                                    <i
+                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-05-02
                                 </span>
                                 <span class="publish-author">
                                     

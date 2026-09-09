@@ -371,32 +371,31 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
 
             
             <div class="cd-timeline-img day" data-aos="zoom-in-up">
-                <span>22</span>
+                <span>24</span>
             </div>
             <article class="cd-timeline-content" data-aos="fade-up">
                 <div class="article col s12 m6">
                     <div class="card">
-                        <a href="/2019/01/22/c-strlen-sizeof/">
+                        <a href="/2019/01/24/c-mei-ju/">
                             <div class="card-image">
                                 
                                 
-                                <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="sizeof、strlen、数组、字符串">
+                                <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="枚举申明">
                                 
-                                <span class="card-title">sizeof、strlen、数组、字符串</span>
+                                <span class="card-title">枚举申明</span>
                             </div>
                         </a>
                         <div class="card-content article-content">
                             <div class="summary block-with-text">
                                 
-                                对于初学者来说，sizeof，strlen，数组，字符串整在一起是痛苦的，本文看看它们在一起能挖什么坑。
-例子在说明这些问题之前，先看一段代码，看看你是否都理解了。注：以下代码结果为编译为 64 位程序后运行结果。
-void testArr
+                                枚举enumeration是独立的类型，其值限制在一个取值范围内，它可以包含数个明确命名的常量。各常量的值是某个整型类型（称为该枚举的底层类型underlying type）的值。
+enum-关键词 attr(可选) enum-名(可选) 
                                 
                             </div>
                             <div class="publish-info">
                                 <span class="publish-date">
                                     <i
-                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-01-22
+                                        class="fa fa-clock-o fa-fw icon-date"></i>2019-01-24
                                 </span>
                                 <span class="publish-author">
                                     
@@ -438,22 +437,23 @@ void testArr
             <article class="cd-timeline-content" data-aos="fade-up">
                 <div class="article col s12 m6">
                     <div class="card">
-                        <a href="/2019/01/10/c-er-wei-shu-zu/">
+                        <a href="/2019/01/10/c-zhi-zhen/">
                             <div class="card-image">
                                 
                                 
-                                <img src="/medias/featureimages/24.jpg" class="responsive-img" alt="二维数组">
+                                <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="指针">
                                 
-                                <span class="card-title">二维数组</span>
+                                <span class="card-title">指针</span>
                             </div>
                         </a>
                         <div class="card-content article-content">
                             <div class="summary block-with-text">
                                 
-                                二维数组我们知道 C 语言没有真正意义上的二维数组。二维数组的实现，只是简单地通过“线性扩展”的方式进行。
-int b[4][5];
-就是定义 4 个元素，每个元素都是一个包含 5 个整型变量的一维数组。它在内存中依然是以线性的形式存储。
-
+                                声明指针或指向成员指针类型的变量。
+语法指针的声明是简单声明，其声明符拥有下列形式
+* attr(可选) cv(可选) 声明符     (1)
+嵌套名说明符 * attr（可选） cv（可选） 声明符     (2)
+1) 指针声明符：声明
                                 
                             </div>
                             <div class="publish-info">
