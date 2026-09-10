@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://wuhangchen.github.io/2020/03/05/linux-netstat/</loc>
+    <lastmod>2026-09-10</lastmod>
+  </url>  <url>
     <loc>https://wuhangchen.github.io/2018/05/03/thinking-sui-xiang/</loc>
     <lastmod>2026-09-09</lastmod>
   </url>  <url>
@@ -11,9 +14,6 @@
     <lastmod>2026-09-09</lastmod>
   </url>  <url>
     <loc>https://wuhangchen.github.io/2018/10/18/linux-risk-command/</loc>
-    <lastmod>2026-09-09</lastmod>
-  </url>  <url>
-    <loc>https://wuhangchen.github.io/2020/03/05/linux-netstat/</loc>
     <lastmod>2026-09-09</lastmod>
   </url>  <url>
     <loc>https://wuhangchen.github.io/2020/02/06/linux-nc/</loc>
@@ -34,10 +34,10 @@
     <loc>https://wuhangchen.github.io/2019/12/26/linux-fork-risk/</loc>
     <lastmod>2026-09-09</lastmod>
   </url>  <url>
-    <loc>https://wuhangchen.github.io/2019/12/12/linux-fork-pre/</loc>
+    <loc>https://wuhangchen.github.io/2020/01/23/linux-fork-interview/</loc>
     <lastmod>2026-09-09</lastmod>
   </url>  <url>
-    <loc>https://wuhangchen.github.io/2020/01/23/linux-fork-interview/</loc>
+    <loc>https://wuhangchen.github.io/2019/12/12/linux-fork-pre/</loc>
     <lastmod>2026-09-09</lastmod>
   </url>  <url>
     <loc>https://wuhangchen.github.io/2020/01/09/linux-fork-clone/</loc>
