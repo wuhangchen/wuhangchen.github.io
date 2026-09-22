@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://wuhangchen.github.io/"/>
-  <updated>2026-09-10T06:57:19.991Z</updated>
+  <updated>2026-09-22T06:48:06.787Z</updated>
   <id>https://wuhangchen.github.io/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Linux-netstat</title>
-    <link href="https://wuhangchen.github.io/2020/03/05/linux-netstat/"/>
-    <id>https://wuhangchen.github.io/2020/03/05/linux-netstat/</id>
-    <published>2020-03-05T04:00:00.000Z</published>
-    <updated>2026-09-10T06:57:19.991Z</updated>
+    <title>端侧大模型性能调优在高通芯片上实战</title>
+    <link href="https://wuhangchen.github.io/2026/03/22/gao-tong-qnn-xing-neng-diao-you-shi-zhan/"/>
+    <id>https://wuhangchen.github.io/2026/03/22/gao-tong-qnn-xing-neng-diao-you-shi-zhan/</id>
+    <published>2026-03-22T04:00:00.000Z</published>
+    <updated>2026-09-22T06:48:06.787Z</updated>
     
     <summary type="html">
     
@@ -29,25 +29,26 @@
       
         
         
-          &lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;p&gt;&lt;code&gt;netstat&lt;/code&gt;命令用于显示各种网络相关信息，如网络连接，路由表，接口状态 Interface
+          &lt;p&gt;&lt;strong&gt;⚡ Profiling 三板斧 · Memory-Bound 破局 · 投机采样加速&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;前两篇聊了硬件架构和量化方法。到这一步，你应该已经有了一个量化好的模型，能在车机 NPU 上跑起来了。Qwen2.5-VL-3B 在
         
       
     
     </summary>
     
-      <category term="Linux" scheme="https://wuhangchen.github.io/categories/Linux/"/>
+      <category term="高通QNN" scheme="https://wuhangchen.github.io/categories/%E9%AB%98%E9%80%9AQNN/"/>
     
     
-      <category term="Linux" scheme="https://wuhangchen.github.io/tags/Linux/"/>
+      <category term="高通QNN" scheme="https://wuhangchen.github.io/tags/%E9%AB%98%E9%80%9AQNN/"/>
     
   </entry>
   
   <entry>
-    <title>Linux-动态链接与静态链接</title>
-    <link href="https://wuhangchen.github.io/2020/02/20/linux-dong-tai-lian-jie-yu-jing-tai-lian-jie/"/>
-    <id>https://wuhangchen.github.io/2020/02/20/linux-dong-tai-lian-jie-yu-jing-tai-lian-jie/</id>
-    <published>2020-02-20T04:00:00.000Z</published>
-    <updated>2026-09-09T09:13:18.673Z</updated>
+    <title>高通 QNN 全景拆解（二）：从模型量化到多模型并发的完整部署实战</title>
+    <link href="https://wuhangchen.github.io/2026/03/17/gao-tong-qnn-bu-shu-shi-zhan/"/>
+    <id>https://wuhangchen.github.io/2026/03/17/gao-tong-qnn-bu-shu-shi-zhan/</id>
+    <published>2026-03-17T04:00:00.000Z</published>
+    <updated>2026-09-22T06:48:06.613Z</updated>
     
     <summary type="html">
     
@@ -55,25 +56,27 @@
       
         
         
-          &lt;p&gt;库是写好的现有的，成熟的，可以复用的代码。现实中每个程序都要依赖很多基础的底层库，不可能每个人的代码都从零开始，因此库的存在意义非同寻常。&lt;br&gt;本质上来说库是一种可执行代码的二进制形式，可以被操作系统载入内存执行。&lt;br&gt;库有两种：静态库（.a、.lib）和动态库（.so
+          &lt;p&gt;这是「高通 QNN 端侧 AI 部署全解析」系列的第二篇。上一篇我们搞懂了 QNN 的软件栈分层。今天来实战 — 从一个 HuggingFace 上的模型出发，一路走到 NPU 上跑起来的完整链路。&lt;/p&gt;
+&lt;p&gt;先看全流程：&lt;/p&gt;
+&lt;p&gt;&lt;img
         
       
     
     </summary>
     
-      <category term="Linux" scheme="https://wuhangchen.github.io/categories/Linux/"/>
+      <category term="高通QNN" scheme="https://wuhangchen.github.io/categories/%E9%AB%98%E9%80%9AQNN/"/>
     
     
-      <category term="Linux" scheme="https://wuhangchen.github.io/tags/Linux/"/>
+      <category term="高通QNN" scheme="https://wuhangchen.github.io/tags/%E9%AB%98%E9%80%9AQNN/"/>
     
   </entry>
   
   <entry>
-    <title>Linux-nc</title>
-    <link href="https://wuhangchen.github.io/2020/02/06/linux-nc/"/>
-    <id>https://wuhangchen.github.io/2020/02/06/linux-nc/</id>
-    <published>2020-02-06T04:00:00.000Z</published>
-    <updated>2026-09-09T09:13:18.699Z</updated>
+    <title>高通 QNN 全景拆解（一）：从框架到硬件的完整软件栈</title>
+    <link href="https://wuhangchen.github.io/2026/03/12/gao-tong-qnn-quan-jing-chai-jie/"/>
+    <id>https://wuhangchen.github.io/2026/03/12/gao-tong-qnn-quan-jing-chai-jie/</id>
+    <published>2026-03-12T04:00:00.000Z</published>
+    <updated>2026-09-22T06:48:06.430Z</updated>
     
     <summary type="html">
     
@@ -81,25 +84,28 @@
       
         
         
-          &lt;p&gt;&lt;code&gt;netcat&lt;/code&gt;号称 TCP/IP 的瑞士军刀并非浪得虚名，以体积小（可执行 200KB）功能灵活而著称，在各大发行版中都默认安装，你可以用它来做很多网络相关的工作，熟练使用它可以不依靠其他工具做一些很有用的事情。netcat 主要有 GNU 版本的
+          &lt;p&gt;这是「高通 QNN 端侧 AI 部署全解析」系列的第一篇。两篇的结构：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;本篇&lt;/strong&gt;：QNN 全景 — 软件栈分层 + 三大后端 + API 核心调用&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;第二篇&lt;/strong&gt;：部署实战
         
       
     
     </summary>
     
-      <category term="Linux" scheme="https://wuhangchen.github.io/categories/Linux/"/>
+      <category term="高通QNN" scheme="https://wuhangchen.github.io/categories/%E9%AB%98%E9%80%9AQNN/"/>
     
     
-      <category term="Linux" scheme="https://wuhangchen.github.io/tags/Linux/"/>
+      <category term="高通QNN" scheme="https://wuhangchen.github.io/tags/%E9%AB%98%E9%80%9AQNN/"/>
     
   </entry>
   
   <entry>
-    <title>Linux-fork-interview</title>
-    <link href="https://wuhangchen.github.io/2020/01/23/linux-fork-interview/"/>
-    <id>https://wuhangchen.github.io/2020/01/23/linux-fork-interview/</id>
-    <published>2020-01-23T04:00:00.000Z</published>
-    <updated>2026-09-09T09:13:18.690Z</updated>
+    <title>Jetson 系列（四）：V4L2 到底是什么</title>
+    <link href="https://wuhangchen.github.io/2026/03/07/jetson-v4l2-xiang-jie/"/>
+    <id>https://wuhangchen.github.io/2026/03/07/jetson-v4l2-xiang-jie/</id>
+    <published>2026-03-07T04:00:00.000Z</published>
+    <updated>2026-09-22T06:48:06.260Z</updated>
     
     <summary type="html">
     
@@ -107,25 +113,26 @@
       
         
         
-          &lt;p&gt;前两天有人问了个关于 Unix 的 fork()系统调用的面试题，这个题正好是我大约几年前找工作时某公司问我的一个题，我觉得比较有趣，写篇文章与大家分享一下。这个题是这样的：每一轮 &lt;code&gt;fork&lt;/code&gt;
+          &lt;p&gt;&lt;strong&gt;像 Linux 视频设备的办事大厅，专门管格式、buffer、控制和数据流&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;你有没有遇到过这种场景：USB 摄像头插上板子，/dev/video0 出来了。心想：Linux
         
       
     
     </summary>
     
-      <category term="Linux" scheme="https://wuhangchen.github.io/categories/Linux/"/>
+      <category term="Jetson" scheme="https://wuhangchen.github.io/categories/Jetson/"/>
     
     
-      <category term="Linux" scheme="https://wuhangchen.github.io/tags/Linux/"/>
+      <category term="Jetson" scheme="https://wuhangchen.github.io/tags/Jetson/"/>
     
   </entry>
   
   <entry>
-    <title>Linux-fork-clone</title>
-    <link href="https://wuhangchen.github.io/2020/01/09/linux-fork-clone/"/>
-    <id>https://wuhangchen.github.io/2020/01/09/linux-fork-clone/</id>
-    <published>2020-01-09T04:00:00.000Z</published>
-    <updated>2026-09-09T09:13:18.688Z</updated>
+    <title>Jetson 系列（三）：YOLOv8 + 相机 pipeline 全链路加速</title>
+    <link href="https://wuhangchen.github.io/2026/03/02/jetson-yolov8-quan-lian-lu-jia-su/"/>
+    <id>https://wuhangchen.github.io/2026/03/02/jetson-yolov8-quan-lian-lu-jia-su/</id>
+    <published>2026-03-02T04:00:00.000Z</published>
+    <updated>2026-09-22T06:48:06.045Z</updated>
     
     <summary type="html">
     
@@ -133,25 +140,27 @@
       
         
         
-          &lt;p&gt;在本文中，传统 UNIX fork 之后，我给出传统的 UNIX fork 在 Linux 内核中的变体 clone 系统调用的精彩。若要理解 fork 的原始意义，还是要看 Melvin Conway 提出 fork 思想的原始论文 &lt;a
+          &lt;p&gt;“模型在 PC 上跑得飞快，一上 Orin 就卡成 PPT？”&lt;/p&gt;
+&lt;p&gt;“TensorRT 引擎建好了，但端到端延迟还是高得离谱？”&lt;/p&gt;
+&lt;p&gt;在工业 AI 视觉落地中，&lt;strong&gt;全链路性能才是王道&lt;/strong&gt;。从相机采集 → 图像预处理 →
         
       
     
     </summary>
     
-      <category term="Linux" scheme="https://wuhangchen.github.io/categories/Linux/"/>
+      <category term="Jetson" scheme="https://wuhangchen.github.io/categories/Jetson/"/>
     
     
-      <category term="Linux" scheme="https://wuhangchen.github.io/tags/Linux/"/>
+      <category term="Jetson" scheme="https://wuhangchen.github.io/tags/Jetson/"/>
     
   </entry>
   
   <entry>
-    <title>Linux-fork-risk</title>
-    <link href="https://wuhangchen.github.io/2019/12/26/linux-fork-risk/"/>
-    <id>https://wuhangchen.github.io/2019/12/26/linux-fork-risk/</id>
-    <published>2019-12-26T04:00:00.000Z</published>
-    <updated>2026-09-09T09:13:18.692Z</updated>
+    <title>Jetson 系列（二）：跑满帧目标检测——从 5FPS 到接近硬件极限</title>
+    <link href="https://wuhangchen.github.io/2026/02/25/jetson-yolo-tui-li-you-hua/"/>
+    <id>https://wuhangchen.github.io/2026/02/25/jetson-yolo-tui-li-you-hua/</id>
+    <published>2026-02-25T04:00:00.000Z</published>
+    <updated>2026-09-22T06:46:35.651Z</updated>
     
     <summary type="html">
     
@@ -159,25 +168,26 @@
       
         
         
-          &lt;p&gt;&lt;code&gt;fork&lt;/code&gt;是一个拥有 50 年历史的陈年系统调用，它是一个传奇！时至今日，它依旧灿烂。一个程序员可以永远不用 &lt;code&gt;read/write&lt;/code&gt;，也可以不懂 &lt;code&gt;mmap&lt;/code&gt;，但必须懂
+          &lt;p&gt;&lt;strong&gt;YOLO11 + TensorRT FP16 + V4L2 零拷贝 + 双缓冲流水线，榨干 Jetson Orin Nano Super 的每一帧性能&lt;/strong&gt;&lt;/p&gt;
+&lt;h2
         
       
     
     </summary>
     
-      <category term="Linux" scheme="https://wuhangchen.github.io/categories/Linux/"/>
+      <category term="Jetson" scheme="https://wuhangchen.github.io/categories/Jetson/"/>
     
     
-      <category term="Linux" scheme="https://wuhangchen.github.io/tags/Linux/"/>
+      <category term="Jetson" scheme="https://wuhangchen.github.io/tags/Jetson/"/>
     
   </entry>
   
   <entry>
-    <title>Linux-fork-Pre</title>
-    <link href="https://wuhangchen.github.io/2019/12/12/linux-fork-pre/"/>
-    <id>https://wuhangchen.github.io/2019/12/12/linux-fork-pre/</id>
-    <published>2019-12-12T04:00:00.000Z</published>
-    <updated>2026-09-09T09:13:18.690Z</updated>
+    <title>Jetson 系列（一）：Orin 安装 Jetpack</title>
+    <link href="https://wuhangchen.github.io/2026/02/20/jetson-an-zhuang-jetpack/"/>
+    <id>https://wuhangchen.github.io/2026/02/20/jetson-an-zhuang-jetpack/</id>
+    <published>2026-02-20T04:00:00.000Z</published>
+    <updated>2026-09-22T06:46:35.483Z</updated>
     
     <summary type="html">
     
@@ -185,25 +195,26 @@
       
         
         
-          &lt;p&gt;&lt;code&gt;fork&lt;/code&gt;的思想在 UNIX 出现几年前就出现了，时间大概是 1963 年，这比 UNIX 在 PDP-7 上的第一个版本早了6年。1963 年，计算机科学家 Melvin
+          &lt;p&gt;在本文中，您将找到在主机上安装 Jetpack 的指南。本部分假设您已经安装了 NVIDIA SDK Manager，要了解 SDK Manager，请查看安装 SDK Manager 部分。&lt;/p&gt;
+&lt;p&gt;以下小节介绍了在主机上安装 Jetpack 5.0.2
         
       
     
     </summary>
     
-      <category term="Linux" scheme="https://wuhangchen.github.io/categories/Linux/"/>
+      <category term="Jetson" scheme="https://wuhangchen.github.io/categories/Jetson/"/>
     
     
-      <category term="Linux" scheme="https://wuhangchen.github.io/tags/Linux/"/>
+      <category term="Jetson" scheme="https://wuhangchen.github.io/tags/Jetson/"/>
     
   </entry>
   
   <entry>
-    <title>Linux-数据类型-json</title>
-    <link href="https://wuhangchen.github.io/2019/11/28/linux-shu-ju-lei-xing-json/"/>
-    <id>https://wuhangchen.github.io/2019/11/28/linux-shu-ju-lei-xing-json/</id>
-    <published>2019-11-28T04:00:00.000Z</published>
-    <updated>2026-09-09T09:13:18.679Z</updated>
+    <title>LLM 推理系列（七）：投机解码（Speculative Decoding）</title>
+    <link href="https://wuhangchen.github.io/2026/02/15/llm-tou-ji-jie-ma/"/>
+    <id>https://wuhangchen.github.io/2026/02/15/llm-tou-ji-jie-ma/</id>
+    <published>2026-02-15T04:00:00.000Z</published>
+    <updated>2026-09-22T06:46:35.316Z</updated>
     
     <summary type="html">
     
@@ -211,25 +222,25 @@
       
         
         
-          &lt;p&gt;前几天，我才知道有一种简化的数据交换格式，叫做
+          &lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h2&gt;&lt;p&gt;投机解码（Speculative
         
       
     
     </summary>
     
-      <category term="Linux" scheme="https://wuhangchen.github.io/categories/Linux/"/>
+      <category term="LLM" scheme="https://wuhangchen.github.io/categories/LLM/"/>
     
     
-      <category term="Linux" scheme="https://wuhangchen.github.io/tags/Linux/"/>
+      <category term="LLM" scheme="https://wuhangchen.github.io/tags/LLM/"/>
     
   </entry>
   
   <entry>
-    <title>右值引用</title>
-    <link href="https://wuhangchen.github.io/2019/11/14/c-you-zhi-yin-yong/"/>
-    <id>https://wuhangchen.github.io/2019/11/14/c-you-zhi-yin-yong/</id>
-    <published>2019-11-14T04:00:00.000Z</published>
-    <updated>2026-09-09T09:13:18.657Z</updated>
+    <title>LLM 推理系列（六）：内存容量——端侧 AI 的入场券</title>
+    <link href="https://wuhangchen.github.io/2026/02/10/llm-nei-cun-rong-liang/"/>
+    <id>https://wuhangchen.github.io/2026/02/10/llm-nei-cun-rong-liang/</id>
+    <published>2026-02-10T04:00:00.000Z</published>
+    <updated>2026-09-22T06:46:35.161Z</updated>
     
     <summary type="html">
     
@@ -237,7 +248,246 @@
       
         
         
-          &lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h2&gt;&lt;p&gt;右值引用的概念有些读者可能会感到陌生，其实它和 C++98/03 中的左值引用有些类似，例如，C++98/03
+          &lt;h2 id=&quot;LLM-内存占用的构成：三大核心部分的量化分析&quot;&gt;&lt;a href=&quot;#LLM-内存占用的构成：三大核心部分的量化分析&quot; class=&quot;headerlink&quot; title=&quot;LLM 内存占用的构成：三大核心部分的量化分析&quot;&gt;&lt;/a&gt;LLM
+        
+      
+    
+    </summary>
+    
+      <category term="LLM" scheme="https://wuhangchen.github.io/categories/LLM/"/>
+    
+    
+      <category term="LLM" scheme="https://wuhangchen.github.io/tags/LLM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>LLM 推理系列（五）：内存带宽——端侧 LLM 的第一瓶颈</title>
+    <link href="https://wuhangchen.github.io/2026/02/05/llm-nei-cun-dai-kuan/"/>
+    <id>https://wuhangchen.github.io/2026/02/05/llm-nei-cun-dai-kuan/</id>
+    <published>2026-02-05T04:00:00.000Z</published>
+    <updated>2026-09-22T06:46:34.975Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;在 AI 大模型席卷一切的今天，我们都期待手机成为真正的”口袋里的AI大脑”。但你有没有感觉，手机上的 AI
+        
+      
+    
+    </summary>
+    
+      <category term="LLM" scheme="https://wuhangchen.github.io/categories/LLM/"/>
+    
+    
+      <category term="LLM" scheme="https://wuhangchen.github.io/tags/LLM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>LLM 推理系列（四）：模型量化——原理与范式</title>
+    <link href="https://wuhangchen.github.io/2026/01/31/llm-mo-xing-liang-hua/"/>
+    <id>https://wuhangchen.github.io/2026/01/31/llm-mo-xing-liang-hua/</id>
+    <published>2026-01-31T04:00:00.000Z</published>
+    <updated>2026-09-22T06:46:34.756Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;一、引言&quot;&gt;&lt;a href=&quot;#一、引言&quot; class=&quot;headerlink&quot; title=&quot;一、引言&quot;&gt;&lt;/a&gt;一、引言&lt;/h2&gt;&lt;p&gt;你有一张 RTX 4090，24GB 显存。你下载了
+        
+      
+    
+    </summary>
+    
+      <category term="LLM" scheme="https://wuhangchen.github.io/categories/LLM/"/>
+    
+    
+      <category term="LLM" scheme="https://wuhangchen.github.io/tags/LLM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>LLM 推理系列（三）：KV Cache 原理与显存占用</title>
+    <link href="https://wuhangchen.github.io/2026/01/26/llm-kv-cache/"/>
+    <id>https://wuhangchen.github.io/2026/01/26/llm-kv-cache/</id>
+    <published>2026-01-26T04:00:00.000Z</published>
+    <updated>2026-09-22T06:46:24.717Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;先快速过一遍前向传播：token 先查表变成向量，然后逐层经过 Transformer Block，每层里用 Q、K、V 三个向量做自注意力，最后从词表分布里挑出下一个 token。&lt;/p&gt;
+&lt;p&gt;我们也知道了生成是自回归（Autoregressive）的，也就是一个
+        
+      
+    
+    </summary>
+    
+      <category term="LLM" scheme="https://wuhangchen.github.io/categories/LLM/"/>
+    
+    
+      <category term="LLM" scheme="https://wuhangchen.github.io/tags/LLM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>LLM 推理系列（二）：运行大型语言模型需要多少 GPU 内存？</title>
+    <link href="https://wuhangchen.github.io/2026/01/21/llm-gpu-nei-cun-gu-suan/"/>
+    <id>https://wuhangchen.github.io/2026/01/21/llm-gpu-nei-cun-gu-suan/</id>
+    <published>2026-01-21T04:00:00.000Z</published>
+    <updated>2026-09-22T06:46:24.547Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;几乎在所有的大型语言模型（LLM）面试中，都有一个经常被问到的问题：”服务一个大型语言模型需要多少GPU内存？”&lt;/p&gt;
+&lt;p&gt;这个问题并非随意提出——它是检验你对这些强大模型在生产环境中部署和可扩展性理解程度的关键指标。在使用像 GPT、LLaMA
+        
+      
+    
+    </summary>
+    
+      <category term="LLM" scheme="https://wuhangchen.github.io/categories/LLM/"/>
+    
+    
+      <category term="LLM" scheme="https://wuhangchen.github.io/tags/LLM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>LLM 推理系列（一）：讲清 FP64、FP32、TF32、BF16、FP16、FP8、INT8、INT4、NVFP4</title>
+    <link href="https://wuhangchen.github.io/2026/01/16/llm-shu-zhi-jing-du-xiang-jie/"/>
+    <id>https://wuhangchen.github.io/2026/01/16/llm-shu-zhi-jing-du-xiang-jie/</id>
+    <published>2026-01-16T04:00:00.000Z</published>
+    <updated>2026-09-22T06:46:24.370Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;看 AI 芯片、GPU、模型训练和推理时，经常会看到这些词：&lt;strong&gt;FP64、FP32、TF32、BF16、FP16、FP8、INT8、INT4、NVFP4&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;它们本质上都在回答一个问题：&lt;strong&gt;计算机到底用多少 bit
+        
+      
+    
+    </summary>
+    
+      <category term="LLM" scheme="https://wuhangchen.github.io/categories/LLM/"/>
+    
+    
+      <category term="LLM" scheme="https://wuhangchen.github.io/tags/LLM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>llama.cpp RPC 局域网分布式推理验证</title>
+    <link href="https://wuhangchen.github.io/2026/01/11/llama.cpp-rpc-fen-bu-shi-tui-li/"/>
+    <id>https://wuhangchen.github.io/2026/01/11/llama.cpp-rpc-fen-bu-shi-tui-li/</id>
+    <published>2026-01-11T04:00:00.000Z</published>
+    <updated>2026-09-22T06:46:24.196Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;一、RPC-分布式推理的核心原理&quot;&gt;&lt;a href=&quot;#一、RPC-分布式推理的核心原理&quot; class=&quot;headerlink&quot; title=&quot;一、RPC 分布式推理的核心原理&quot;&gt;&lt;/a&gt;一、RPC 分布式推理的核心原理&lt;/h2&gt;&lt;p&gt;llama.cpp 的
+        
+      
+    
+    </summary>
+    
+      <category term="llama.cpp" scheme="https://wuhangchen.github.io/categories/llama-cpp/"/>
+    
+    
+      <category term="llama.cpp" scheme="https://wuhangchen.github.io/tags/llama-cpp/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>llama.cpp 源码解析（二）：GGUF 格式与模型加载——从磁盘文件到内存张量</title>
+    <link href="https://wuhangchen.github.io/2026/01/06/llama.cpp-gguf-ge-shi-yu-mo-xing-jia-zai/"/>
+    <id>https://wuhangchen.github.io/2026/01/06/llama.cpp-gguf-ge-shi-yu-mo-xing-jia-zai/</id>
+    <published>2026-01-06T04:00:00.000Z</published>
+    <updated>2026-09-22T06:46:23.985Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;这是 llama.cpp 源码系列的第二篇。上一篇我们拆解了推理引擎 GGML，理解了张量、Arena、延迟执行、Galloc、KV Cache、线程模型的完整骨架。&lt;/p&gt;
+&lt;p&gt;但还有一个问题没回答：&lt;strong&gt;模型文件本身是怎么设计的？&lt;/strong&gt;
+        
+      
+    
+    </summary>
+    
+      <category term="llama.cpp" scheme="https://wuhangchen.github.io/categories/llama-cpp/"/>
+    
+    
+      <category term="llama.cpp" scheme="https://wuhangchen.github.io/tags/llama-cpp/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>llama.cpp 源码解析（一）：GGML——大模型推理引擎是如何设计的</title>
+    <link href="https://wuhangchen.github.io/2026/01/01/llama.cpp-ggml-yuan-ma-jie-xi/"/>
+    <id>https://wuhangchen.github.io/2026/01/01/llama.cpp-ggml-yuan-ma-jie-xi/</id>
+    <published>2026-01-01T04:00:00.000Z</published>
+    <updated>2026-09-22T06:46:23.716Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;几周前我开始看 llama.cpp 的源码。想看看”为什么我这台本地的笔记本也能跑得动 7B 甚至 14B 模型”，结果发现——这个项目太有意思了。所以我准备尝试写篇系列文章（又开新坑😂）。&lt;/p&gt;
+&lt;p&gt;从推理引擎开始，如果你也想知道 llama.cpp 的推理引擎
+        
+      
+    
+    </summary>
+    
+      <category term="llama.cpp" scheme="https://wuhangchen.github.io/categories/llama-cpp/"/>
+    
+    
+      <category term="llama.cpp" scheme="https://wuhangchen.github.io/tags/llama-cpp/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>qBreakpad 踩坑记：ARM 平台崩溃转储收集</title>
+    <link href="https://wuhangchen.github.io/2021/01/31/c-qbreakpad/"/>
+    <id>https://wuhangchen.github.io/2021/01/31/c-qbreakpad/</id>
+    <published>2021-01-31T04:00:00.000Z</published>
+    <updated>2026-09-22T07:20:57.205Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;在 ARM 嵌入式平台上，程序崩溃后往往只留下一句模糊的报错，日志里很难定位到崩溃现场。qBreakpad 是基于 google-breakpad 封装的 Qt 库，可以在程序崩溃时自动生成 dump 文件，方便事后用符号文件还原调用栈。本文记录一次在 ARM 环境下接入
         
       
     
@@ -251,11 +501,11 @@
   </entry>
   
   <entry>
-    <title>C++工程实践</title>
-    <link href="https://wuhangchen.github.io/2019/10/31/c-zhi-yu-yi/"/>
-    <id>https://wuhangchen.github.io/2019/10/31/c-zhi-yu-yi/</id>
-    <published>2019-10-31T04:00:00.000Z</published>
-    <updated>2026-09-09T09:13:18.660Z</updated>
+    <title>Shell 实用技巧集锦</title>
+    <link href="https://wuhangchen.github.io/2021/01/24/shell-shi-yong-ji-qiao/"/>
+    <id>https://wuhangchen.github.io/2021/01/24/shell-shi-yong-ji-qiao/</id>
+    <published>2021-01-24T04:00:00.000Z</published>
+    <updated>2026-09-22T07:24:13.937Z</updated>
     
     <summary type="html">
     
@@ -263,25 +513,26 @@
       
         
         
-          &lt;h2 id=&quot;什么是值语义&quot;&gt;&lt;a href=&quot;#什么是值语义&quot; class=&quot;headerlink&quot; title=&quot;什么是值语义&quot;&gt;&lt;/a&gt;什么是值语义&lt;/h2&gt;&lt;p&gt;值语义指的是对象的拷贝与原对象无关，就像拷贝 &lt;code&gt;int&lt;/code&gt; 一样。C++ 的内置类型
+          &lt;p&gt;Shell 是每个开发者的日常工具，掌握一些高频技巧能显著提升命令行下的工作效率。本文整理了别名定义、后台任务管理、重定向与管道、批量处理、进程管理、磁盘排查等实用技巧，每个技巧都配有可直接运行的示例，方便边看边练。&lt;/p&gt;
+&lt;h2 id=&quot;alias-命令别名&quot;&gt;&lt;a
         
       
     
     </summary>
     
-      <category term="C++" scheme="https://wuhangchen.github.io/categories/C/"/>
+      <category term="Shell" scheme="https://wuhangchen.github.io/categories/Shell/"/>
     
     
-      <category term="C++" scheme="https://wuhangchen.github.io/tags/C/"/>
+      <category term="Shell" scheme="https://wuhangchen.github.io/tags/Shell/"/>
     
   </entry>
   
   <entry>
-    <title>C++ 静态库与动态库</title>
-    <link href="https://wuhangchen.github.io/2019/10/17/c-bian-yi/"/>
-    <id>https://wuhangchen.github.io/2019/10/17/c-bian-yi/</id>
-    <published>2019-10-17T04:00:00.000Z</published>
-    <updated>2026-09-09T09:13:18.641Z</updated>
+    <title>netstat 命令详解</title>
+    <link href="https://wuhangchen.github.io/2021/01/17/shell-netstat/"/>
+    <id>https://wuhangchen.github.io/2021/01/17/shell-netstat/</id>
+    <published>2021-01-17T04:00:00.000Z</published>
+    <updated>2026-09-22T07:23:08.070Z</updated>
     
     <summary type="html">
     
@@ -289,257 +540,16 @@
       
         
         
-          &lt;p&gt;这篇文章的目的如何使用静态库、动态库，知道静态库与动态库的区别。&lt;br&gt;这里不深入介绍静态库、动态库的底层格式，内存布局等，有兴趣的同学，推荐一本书《程序员的自我修养——链接、装载与库》。库是写好的现有的，成熟的，可以复用的代码。本质上来说库是一种可执行代码的二进制形式，可
+          &lt;p&gt;netstat 命令用于显示各种网络相关信息，如网络连接、路由表、接口状态（Interface Statistics）、masquerade 连接、多播成员（Multicast
         
       
     
     </summary>
     
-      <category term="C++" scheme="https://wuhangchen.github.io/categories/C/"/>
+      <category term="Shell" scheme="https://wuhangchen.github.io/categories/Shell/"/>
     
     
-      <category term="C++" scheme="https://wuhangchen.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C++对象模型：对象内存布局详解</title>
-    <link href="https://wuhangchen.github.io/2019/10/03/c-dui-xiang-mo-xing/"/>
-    <id>https://wuhangchen.github.io/2019/10/03/c-dui-xiang-mo-xing/</id>
-    <published>2019-10-03T04:00:00.000Z</published>
-    <updated>2026-09-09T09:13:18.643Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;这篇文章希望对 C++对象的内存布局、虚表指针、虚基类指针等有深入介绍。&lt;/p&gt;
-&lt;h2 id=&quot;何为-C-对象模型&quot;&gt;&lt;a
-        
-      
-    
-    </summary>
-    
-      <category term="C++" scheme="https://wuhangchen.github.io/categories/C/"/>
-    
-    
-      <category term="C++" scheme="https://wuhangchen.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C/C++整型变量赋值操作是原子性的吗？</title>
-    <link href="https://wuhangchen.github.io/2019/09/19/c-yuan-zi-bian-liang/"/>
-    <id>https://wuhangchen.github.io/2019/09/19/c-yuan-zi-bian-liang/</id>
-    <published>2019-09-19T04:00:00.000Z</published>
-    <updated>2026-09-09T09:13:18.659Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;那么为什么整型变量的操作不是原子性的呢？常见的整型变量操作有如下几种情况：给整型变量赋值一个确定的值，如&lt;/p&gt;
-&lt;pre class=&quot;line-numbers language-cpp&quot;&gt;&lt;code class=&quot;language-cpp&quot;&gt;&lt;span
-        
-      
-    
-    </summary>
-    
-      <category term="C++" scheme="https://wuhangchen.github.io/categories/C/"/>
-    
-    
-      <category term="C++" scheme="https://wuhangchen.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>so出现undefined symbol------ldd, nm, c++filt</title>
-    <link href="https://wuhangchen.github.io/2019/09/05/linux-dong-tai-ku-lian-jie/"/>
-    <id>https://wuhangchen.github.io/2019/09/05/linux-dong-tai-ku-lian-jie/</id>
-    <published>2019-09-05T04:00:00.000Z</published>
-    <updated>2026-09-09T09:13:18.672Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;最近发版本，灰度发布的时候，发现进程没起来，回包自然是异常的。立即进行版本回退，发现 OK。&lt;/p&gt;
-&lt;p&gt;哪里出问题了呢？直接 &lt;code&gt;ldd -r libtest.so&lt;/code&gt; 一下，就知道了，原来是缺符号。看看简化后的示例代码：&lt;/p&gt;
-&lt;pre
-        
-      
-    
-    </summary>
-    
-      <category term="C++" scheme="https://wuhangchen.github.io/categories/C/"/>
-    
-    
-      <category term="C++" scheme="https://wuhangchen.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Lambda 表达式捕获列表</title>
-    <link href="https://wuhangchen.github.io/2019/08/22/c-lambda-bu-huo/"/>
-    <id>https://wuhangchen.github.io/2019/08/22/c-lambda-bu-huo/</id>
-    <published>2019-08-22T04:00:00.000Z</published>
-    <updated>2026-09-09T09:13:18.665Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;捕获值列表，是 Lambda
-        
-      
-    
-    </summary>
-    
-      <category term="C++" scheme="https://wuhangchen.github.io/categories/C/"/>
-    
-    
-      <category term="C++" scheme="https://wuhangchen.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>内存分配malloc</title>
-    <link href="https://wuhangchen.github.io/2019/08/08/c-malloc-zero/"/>
-    <id>https://wuhangchen.github.io/2019/08/08/c-malloc-zero/</id>
-    <published>2019-08-08T04:00:00.000Z</published>
-    <updated>2026-09-09T09:13:18.666Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;下面的代码片段输出是什么？&lt;/p&gt;
-&lt;pre class=&quot;line-numbers language-cpp&quot;&gt;&lt;code class=&quot;language-cpp&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;char&lt;/span&gt; &lt;span
-        
-      
-    
-    </summary>
-    
-      <category term="C++" scheme="https://wuhangchen.github.io/categories/C/"/>
-    
-    
-      <category term="C++" scheme="https://wuhangchen.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C++成员修饰const和mutable</title>
-    <link href="https://wuhangchen.github.io/2019/07/25/c-const-mutable/"/>
-    <id>https://wuhangchen.github.io/2019/07/25/c-const-mutable/</id>
-    <published>2019-07-25T04:00:00.000Z</published>
-    <updated>2026-09-09T09:13:18.663Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;&lt;code&gt;const&lt;/code&gt;：常量，不变的 &lt;code&gt;mutable&lt;/code&gt;：易变的从意思上理解，可见 &lt;code&gt;const&lt;/code&gt; 和 &lt;code&gt;mutable&lt;/code&gt; 是一对反义词，它们都是
-        
-      
-    
-    </summary>
-    
-      <category term="C++" scheme="https://wuhangchen.github.io/categories/C/"/>
-    
-    
-      <category term="C++" scheme="https://wuhangchen.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>使用++i还是i++</title>
-    <link href="https://wuhangchen.github.io/2019/07/11/c-zi-zeng-yun-suan-fu/"/>
-    <id>https://wuhangchen.github.io/2019/07/11/c-zi-zeng-yun-suan-fu/</id>
-    <published>2019-07-11T04:00:00.000Z</published>
-    <updated>2026-09-09T09:13:18.662Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;我们经常使用 &lt;code&gt;for&lt;/code&gt; 循环来遍历东西，循环变量可以前自增也可以后自增，发现对遍历结果没啥影响，但是该如何选择呢？我们应该尽量使用前自增运算符而不是后自增运算符，即用 &lt;code&gt;++Iter&lt;/code&gt; 代替
-        
-      
-    
-    </summary>
-    
-      <category term="C++" scheme="https://wuhangchen.github.io/categories/C/"/>
-    
-    
-      <category term="C++" scheme="https://wuhangchen.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C++面试题</title>
-    <link href="https://wuhangchen.github.io/2019/06/27/c-mian-shi-ti/"/>
-    <id>https://wuhangchen.github.io/2019/06/27/c-mian-shi-ti/</id>
-    <published>2019-06-27T04:00:00.000Z</published>
-    <updated>2026-09-09T09:13:18.653Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;ol&gt;
-&lt;li&gt;&lt;code&gt;char c = &amp;#39;\72&amp;#39;&lt;/code&gt;; 中的 &lt;code&gt;\72&lt;/code&gt; 代表一个字符，72 是八进制数，代表 ASCII 码字符 &lt;code&gt;:&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;10*a++&lt;/code&gt;
-        
-      
-    
-    </summary>
-    
-      <category term="C++" scheme="https://wuhangchen.github.io/categories/C/"/>
-    
-    
-      <category term="C++" scheme="https://wuhangchen.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C++细说sizeof</title>
-    <link href="https://wuhangchen.github.io/2019/06/13/c-sizeof-xiang-jie/"/>
-    <id>https://wuhangchen.github.io/2019/06/13/c-sizeof-xiang-jie/</id>
-    <published>2019-06-13T04:00:00.000Z</published>
-    <updated>2026-09-09T09:13:18.669Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;摘要&quot;&gt;&lt;a href=&quot;#摘要&quot; class=&quot;headerlink&quot; title=&quot;摘要&quot;&gt;&lt;/a&gt;摘要&lt;/h2&gt;&lt;p&gt;&lt;code&gt;sizeof&lt;/code&gt; 的作用非常简单：求对象或者类型的大小。然而 &lt;code&gt;sizeof&lt;/code&gt;
-        
-      
-    
-    </summary>
-    
-      <category term="C++" scheme="https://wuhangchen.github.io/categories/C/"/>
-    
-    
-      <category term="C++" scheme="https://wuhangchen.github.io/tags/C/"/>
+      <category term="Shell" scheme="https://wuhangchen.github.io/tags/Shell/"/>
     
   </entry>
   

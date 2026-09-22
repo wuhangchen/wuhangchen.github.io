@@ -1205,6 +1205,7 @@ table tr:nth-child(2n), thead {
     font-weight: 500;
     border-radius: 5px;
     word-wrap: break-word;
+    white-space: nowrap;
     cursor: pointer;
     box-shadow: 0 3px 5px rgba(0, 0, 0, .12);
 }

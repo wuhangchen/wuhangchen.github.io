@@ -1,0 +1,1233 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Linux 程序调试指南, C++ Linux PRC Go Docker">
+    <meta name="baidu-site-verification" content="fmlEuI34ir">
+    <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
+    <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
+    <meta name="description" content="GDB 是 GNU 发布的、运行在 UNIX/Linux 下的命令行调试器，也是 Linux 下 C/C++ 程序员必不可少的工具。它的命令很多，但日常调试只需掌握其中约十个。本文先从一个完整的调试过程讲起，再延伸介绍 pstack、str">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Linux 程序调试指南 | 吴杭沉的博客</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?ce84511d3df71640a9378a69f6293044";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    
+        <script>
+            (function(){
+                var bp = document.createElement('script');
+                var curProtocol = window.location.protocol.split(':')[0];
+                if (curProtocol === 'https') {
+                    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+                }
+                else {
+                    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+                }
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(bp, s);
+            })();
+        </script>
+    
+
+    <script>
+        (function(){
+        var src = "https://jspassport.ssl.qhimg.com/11.0.1.js?d182b3f28525f2db83acfaaf6e696dba";
+        document.write('<script src="' + src + '" id="sozz"><\/script>');
+        })();
+    </script>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">吴杭沉的博客</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/contact" class="waves-effect waves-light">
+            
+            <i class="fa fa-comments"></i>
+            
+            <span>留言板</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">吴杭沉的博客</div>
+        <div class="logo-desc">
+            
+            善良比聪明更重要
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contact" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-comments"></i>
+                
+                留言板
+            </a>
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Linux 程序调试指南
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/Linux/" target="_blank">
+                            <span class="chip bg-color">Linux</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/Linux/" class="post-category" target="_blank">
+                            Linux
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-09-01
+                </div>
+
+                <div class="post-author info-break-policy">
+                    <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
+                    
+                    吴杭沉
+                    
+                </div>
+
+                
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    2.5k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    11 分
+                </div>
+                
+                
+
+                
+                <div id="busuanzi_container_page_pv" class="info-break-policy" style='display:none'>
+                    <i class="fa fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                    <span id="busuanzi_value_page_pv"></span>
+                </div>
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>GDB 是 GNU 发布的、运行在 UNIX/Linux 下的命令行调试器，也是 Linux 下 C/C++ 程序员必不可少的工具。它的命令很多，但日常调试只需掌握其中约十个。本文先从一个完整的调试过程讲起，再延伸介绍 <code>pstack</code>、<code>strace</code>、<code>nm</code>、<code>objdump</code>、<code>readelf</code> 等常用的程序调试与分析工具。</p>
+<h2 id="命令速览"><a href="#命令速览" class="headerlink" title="命令速览"></a>命令速览</h2><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>gdb</code></td>
+<td>命令行调试器</td>
+</tr>
+<tr>
+<td><code>pstack</code></td>
+<td>打印进程的栈跟踪</td>
+</tr>
+<tr>
+<td><code>strace</code></td>
+<td>跟踪系统调用</td>
+</tr>
+<tr>
+<td><code>nm</code></td>
+<td>列出目标文件的符号</td>
+</tr>
+<tr>
+<td><code>objdump</code></td>
+<td>反汇编、查看二进制信息</td>
+</tr>
+<tr>
+<td><code>readelf</code></td>
+<td>查看 ELF 文件详细信息</td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td>查看各段的内存占用</td>
+</tr>
+<tr>
+<td><code>file</code></td>
+<td>查看文件类型</td>
+</tr>
+<tr>
+<td><code>strings</code></td>
+<td>提取文件中的文本信息</td>
+</tr>
+<tr>
+<td><code>fuser</code></td>
+<td>查看文件 / 套接字的使用者</td>
+</tr>
+<tr>
+<td><code>xxd</code></td>
+<td>十六进制显示文件内容</td>
+</tr>
+</tbody></table>
+<h2 id="GDB-基础"><a href="#GDB-基础" class="headerlink" title="GDB 基础"></a>GDB 基础</h2><p>下面通过一个完整的调试过程，说明最常用的几个命令：</p>
+<pre class="line-numbers language-bash"><code class="language-bash">$ gdb programmer      <span class="token comment" spellcheck="true"># 启动 gdb</span>
+<span class="token operator">></span> <span class="token keyword">break</span> main          <span class="token comment" spellcheck="true"># 设置断点</span>
+<span class="token operator">></span> run                 <span class="token comment" spellcheck="true"># 运行程序</span>
+<span class="token operator">></span> next                <span class="token comment" spellcheck="true"># 单步调试</span>
+<span class="token operator">></span> print var1          <span class="token comment" spellcheck="true"># 打印变量 var1 的值</span>
+<span class="token operator">></span> list                <span class="token comment" spellcheck="true"># 显示当前调试处的源代码</span>
+<span class="token operator">></span> info b              <span class="token comment" spellcheck="true"># 查看断点设置情况</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>完成第一个程序的调试后，你会需要更多命令。GDB 的常用命令及各种调试方法详见 <a href="http://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/gdb.html#gdb" target="_blank" rel="noopener">gdb 调试利器</a>。</p>
+<p>两个提升效率的技巧：</p>
+<ul>
+<li>常用命令都有单字符缩写，使用缩写更方便；</li>
+<li>直接敲回车会重复执行上一条命令，单步调试时非常有用。</li>
+</ul>
+<h2 id="pstack-跟踪栈空间"><a href="#pstack-跟踪栈空间" class="headerlink" title="pstack 跟踪栈空间"></a>pstack 跟踪栈空间</h2><p><code>pstack</code> 是一个脚本工具，用于显示每个进程的栈跟踪。它必须由进程属主或 root 运行，其核心实现就是调用 gdb 的 <code>thread apply all bt</code> 命令。</p>
+<pre class="line-numbers language-bash"><code class="language-bash">$ pstack <span class="token operator">&lt;</span>pid<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>示例：</p>
+<pre class="line-numbers language-text"><code class="language-text">$ pstack 4551
+Thread 7 (Thread 1084229984 (LWP 4552)):
+#0  0x000000302afc63dc in epoll_wait () from /lib64/tls/libc.so.6
+#1  0x00000000006f0730 in ub::EPollEx::poll ()
+#2  0x00000000006f172a in ub::NetReactor::callback ()
+#3  0x00000000006fbbbb in ub::UBTask::CALLBACK ()
+#4  0x000000302b80610a in start_thread () from /lib64/tls/libpthread.so.0
+#5  0x000000302afc6003 in clone () from /lib64/tls/libc.so.6
+#6  0x0000000000000000 in ?? ()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="strace-分析系统调用"><a href="#strace-分析系统调用" class="headerlink" title="strace 分析系统调用"></a>strace 分析系统调用</h2><p><code>strace</code> 用来跟踪进程执行时的系统调用和所接收的信号。在 Linux 中，进程不能直接访问硬件设备，访问磁盘、收发网络数据等操作必须从用户态切换到内核态、通过系统调用来完成。<code>strace</code> 能跟踪到一个进程产生的系统调用，包括参数、返回值和执行耗时。</p>
+<pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">strace</span> -o output.txt -T -tt -e trace<span class="token operator">=</span>all -p 28979<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>上面的命令跟踪 PID 为 28979 的进程的所有系统调用（<code>-e trace=all</code>），统计每次调用的耗时和开始时间（以时分秒格式显示），并把结果写入 <code>output.txt</code>。</p>
+<p>实时查看某个进程正在做什么：</p>
+<pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">strace</span> -p <span class="token operator">&lt;</span>pid<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>关于 <code>strace</code> 的详细介绍，详见 <a href="http://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/strace.html#strace" target="_blank" rel="noopener">strace 跟踪进程中的系统调用</a>。</p>
+<h2 id="nm-查看符号清单"><a href="#nm-查看符号清单" class="headerlink" title="nm 查看符号清单"></a>nm 查看符号清单</h2><p><code>nm</code> 用来列出目标文件的符号清单。</p>
+<pre class="line-numbers language-text"><code class="language-text">$ nm myprogram
+08049f28 d _DYNAMIC
+08049ff4 d _GLOBAL_OFFSET_TABLE_
+080484dc R _IO_stdin_used
+w _Jv_RegisterClasses
+08049f18 d __CTOR_END__
+08049f14 d __CTOR_LIST__
+08049f20 D __DTOR_END__
+08049f1c d __DTOR_LIST__
+080485e0 r __FRAME_END__
+08049f24 d __JCR_END__
+08049f24 d __JCR_LIST__
+0804a014 A __bss_start
+0804a00c D __data_start
+08048490 t __do_global_ctors_aux
+08048360 t __do_global_dtors_aux
+0804a010 D __dso_handle
+w __gmon_start__
+08048482 T __i686.get_pc_thunk.bx
+08049f14 d __init_array_end
+08049f14 d __init_array_start
+08048480 T __libc_csu_fini
+08048410 T __libc_csu_init
+0804a014 A _edata
+0804a01c A _end
+080484bc T _fini
+080484d8 R _fp_hw
+080482b4 T _init
+08048330 T _start
+0804a014 b completed.6086
+0804a00c W data_start
+0804a018 b dtor_idx.6088
+080483c0 t frame_dummy
+080483e4 T main<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这些包含可执行代码的段称为正文段（text）；数据段（data）包含不可执行的信息或数据；还有一种 BSS 段，包含以符号数据开头的块。<code>nm</code> 列出的每个符号，其值默认用十六进制表示，符号前会有一个表示符号类型的编码字符。常见的编码包括：</p>
+<ul>
+<li><code>A</code> 表示绝对（absolute），意味着该值不能被更改为其他的连接；</li>
+<li><code>B</code> 表示 BSS 段中的符号；</li>
+<li><code>C</code> 表示引用未初始化数据的一般符号。</li>
+</ul>
+<p>目标文件中的不同部分可以划分为段，段里可能包含可执行代码、符号名称、初始数据值等。关于这些数据类型的详细信息，可以阅读 UNIX 中 <code>nm</code> 的 man 手册，其中按输出字符编码对每种类型做了描述。即使是简单的 Hello World 程序，目标文件中也有大量细节。<code>nm</code> 可以列举符号及其类型和值，但要更深入地研究目标文件中命名段的内容，需要更强大的工具——其中两种就是 <code>objdump</code> 和 <code>readelf</code>。</p>
+<p>参数说明及更多示例详见 <a href="http://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/nm.html#nm" target="_blank" rel="noopener">nm 目标文件格式分析</a>。</p>
+<h2 id="objdump-反汇编"><a href="#objdump-反汇编" class="headerlink" title="objdump 反汇编"></a>objdump 反汇编</h2><p><code>objdump</code> 以可读的格式显示二进制文件的信息，让你了解二进制文件可能带有的附加信息。</p>
+<pre class="line-numbers language-text"><code class="language-text">$ objdump -d myprogram
+a.out: file format elf32-i386
+
+Disassembly of section .init:
+
+080482b4 :
+80482b4: 53 push %ebx
+80482b5: 83 ec 08 sub $0x8,%esp
+80482b8: e8 00 00 00 00 call 80482bd
+80482bd: 5b pop %ebx
+80482be: 81 c3 37 1d 00 00 add $0x1d37,%ebx
+80482c4: 8b 83 fc ff ff ff mov -0x4(%ebx),%eax
+80482ca: 85 c0 test %eax,%eax
+80482cc: 74 05 je 80482d3
+80482ce: e8 3d 00 00 00 call 8048310
+80482d3: e8 e8 00 00 00 call 80483c0
+80482d8: e8 b3 01 00 00 call 8048490
+80482dd: 83 c4 08 add $0x8,%esp
+80482e0: 5b pop %ebx
+80482e1: c3 ret
+
+Disassembly of section .plt:
+...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>每个可执行代码段会在特定事件发生时执行，比如库初始化和程序主入口。对底层编程细节感兴趣的开发者，可以用它研究编译器和汇编器的输出，了解本地处理器的运行方式；结合处理器厂商的技术文档，就能深入理解内部的运行机制。</p>
+<p>参数说明及更多示例详见 <a href="http://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/objdump.html#objdump" target="_blank" rel="noopener">objdump 二进制文件分析</a>。</p>
+<h2 id="readelf-查看-ELF-信息"><a href="#readelf-查看-ELF-信息" class="headerlink" title="readelf 查看 ELF 信息"></a>readelf 查看 ELF 信息</h2><p><code>readelf</code> 的功能和 <code>objdump</code> 类似，但显示的信息更具体，并且不依赖 BFD 库（BFD 是 GNU 项目，目标是用统一的接口处理不同的目标文件）。</p>
+<pre class="line-numbers language-text"><code class="language-text">$ readelf -all a.out
+ELF Header:
+Magic: 7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00
+Class: ELF32
+Data: 2's complement, little endian
+Version: 1 (current)
+OS/ABI: UNIX - System V
+ABI Version: 0
+Type: EXEC (Executable file)
+Machine: Intel 80386
+Version: 0x1
+Entry point address: 0x8048330
+Start of program headers: 52 (bytes into file)
+Start of section headers: 4412 (bytes into file)
+Flags: 0x0
+Size of this header: 52 (bytes)
+Size of program headers: 32 (bytes)
+Number of program headers: 9
+Size of section headers: 40 (bytes)
+Number of section headers: 30
+Section header string table index: 27
+
+Section Headers:
+[Nr] Name Type Addr Off Size ES Flg Lk Inf Al
+[ 0] NULL 00000000 000000 000000 00 0 0 0
+[ 1] .interp PROGBITS 08048154 000154 000013 00 A 0 0 1
+[ 2] .note.ABI-tag NOTE 08048168 000168 000020 00 A 0 0 4
+[ 3] .note.gnu.build-i NOTE 08048188 000188 000024 00 A 0 0 4
+[ 4] .gnu.hash GNU_HASH 080481ac 0001ac 000020 04 A 5 0 4
+[ 5] .dynsym DYNSYM 080481cc 0001cc 000050 10 A 6 1 4
+[ 6] .dynstr STRTAB 0804821c 00021c 00004c 00 A 0 0 1
+[ 7] .gnu.version VERSYM 08048268 000268 00000a 02 A 5 0 2
+[ 8] .gnu.version_r VERNEED 08048274 000274 000020 00 A 6 1 4
+[ 9] .rel.dyn REL 08048294 000294 000008 08 A 5 0 4
+[10] .rel.plt REL 0804829c 00029c 000018 08 A 5 12 4
+[11] .init PROGBITS 080482b4 0002b4 00002e 00 AX 0 0 4
+[12] .plt PROGBITS 080482f0 0002f0 000040 04 AX 0 0 16
+[13] .text PROGBITS 08048330 000330 00018c 00 AX 0 0 16
+[14] .fini PROGBITS 080484bc 0004bc 00001a 00 AX 0 0 4
+[15] .rodata PROGBITS 080484d8 0004d8 000011 00 A 0 0 4
+[16] .eh_frame_hdr PROGBITS 080484ec 0004ec 000034 00 A 0 0 4
+[17] .eh_frame PROGBITS 08048520 000520 0000c4 00 A 0 0 4
+[18] .ctors PROGBITS 08049f14 000f14 000008 00 WA 0 0 4
+[19] .dtors PROGBITS 08049f1c 000f1c 000008 00 WA 0 0 4
+[20] .jcr PROGBITS 08049f24 000f24 000004 00 WA 0 0 4
+[21] .dynamic DYNAMIC 08049f28 000f28 0000c8 08 WA 6 0 4
+[22] .got PROGBITS 08049ff0 000ff0 000004 04 WA 0 0 4
+[23] .got.plt PROGBITS 08049ff4 000ff4 000018 04 WA 0 0 4
+[24] .data PROGBITS 0804a00c 00100c 000008 00 WA 0 0 4
+[25] .bss NOBITS 0804a014 001014 000008 00 WA 0 0 4
+[26] .comment PROGBITS 00000000 001014 00002a 01 MS 0 0 1
+[27] .shstrtab STRTAB 00000000 00103e 0000fc 00 0 0 1
+[28] .symtab SYMTAB 00000000 0015ec 000410 10 29 45 4
+[29] .strtab STRTAB 00000000 0019fc 0001f9 00 0 0 1
+...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>ELF Header</code> 展示了文件中所有段的详细摘要，以及 Header 的具体数目，研究较大的目标文件时这些信息非常有用。编译器还可以把调试信息放入目标文件，用下面的命令可以分析这些信息：</p>
+<pre class="line-numbers language-bash"><code class="language-bash">$ readelf --debug-dump a.out <span class="token operator">|</span> <span class="token function">more</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>GDB 等调试工具能读取这些调试信息，从而在调试时显示更具描述性的标记，而不是反汇编出来的原始地址。</p>
+<p>参数说明及更多示例详见 <a href="http://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/readelf.html#readelf" target="_blank" rel="noopener">readelf ELF 文件格式分析</a>。</p>
+<h2 id="size-查看内存占用"><a href="#size-查看内存占用" class="headerlink" title="size 查看内存占用"></a>size 查看内存占用</h2><p><code>size</code> 用来查看程序运行时各个段的实际内存占用：</p>
+<pre class="line-numbers language-text"><code class="language-text">$ size a.out
+text data bss dec hex filename
+1146 256 8 1410 582 a.out<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h2 id="file-查看文件类型"><a href="#file-查看文件类型" class="headerlink" title="file 查看文件类型"></a>file 查看文件类型</h2><p><code>file</code> 用于查看文件类型。比如在 64 位机器上发现了一个 32 位的库、链接不上，就能用它来排查：</p>
+<pre class="line-numbers language-text"><code class="language-text">$ file a.out
+a.out: ELF 64-bit LSB executable, AMD x86-64, version 1 (SYSV), for GNU/Linux 2.6.9, dynamically linked (uses shared libs), for GNU/Linux 2.6.9, not stripped<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>也可以查看 core 文件是由哪个程序生成的：</p>
+<pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">file</span> core.22355<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="strings-提取文本信息"><a href="#strings-提取文本信息" class="headerlink" title="strings 提取文本信息"></a>strings 提取文本信息</h2><p>一个文件中既包含二进制数据也包含文本数据，如果只想查看其中的文本信息，用 <code>strings</code> 很方便——它会过滤掉非字符数据，只输出文本：</p>
+<pre class="line-numbers language-bash"><code class="language-bash">$ strings <span class="token operator">&lt;</span>file<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="fuser-查看文件使用者"><a href="#fuser-查看文件使用者" class="headerlink" title="fuser 查看文件使用者"></a>fuser 查看文件使用者</h2><p><code>fuser</code> 显示所有正在使用指定文件、文件系统或套接字的进程：</p>
+<pre class="line-numbers language-text"><code class="language-text">$ fuser -m -u redis-server
+redis-server: 11552rce(weber) 22912rce(weber) 25501rce(weber)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><code>-m</code> 和 <code>-u</code> 选项用于查找所有正在使用 <code>redis-server</code> 的进程的 PID 及其属主。<code>fuser</code> 常被用来诊断 “resource busy” 问题；如果需要 kill 掉所有正在使用某个文件、文件系统或套接字的进程，可以使用 <code>-k</code> 选项：</p>
+<pre class="line-numbers language-bash"><code class="language-bash">$ <span class="token function">fuser</span> -k /path/to/your/filename<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="xxd-十六进制显示"><a href="#xxd-十六进制显示" class="headerlink" title="xxd 十六进制显示"></a>xxd 十六进制显示</h2><p>以十六进制方式显示文件内容：</p>
+<pre class="line-numbers language-text"><code class="language-text">$ xxd a.out
+0000000: 7f45 4c46 0101 0100 0000 0000 0000 0000 .ELF............
+0000010: 0200 0300 0100 0000 3083 0408 3400 0000 ........0...4...
+0000020: 3c11 0000 0000 0000 3400 2000 0900 2800 ...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>以字符方式显示（<code>od</code> 命令）：</p>
+<pre class="line-numbers language-text"><code class="language-text">$ od -c a.c
+0000000 # i n c l u d e \n \n v o i d m a i n ( ) \n
+0000040 { \n \t i n t i = 5 ; \n \t p
+0000060 r i n t f ( " h e l l o , % d "
+0000100 , i ) ; \n } \n
+0000107<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>类似命令还有 <code>hexdump</code>（十六进制输出）。</p>
+
+            </div>
+            <hr />
+
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《Linux 程序调试指南》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2020/09/01/linux-cheng-xu-diao-shi-zhi-nan/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                吴杭沉
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div id="giscus-card" class="card giscus-card" data-aos="fade-up">
+    <div class="card-content">
+        <div class="giscus"></div>
+    </div>
+</div>
+
+<script>
+    // 懒加载：滚动到评论区可见时才请求 giscus.app，
+    // 避免 giscus.app 不可达时阻塞页面加载
+    (function () {
+        var card = document.getElementById('giscus-card');
+        var holder = card ? card.querySelector('.giscus') : null;
+        if (!card || !holder) { return; }
+
+        var loaded = false;
+        function loadGiscus() {
+            if (loaded) { return; }
+            loaded = true;
+            var s = document.createElement('script');
+            s.src = 'https://giscus.app/client.js';
+            s.async = true;
+            s.crossOrigin = 'anonymous';
+            s.setAttribute('data-repo', 'wuhangchen/wuhangchen.github.io');
+            s.setAttribute('data-repo-id', 'R_kgDOMPl9sA');
+            s.setAttribute('data-category', 'Announcements');
+            s.setAttribute('data-category-id', 'DIC_kwDOMPl9sM4DDr8I');
+            s.setAttribute('data-mapping', 'pathname');
+            s.setAttribute('data-strict', '0');
+            s.setAttribute('data-reactions-enabled', '1');
+            s.setAttribute('data-emit-metadata', '0');
+            s.setAttribute('data-input-position', 'bottom');
+            s.setAttribute('data-theme', 'preferred_color_scheme');
+            s.setAttribute('data-lang', 'zh-CN');
+            holder.appendChild(s);
+        }
+
+        if (!('IntersectionObserver' in window)) {
+            // 旧浏览器直接降级为页面加载完成后加载
+            window.addEventListener('load', loadGiscus);
+            return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+            if (entries[0].isIntersecting) {
+                loadGiscus();
+                io.disconnect();
+            }
+        });
+        io.observe(card);
+    })();
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2020/09/13/shell-what-is-the-shell/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/bing-20260911.jpg" class="responsive-img" alt="What is the Shell?">
+                        
+                        <span class="card-title">What is the Shell?</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            What Is “The Shell”?Simply put, the shell is a program that takes commands from the keyboard and gives them to the opera
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2020-09-13
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Shell/" class="post-category" target="_blank">
+                                    Shell
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Shell/" target="_blank">
+                        <span class="chip bg-color">Shell</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/08/20/linux-yi-qie-jie-wen-jian/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Linux 一切皆文件">
+                        
+                        <span class="card-title">Linux 一切皆文件</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Unix 有一条著名的哲学——「一切皆文件」（everything is a file）。但严格来说，socket 和 pipe 并不完全符合这一点：它们虽然能被当作文件描述符来读写，却没有被纳入统一的目录树命名空间。本文从这一点出发，探讨
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-08-20
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Linux/" class="post-category" target="_blank">
+                                    Linux
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Linux/" target="_blank">
+                        <span class="chip bg-color">Linux</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 吴杭沉的博客<br />'
+            + '作者: 吴杭沉<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { bodyElement.removeChild(newdiv); }, 200);
+    });
+</script>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+	            fixPostCardWidth('artDetail', 'giscus-card');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy; 2017-2024 Wuhangchen. 版权所有
+
+            
+            &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+            <span class="white-color">189.8k</span>
+            
+
+            <br>
+            <span id="sitetime"></span>
+
+            
+            
+            <br>
+            
+            <span id="busuanzi_container_site_pv" style='display:none'>
+                <i class="fa fa-heart-o"></i>
+                本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv" style='display:none'>
+                人次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+            </span>
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:codewu1996@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="https://zhihu.com/people/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
+        <i class="fa fa-inverse">知</i>
+    </a>
+
+
+
+    <a href="http://wpa.qq.com/msgrd?v=3&uin=1714593434&site=qq&menu=yes" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);
+        var fixTries = 0;
+        var pvcountOffset = 80000;
+        var uvcountOffset = 20000;
+
+        function fixCount() {
+            // 本地环境不加载不蒜子时避免无限轮询：最多等待 10 秒
+            if (++fixTries > 200) {
+                clearInterval(int);
+                return;
+            }
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int);
+            }
+        }
+    });
+</script>
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2017, 09, 11, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    siteTime();
+</script>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "Σ(っ °Д °;)っ喔哟，崩溃啦！", clearTimeout(st)) : (document.title = "φ(゜▽゜*)♪咦，又好了！", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) })
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    
+    <script src="/libs/others/clicklove.js"></script>
+    
+
+    
+    <script>
+        // 本地调试（localhost/127.0.0.1）不加载不蒜子：
+        // 不蒜子按 Referer 计数，所有开发者本地环境的 localhost 计数是共用的，数值严重失真
+        if (!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) {
+            var bsz = document.createElement('script');
+            bsz.src = '/libs/others/busuanzi.pure.mini.js';
+            bsz.async = true;
+            document.body.appendChild(bsz);
+        }
+    </script>
+    
+
+    <!-- 雪花特效 -->
+    
+    <script type="text/javascript" src="/libs/others/snow.js"></script>
+    
+
+</body>
+
+</html>

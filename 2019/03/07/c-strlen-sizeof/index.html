@@ -4,7 +4,7 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="sizeof、strlen、数组、字符串, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="sizeof 与 strlen 的区别, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
@@ -18,7 +18,7 @@ void testArr">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>sizeof、strlen、数组、字符串 | 吴杭沉的博客</title>
+    <title>sizeof 与 strlen 的区别 | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -250,13 +250,13 @@ void testArr">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/28.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        sizeof、strlen、数组、字符串
+                        sizeof 与 strlen 的区别
                     </div>
                 </div>
             </div>
@@ -430,7 +430,7 @@ void testArr">
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>对于初学者来说，<code>sizeof</code>，<code>strlen</code>，数组，字符串整在一起是痛苦的，本文看看它们在一起能挖什么坑。</p>
-<h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><p>在说明这些问题之前，先看一段代码，看看你是否都理解了。注：以下代码结果为编译为 64 位程序后运行结果。</p>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>在说明这些问题之前，先看一段代码，看看你是否都理解了。注：以下代码结果为编译为 64 位程序后运行结果。</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">testArr</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span> str<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
 <span class="token punctuation">{</span>
     <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%lu %lu\n"</span><span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">strlen</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -477,7 +477,7 @@ void testArr">
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>特别注意观察 test2 和 test7。在解释这些测试之前，先复习一下 <code>sizeof</code>，<code>strlen</code> 以及数组的内容。</p>
-<h1 id="sizeof"><a href="#sizeof" class="headerlink" title="sizeof"></a>sizeof</h1><p>首先需要明确的是，<code>sizeof</code> 是操作符，即它并不是函数，它的作用对象是数据类型，因此，它作用于变量时，也是对其类型进行操作。得到的结果是该数据类型占用空间大小，即 <code>size_t</code> 类型。例如：</p>
+<h2 id="sizeof"><a href="#sizeof" class="headerlink" title="sizeof"></a>sizeof</h2><p>首先需要明确的是，<code>sizeof</code> 是操作符，即它并不是函数，它的作用对象是数据类型，因此，它作用于变量时，也是对其类型进行操作。得到的结果是该数据类型占用空间大小，即 <code>size_t</code> 类型。例如：</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">struct</span> test
 <span class="token punctuation">{</span>
     <span class="token keyword">int</span> a<span class="token punctuation">;</span>
@@ -485,7 +485,7 @@ void testArr">
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//得到4</span>
 <span class="token keyword">sizeof</span><span class="token punctuation">(</span>test<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//4字节对齐时，得到8</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h1 id="strlen"><a href="#strlen" class="headerlink" title="strlen"></a>strlen</h1><p>strlen 是函数 <code>size_t strlen(const char *s)</code>;</p>
+<h2 id="strlen"><a href="#strlen" class="headerlink" title="strlen"></a>strlen</h2><p>strlen 是函数 <code>size_t strlen(const char *s)</code>;</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token punctuation">{</span>
     <span class="token keyword">char</span> <span class="token operator">*</span>p <span class="token operator">=</span> <span class="token string">"hello"</span><span class="token punctuation">;</span>
@@ -493,7 +493,7 @@ void testArr">
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>这里字符串 hello 的长度就是 5，但是占用空间是多少呢？<code>sizeof(&quot;hello&quot;)</code> 得到 6。是 6，而不是 5。注：strlen 的时间复杂度为 O(N)。</p>
-<h1 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h1><p>字符串是以 ‘\0’ 结尾的字符数组。</p>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>字符串是以 ‘\0’ 结尾的字符数组。</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">char</span> str<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"hello"</span><span class="token punctuation">;</span>
 <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"test0 %lu %lu\n\n"</span><span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">strlen</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//6 5</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>上面的初始化方法等价于下面的方式：</p>
@@ -532,17 +532,18 @@ void testArr">
 <span class="token keyword">char</span> str8<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span class="token function">strncpy</span><span class="token punctuation">(</span>str8<span class="token punctuation">,</span> <span class="token string">"hello"</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%s\n"</span><span class="token punctuation">,</span> str8<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//hellohello</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<p>这里在实际编程中最容易遇到的问题之一，数组大小为 5，但是拷贝了 5 个字节大小的数据。如果你把它当成字符数组使用也没什么问题，但是由于它最后没有空间去容纳 ‘\0’，因此你使用 strlen，或者使用 printf 去打印的时候，可能发生难以预料的结果。所以你可能会在你的项目代码中看到类似这样的写法，将字符数组的最后一个位置赋值为 0：<code>str8[4] = &#39;\0&#39;</code>;</p>
+<p>这是在实际编程中最容易遇到的问题之一，数组大小为 5，但是拷贝了 5 个字节大小的数据。如果你把它当成字符数组使用也没什么问题，但是由于它最后没有空间去容纳 ‘\0’，因此你使用 strlen，或者使用 printf 去打印的时候，可能发生难以预料的结果。所以你可能会在你的项目代码中看到类似这样的写法，将字符数组的最后一个位置赋值为 0：<code>str8[4] = &#39;\0&#39;</code>;</p>
 <ul>
 <li><code>sizeof</code> 计算类型占用空间大小，时间复杂度 O(1)</li>
 <li><code>sizeof</code> 计算大小时会考虑字节对齐</li>
 <li><code>strlen</code> 计算字符串长度，时间复杂度 O(N)</li>
 <li><code>strlen</code> 作用对象是字符串以 ‘\0’ 结尾</li>
 <li><code>strlen</code> 遇到 ‘\0’ 作罢，如果没有遇到，则不可预料</li>
-<li>格外小心数组作为参数<br>另外注意下面两种方式 hello 存储的区域不一致：<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">char</span> str<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"hello"</span><span class="token punctuation">;</span>
-<span class="token keyword">char</span> <span class="token operator">*</span>str2 <span class="token operator">=</span> <span class="token string">"hello"</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//存储在数据区，只读</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-</li>
+<li>格外小心数组作为参数</li>
 </ul>
+<p>另外注意下面两种方式 hello 存储的区域不一致：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">char</span> str<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"hello"</span><span class="token punctuation">;</span>
+<span class="token keyword">char</span> <span class="token operator">*</span>str2 <span class="token operator">=</span> <span class="token string">"hello"</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//存储在数据区，只读</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
             </div>
             <hr />
@@ -577,7 +578,7 @@ void testArr">
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《sizeof、strlen、数组、字符串》
+                    《sizeof 与 strlen 的区别》
                 </span> 由
             <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/03/07/c-strlen-sizeof/" property="cc:attributionName"
                rel="cc:attributionURL">
@@ -677,20 +678,19 @@ void testArr">
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/03/21/c-kao-bei-gou-zao/">
+                <a href="/2019/03/21/c-sizeof-xiang-jie/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="拷贝构造函数与赋值函数">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="sizeof 的 9 个特殊规则">
                         
-                        <span class="card-title">拷贝构造函数与赋值函数</span>
+                        <span class="card-title">sizeof 的 9 个特殊规则</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            在进行 C++类编写的过程之中，通常会涉及到类的拷贝构造函数与类的赋值函数。初涉类编写的代码，对于两类函数的用法一直是挺让人困惑的内容。这篇文章我们会详细来梳理拷贝构造函数与赋值函数的区别。
-调用了哪个函数上述两种函数的使用和 C++之中类
+                            摘要sizeof 的作用非常简单：求对象或者类型的大小。然而 sizeof 又非常复杂，它涉及到很多特殊情况，总结出了 sizeof 的 9 个特性：(1)sizeof 不能求得 void 类型的长度；(2)sizeof 能求得 void 
                         
                     </div>
                     <div class="publish-info">
@@ -727,22 +727,19 @@ void testArr">
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/02/21/c-er-wei-shu-zu/">
+                <a href="/2019/02/21/c-zi-zeng-yun-suan-fu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/25.jpg" class="responsive-img" alt="二维数组">
+                        <img src="/medias/featureimages/26.jpg" class="responsive-img" alt="++i 与 i++ 的区别">
                         
-                        <span class="card-title">二维数组</span>
+                        <span class="card-title">++i 与 i++ 的区别</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            二维数组我们知道 C 语言没有真正意义上的二维数组。二维数组的实现，只是简单地通过“线性扩展”的方式进行。
-int b[4][5];
-就是定义 4 个元素，每个元素都是一个包含 5 个整型变量的一维数组。它在内存中依然是以线性的形式存储。
-
+                            我们经常使用 for 循环来遍历东西，循环变量可以前自增也可以后自增，发现对遍历结果没啥影响，但是该如何选择呢？我们应该尽量使用前自增运算符而不是后自增运算符，即用 ++Iter 代替 Iter++。前缀和后缀形式之间的区别是众所周知的。我
                         
                     </div>
                     <div class="publish-info">
@@ -940,7 +937,7 @@ int b[4][5];
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">76.7k</span>
+            <span class="white-color">189.8k</span>
             
 
             <br>

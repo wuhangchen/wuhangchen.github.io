@@ -1,0 +1,1122 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Linux 进程状态详解, C++ Linux PRC Go Docker">
+    <meta name="baidu-site-verification" content="fmlEuI34ir">
+    <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
+    <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
+    <meta name="description" content="有同事问到 top 命令里的 running、sleep、stop、zombie 等进程状态分别是什么意思，于是借这个机会整理一下 Linux 系统里的进程状态。
+概述进程（Process）即当前正在运行的计算机程序的实例。每个进程都有一些">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Linux 进程状态详解 | 吴杭沉的博客</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?ce84511d3df71640a9378a69f6293044";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    
+        <script>
+            (function(){
+                var bp = document.createElement('script');
+                var curProtocol = window.location.protocol.split(':')[0];
+                if (curProtocol === 'https') {
+                    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+                }
+                else {
+                    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+                }
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(bp, s);
+            })();
+        </script>
+    
+
+    <script>
+        (function(){
+        var src = "https://jspassport.ssl.qhimg.com/11.0.1.js?d182b3f28525f2db83acfaaf6e696dba";
+        document.write('<script src="' + src + '" id="sozz"><\/script>');
+        })();
+    </script>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">吴杭沉的博客</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/contact" class="waves-effect waves-light">
+            
+            <i class="fa fa-comments"></i>
+            
+            <span>留言板</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">吴杭沉的博客</div>
+        <div class="logo-desc">
+            
+            善良比聪明更重要
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contact" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-comments"></i>
+                
+                留言板
+            </a>
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/bing-20260907.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Linux 进程状态详解
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/Linux/" target="_blank">
+                            <span class="chip bg-color">Linux</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/Linux/" class="post-category" target="_blank">
+                            Linux
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-02-20
+                </div>
+
+                <div class="post-author info-break-policy">
+                    <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
+                    
+                    吴杭沉
+                    
+                </div>
+
+                
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3.1k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    11 分
+                </div>
+                
+                
+
+                
+                <div id="busuanzi_container_page_pv" class="info-break-policy" style='display:none'>
+                    <i class="fa fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                    <span id="busuanzi_value_page_pv"></span>
+                </div>
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>有同事问到 <code>top</code> 命令里的 <strong>running、sleep、stop、zombie</strong> 等进程状态分别是什么意思，于是借这个机会整理一下 Linux 系统里的进程状态。</p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>进程（Process）即当前正在运行的计算机程序的实例。每个进程都有一些属性变量，决定了它所能使用的计算机资源。进程在执行过程中会处在不同状态——正如人会有不同的人生状态。</p>
+<p>进程由父进程通过 <em>fork</em> 创建。进程在执行（running）过程中会用到一些资源；当所需的资源暂时不可用时，进程就会进入睡眠（sleeping）状态。和人一样，进程也会”死亡”：可能正常结束，也可能被杀死（kill）。</p>
+<h2 id="进程的类型"><a href="#进程的类型" class="headerlink" title="进程的类型"></a>进程的类型</h2><p>Linux 系统里有几种不同类型的进程：用户进程（User processes）、守护进程（Daemon processes）和内核进程（Kernel processes）。</p>
+<h3 id="用户进程"><a href="#用户进程" class="headerlink" title="用户进程"></a>用户进程</h3><p>系统里大多数进程都是用户进程。用户进程由通常的用户账户启动，在用户空间（user space）中执行。在没有获得额外许可的情况下，用户进程通常无法对处理器进行特殊访问，或访问启动它的用户无权访问的文件。</p>
+<h3 id="守护进程"><a href="#守护进程" class="headerlink" title="守护进程"></a>守护进程</h3><p>守护进程通常是后台程序，往往由一些持续运行的服务来管理。守护进程可以用来监听请求并访问某些服务，例如 httpd 守护进程监听访问网页的请求；也可以自行启动任务，例如 crond 守护进程在预设时间点启动计划任务。</p>
+<p>尽管管理守护进程的服务通常由 root 启动，但守护进程本身往往以非 root 用户运行。这符合「只赋予进程运行所必需的权限」的要求，能使系统免于一些攻击——例如，即使 httpd（以 Apache 用户启动）被攻破，黑客也无法访问 root 等其他用户的文件，或影响其他用户启动的守护进程。</p>
+<p>守护进程通常由系统在启动时拉起，一直运行到系统关闭；也可以按需启动和终止、在特定系统运行级别执行，或运行中触发重载配置。</p>
+<h3 id="内核进程"><a href="#内核进程" class="headerlink" title="内核进程"></a>内核进程</h3><p>内核进程仅在内核空间（kernel space）中执行。内核进程与守护进程有些相似，主要区别在于：内核进程对内核数据结构拥有完全的访问权限。此外，内核进程不如守护进程灵活——修改配置文件并重载即可改变守护进程的行为，而修改内核进程的行为则需要重新编译内核。</p>
+<h2 id="运行状态"><a href="#运行状态" class="headerlink" title="运行状态"></a>运行状态</h2><p>系统在进程启动时赋予其状态，进程的状态由状态描述符来描述。设置进程状态通常对应一个简单的赋值：</p>
+<pre class="line-numbers language-c"><code class="language-c">p<span class="token operator">-></span>state <span class="token operator">=</span> TASK_RUNNING<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>其中，<code>p</code> 代表进程，<code>state</code> 是其状态标识，<code>TASK_RUNNING</code> 表示该进程正在运行或可以执行。进程通常处于以下两种状态之一：</p>
+<ul>
+<li>在 CPU 上执行（进程正在运行）；</li>
+<li>不在 CPU 上执行（进程未在运行）。</li>
+</ul>
+<p>同一时间同一 CPU 上只能运行一个进程，其他进程只能等待或处于其他状态。未在运行的进程可能处于：</p>
+<ul>
+<li>可运行状态；</li>
+<li>可中断睡眠状态；</li>
+<li>不可中断睡眠状态；</li>
+<li>僵死状态。</li>
+</ul>
+<p><code>ps</code> 输出的各状态标识及含义如下：</p>
+<table>
+<thead>
+<tr>
+<th>标识</th>
+<th>状态</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>R</code></td>
+<td>运行 / 可运行</td>
+<td>正在运行，或已就绪等待 CPU</td>
+</tr>
+<tr>
+<td><code>S</code></td>
+<td>可中断睡眠</td>
+<td>等待事件或资源，可被信号唤醒</td>
+</tr>
+<tr>
+<td><code>D</code></td>
+<td>不可中断睡眠</td>
+<td>等待磁盘/网络 I/O，不处理信号</td>
+</tr>
+<tr>
+<td><code>Z</code></td>
+<td>僵尸</td>
+<td>已终止，等待父进程收集退出状态</td>
+</tr>
+<tr>
+<td><code>T</code></td>
+<td>停止 / 跟踪</td>
+<td>被停止或被跟踪</td>
+</tr>
+</tbody></table>
+<h3 id="fork-之初"><a href="#fork-之初" class="headerlink" title="fork 之初"></a>fork 之初</h3><p>按 fork(2) 的手册页（<code>man 2 fork</code>），fork 系统调用创建一个与调用进程几乎完全相同的进程：前者称为父进程，后者称为子进程。子进程与父进程几乎完全相同，但有以下差别：</p>
+<ul>
+<li>子进程拥有全局唯一的进程 ID（见 setpgid(2)）；</li>
+<li>子进程的父进程 ID 是父进程的进程 ID；</li>
+<li>子进程不继承父进程的内存锁（见 mlock(2)、mlockall(2)）；</li>
+<li>子进程的资源使用计数及 CPU 时间计数重置为零（见 getrusage(2)、times(2)）；</li>
+<li>子进程未处理的信号队列重置为空（见 sigpending(2)）；</li>
+<li>子进程不继承父进程的信号量修正（见 semop(2)）；</li>
+<li>子进程不继承父进程的文件区域锁（见 fcntl(2)）；</li>
+<li>子进程不继承父进程的计时器（见 setitimer(2)、alarm(2)、timer_create(2)）；</li>
+<li>子进程不继承父进程未完成的异步 I/O 操作（见 aio_read(3)、aio_write(3)）；</li>
+<li>子进程不继承父进程的异步 I/O 上下文（见 io_setup(2)）。</li>
+</ul>
+<h3 id="正在运行状态"><a href="#正在运行状态" class="headerlink" title="正在运行状态"></a>正在运行状态</h3><p>系统中最珍贵的资源是 CPU，正使用 CPU 的进程处于「正在运行状态」。在 ps 或 top 中，状态标识为 R 的进程即处于该状态。</p>
+<p>举例说明进程如何进入「正在运行状态」：在 Shell（以 bash 为例）中执行 <code>ls</code> 时，Shell 会在环境变量 PATH 记录的搜索路径里寻找 <code>ls</code> 对应的可执行文件；找到后，Shell 用 fork 克隆自身，然后在子进程里用 <code>ls</code> 的可执行文件替换虚存空间中 Shell 的内容。此时，系统会设置子进程的运行状态：</p>
+<pre class="line-numbers language-c"><code class="language-c">p<span class="token operator">-></span>state <span class="token operator">=</span> TASK_RUNNING<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>CPU 既可在内核模式运行，又可在用户模式运行。当用户初始化一个进程，进程在用户空间运行，对应 CPU 在用户模式运行；在用户空间运行的进程无权访问内核数据结构和算法。各型号 CPU 都提供特定指令，以便在内核模式和用户模式之间切换。如果用户级进程需要访问内核数据结构或算法，就需要使用系统调用与文件子系统或进程控制子系统交互。部分系统调用罗列如下：</p>
+<ul>
+<li>文件子系统：<code>open()</code>、<code>close()</code>、<code>read()</code>、<code>write()</code>、<code>chmod()</code>、<code>chown()</code>；</li>
+<li>进程控制子系统：<code>fork()</code>、<code>exec()</code>、<code>exit()</code>、<code>wait()</code>、<code>brk()</code>、<code>signal()</code>。</li>
+</ul>
+<p>当内核开始处理来自用户级进程的请求，相应进程就进入内核空间，对应 CPU 在内核模式运行。<code>/proc/[pid]/stat</code> 的第 14、15 项分别记录进程在用户空间和内核空间执行的时间。摘录部分 proc(5) 的手册页如下：</p>
+<blockquote>
+<p>utime %lu</p>
+<p>Amount of time that this process has been scheduled in user mode, measured in clock ticks (divide by sysconf(_SC_CLK_TCK)). This includes guest time, guest_time (time spent running a virtual CPU, see below), so that applications that are not aware of the guest time field do not lose that time from their calculations.</p>
+<p>stime %lu</p>
+<p>Amount of time that this process has been scheduled in kernel mode, measured in clock ticks (divide by sysconf(_SC_CLK_TCK)).</p>
+</blockquote>
+<p>top 命令的 CPU 统计行则展示了 CPU 位于用户模式和内核模式的时间占比：</p>
+<pre class="line-numbers language-text"><code class="language-text">top - 12:27:25 up 2:51, 4 users, load average: 4.37, 3.64, 3.44
+Tasks: 194 total, 2 running, 192 sleeping, 0 stopped, 0 zombie
+Cpu(s): 57.0%us, 1.3%sy, 0.0%ni, 41.1%id, 0.0%wa, 0.4%hi, 0.1%si, 0.0%st<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="可运行状态"><a href="#可运行状态" class="headerlink" title="可运行状态"></a>可运行状态</h3><p>进程获得了所有所需资源、正等待 CPU 时，就进入可运行状态。处于可运行状态的进程在 ps 输出中同样以 R 标识。例如，一个正在 I/O 的进程并不立即需要 CPU；当它完成 I/O 后，会触发信号通知 CPU 和调度器，将其置于运行队列（内核维护的可运行进程列表）；当 CPU 可用时，该进程就进入正在运行状态。和正在运行状态一样，其状态被设置为：</p>
+<pre class="line-numbers language-c"><code class="language-c">p<span class="token operator">-></span>state <span class="token operator">=</span> TASK_RUNNING<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="睡眠状态"><a href="#睡眠状态" class="headerlink" title="睡眠状态"></a>睡眠状态</h3><p>当进程所需的资源暂不可用时，就会进入睡眠状态。此时，进程要么主动睡眠，要么被内核强制置于睡眠状态。进入睡眠状态的进程会立即交出 CPU 使用权；当所需资源可用时，CPU 会收到信号，调度器下次调度该进程时会将其置为正在运行或可运行状态。</p>
+<p>以 login shell 进程为例：</p>
+<ul>
+<li>键入命令时，它进入睡眠状态，同时等待一个特定事件（取决于键入的命令）；</li>
+<li>Shell 睡眠时进入一个特定的等待通道（WCHAN，wait channel，同样取决于键入的命令）；</li>
+<li>当等待的事件发生时（例如收到来自键盘的 <code>^C</code>），该等待通道上的所有进程都会苏醒。</li>
+</ul>
+<p>执行 <code>ps -l</code> 可看到与当前 shell 关联的进程，执行 <code>ps -el</code> 可看到系统上所有进程。进程处于睡眠状态时，ps 输出中的 WCHAN 字段会显示它在等待什么系统调用：</p>
+<pre class="line-numbers language-text"><code class="language-text">$ ps -l | more
+F S UID PID PPID C PRI NI ADDR SZ WCHAN TTY TIME CMD
+0 R 867 12085 27779 0 80 0 - 27029 - pts/480 00:00:00 ps
+0 S 867 12086 27779 0 80 0 - 25779 pipe_w pts/480 00:00:00 more
+0 S 867 27779 35146 0 80 0 - 27721 do_wai pts/480 00:00:01 bash<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这里执行了 <code>ps -l | more</code>。输出中 more 和 bash 都处于睡眠状态：前者在等待管道输入（pipe_wait），因为 ps 输出时 more 还没接到内容；后者在等待 <code>ps -l | more</code> 执行完毕（等待 do_wait 系统调用）。</p>
+<p>除了等待资源，进程也可以主动睡眠一段时间。例如 <code>sleep()</code> 接收一个以秒为单位的时间参数（比如 10 秒），调用它的进程就进入睡眠并持续 10 秒。睡眠结束后，调度器再次调度到该进程时，会将其设为可运行状态；CPU 空闲后，进程重新进入正在运行状态。由此可见，<code>sleep(10)</code> 并不能保证「恰好」睡 10 秒，只保证睡眠时间不少于 10 秒。</p>
+<p>部分进程永远不会终止，而是不断在睡眠、唤醒、干活之间循环：每次循环开始时进入睡眠并等待某个事件；事件发生时被唤醒（进入正在运行或可运行状态），然后处理任务。</p>
+<p>睡眠状态又分为可中断睡眠状态和不可中断睡眠状态。</p>
+<h4 id="可中断睡眠状态"><a href="#可中断睡眠状态" class="headerlink" title="可中断睡眠状态"></a>可中断睡眠状态</h4><p>可中断睡眠状态表示进程在等待时间片或某个特定事件；一旦事件发生，进程就会退出该状态。ps 输出中标识为 S。系统为其设置运行状态：</p>
+<pre class="line-numbers language-c"><code class="language-c">p<span class="token operator">-></span>state <span class="token operator">=</span> TASK_INTERRUPTIBLE<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="不可中断睡眠状态"><a href="#不可中断睡眠状态" class="headerlink" title="不可中断睡眠状态"></a>不可中断睡眠状态</h4><p>不可中断睡眠状态的进程不处理任何信号，仅在等待的资源可用或超时（前提是设置了超时）时退出。它通常与设备驱动等待磁盘或网络 I/O 有关。在内核源码 <code>fs/proc/array.c</code> 中，其文字定义为 “D (disk sleep)”, /<em> 2 </em>/。进程进入不可中断睡眠状态时不会处理信号，而是把信号积累起来，等唤醒后再处理。ps 输出中标识为 D。系统为其设置运行状态：</p>
+<pre class="line-numbers language-c"><code class="language-c">p<span class="token operator">-></span>state <span class="token operator">=</span> TASK_UNINTERRUPTIBLE<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>由于不可中断睡眠状态的进程不处理任何信号，<code>kill -9</code> 也杀不掉它。解决这类进程的办法只有两个：</p>
+<ul>
+<li>满足它所等待的资源，使其可用；</li>
+<li>若无法满足，只能重启系统。</li>
+</ul>
+<h3 id="进程的终止和僵尸状态"><a href="#进程的终止和僵尸状态" class="headerlink" title="进程的终止和僵尸状态"></a>进程的终止和僵尸状态</h3><p>进程可以主动调用 exit 系统调用来终止，也可以接收信号、由信号处理函数调用 exit 来终止。执行 exit 后，进程释放相应的数据结构，此时进程本身已经终止。不过，操作系统还没有释放进程表中该进程的槽位——为解决这个问题，终止前进程会向父进程发送 SIGCHLD 信号，通知父进程来释放子进程在进程表中的槽位。这个设计是为了让父进程知道子进程退出时的状态。</p>
+<p>从子进程终止到父进程释放其进程表槽位，这一过程中子进程处于僵尸状态（zombie state）。如果父进程因为各种原因在释放槽位之前就退出（来不及收集子进程状态），子进程就会一直处于僵尸状态。由于僵尸进程本身已经终止、无法再处理任何信号，它只能停留在进程表中，直到系统重启。</p>
+<p>ps 输出中，僵尸状态标识为 Z。系统为其设置运行状态：</p>
+<pre class="line-numbers language-c"><code class="language-c">p<span class="token operator">-></span>state <span class="token operator">=</span> TASK_ZOMBIE<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<hr>
+<blockquote>
+<p>参考来源：<a href="https://liam.page/" target="_blank" rel="noopener">https://liam.page/</a></p>
+</blockquote>
+
+            </div>
+            <hr />
+
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《Linux 进程状态详解》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2020/02/20/linux-jin-cheng-zhuang-tai-xiang-jie/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                吴杭沉
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div id="giscus-card" class="card giscus-card" data-aos="fade-up">
+    <div class="card-content">
+        <div class="giscus"></div>
+    </div>
+</div>
+
+<script>
+    // 懒加载：滚动到评论区可见时才请求 giscus.app，
+    // 避免 giscus.app 不可达时阻塞页面加载
+    (function () {
+        var card = document.getElementById('giscus-card');
+        var holder = card ? card.querySelector('.giscus') : null;
+        if (!card || !holder) { return; }
+
+        var loaded = false;
+        function loadGiscus() {
+            if (loaded) { return; }
+            loaded = true;
+            var s = document.createElement('script');
+            s.src = 'https://giscus.app/client.js';
+            s.async = true;
+            s.crossOrigin = 'anonymous';
+            s.setAttribute('data-repo', 'wuhangchen/wuhangchen.github.io');
+            s.setAttribute('data-repo-id', 'R_kgDOMPl9sA');
+            s.setAttribute('data-category', 'Announcements');
+            s.setAttribute('data-category-id', 'DIC_kwDOMPl9sM4DDr8I');
+            s.setAttribute('data-mapping', 'pathname');
+            s.setAttribute('data-strict', '0');
+            s.setAttribute('data-reactions-enabled', '1');
+            s.setAttribute('data-emit-metadata', '0');
+            s.setAttribute('data-input-position', 'bottom');
+            s.setAttribute('data-theme', 'preferred_color_scheme');
+            s.setAttribute('data-lang', 'zh-CN');
+            holder.appendChild(s);
+        }
+
+        if (!('IntersectionObserver' in window)) {
+            // 旧浏览器直接降级为页面加载完成后加载
+            window.addEventListener('load', loadGiscus);
+            return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+            if (entries[0].isIntersecting) {
+                loadGiscus();
+                io.disconnect();
+            }
+        });
+        io.observe(card);
+    })();
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2020/03/05/linux-gu-er-jin-cheng-yu-jiang-shi-jin-cheng/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Linux 孤儿进程与僵尸进程">
+                        
+                        <span class="card-title">Linux 孤儿进程与僵尸进程</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            子进程的结束和父进程的运行是异步的——父进程永远无法预测子进程什么时候结束。那么，会不会因为父进程太忙来不及 wait 子进程，或者不知道子进程何时结束，而丢失子进程结束时的状态信息呢？答案是：不会。
+UNIX 提供了一种机制来保证：只要父
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2020-03-05
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Linux/" class="post-category" target="_blank">
+                                    Linux
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Linux/" target="_blank">
+                        <span class="chip bg-color">Linux</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/02/06/linux-shu-ju-lei-xing-json/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="JSON/YAML 数据模型">
+                        
+                        <span class="card-title">JSON/YAML 数据模型</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            从结构上看，所有的数据最终都可以分解成三种类型：
+
+标量（scalar）：一个单独的字符串或数字，如”北京”。
+序列（sequence）：若干相关数据按顺序并列，又称数组（array）或列表（list），如”北京，上海”。
+映射（mappi
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-02-06
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Linux/" class="post-category" target="_blank">
+                                    Linux
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Linux/" target="_blank">
+                        <span class="chip bg-color">Linux</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 吴杭沉的博客<br />'
+            + '作者: 吴杭沉<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { bodyElement.removeChild(newdiv); }, 200);
+    });
+</script>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+	            fixPostCardWidth('artDetail', 'giscus-card');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy; 2017-2024 Wuhangchen. 版权所有
+
+            
+            &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+            <span class="white-color">189.8k</span>
+            
+
+            <br>
+            <span id="sitetime"></span>
+
+            
+            
+            <br>
+            
+            <span id="busuanzi_container_site_pv" style='display:none'>
+                <i class="fa fa-heart-o"></i>
+                本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv" style='display:none'>
+                人次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+            </span>
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:codewu1996@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="https://zhihu.com/people/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
+        <i class="fa fa-inverse">知</i>
+    </a>
+
+
+
+    <a href="http://wpa.qq.com/msgrd?v=3&uin=1714593434&site=qq&menu=yes" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);
+        var fixTries = 0;
+        var pvcountOffset = 80000;
+        var uvcountOffset = 20000;
+
+        function fixCount() {
+            // 本地环境不加载不蒜子时避免无限轮询：最多等待 10 秒
+            if (++fixTries > 200) {
+                clearInterval(int);
+                return;
+            }
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int);
+            }
+        }
+    });
+</script>
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2017, 09, 11, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    siteTime();
+</script>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "Σ(っ °Д °;)っ喔哟，崩溃啦！", clearTimeout(st)) : (document.title = "φ(゜▽゜*)♪咦，又好了！", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) })
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    
+    <script src="/libs/others/clicklove.js"></script>
+    
+
+    
+    <script>
+        // 本地调试（localhost/127.0.0.1）不加载不蒜子：
+        // 不蒜子按 Referer 计数，所有开发者本地环境的 localhost 计数是共用的，数值严重失真
+        if (!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) {
+            var bsz = document.createElement('script');
+            bsz.src = '/libs/others/busuanzi.pure.mini.js';
+            bsz.async = true;
+            document.body.appendChild(bsz);
+        }
+    </script>
+    
+
+    <!-- 雪花特效 -->
+    
+    <script type="text/javascript" src="/libs/others/snow.js"></script>
+    
+
+</body>
+
+</html>

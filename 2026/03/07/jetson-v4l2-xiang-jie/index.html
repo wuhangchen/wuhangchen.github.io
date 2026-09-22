@@ -1,0 +1,1348 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Jetson 系列（四）：V4L2 到底是什么, C++ Linux PRC Go Docker">
+    <meta name="baidu-site-verification" content="fmlEuI34ir">
+    <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
+    <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
+    <meta name="description" content="像 Linux 视频设备的办事大厅，专门管格式、buffer、控制和数据流
+你有没有遇到过这种场景：USB 摄像头插上板子，/dev/video0 出来了。心想：Linux 不是”一切皆文件”吗？那我打开它，读几帧，不就能拿到图像了吗？
+结">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Jetson 系列（四）：V4L2 到底是什么 | 吴杭沉的博客</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?ce84511d3df71640a9378a69f6293044";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    
+        <script>
+            (function(){
+                var bp = document.createElement('script');
+                var curProtocol = window.location.protocol.split(':')[0];
+                if (curProtocol === 'https') {
+                    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+                }
+                else {
+                    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+                }
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(bp, s);
+            })();
+        </script>
+    
+
+    <script>
+        (function(){
+        var src = "https://jspassport.ssl.qhimg.com/11.0.1.js?d182b3f28525f2db83acfaaf6e696dba";
+        document.write('<script src="' + src + '" id="sozz"><\/script>');
+        })();
+    </script>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">吴杭沉的博客</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/contact" class="waves-effect waves-light">
+            
+            <i class="fa fa-comments"></i>
+            
+            <span>留言板</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">吴杭沉的博客</div>
+        <div class="logo-desc">
+            
+            善良比聪明更重要
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contact" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-comments"></i>
+                
+                留言板
+            </a>
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        Jetson 系列（四）：V4L2 到底是什么
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/Jetson/" target="_blank">
+                            <span class="chip bg-color">Jetson</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/Jetson/" class="post-category" target="_blank">
+                            Jetson
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2026-03-07
+                </div>
+
+                <div class="post-author info-break-policy">
+                    <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
+                    
+                    吴杭沉
+                    
+                </div>
+
+                
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3.8k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    13 分
+                </div>
+                
+                
+
+                
+                <div id="busuanzi_container_page_pv" class="info-break-policy" style='display:none'>
+                    <i class="fa fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                    <span id="busuanzi_value_page_pv"></span>
+                </div>
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p><strong>像 Linux 视频设备的办事大厅，专门管格式、buffer、控制和数据流</strong></p>
+<p>你有没有遇到过这种场景：USB 摄像头插上板子，/dev/video0 出来了。心想：Linux 不是”一切皆文件”吗？那我打开它，读几帧，不就能拿到图像了吗？</p>
+<p>结果一上手才发现，事情没这么温柔：要查摄像头支持什么格式，要设置分辨率，要申请 buffer，要把 buffer 排队，要启动视频流，要等一帧回来，还要处理 YUYV、MJPEG、NV12、RAW Bayer 这些看起来像快递单号的像素格式。</p>
+<p>更离谱的是，有时 /dev/video0 明明存在，画面就是黑的；有时 OpenCV 能打开，自己写程序就不行；有时 v4l2-ctl 能看到设备，但一采集就报错；有时 USB 摄像头很简单，换成 CSI 摄像头之后突然冒出一堆 media controller、subdev、ISP。</p>
+<p>这时候就碰到了一个名字：V4L2。V4L2 是 Linux 视频设备的用户态接口体系。它不是某个摄像头，也不是 OpenCV，而是应用和内核视频驱动之间的一套通用规矩。</p>
+<p><img src="v4l2-overview.png" alt="V4L2 到底是什么：Linux 下视频设备的用户态接口全景，从摄像头/驱动到 V4L2 服务大厅，再到应用处理"></p>
+<h2 id="一、先别背缩写：把-V4L2-想成”视频设备办事大厅”"><a href="#一、先别背缩写：把-V4L2-想成”视频设备办事大厅”" class="headerlink" title="一、先别背缩写：把 V4L2 想成”视频设备办事大厅”"></a>一、先别背缩写：把 V4L2 想成”视频设备办事大厅”</h2><p>V4L2 全称是 Video for Linux 2。它主要解决一个问题：Linux 上的视频设备千奇百怪，应用程序总不能每遇到一个摄像头、采集卡、编码器，就重新学一套私房话吧？所以内核媒体子系统给这些设备制定了一套比较统一的用户态接口。</p>
+<p>应用打开 /dev/videoX，拿到 fd，然后通过 V4L2 规定的接口去问设备：你是谁？你能采集还是输出？你支持哪些像素格式？你能跑多大分辨率和帧率？我要几个 buffer？这一帧采完了吗？曝光、增益、白平衡能不能调？</p>
+<p><img src="v4l2-dataflow.png" alt="V4L2 在视频链路中的位置：摄像头/采集设备 → Linux 内核驱动 → V4L2 接口 → 应用程序，帧数据与控制命令双向流转"></p>
+<p>这就像一个视频设备办事大厅。USB 摄像头、CSI 摄像头、HDMI 采集卡、视频编码器，脾气都不一样。但它们只要接入 V4L2，应用就不用每次都钻进驱动里问”师傅你这个按钮往哪按”。</p>
+<p>但这里要注意一句话：V4L2 不是图像处理库，它主要负责把视频设备按统一方式暴露出来。它不负责帮你把人脸识别出来，也不负责把图像美颜成证件照。它更像门口的取号机、窗口和传送带：你通过它拿到帧，后面的解码、转换、识别、显示，要看你上层用 OpenCV、GStreamer、FFmpeg，还是自己写。</p>
+<h2 id="二、V4L2-和-dev-video0-是什么关系"><a href="#二、V4L2-和-dev-video0-是什么关系" class="headerlink" title="二、V4L2 和 /dev/video0 是什么关系"></a>二、V4L2 和 /dev/video0 是什么关系</h2><p>看到 /dev/video0，很多人会以为 V4L2 就是这个文件。不完全对。/dev/video0 是一个设备节点，是用户态进入某个视频设备的入口。V4L2 是围绕这个入口制定的一整套接口规则。</p>
+<p>可以这么分：</p>
+<table>
+<thead>
+<tr>
+<th>名字</th>
+<th>它是什么</th>
+<th>类比</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>/dev/video0</td>
+<td>视频设备节点</td>
+<td>办事大厅的窗口</td>
+</tr>
+<tr>
+<td>fd</td>
+<td>打开窗口后拿到的号码牌（你的业务号）</td>
+<td></td>
+</tr>
+<tr>
+<td>V4L2 ioctl</td>
+<td>查询、设置、排队、启动等命令</td>
+<td>各种表格和业务流程</td>
+</tr>
+<tr>
+<td>buffer</td>
+<td>存放一帧帧图像的区域</td>
+<td>快递周转箱</td>
+</tr>
+<tr>
+<td>应用程序</td>
+<td>消费图像的人</td>
+<td>拿货回去加工的工厂</td>
+</tr>
+</tbody></table>
+<p>所以打开设备只是第一步。你用 <code>open(&quot;/dev/video0&quot;)</code> 拿到 fd，就像进大厅取了号。取号以后你还得填表、选业务、交材料、等窗口叫号。V4L2 真正的工作，大多发生在后面那一串查询、设置和 buffer 流转里。</p>
+<p>这也解释了为什么 V4L2 和上一篇的 fd 联系很紧。V4L2 的典型接口不是 fopen 得到一个 FILE *fp，而是打开设备节点得到 fd，再对这个 fd 发一堆控制命令。摄像头不是普通文本文件，不能指望 fprintf 和 fgets 把它安排得明明白白。</p>
+<h2 id="三、为什么摄像头不能只-read-一下"><a href="#三、为什么摄像头不能只-read-一下" class="headerlink" title="三、为什么摄像头不能只 read 一下"></a>三、为什么摄像头不能只 read 一下</h2><p>理论上，V4L2 支持简单的 read/write I/O 模式。有些设备也可以通过 read 读帧。但在真实嵌入式项目里，尤其是视频采集，事情通常没这么省心。</p>
+<p>原因很简单：视频不是一杯水，而是一条不停跑的流水线。一帧图像可能几百 KB、几 MB，帧率一高，数据就像小区门口早高峰。你不能每来一辆车，就现场找塑料袋装一下。你得提前准备周转箱，排好队，哪个箱子装满了送给应用，应用处理完再把箱子还回去。这就是 V4L2 buffer 模型的意义。</p>
+<p>典型采集流程大概长这样：</p>
+<p><img src="v4l2-capture-flow.png" alt="V4L2 典型采集流程：打开设备得到 fd → QUERYCAP 查询能力 → S_FMT 设置格式 → REQBUFS 申请 buffer → mmap 映射 → QBUF 入队 → STREAMON 启动 → poll 等帧 → DQBUF 取帧处理后重新入队"></p>
+<p>你会发现，V4L2 的重点不是”读一次拿一帧”这么简单，而是：先把格式谈妥；再把周转箱准备好；然后启动流水线；应用和驱动来回交接 buffer。</p>
+<p>这个模型看着绕，但它是为了高吞吐和少拷贝。尤其在嵌入式板子上，CPU、内存带宽和缓存都不富裕，视频数据又大得很。你让每帧都来回复制几遍，系统很快就会像背着冰箱爬楼一样喘不上气。V4L2 的核心不是”读文件”，而是”管理一条连续的视频数据流”。</p>
+<h2 id="四、V4L2-到底管哪些事"><a href="#四、V4L2-到底管哪些事" class="headerlink" title="四、V4L2 到底管哪些事"></a>四、V4L2 到底管哪些事</h2><p>从应用角度看，V4L2 主要管四类事。</p>
+<h3 id="1-查询能力：先问窗口能办什么业务"><a href="#1-查询能力：先问窗口能办什么业务" class="headerlink" title="1. 查询能力：先问窗口能办什么业务"></a>1. 查询能力：先问窗口能办什么业务</h3><p>不是每个 /dev/videoX 都能采集图像。有的可能是输出设备，有的是 metadata，有的是编码器节点，有的是复杂媒体管线里的一个出口。所以第一步通常要查询能力：</p>
+<table>
+<thead>
+<tr>
+<th>要问什么</th>
+<th>为什么重要</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>是否支持 video capture</td>
+<td>不支持采集就别拿它当摄像头</td>
+</tr>
+<tr>
+<td>是否支持 streaming</td>
+<td>决定能不能走 buffer 队列</td>
+</tr>
+<tr>
+<td>支持哪些格式</td>
+<td>决定后面设置什么 pixel format</td>
+</tr>
+<tr>
+<td>支持哪些分辨率/帧率</td>
+<td>决定图像尺寸和性能预算</td>
+</tr>
+</tbody></table>
+<p>不先问清楚，就像去银行窗口问”能不能办离婚证”。窗口不一定错，是你业务跑偏了。</p>
+<h3 id="2-设置格式：先把”菜名”和”盘子尺寸”说清楚"><a href="#2-设置格式：先把”菜名”和”盘子尺寸”说清楚" class="headerlink" title="2. 设置格式：先把”菜名”和”盘子尺寸”说清楚"></a>2. 设置格式：先把”菜名”和”盘子尺寸”说清楚</h3><p>视频格式至少包括：</p>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>例子</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>分辨率</td>
+<td>640x480、1280x720、1920x1080</td>
+<td>一帧有多大</td>
+</tr>
+<tr>
+<td>像素格式</td>
+<td>YUYV、MJPEG、NV12、RGB、RAW Bayer</td>
+<td>数据怎么解释</td>
+</tr>
+<tr>
+<td>帧率</td>
+<td>30fps、60fps</td>
+<td>每秒要搬多少数据</td>
+</tr>
+<tr>
+<td>stride/bytesperline</td>
+<td>每行实际字节数</td>
+<td>行对齐和图像显示是否正常</td>
+</tr>
+</tbody></table>
+<p>很多”画面花了””颜色不对””图像斜着跑”的问题，不是摄像头坏了，而是你把数据格式理解错了。比如摄像头给你的是 YUYV，你按 RGB 去看；传上来的是 Bayer RAW，你没有做去马赛克；每行有对齐填充，你却按紧凑图像处理。结果就像别人给你一箱火锅底料，你拿它当巧克力冲水喝，味道当然离谱。</p>
+<h3 id="3-管-buffer：提前准备周转箱"><a href="#3-管-buffer：提前准备周转箱" class="headerlink" title="3. 管 buffer：提前准备周转箱"></a>3. 管 buffer：提前准备周转箱</h3><p>V4L2 常见的采集方式有几种：</p>
+<table>
+<thead>
+<tr>
+<th>I/O 方式</th>
+<th>大致含义</th>
+<th>常见感受</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>read/write</td>
+<td>简单读写</td>
+<td>入门容易，灵活性和性能有限</td>
+</tr>
+<tr>
+<td>mmap</td>
+<td>内核和用户态映射共享 buffer</td>
+<td>很常见，效率较好</td>
+</tr>
+<tr>
+<td>userptr</td>
+<td>用户提供 buffer 指针</td>
+<td>要求应用更懂内存管理</td>
+</tr>
+<tr>
+<td>dmabuf</td>
+<td>跨设备共享 buffer</td>
+<td>适合零拷贝、多媒体流水线</td>
+</tr>
+</tbody></table>
+<p>嵌入式里最常见的是 mmap 和 dmabuf 这两类思路。mmap 像驱动提前准备一批周转箱，应用把这些箱子映射到自己能看到的地址空间里。驱动装满一箱，通知应用来取；应用处理完，再把箱子还给驱动继续装。</p>
+<p>dmabuf 更像跨部门共享同一个周转箱。摄像头采集、ISP、编码器、显示控制器、NPU 如果都能围绕同一块 buffer 协作，就能少搬很多次货。这对视频预览、编码和 AI 视觉都很关键。</p>
+<h3 id="4-控制参数：曝光、增益、白平衡不是玄学"><a href="#4-控制参数：曝光、增益、白平衡不是玄学" class="headerlink" title="4. 控制参数：曝光、增益、白平衡不是玄学"></a>4. 控制参数：曝光、增益、白平衡不是玄学</h3><p>摄像头不只是吐帧。它还有很多控制项：</p>
+<table>
+<thead>
+<tr>
+<th>控制项</th>
+<th>直观含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>exposure</td>
+<td>曝光时间</td>
+</tr>
+<tr>
+<td>gain</td>
+<td>增益</td>
+</tr>
+<tr>
+<td>white balance</td>
+<td>白平衡</td>
+</tr>
+<tr>
+<td>focus</td>
+<td>对焦</td>
+</tr>
+<tr>
+<td>brightness/contrast</td>
+<td>亮度和对比度</td>
+</tr>
+<tr>
+<td>test pattern</td>
+<td>测试图案，调试管线时很有用</td>
+</tr>
+</tbody></table>
+<p>这些通常通过 V4L2 controls 暴露出来。工具上可以先用 <code>v4l2-ctl --all</code> 看设备支持什么，再考虑应用里怎么调。</p>
+<p>这部分很像调相机参数。你不能画面黑了就只怪驱动，也可能是曝光太短、增益太低、光源太暗，或者 sensor 根本没被正确上电。</p>
+<h2 id="五、V4L2、OpenCV、GStreamer、FFmpeg-是什么关系"><a href="#五、V4L2、OpenCV、GStreamer、FFmpeg-是什么关系" class="headerlink" title="五、V4L2、OpenCV、GStreamer、FFmpeg 是什么关系"></a>五、V4L2、OpenCV、GStreamer、FFmpeg 是什么关系</h2><p>很多人第一次用摄像头，是从 OpenCV 开始的：<code>VideoCapture(0)</code> 一调用，画面出来了。这会让人误以为 OpenCV 就是摄像头接口。</p>
+<p>其实在 Linux 上，OpenCV 往下可能调用 V4L2 后端；GStreamer 里有 v4l2src；FFmpeg 也能通过 video4linux2 输入设备采集。它们的关系大概是这样：</p>
+<p><img src="v4l2-framework.png" alt="V4L2 与上层框架的关系：你的业务（预览/录像/AI 识别）可以经 OpenCV、GStreamer、FFmpeg 或自写 V4L2 程序，落到 V4L2 用户态接口与内核媒体驱动"></p>
+<p>这几层各管各的事：</p>
+<table>
+<thead>
+<tr>
+<th>层</th>
+<th>适合做什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>V4L2</td>
+<td>设备能力查询、格式设置、buffer 流转、控制参数</td>
+</tr>
+<tr>
+<td>OpenCV</td>
+<td>图像处理、视觉算法、快速验证</td>
+</tr>
+<tr>
+<td>GStreamer</td>
+<td>多媒体管线、预览、编码、推流、零拷贝集成</td>
+</tr>
+<tr>
+<td>FFmpeg</td>
+<td>编解码、封装、录制、转码</td>
+</tr>
+<tr>
+<td>libcamera</td>
+<td>复杂相机管线管理，尤其是现代 SoC 相机</td>
+</tr>
+</tbody></table>
+<p>所以你可以把 V4L2 理解成地基。OpenCV 很适合快速验证算法，但它不一定暴露所有底层控制能力；GStreamer 更像多媒体流水线总管，适合把采集、转换、编码、显示串起来；FFmpeg 擅长录制、转码和封装；libcamera 则更常出现在复杂 ISP、sensor、镜头控制都需要统一管理的现代相机栈里。</p>
+<p>如果你只是想验证 USB 摄像头有没有图，OpenCV 或 v4l2-ctl 很快。如果你在做产品，要调分辨率、格式、buffer、延迟、零拷贝和稳定性，最终还是要理解 V4L2 那套底层规矩。</p>
+<h2 id="六、USB-摄像头和-CSI-摄像头，为什么难度差很多"><a href="#六、USB-摄像头和-CSI-摄像头，为什么难度差很多" class="headerlink" title="六、USB 摄像头和 CSI 摄像头，为什么难度差很多"></a>六、USB 摄像头和 CSI 摄像头，为什么难度差很多</h2><p>USB 摄像头通常比较省心，因为大量 USB 摄像头走 UVC 标准。驱动成熟，插上后出现 /dev/video0，格式和控制项相对容易枚举。它像一个连锁便利店，货架怎么摆、收银怎么扫，规矩比较统一。</p>
+<p>CSI 摄像头就不一定了。很多 SoC 相机链路长这样：</p>
+<p><img src="v4l2-csi-pipeline.png" alt="CSI 摄像头管线：设备树描述供电/时钟/GPIO/端口连接，Sensor → MIPI CSI 接收器 → ISP → 缩放/裁剪/格式转换 → V4L2 video node → 应用"></p>
+<p>这时候一个摄像头不工作，可能不是 /dev/video0 自己的问题，而是：</p>
+<ul>
+<li>sensor 没上电；</li>
+<li>reset GPIO 方向错；</li>
+<li>MIPI lane 数配置错；</li>
+<li>时钟频率不对；</li>
+<li>media graph 连接没配好；</li>
+<li>ISP 输入输出格式没协商对；</li>
+<li>/dev/video0 只是最终出口，前面 subdev 还没设置。</li>
+</ul>
+<p>这就像不是一个窗口办事，而是一串部门盖章。最后窗口没出证，不一定是窗口工作人员偷懒，可能是上游某个章根本没盖。</p>
+<p>所以调复杂摄像头时，经常还会用到 media-ctl、子设备节点、设备树和驱动日志。V4L2 仍然在其中，但你面对的是完整 media pipeline，而不是一个孤零零的摄像头文件。USB 摄像头像标准外设，CSI 摄像头像一条由 sensor、CSI、ISP 和驱动拼起来的生产线。</p>
+<h2 id="七、常见翻车现场：先按这张表排"><a href="#七、常见翻车现场：先按这张表排" class="headerlink" title="七、常见翻车现场：先按这张表排"></a>七、常见翻车现场：先按这张表排</h2><p>V4L2 问题很容易让人一头扎进驱动代码。动代码之前，先把现象分类。</p>
+<table>
+<thead>
+<tr>
+<th>现象</th>
+<th>常见原因</th>
+<th>优先检查</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>没有 /dev/video0</td>
+<td>驱动没加载、设备树没生效、硬件未识别</td>
+<td>dmesg、设备树、总线枚举</td>
+</tr>
+<tr>
+<td>能打开但查询能力失败</td>
+<td>节点不是预期设备，或驱动实现异常</td>
+<td>v4l2-ctl –all</td>
+</tr>
+<tr>
+<td>设置格式失败</td>
+<td>格式/分辨率/帧率不支持</td>
+<td>枚举 formats 和 frame sizes</td>
+</tr>
+<tr>
+<td>一采集就卡住</td>
+<td>buffer 没入队、没 STREAMON、没有帧中断</td>
+<td>采集流程、驱动日志</td>
+</tr>
+<tr>
+<td>画面黑</td>
+<td>曝光/增益、sensor 上电、光路、管线配置</td>
+<td>controls、设备树、示波器</td>
+</tr>
+<tr>
+<td>颜色不对</td>
+<td>pixel format 理解错、YUV/RGB 转换错、Bayer 未处理</td>
+<td>format、stride、转换流程</td>
+</tr>
+<tr>
+<td>CPU 占用高</td>
+<td>拷贝太多、MJPEG 软件解码、格式转换太重</td>
+<td>mmap/dmabuf、硬件编码/转换</td>
+</tr>
+<tr>
+<td>设备 busy</td>
+<td>被其他进程占用</td>
+<td>lsof、服务进程、相机守护进程</td>
+</tr>
+</tbody></table>
+<p>调试工具也可以先记几个：</p>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>能看什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>v4l2-ctl –list-devices</td>
+<td>系统有哪些 V4L2 设备</td>
+</tr>
+<tr>
+<td>v4l2-ctl –all -d /dev/video0</td>
+<td>能力、controls、当前格式</td>
+</tr>
+<tr>
+<td>v4l2-ctl –list-formats-ext</td>
+<td>支持哪些格式、分辨率、帧率</td>
+</tr>
+<tr>
+<td>media-ctl -p</td>
+<td>复杂媒体管线拓扑</td>
+</tr>
+<tr>
+<td>dmesg</td>
+<td>驱动 probe、格式协商、错误日志</td>
+</tr>
+<tr>
+<td>lsof /dev/video0</td>
+<td>谁占用了设备</td>
+</tr>
+</tbody></table>
+<p>这里有个很实用的顺序：先确认节点是不是你以为的那个设备；再确认格式和分辨率是否支持；再确认 buffer 流程是否完整；最后才深入驱动、设备树和硬件信号。</p>
+<p>不要一看到黑屏就重写驱动。很多黑屏问题最后只是格式没对上，或者自动曝光没开，或者上层把 YUYV 当 RGB 显示了。</p>
+<h2 id="八、从驱动角度看，V4L2-不是只创建一个节点"><a href="#八、从驱动角度看，V4L2-不是只创建一个节点" class="headerlink" title="八、从驱动角度看，V4L2 不是只创建一个节点"></a>八、从驱动角度看，V4L2 不是只创建一个节点</h2><p>如果你以后要写或改 V4L2 驱动，可以先有个粗略印象。对驱动来说，V4L2 不是”创建 /dev/video0 就完事”。驱动通常要把设备能力、格式枚举、buffer 队列、stream on/off、controls、事件和子设备关系都实现好。</p>
+<p>尤其在复杂 SoC 上，驱动还可能拆成几类角色：</p>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>大致负责</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sensor subdev</td>
+<td>传感器曝光、增益、分辨率、输出格式</td>
+</tr>
+<tr>
+<td>CSI 接收器</td>
+<td>接收 MIPI/并行数据，处理同步和 lane 配置</td>
+</tr>
+<tr>
+<td>ISP</td>
+<td>去马赛克、降噪、颜色校正、缩放等</td>
+</tr>
+<tr>
+<td>video node</td>
+<td>把最终帧数据交给用户态</td>
+</tr>
+<tr>
+<td>vb2 队列</td>
+<td>管 buffer 申请、入队、出队和状态</td>
+</tr>
+</tbody></table>
+<p>这部分如果展开，会变成一大篇驱动开发文章。这里先抓主线：V4L2 驱动的价值，是把硬件差异收进内核，把统一接口交给用户态。应用不应该知道每颗 sensor 的私有寄存器细节；驱动也不应该把用户态逼到每帧都手忙脚乱。中间这套标准接口，就是 V4L2 存在的意义。</p>
+<h2 id="九、最后总结一下"><a href="#九、最后总结一下" class="headerlink" title="九、最后总结一下"></a>九、最后总结一下</h2><p>V4L2 是 Linux 视频设备的用户态接口体系。它让应用可以用相对统一的方式访问摄像头、采集卡、视频输出和一些编解码相关设备。</p>
+<p>它和普通文件的区别在于，视频设备不是静静躺在磁盘上的文本，而是一条持续产生数据的流水线。你不只是打开它，还要查询能力、设置格式、申请 buffer、映射内存、启动视频流、取帧、还 buffer，有时还要管理曝光、增益、白平衡和复杂媒体管线。</p>
+<p>一句话：V4L2 不是”摄像头文件”，而是 Linux 给视频设备准备的一套办事流程。/dev/video0 只是窗口，fd 只是号码牌，真正的业务在格式协商、buffer 队列和数据流控制里。</p>
+<p>如果你只做算法验证，可以先用 OpenCV 或 GStreamer 快速跑通；如果你做嵌入式 Linux 产品，迟早要看懂 V4L2。因为画面能不能稳定出来、延迟能不能压下去、CPU 能不能扛住，很多答案都藏在这条视频流水线里。</p>
+
+            </div>
+            <hr />
+
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《Jetson 系列（四）：V4L2 到底是什么》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2026/03/07/jetson-v4l2-xiang-jie/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                吴杭沉
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div id="giscus-card" class="card giscus-card" data-aos="fade-up">
+    <div class="card-content">
+        <div class="giscus"></div>
+    </div>
+</div>
+
+<script>
+    // 懒加载：滚动到评论区可见时才请求 giscus.app，
+    // 避免 giscus.app 不可达时阻塞页面加载
+    (function () {
+        var card = document.getElementById('giscus-card');
+        var holder = card ? card.querySelector('.giscus') : null;
+        if (!card || !holder) { return; }
+
+        var loaded = false;
+        function loadGiscus() {
+            if (loaded) { return; }
+            loaded = true;
+            var s = document.createElement('script');
+            s.src = 'https://giscus.app/client.js';
+            s.async = true;
+            s.crossOrigin = 'anonymous';
+            s.setAttribute('data-repo', 'wuhangchen/wuhangchen.github.io');
+            s.setAttribute('data-repo-id', 'R_kgDOMPl9sA');
+            s.setAttribute('data-category', 'Announcements');
+            s.setAttribute('data-category-id', 'DIC_kwDOMPl9sM4DDr8I');
+            s.setAttribute('data-mapping', 'pathname');
+            s.setAttribute('data-strict', '0');
+            s.setAttribute('data-reactions-enabled', '1');
+            s.setAttribute('data-emit-metadata', '0');
+            s.setAttribute('data-input-position', 'bottom');
+            s.setAttribute('data-theme', 'preferred_color_scheme');
+            s.setAttribute('data-lang', 'zh-CN');
+            holder.appendChild(s);
+        }
+
+        if (!('IntersectionObserver' in window)) {
+            // 旧浏览器直接降级为页面加载完成后加载
+            window.addEventListener('load', loadGiscus);
+            return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+            if (entries[0].isIntersecting) {
+                loadGiscus();
+                io.disconnect();
+            }
+        });
+        io.observe(card);
+    })();
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2026/03/12/gao-tong-qnn-quan-jing-chai-jie/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="高通 QNN 全景拆解（一）：从框架到硬件的完整软件栈">
+                        
+                        <span class="card-title">高通 QNN 全景拆解（一）：从框架到硬件的完整软件栈</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            这是「高通 QNN 端侧 AI 部署全解析」系列的第一篇。两篇的结构：
+
+本篇：QNN 全景 — 软件栈分层 + 三大后端 + API 核心调用
+第二篇：部署实战 — 6 步上机流程 + 量化选型 + DDR 带宽优化
+
+如果你在做端侧 A
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2026-03-12
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/高通QNN/" class="post-category" target="_blank">
+                                    高通QNN
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/高通QNN/" target="_blank">
+                        <span class="chip bg-color">高通QNN</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2026/03/02/jetson-yolov8-quan-lian-lu-jia-su/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/bing-20260912.jpg" class="responsive-img" alt="Jetson 系列（三）：YOLOv8 + 相机 pipeline 全链路加速">
+                        
+                        <span class="card-title">Jetson 系列（三）：YOLOv8 + 相机 pipeline 全链路加速</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            “模型在 PC 上跑得飞快，一上 Orin 就卡成 PPT？”
+“TensorRT 引擎建好了，但端到端延迟还是高得离谱？”
+在工业 AI 视觉落地中，全链路性能才是王道。从相机采集 → 图像预处理 → 模型推理 → 后处理输出，任何一环的
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2026-03-02
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Jetson/" class="post-category" target="_blank">
+                                    Jetson
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Jetson/" target="_blank">
+                        <span class="chip bg-color">Jetson</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 吴杭沉的博客<br />'
+            + '作者: 吴杭沉<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { bodyElement.removeChild(newdiv); }, 200);
+    });
+</script>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+	            fixPostCardWidth('artDetail', 'giscus-card');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy; 2017-2024 Wuhangchen. 版权所有
+
+            
+            &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+            <span class="white-color">189.8k</span>
+            
+
+            <br>
+            <span id="sitetime"></span>
+
+            
+            
+            <br>
+            
+            <span id="busuanzi_container_site_pv" style='display:none'>
+                <i class="fa fa-heart-o"></i>
+                本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv" style='display:none'>
+                人次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+            </span>
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:codewu1996@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="https://zhihu.com/people/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
+        <i class="fa fa-inverse">知</i>
+    </a>
+
+
+
+    <a href="http://wpa.qq.com/msgrd?v=3&uin=1714593434&site=qq&menu=yes" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);
+        var fixTries = 0;
+        var pvcountOffset = 80000;
+        var uvcountOffset = 20000;
+
+        function fixCount() {
+            // 本地环境不加载不蒜子时避免无限轮询：最多等待 10 秒
+            if (++fixTries > 200) {
+                clearInterval(int);
+                return;
+            }
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int);
+            }
+        }
+    });
+</script>
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2017, 09, 11, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    siteTime();
+</script>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "Σ(っ °Д °;)っ喔哟，崩溃啦！", clearTimeout(st)) : (document.title = "φ(゜▽゜*)♪咦，又好了！", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) })
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    
+    <script src="/libs/others/clicklove.js"></script>
+    
+
+    
+    <script>
+        // 本地调试（localhost/127.0.0.1）不加载不蒜子：
+        // 不蒜子按 Referer 计数，所有开发者本地环境的 localhost 计数是共用的，数值严重失真
+        if (!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) {
+            var bsz = document.createElement('script');
+            bsz.src = '/libs/others/busuanzi.pure.mini.js';
+            bsz.async = true;
+            document.body.appendChild(bsz);
+        }
+    </script>
+    
+
+    <!-- 雪花特效 -->
+    
+    <script type="text/javascript" src="/libs/others/snow.js"></script>
+    
+
+</body>
+
+</html>

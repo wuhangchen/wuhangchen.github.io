@@ -1,0 +1,1276 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="高通 QNN 全景拆解（一）：从框架到硬件的完整软件栈, C++ Linux PRC Go Docker">
+    <meta name="baidu-site-verification" content="fmlEuI34ir">
+    <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
+    <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
+    <meta name="description" content="这是「高通 QNN 端侧 AI 部署全解析」系列的第一篇。两篇的结构：
+
+本篇：QNN 全景 — 软件栈分层 + 三大后端 + API 核心调用
+第二篇：部署实战 — 6 步上机流程 + 量化选型 + DDR 带宽优化
+
+如果你在做端侧 A">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>高通 QNN 全景拆解（一）：从框架到硬件的完整软件栈 | 吴杭沉的博客</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?ce84511d3df71640a9378a69f6293044";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    
+        <script>
+            (function(){
+                var bp = document.createElement('script');
+                var curProtocol = window.location.protocol.split(':')[0];
+                if (curProtocol === 'https') {
+                    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+                }
+                else {
+                    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+                }
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(bp, s);
+            })();
+        </script>
+    
+
+    <script>
+        (function(){
+        var src = "https://jspassport.ssl.qhimg.com/11.0.1.js?d182b3f28525f2db83acfaaf6e696dba";
+        document.write('<script src="' + src + '" id="sozz"><\/script>');
+        })();
+    </script>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">吴杭沉的博客</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/contact" class="waves-effect waves-light">
+            
+            <i class="fa fa-comments"></i>
+            
+            <span>留言板</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">吴杭沉的博客</div>
+        <div class="logo-desc">
+            
+            善良比聪明更重要
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contact" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-comments"></i>
+                
+                留言板
+            </a>
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        高通 QNN 全景拆解（一）：从框架到硬件的完整软件栈
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/高通QNN/" target="_blank">
+                            <span class="chip bg-color">高通QNN</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/高通QNN/" class="post-category" target="_blank">
+                            高通QNN
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2026-03-12
+                </div>
+
+                <div class="post-author info-break-policy">
+                    <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
+                    
+                    吴杭沉
+                    
+                </div>
+
+                
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    2.6k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    10 分
+                </div>
+                
+                
+
+                
+                <div id="busuanzi_container_page_pv" class="info-break-policy" style='display:none'>
+                    <i class="fa fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                    <span id="busuanzi_value_page_pv"></span>
+                </div>
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>这是「高通 QNN 端侧 AI 部署全解析」系列的第一篇。两篇的结构：</p>
+<ul>
+<li><strong>本篇</strong>：QNN 全景 — 软件栈分层 + 三大后端 + API 核心调用</li>
+<li><strong>第二篇</strong>：部署实战 — 6 步上机流程 + 量化选型 + DDR 带宽优化</li>
+</ul>
+<p>如果你在做端侧 AI，不管是手机、车机、还是 IoT，高通的 QNN 都是绕不过去的一层。但大多数教程只教你怎么调 API，不告诉你这套系统到底是怎么设计的、为什么这么设计。这个系列就是来填这个坑的。</p>
+<h2 id="先澄清一个常见误解：QNN-不是推理框架"><a href="#先澄清一个常见误解：QNN-不是推理框架" class="headerlink" title="先澄清一个常见误解：QNN 不是推理框架"></a>先澄清一个常见误解：QNN 不是推理框架</h2><p>你可能用过 ONNX Runtime、TFLite、甚至 llama.cpp。这些都是上层推理框架，它们的职责是加载模型、调度算子、管理内存。QNN 不在这一层。</p>
+<p>它的全称是 Qualcomm AI Engine Direct，干的事情是 — 把推理框架的算子请求翻译成高通硬件能执行的指令，然后发给 NPU/GPU/CPU 去跑。用一句话说：<strong>QNN 是连接 AI 框架和高通硬件 IP 的翻译层</strong>。</p>
+<p>它的前身是 SNPE（Snapdragon Neural Processing Engine），从 2023 年开始 Qualcomm 把重心转到了 QNN。两者的区别：</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>SNPE</th>
+<th>QNN</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>定位</td>
+<td>端到端推理 SDK</td>
+<td>底层硬件抽象层</td>
+</tr>
+<tr>
+<td>后端支持</td>
+<td>CPU/GPU/DSP</td>
+<td>CPU/GPU/HTP（含 DSP）</td>
+</tr>
+<tr>
+<td>API 风格</td>
+<td>高层封装</td>
+<td>低层 C API，更灵活</td>
+</tr>
+<tr>
+<td>模型格式</td>
+<td>.dlc</td>
+<td>.dlc + Context Binary</td>
+</tr>
+<tr>
+<td>多后端路由</td>
+<td>框架内部决定</td>
+<td>Graph Partitioning 自动分配</td>
+</tr>
+<tr>
+<td>当前状态</td>
+<td>维护模式</td>
+<td>主力发展</td>
+</tr>
+</tbody></table>
+<p>Qualcomm 官方文档（80-70014-15BY）里把 AI 软件栈画成了一张全景图，这张图非常重要，我基于它重绘了一个更清晰的版本：</p>
+<p><img src="qnn-software-stack.png" alt="Qualcomm AI 软件栈全景：从 AI 框架到硬件加速器的六层完整路径，QNN 运行时承上启下，三大后端各司其职"></p>
+<p>从上到下 6 层，我逐层拆。</p>
+<h2 id="🏗️-6-层软件栈逐层拆解"><a href="#🏗️-6-层软件栈逐层拆解" class="headerlink" title="🏗️ 6 层软件栈逐层拆解"></a>🏗️ 6 层软件栈逐层拆解</h2><h3 id="第-1-层：应用程序"><a href="#第-1-层：应用程序" class="headerlink" title="第 1 层：应用程序"></a>第 1 层：应用程序</h3><p>你的 Android App、Linux 应用、或者 IoT 设备上的 AI 应用。这一层不直接调 QNN，而是通过下面的框架层接入。</p>
+<h3 id="第-2-层：AI-框架"><a href="#第-2-层：AI-框架" class="headerlink" title="第 2 层：AI 框架"></a>第 2 层：AI 框架</h3><p>开源框架层。ONNX、PyTorch、TensorFlow、TensorFlow Lite — 这些是模型的「来源」。你在 PyTorch 里训练一个模型，导出为 ONNX 格式，然后通过 QNN 的转换工具把它编译成 QNN 能执行的格式。整个链路：</p>
+<pre class="line-numbers language-text"><code class="language-text">PyTorch (.pt) → ONNX (.onnx) → QNN Converter → QNN Graph (.dlc)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>TFLite 模型比较特殊 — 它不需要转换，可以直接通过 TFLite Delegate 跑在 QNN 上。Qualcomm 提供了三个 Delegate：</p>
+<table>
+<thead>
+<tr>
+<th>Delegate</th>
+<th>加速硬件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AI Engine Direct Delegate (QNN)</td>
+<td>CPU + GPU + HTP</td>
+</tr>
+<tr>
+<td>XNNPACK Delegate</td>
+<td>CPU</td>
+</tr>
+<tr>
+<td>GPU Delegate</td>
+<td>GPU</td>
+</tr>
+</tbody></table>
+<p>也就是说如果你已经有 TFLite 模型，不用做任何转换，直接加个 Delegate 就能用 NPU 加速。</p>
+<h3 id="第-3-层：运行时引擎"><a href="#第-3-层：运行时引擎" class="headerlink" title="第 3 层：运行时引擎"></a>第 3 层：运行时引擎</h3><p>这一层有三个选择：</p>
+<ul>
+<li><strong>SNPE</strong> — 老牌选手，API 简单，但功能固化。适合快速原型验证。</li>
+<li><strong>QNN (AI Engine Direct)</strong> — 当前主力。提供统一的 C API，支持所有后端，支持 Graph Partitioning（自动把模型拆到不同硬件上跑）。如果你在做新项目，直接用 QNN。</li>
+<li><strong>TFLite Runtime</strong> — 开源推理引擎，通过 Delegate 机制调用 QNN 后端。适合已有 TFLite 生态的团队。</li>
+</ul>
+<p>三者的关系不是竞争，而是分层：</p>
+<pre class="line-numbers language-text"><code class="language-text">TFLite Runtime
+  └── TFLite QNN Delegate
+        └── QNN Runtime (AI Engine Direct)
+              └── HTP/GPU/CPU 后端
+
+SNPE
+  └── 内部也调用 QNN 后端（新版本）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>你看到了吧 — QNN 是最底层的那一个，其他两个都是基于它构建的。</p>
+<h3 id="第-4-层：后端库"><a href="#第-4-层：后端库" class="headerlink" title="第 4 层：后端库"></a>第 4 层：后端库</h3><p>QNN 的后端是以独立 .so 的形式存在的：</p>
+<ul>
+<li><strong>libQnnHtp.so</strong> — NPU（Hexagon Tensor Processor）后端。这是性能最强的后端，专为矩阵运算优化，峰值 45-80 TOPS</li>
+<li><strong>libQnnGpu.so</strong> — GPU 后端。基于 OpenCL，适合预处理/后处理或 NPU 不支持的算子</li>
+<li><strong>libQnnCpu.so</strong> — CPU 后端。兜底用，所有算子都支持但性能最差</li>
+</ul>
+<p>另外还有一个特殊的：</p>
+<ul>
+<li><strong>libcdsprpc.so</strong> — FastRPC 客户端库。NPU 后端要通过它跟 Hexagon 处理器通信</li>
+</ul>
+<p>这种「每个后端一个 .so」的设计很聪明 — 你只链接需要的后端，不会引入不必要的依赖。做嵌入式设备的时候，每一个 KB 都很宝贵。</p>
+<h3 id="第-5-层：内核驱动"><a href="#第-5-层：内核驱动" class="headerlink" title="第 5 层：内核驱动"></a>第 5 层：内核驱动</h3><ul>
+<li><strong>fastrpc.ko</strong> — FastRPC 内核模块，负责 ARM CPU 和 Hexagon DSP 之间的跨域通信</li>
+<li><strong>msm_npu.ko</strong> — NPU 电源管理、时钟控制、SMMU 配置</li>
+<li><strong>arm-smmu.ko</strong> — SMMU（System Memory Management Unit），做 IOVA → PA 的地址翻译，保证 NPU 能安全访问内存</li>
+</ul>
+<h3 id="第-6-层：硬件"><a href="#第-6-层：硬件" class="headerlink" title="第 6 层：硬件"></a>第 6 层：硬件</h3><p>三大硬件加速器：</p>
+<ul>
+<li><strong>Kryo / Oryon CPU</strong> — 高通自研 ARM 核心。通用计算能力强，但 AI 推理效率不如专用硬件。</li>
+<li><strong>Hexagon HTP (NPU)</strong> — 重头戏。包含 Tensor Core（脉动阵列）、HVX（向量引擎）、DMA Engine（数据搬运）、Scalar Core（控制逻辑）四个计算单元。骁龙 8 Gen 3 峰值 45 TOPS，8 Elite 到 80 TOPS。</li>
+<li><strong>Adreno GPU</strong> — 高通自研 GPU。AI 工作负载可以通过 OpenCL 内核加速，也可以做预处理/后处理。</li>
+</ul>
+<h2 id="🔧-QNN-API-核心调用流程"><a href="#🔧-QNN-API-核心调用流程" class="headerlink" title="🔧 QNN API 核心调用流程"></a>🔧 QNN API 核心调用流程</h2><p>QNN 的 API 设计非常精简，核心就 6 步：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">// Step 1: 获取 Provider (加载后端 .so)</span>
+<span class="token function">QnnInterface_getProviders</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>providers<span class="token punctuation">,</span> <span class="token operator">&amp;</span>numProviders<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// Step 2: 创建 Backend</span>
+Qnn_BackendHandle_t backend<span class="token punctuation">;</span>
+<span class="token function">QnnBackend_create</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>backend<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// Step 3: 创建 Context</span>
+Qnn_ContextHandle_t ctx<span class="token punctuation">;</span>
+<span class="token function">QnnContext_create</span><span class="token punctuation">(</span>backend<span class="token punctuation">,</span> device<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>ctx<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// Step 4: 构建计算图</span>
+Qnn_GraphHandle_t graph<span class="token punctuation">;</span>
+<span class="token function">QnnGraph_create</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token string">"my_model"</span><span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>graph<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">QnnGraph_addNode</span><span class="token punctuation">(</span>graph<span class="token punctuation">,</span> matmul_node<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">// 添加算子</span>
+<span class="token function">QnnGraph_addNode</span><span class="token punctuation">(</span>graph<span class="token punctuation">,</span> softmax_node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">QnnGraph_finalize</span><span class="token punctuation">(</span>graph<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">// 编译图</span>
+
+<span class="token comment" spellcheck="true">// Step 5: 执行推理</span>
+<span class="token function">QnnGraph_execute</span><span class="token punctuation">(</span>graph<span class="token punctuation">,</span> inputs<span class="token punctuation">,</span> numInputs<span class="token punctuation">,</span>
+                 outputs<span class="token punctuation">,</span> numOutputs<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// Step 6: 释放资源</span>
+<span class="token function">QnnGraph_free</span><span class="token punctuation">(</span>graph<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">QnnContext_free</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">QnnBackend_free</span><span class="token punctuation">(</span>backend<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这 6 步看着简单，但每一步背后都有大量工作：</p>
+<ul>
+<li><strong>getProviders</strong> — 动态加载后端 .so，查询它支持哪些能力</li>
+<li><strong>Context_create</strong> — 初始化硬件资源，建立 HTP Session（这步在 NPU 后端会触发 FastRPC 连接）</li>
+<li><strong>Graph_create + addNode + finalize</strong> — 构建计算图并编译。finalize 是最耗时的一步，它会做算子融合、内存规划、指令生成。7B 模型在 8 Gen 3 上 finalize 大约要 3-15 秒</li>
+<li><strong>Graph_execute</strong> — 真正的推理执行。每次调用执行一次前向传播</li>
+</ul>
+<h3 id="💡-关键优化点：finalize-太慢怎么办？"><a href="#💡-关键优化点：finalize-太慢怎么办？" class="headerlink" title="💡 关键优化点：finalize 太慢怎么办？"></a>💡 关键优化点：finalize 太慢怎么办？</h3><p>QNN 提供了 <strong>Context Binary</strong> 机制 — 把编译后的执行计划序列化到磁盘，下次直接加载，冷启动从 3-15s 降到 0.3-1s。下一篇《部署实战》会详细讲。</p>
+<h2 id="🎯-三大后端的选型逻辑"><a href="#🎯-三大后端的选型逻辑" class="headerlink" title="🎯 三大后端的选型逻辑"></a>🎯 三大后端的选型逻辑</h2><p>什么时候用 HTP、什么时候用 GPU、什么时候用 CPU？</p>
+<ul>
+<li><strong>优先 HTP (NPU)</strong> — MatMul、Conv2D、Attention、LayerNorm 这些规则算子，HTP 的能效比是 GPU 的 5-10 倍。LLM 推理几乎 100% 应该走 HTP。</li>
+<li><strong>GPU 做预处理</strong> — 图像缩放、色彩空间转换、特征提取的前几层。GPU 的并行度高，适合这类非矩阵运算。</li>
+<li><strong>CPU 兜底</strong> — HTP 和 GPU 都不支持的算子，比如某些自定义算子、动态 shape 操作。CPU 什么都能跑，就是慢。</li>
+</ul>
+<p>QNN Runtime 会自动做这个决策。它的 Graph Partitioning 机制会分析计算图，把支持 HTP 的算子路由到 NPU，不支持的 fallback 到 GPU 或 CPU。</p>
+<p>这个设计跟 Android 显示合成器 SurfaceFlinger 的 HWC 策略完全同构：</p>
+<table>
+<thead>
+<tr>
+<th>QNN Graph Partitioning</th>
+<th>SurfaceFlinger HWC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>优先 HTP 执行</td>
+<td>优先 DPU 硬件合成</td>
+</tr>
+<tr>
+<td>不支持的算子 fallback GPU</td>
+<td>不支持的层 fallback GPU 合成</td>
+</tr>
+<tr>
+<td>实在不行走 CPU</td>
+<td>实在不行走 CPU 软件合成</td>
+</tr>
+</tbody></table>
+<p>都是「硬件优先，逐级 fallback」的思路。</p>
+<h2 id="📊-跟其他方案的对比"><a href="#📊-跟其他方案的对比" class="headerlink" title="📊 跟其他方案的对比"></a>📊 跟其他方案的对比</h2><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>QNN (AI Engine Direct)</th>
+<th>TFLite</th>
+<th>ONNX Runtime</th>
+<th>llama.cpp</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NPU 支持</td>
+<td>✅ 原生</td>
+<td>✅ 通过 QNN Delegate</td>
+<td>⚠️ 有限</td>
+<td>❌ 纯 CPU/GPU</td>
+</tr>
+<tr>
+<td>多后端路由</td>
+<td>✅ 自动 Graph Partitioning</td>
+<td>⚠️ 手动选 Delegate</td>
+<td>⚠️ 手动选 EP</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>量化工具链</td>
+<td>✅ 完整 (INT4/8/16)</td>
+<td>✅ INT8 为主</td>
+<td>⚠️ 依赖第三方</td>
+<td>✅ GGUF 格式</td>
+</tr>
+<tr>
+<td>LLM 支持</td>
+<td>✅ Genie Runtime</td>
+<td>⚠️ 有限</td>
+<td>⚠️ 有限</td>
+<td>✅ 生态丰富</td>
+</tr>
+<tr>
+<td>冷启动优化</td>
+<td>✅ Context Binary</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>高通平台适配</td>
+<td>✅ 最优</td>
+<td>✅ 良好</td>
+<td>⚠️ 一般</td>
+<td>⚠️ 无 NPU</td>
+</tr>
+</tbody></table>
+<p>结论：如果你的目标平台是高通 SoC，QNN 是 NPU 利用率最高的方案。llama.cpp 生态好但没法用 NPU，纯 CPU 跑 7B 模型性能差 10 倍以上。</p>
+<p>具体数字感受一下 — 同样跑 Llama 3 8B INT4，在骁龙 8 Gen 3 上：</p>
+<ul>
+<li><strong>QNN HTP 后端</strong>：25 tokens/s（decode），功耗 3W</li>
+<li><strong>llama.cpp CPU</strong>：2-3 tokens/s，功耗 5W，还烫手</li>
+<li><strong>llama.cpp GPU (Adreno OpenCL)</strong>：8-10 tokens/s，功耗 4W</li>
+</ul>
+<p>NPU 的能效比碾压 CPU/GPU。这不是「快一点」的差距，而是「能用 vs 不能用」的差距。用户能接受 25 tok/s 的流畅对话，但 2-3 tok/s 的逐字蹦出来？？？产品直接劝退。</p>
+<h2 id="🎯-架构师视角：设计哲学"><a href="#🎯-架构师视角：设计哲学" class="headerlink" title="🎯 架构师视角：设计哲学"></a>🎯 架构师视角：设计哲学</h2><p>QNN 的核心设计哲学是「分层抽象 + 多后端路由」。这跟 Android 的 HAL 层设计一脉相承 — 上层不需要知道底层是 NPU 还是 GPU，通过统一 API 调用，Runtime 自动做最优决策。</p>
+<p>这种设计的直接好处：模型开发者写一次代码，自动适配不同 SoC 代际。骁龙 8 Gen 3 和 8 Elite 的 HTP 硬件完全不同，但 QNN API 调用方式一模一样。OEM 升级芯片，应用不用改一行代码 — 只要 Qualcomm 更新后端 .so 就行。</p>
+<p>同样的模式在 GPU 世界已经被验证：OpenGL ES / Vulkan 对上层统一，Adreno driver 对下层适配硬件差异。QNN 把这套范式搬到了 NPU 领域。</p>
+<p>跨域连接：</p>
+<table>
+<thead>
+<tr>
+<th>QNN 概念</th>
+<th>已有领域</th>
+<th>同构关键点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Backend .so 插件化</td>
+<td>Linux 内核模块 (insmod)</td>
+<td>运行时动态加载，不改框架</td>
+</tr>
+<tr>
+<td>Graph Partitioning</td>
+<td>HWC 硬件合成策略</td>
+<td>硬件优先，逐级 fallback</td>
+</tr>
+<tr>
+<td>Context Binary</td>
+<td>dex2oat AOT 编译</td>
+<td>首次慢 + 缓存 = 后续快</td>
+</tr>
+<tr>
+<td>QNN Provider 接口</td>
+<td>Android HAL Interface</td>
+<td>分层抽象，解耦上下层</td>
+</tr>
+</tbody></table>
+<h2 id="两个反直觉的认知"><a href="#两个反直觉的认知" class="headerlink" title="两个反直觉的认知"></a>两个反直觉的认知</h2><ul>
+<li><strong>反直觉：QNN 不是框架级的东西，它比框架更底层。</strong> 你永远不应该直接在应用层调 QNN API — 应该通过 ONNX Runtime QNN EP 或 TFLite Delegate 间接使用。直接调 QNN 只有在你做端侧推理引擎开发的时候才需要。</li>
+<li><strong>反直觉：很多人以为 GPU 跑 AI 比 CPU 快就够了，不需要 NPU。</strong> 事实是 GPU 做推理的能效比只有 NPU 的 1/5 到 1/8。同样跑一个 7B 模型，GPU 功耗 6-8W，NPU 只要 2-3W。手机电池 5000mAh，NPU 能跑 2 小时，GPU 30 分钟就把电耗光了。端侧 AI 不是性能问题，是能效问题。</li>
+</ul>
+<p>以上，既然看到这里了，你应该对高通 AI 软件栈的全景有了清晰画面 — 6 层架构，QNN 在中间做翻译，三大后端各司其职。下一篇我们进入实战，把一个 HuggingFace 模型一路部署到 NPU 上跑起来。</p>
+
+            </div>
+            <hr />
+
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《高通 QNN 全景拆解（一）：从框架到硬件的完整软件栈》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2026/03/12/gao-tong-qnn-quan-jing-chai-jie/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                吴杭沉
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div id="giscus-card" class="card giscus-card" data-aos="fade-up">
+    <div class="card-content">
+        <div class="giscus"></div>
+    </div>
+</div>
+
+<script>
+    // 懒加载：滚动到评论区可见时才请求 giscus.app，
+    // 避免 giscus.app 不可达时阻塞页面加载
+    (function () {
+        var card = document.getElementById('giscus-card');
+        var holder = card ? card.querySelector('.giscus') : null;
+        if (!card || !holder) { return; }
+
+        var loaded = false;
+        function loadGiscus() {
+            if (loaded) { return; }
+            loaded = true;
+            var s = document.createElement('script');
+            s.src = 'https://giscus.app/client.js';
+            s.async = true;
+            s.crossOrigin = 'anonymous';
+            s.setAttribute('data-repo', 'wuhangchen/wuhangchen.github.io');
+            s.setAttribute('data-repo-id', 'R_kgDOMPl9sA');
+            s.setAttribute('data-category', 'Announcements');
+            s.setAttribute('data-category-id', 'DIC_kwDOMPl9sM4DDr8I');
+            s.setAttribute('data-mapping', 'pathname');
+            s.setAttribute('data-strict', '0');
+            s.setAttribute('data-reactions-enabled', '1');
+            s.setAttribute('data-emit-metadata', '0');
+            s.setAttribute('data-input-position', 'bottom');
+            s.setAttribute('data-theme', 'preferred_color_scheme');
+            s.setAttribute('data-lang', 'zh-CN');
+            holder.appendChild(s);
+        }
+
+        if (!('IntersectionObserver' in window)) {
+            // 旧浏览器直接降级为页面加载完成后加载
+            window.addEventListener('load', loadGiscus);
+            return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+            if (entries[0].isIntersecting) {
+                loadGiscus();
+                io.disconnect();
+            }
+        });
+        io.observe(card);
+    })();
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2026/03/17/gao-tong-qnn-bu-shu-shi-zhan/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="高通 QNN 全景拆解（二）：从模型量化到多模型并发的完整部署实战">
+                        
+                        <span class="card-title">高通 QNN 全景拆解（二）：从模型量化到多模型并发的完整部署实战</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            这是「高通 QNN 端侧 AI 部署全解析」系列的第二篇。上一篇我们搞懂了 QNN 的软件栈分层。今天来实战 — 从一个 HuggingFace 上的模型出发，一路走到 NPU 上跑起来的完整链路。
+先看全流程：
+
+Step 1：模型获取从
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2026-03-17
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/高通QNN/" class="post-category" target="_blank">
+                                    高通QNN
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/高通QNN/" target="_blank">
+                        <span class="chip bg-color">高通QNN</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2026/03/07/jetson-v4l2-xiang-jie/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="Jetson 系列（四）：V4L2 到底是什么">
+                        
+                        <span class="card-title">Jetson 系列（四）：V4L2 到底是什么</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            像 Linux 视频设备的办事大厅，专门管格式、buffer、控制和数据流
+你有没有遇到过这种场景：USB 摄像头插上板子，/dev/video0 出来了。心想：Linux 不是”一切皆文件”吗？那我打开它，读几帧，不就能拿到图像了吗？
+结
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2026-03-07
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Jetson/" class="post-category" target="_blank">
+                                    Jetson
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Jetson/" target="_blank">
+                        <span class="chip bg-color">Jetson</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 吴杭沉的博客<br />'
+            + '作者: 吴杭沉<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { bodyElement.removeChild(newdiv); }, 200);
+    });
+</script>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+	            fixPostCardWidth('artDetail', 'giscus-card');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy; 2017-2024 Wuhangchen. 版权所有
+
+            
+            &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+            <span class="white-color">189.8k</span>
+            
+
+            <br>
+            <span id="sitetime"></span>
+
+            
+            
+            <br>
+            
+            <span id="busuanzi_container_site_pv" style='display:none'>
+                <i class="fa fa-heart-o"></i>
+                本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv" style='display:none'>
+                人次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+            </span>
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:codewu1996@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="https://zhihu.com/people/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
+        <i class="fa fa-inverse">知</i>
+    </a>
+
+
+
+    <a href="http://wpa.qq.com/msgrd?v=3&uin=1714593434&site=qq&menu=yes" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
+        <i class="fa fa-qq"></i>
+    </a>
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);
+        var fixTries = 0;
+        var pvcountOffset = 80000;
+        var uvcountOffset = 20000;
+
+        function fixCount() {
+            // 本地环境不加载不蒜子时避免无限轮询：最多等待 10 秒
+            if (++fixTries > 200) {
+                clearInterval(int);
+                return;
+            }
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int);
+            }
+        }
+    });
+</script>
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2017, 09, 11, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    siteTime();
+</script>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "Σ(っ °Д °;)っ喔哟，崩溃啦！", clearTimeout(st)) : (document.title = "φ(゜▽゜*)♪咦，又好了！", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) })
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    
+    <script src="/libs/others/clicklove.js"></script>
+    
+
+    
+    <script>
+        // 本地调试（localhost/127.0.0.1）不加载不蒜子：
+        // 不蒜子按 Referer 计数，所有开发者本地环境的 localhost 计数是共用的，数值严重失真
+        if (!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) {
+            var bsz = document.createElement('script');
+            bsz.src = '/libs/others/busuanzi.pure.mini.js';
+            bsz.async = true;
+            document.body.appendChild(bsz);
+        }
+    </script>
+    
+
+    <!-- 雪花特效 -->
+    
+    <script type="text/javascript" src="/libs/others/snow.js"></script>
+    
+
+</body>
+
+</html>

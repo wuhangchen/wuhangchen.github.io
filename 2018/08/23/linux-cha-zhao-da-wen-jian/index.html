@@ -4,12 +4,12 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Linux 系统查找大文件, C++ Linux PRC Go Docker">
+    <meta name="keywords" content="Linux 查找大文件, C++ Linux PRC Go Docker">
     <meta name="baidu-site-verification" content="fmlEuI34ir">
     <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
     <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
-    <meta name="description" content="在 Windows 系统中，我们可以使用 TreeSize 工具查找一些大文件或文件夹，非常的方便高效，在 Linux 系统中，如何去搜索一些比较大的文件呢？下面我整理了一下在 Linux 系统中如何查找大文件或文件夹的方法。
-如何查找大文">
+    <meta name="description" content="在 Windows 中可以用 TreeSize 查找大文件或文件夹，Linux 下也可以。本文整理 Linux 中查找大文件/大目录的方法。
+查找大文件有时你需要了解系统里有哪些大文件（如超过 100M 或 1G，阈值视情况而定）。例如搜索">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Linux 系统查找大文件 | 吴杭沉的博客</title>
+    <title>Linux 查找大文件 | 吴杭沉的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -249,13 +249,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/bing-20260914.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Linux 系统查找大文件
+                        Linux 查找大文件
                     </div>
                 </div>
             </div>
@@ -405,7 +405,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    430
+                    219
                 </div>
                 
 
@@ -428,16 +428,18 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>在 Windows 系统中，我们可以使用 TreeSize 工具查找一些大文件或文件夹，非常的方便高效，在 Linux 系统中，如何去搜索一些比较大的文件呢？下面我整理了一下在 Linux 系统中如何查找大文件或文件夹的方法。</p>
-<h2 id="如何查找大文件"><a href="#如何查找大文件" class="headerlink" title="如何查找大文件"></a>如何查找大文件</h2><p>其实很多时候，你需要了解当前系统下有哪些大文件，比如文件大小超过 100M 或 1G（阈值视具体情况而定）。那么如何把这些大文件搜索出来呢？例如我要搜索当前目录下，超过 800M 大小的文件。<br>如上命令所示，我们仅仅能看到超过 800M 大小的文件的文件名称，但是对文件的信息（例如，文件大小、文件属性）一无所知，那么能否更详细显示一些文件属性或信息呢？如果你还需要对查找结果按照文件大小做一个排序，那么可以使用下面命令：</p>
+                <p>在 Windows 中可以用 TreeSize 查找大文件或文件夹，Linux 下也可以。本文整理 Linux 中查找大文件/大目录的方法。</p>
+<h2 id="查找大文件"><a href="#查找大文件" class="headerlink" title="查找大文件"></a>查找大文件</h2><p>有时你需要了解系统里有哪些大文件（如超过 100M 或 1G，阈值视情况而定）。例如搜索当前目录下超过 800M 的文件：</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">find</span> <span class="token keyword">.</span> -type f -size +800M<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>上面的命令只能看到文件名，看不到文件大小等属性。如果要显示详细信息并按大小排序：</p>
 <pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">find</span> <span class="token keyword">.</span> -type f -size +800M -print0 <span class="token operator">|</span> <span class="token function">xargs</span> -0 <span class="token function">du</span> -h <span class="token operator">|</span> <span class="token function">sort</span> -nr<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h2 id="如何查找-Linux-下的大目录"><a href="#如何查找-Linux-下的大目录" class="headerlink" title="如何查找 Linux 下的大目录"></a>如何查找 Linux 下的大目录</h2><p>譬如有时候磁盘空间告警了，而你平时又疏于管理、监控文件的增长，那么我需要快速的了解哪些目录变得比较大，那么此时我们可以借助 du 命令来帮我们解决这个问题。</p>
+<h2 id="查找大目录"><a href="#查找大目录" class="headerlink" title="查找大目录"></a>查找大目录</h2><p>磁盘空间告警时，需要快速定位哪些目录比较大，用 <code>du</code> 即可：</p>
 <pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">du</span> -h --max-depth<span class="token operator">=</span>1
 16K     ./lost+found
 33G     ./flash_recovery_area
 37G     ./oradata
 70G     <span class="token keyword">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>如果你想知道 flash_recovery_area 目录下面有哪些大文件夹，那么可以将参数 <code>max-depth=2</code>，如果你想对搜索出来的结果进行排序，那么可以借助于<code>sort</code>命令。如下所示：</p>
+<p>如果想看 <code>flash_recovery_area</code> 目录下的细分情况，把深度设为 2；若要对结果排序，借助 <code>sort</code>：</p>
 <pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">du</span> -h --max-depth<span class="token operator">=</span>2 <span class="token operator">|</span> <span class="token function">sort</span> -n<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
             </div>
@@ -473,7 +475,7 @@
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《Linux 系统查找大文件》
+                    《Linux 查找大文件》
                 </span> 由
             <a xmlns:cc="http://creativecommons.org/ns#" href="/2018/08/23/linux-cha-zhao-da-wen-jian/" property="cc:attributionName"
                rel="cc:attributionURL">
@@ -573,22 +575,21 @@
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2018/09/06/linux-pi-liang-shan-chu-wen-jian/">
+                <a href="/2018/09/06/linux-grep-cha-zhao/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="Linux 删除大量文件效率对比">
+                        <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="Linux grep 文本查找">
                         
-                        <span class="card-title">Linux 删除大量文件效率对比</span>
+                        <span class="card-title">Linux grep 文本查找</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            首先建立 50 万个文件
-for i in $(seq 1 500000);do echo text >>$i.txt;done
-rm 删除time rm -f *
-sure you want to delete all the files
+                            grep 是 Linux 下最常用的文本搜索命令，经常结合管道符 | 使用——即在前面命令的执行结果中查找包含指定字符串的内容。
+基础用法：结合管道过滤ps -ef 列出进程很多，用 grep 过滤出 redis 相关进程：
+$ ps -e
                         
                     </div>
                     <div class="publish-info">
@@ -625,20 +626,22 @@ sure you want to delete all the files
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2018/08/09/linux-zhong-duan/">
+                <a href="/2018/08/09/linux-ming-ling-xing-tui-jian/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/26.jpg" class="responsive-img" alt="Linux 终端诡异家伙">
+                        <img src="/medias/featureimages/28.jpg" class="responsive-img" alt="Linux 命令行神器推荐">
                         
-                        <span class="card-title">Linux 终端诡异家伙</span>
+                        <span class="card-title">Linux 命令行神器推荐</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            这篇文章，我们一起来到 Linux 的诡异的一面……你知道吗？在我们日常使用的 Linux 及其各种各样的分支系统中。
-daemondaemon 有一个很高大上的中文名字，叫守护进程。有句话是这么说的，如果 Unix 中没有了守护进程，那么
+                            以下是一些实用的命令行工具推荐。
+ag比 grep、ack 更快的递归搜索文件内容。
+jqjson 文件处理及格式化显示，支持高亮，可替代 python -m json.tool。
+ncdu可视化的空间分析程序（基于 ncurses）。当发
                         
                     </div>
                     <div class="publish-info">
@@ -836,7 +839,7 @@ daemondaemon 有一个很高大上的中文名字，叫守护进程。有句话�
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">76.7k</span>
+            <span class="white-color">189.8k</span>
             
 
             <br>

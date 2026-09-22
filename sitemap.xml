@@ -2,9 +2,779 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://wuhangchen.github.io/2020/03/05/linux-netstat/</loc>
+    <loc>https://wuhangchen.github.io/2020/02/06/linux-shu-ju-lei-xing-json/</loc>
     
-    <lastmod>2026-09-10T06:57:19.991Z</lastmod>
+    <lastmod>2026-09-22T09:41:09.923Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/06/21/linux-dong-tai-lian-jie-yu-jing-tai-lian-jie/</loc>
+    
+    <lastmod>2026-09-22T09:40:29.979Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/01/09/linux-nc/</loc>
+    
+    <lastmod>2026-09-22T09:39:55.689Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/12/26/linux-netstat/</loc>
+    
+    <lastmod>2026-09-22T09:39:00.146Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/12/12/linux-wang-luo-gong-ju/</loc>
+    
+    <lastmod>2026-09-22T09:38:06.394Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/11/28/linux-risk-command/</loc>
+    
+    <lastmod>2026-09-22T09:34:26.515Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2018/11/29/linux-inode-hao-jin/</loc>
+    
+    <lastmod>2026-09-22T09:33:45.891Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2018/11/01/linux-make/</loc>
+    
+    <lastmod>2026-09-22T09:33:10.911Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2018/10/18/linux-xie-zai-ruan-jian/</loc>
+    
+    <lastmod>2026-09-22T09:32:40.564Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2018/10/04/linux-pi-liang-shan-chu-wen-jian/</loc>
+    
+    <lastmod>2026-09-22T09:32:20.823Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2018/09/20/linux-dd-ming-ling/</loc>
+    
+    <lastmod>2026-09-22T09:26:44.423Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2018/09/06/linux-grep-cha-zhao/</loc>
+    
+    <lastmod>2026-09-22T09:25:43.008Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2018/08/23/linux-cha-zhao-da-wen-jian/</loc>
+    
+    <lastmod>2026-09-22T09:24:51.005Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2018/08/09/linux-ming-ling-xing-tui-jian/</loc>
+    
+    <lastmod>2026-09-22T09:23:59.403Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2018/07/26/linux-hao-yong-de-shell-ming-ling/</loc>
+    
+    <lastmod>2026-09-22T09:23:05.586Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2018/07/12/linux-shell-can-shu/</loc>
+    
+    <lastmod>2026-09-22T09:18:00.117Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2018/06/28/linux-history/</loc>
+    
+    <lastmod>2026-09-22T09:17:16.899Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2018/06/14/linux-shell-kuai-jie-jian/</loc>
+    
+    <lastmod>2026-09-22T09:16:19.252Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2018/05/31/linux-zhong-duan/</loc>
+    
+    <lastmod>2026-09-22T09:15:19.569Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2018/05/17/linux-xi-tong-mu-lu/</loc>
+    
+    <lastmod>2026-09-22T09:14:16.668Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/05/28/linux-fork-risk/</loc>
+    
+    <lastmod>2026-09-22T09:05:59.926Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/05/16/linux-fork-clone/</loc>
+    
+    <lastmod>2026-09-22T09:04:34.116Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/05/04/linux-fork-pre/</loc>
+    
+    <lastmod>2026-09-22T09:02:39.781Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/06/09/linux-fork-interview/</loc>
+    
+    <lastmod>2026-09-22T09:00:27.808Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/09/13/linux-gdb-diao-shi-zhi-nan/</loc>
+    
+    <lastmod>2026-09-22T08:43:41.074Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/09/01/linux-cheng-xu-diao-shi-zhi-nan/</loc>
+    
+    <lastmod>2026-09-22T08:43:41.057Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/04/10/linux-jin-cheng-guan-li-mian-shi-ti/</loc>
+    
+    <lastmod>2026-09-22T08:43:41.040Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/07/15/linux-gong-xiang-ku-wei-zhi-wu-guan/</loc>
+    
+    <lastmod>2026-09-22T08:20:46.601Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/02/20/linux-jin-cheng-zhuang-tai-xiang-jie/</loc>
+    
+    <lastmod>2026-09-22T08:20:46.600Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/03/17/linux-jiang-shi-jin-cheng/</loc>
+    
+    <lastmod>2026-09-22T08:20:46.600Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/08/20/linux-yi-qie-jie-wen-jian/</loc>
+    
+    <lastmod>2026-09-22T08:20:46.599Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/08/08/linux-glibc-nei-cun-fen-pei/</loc>
+    
+    <lastmod>2026-09-22T08:20:46.598Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/07/27/linux-ke-zhi-xing-gong-xiang-ku/</loc>
+    
+    <lastmod>2026-09-22T08:20:46.598Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/03/29/linux-jin-cheng-xian-cheng-mo-xing/</loc>
+    
+    <lastmod>2026-09-22T08:20:46.598Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2018/12/13/linux-systemd-ru-men/</loc>
+    
+    <lastmod>2026-09-22T08:20:46.598Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/04/22/linux-jin-cheng-yu-nei-cun-guan-li/</loc>
+    
+    <lastmod>2026-09-22T08:20:46.597Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2018/11/15/linux-gcc-ban-ben-qie-huan/</loc>
+    
+    <lastmod>2026-09-22T08:20:46.596Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/03/05/linux-gu-er-jin-cheng-yu-jiang-shi-jin-cheng/</loc>
+    
+    <lastmod>2026-09-22T08:20:46.596Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/01/23/linux-cha-xun-duan-kou-zhan-yong/</loc>
+    
+    <lastmod>2026-09-22T08:20:46.596Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/12/20/shell-kuai-su-ding-wei-da-wen-jian/</loc>
+    
+    <lastmod>2026-09-22T07:40:44.247Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/11/15/shell-huo-qu-jiao-ben-suo-zai-mu-lu-de-jue-dui-lu-jing/</loc>
+    
+    <lastmod>2026-09-22T07:36:19.863Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2021/01/24/shell-shi-yong-ji-qiao/</loc>
+    
+    <lastmod>2026-09-22T07:24:13.937Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/11/22/shell-fen-ge-zi-fu-chuan/</loc>
+    
+    <lastmod>2026-09-22T07:23:21.650Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2021/01/17/shell-netstat/</loc>
+    
+    <lastmod>2026-09-22T07:23:08.070Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/10/11/shell-a-guided-tour/</loc>
+    
+    <lastmod>2026-09-22T07:22:41.144Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2021/01/10/shell-nc-shang/</loc>
+    
+    <lastmod>2026-09-22T07:22:04.134Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/11/08/shell-history/</loc>
+    
+    <lastmod>2026-09-22T07:22:01.653Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/10/04/shell-looking-around/</loc>
+    
+    <lastmod>2026-09-22T07:22:00.962Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/12/13/shell-ding-shi-shan-chu-30-tian-qian-de-wen-jian/</loc>
+    
+    <lastmod>2026-09-22T07:21:44.209Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/11/01/shell-kuai-jie-jian/</loc>
+    
+    <lastmod>2026-09-22T07:21:42.720Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2021/01/03/shell-jq/</loc>
+    
+    <lastmod>2026-09-22T07:21:38.434Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/09/27/shell-navigation/</loc>
+    
+    <lastmod>2026-09-22T07:21:28.968Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/10/25/shell-jiao-ben-tiao-jian/</loc>
+    
+    <lastmod>2026-09-22T07:21:21.400Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/12/27/shell-curl/</loc>
+    
+    <lastmod>2026-09-22T07:21:13.691Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/12/06/shell-sed-grep-pi-liang-ti-huan-zi-fu-chuan/</loc>
+    
+    <lastmod>2026-09-22T07:21:11.746Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/11/29/shell-ln-ruan-lian-jie/</loc>
+    
+    <lastmod>2026-09-22T07:21:11.671Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/09/20/shell-learning-the-shell/</loc>
+    
+    <lastmod>2026-09-22T07:21:00.247Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2021/01/31/c-qbreakpad/</loc>
+    
+    <lastmod>2026-09-22T07:20:57.205Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/09/13/shell-what-is-the-shell/</loc>
+    
+    <lastmod>2026-09-22T07:20:48.465Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/10/18/shell-ji-chu-yu-fa/</loc>
+    
+    <lastmod>2026-09-22T07:20:39.647Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2026/03/22/gao-tong-qnn-xing-neng-diao-you-shi-zhan/</loc>
+    
+    <lastmod>2026-09-22T06:48:06.787Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2026/03/17/gao-tong-qnn-bu-shu-shi-zhan/</loc>
+    
+    <lastmod>2026-09-22T06:48:06.613Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2026/03/12/gao-tong-qnn-quan-jing-chai-jie/</loc>
+    
+    <lastmod>2026-09-22T06:48:06.430Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2026/03/07/jetson-v4l2-xiang-jie/</loc>
+    
+    <lastmod>2026-09-22T06:48:06.260Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2026/03/02/jetson-yolov8-quan-lian-lu-jia-su/</loc>
+    
+    <lastmod>2026-09-22T06:48:06.045Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2026/02/25/jetson-yolo-tui-li-you-hua/</loc>
+    
+    <lastmod>2026-09-22T06:46:35.651Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2026/02/20/jetson-an-zhuang-jetpack/</loc>
+    
+    <lastmod>2026-09-22T06:46:35.483Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2026/02/15/llm-tou-ji-jie-ma/</loc>
+    
+    <lastmod>2026-09-22T06:46:35.316Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2026/02/10/llm-nei-cun-rong-liang/</loc>
+    
+    <lastmod>2026-09-22T06:46:35.161Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2026/02/05/llm-nei-cun-dai-kuan/</loc>
+    
+    <lastmod>2026-09-22T06:46:34.975Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2026/01/31/llm-mo-xing-liang-hua/</loc>
+    
+    <lastmod>2026-09-22T06:46:34.756Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2026/01/26/llm-kv-cache/</loc>
+    
+    <lastmod>2026-09-22T06:46:24.717Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2026/01/21/llm-gpu-nei-cun-gu-suan/</loc>
+    
+    <lastmod>2026-09-22T06:46:24.547Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2026/01/16/llm-shu-zhi-jing-du-xiang-jie/</loc>
+    
+    <lastmod>2026-09-22T06:46:24.370Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2026/01/11/llama.cpp-rpc-fen-bu-shi-tui-li/</loc>
+    
+    <lastmod>2026-09-22T06:46:24.196Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2026/01/06/llama.cpp-gguf-ge-shi-yu-mo-xing-jia-zai/</loc>
+    
+    <lastmod>2026-09-22T06:46:23.985Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2026/01/01/llama.cpp-ggml-yuan-ma-jie-xi/</loc>
+    
+    <lastmod>2026-09-22T06:46:23.716Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/03/19/tcp-zai-close-wait-zhuang-tai-huan-neng-shou-dao-bao-wen/</loc>
+    
+    <lastmod>2026-09-21T06:26:19.058Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/07/25/c-yu-yan-lian-jie/</loc>
+    
+    <lastmod>2026-09-21T06:26:19.032Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/09/05/c-bian-yi/</loc>
+    
+    <lastmod>2026-09-21T06:26:19.032Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/08/22/c-mian-shi-ti/</loc>
+    
+    <lastmod>2026-09-21T06:26:19.032Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/01/24/c-mei-ju/</loc>
+    
+    <lastmod>2026-09-21T06:26:19.031Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/01/10/c-yin-yong/</loc>
+    
+    <lastmod>2026-09-21T06:26:19.029Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/10/03/c-yuan-zi-bian-liang/</loc>
+    
+    <lastmod>2026-09-21T06:26:19.027Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/11/14/c-zhi-yu-yi/</loc>
+    
+    <lastmod>2026-09-21T06:26:19.027Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/07/11/c-lambda-bu-huo/</loc>
+    
+    <lastmod>2026-09-21T06:26:19.026Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/04/18/c-malloc-zero/</loc>
+    
+    <lastmod>2026-09-21T06:26:19.026Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/05/30/c-friend/</loc>
+    
+    <lastmod>2026-09-21T06:26:19.025Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/09/19/linux-dong-tai-ku-lian-jie/</loc>
+    
+    <lastmod>2026-09-20T10:05:06.681Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/08/02/c-nei-cun-sui-pian-hua/</loc>
+    
+    <lastmod>2026-09-20T10:02:21.604Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/07/21/c-shuang-huan-chong/</loc>
+    
+    <lastmod>2026-09-20T10:02:21.604Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/07/09/c-wu-suo-bian-cheng/</loc>
+    
+    <lastmod>2026-09-20T10:02:21.604Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/06/27/c-xian-cheng-an-quan-shu-zu/</loc>
+    
+    <lastmod>2026-09-20T10:02:21.604Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/04/28/c-enable-shared-from-this/</loc>
+    
+    <lastmod>2026-09-20T10:02:21.603Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/06/03/c-xun-huan-yin-yong/</loc>
+    
+    <lastmod>2026-09-20T10:02:21.603Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/10/17/c-you-zhi-yin-yong/</loc>
+    
+    <lastmod>2026-09-20T10:02:21.603Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/10/31/c-dui-xiang-mo-xing/</loc>
+    
+    <lastmod>2026-09-20T10:02:21.603Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/06/15/c-si-suo-pai-cha/</loc>
+    
+    <lastmod>2026-09-20T10:02:21.603Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/06/13/c-const-mutable/</loc>
+    
+    <lastmod>2026-09-20T10:02:21.602Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/06/27/c-ref/</loc>
+    
+    <lastmod>2026-09-20T10:02:21.602Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/08/08/c-liu-huan-chong-qu/</loc>
+    
+    <lastmod>2026-09-20T10:02:21.602Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/05/02/c-malloc-new/</loc>
+    
+    <lastmod>2026-09-20T10:02:21.601Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/03/07/c-strlen-sizeof/</loc>
+    
+    <lastmod>2026-09-20T10:02:21.601Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/03/21/c-sizeof-xiang-jie/</loc>
+    
+    <lastmod>2026-09-20T10:02:21.601Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/04/04/c-ming-ling-xing-can-shu/</loc>
+    
+    <lastmod>2026-09-20T10:02:21.601Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/05/16/c-kao-bei-gou-zao/</loc>
+    
+    <lastmod>2026-09-20T10:02:21.601Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/02/21/c-zi-zeng-yun-suan-fu/</loc>
+    
+    <lastmod>2026-09-20T10:02:21.601Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2019/02/07/c-er-wei-shu-zu/</loc>
+    
+    <lastmod>2026-09-20T10:02:21.600Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2018/12/27/c-zhi-zhen/</loc>
+    
+    <lastmod>2026-09-20T10:02:21.599Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/04/16/tcp-wei-shi-me-xu-yao-time-wait/</loc>
+    
+    <lastmod>2026-09-16T05:00:32.547Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wuhangchen.github.io/2020/04/02/shen-ru-jie-xi-grpc-de-chong-lian-ji-zhi/</loc>
+    
+    <lastmod>2026-09-16T05:00:32.547Z</lastmod>
     
   </url>
   
@@ -19,335 +789,6 @@
     <loc>https://wuhangchen.github.io/2018/05/03/thinking-sui-xiang/</loc>
     
     <lastmod>2026-09-09T09:13:18.704Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2018/10/04/linux-shell-kuai-jie-jian/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.703Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2018/06/14/linux-shell-can-shu/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.702Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2018/10/18/linux-risk-command/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.702Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2020/02/06/linux-nc/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.699Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2018/07/26/linux-make/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.697Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2018/11/15/linux-inode-hao-jin/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.697Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2018/09/20/linux-history/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.695Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2018/11/01/linux-grep-cha-zhao/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.694Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/12/26/linux-fork-risk/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.692Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2020/01/23/linux-fork-interview/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.690Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/12/12/linux-fork-pre/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.690Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2020/01/09/linux-fork-clone/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.688Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2018/12/13/linux-dd-ming-ling/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.687Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2018/08/09/linux-zhong-duan/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.686Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2018/07/12/linux-xie-zai-ruan-jian/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.684Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2018/05/31/linux-xi-tong-mu-lu/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.682Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2018/05/17/linux-wang-luo-gong-ju/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.681Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/11/28/linux-shu-ju-lei-xing-json/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.679Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2018/09/06/linux-pi-liang-shan-chu-wen-jian/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.677Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2018/06/28/linux-ming-ling-xing-tui-jian/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.676Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2018/11/29/linux-hao-yong-de-shell-ming-ling/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.675Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2020/02/20/linux-dong-tai-lian-jie-yu-jing-tai-lian-jie/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.673Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/09/05/linux-dong-tai-ku-lian-jie/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.672Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2018/08/23/linux-cha-zhao-da-wen-jian/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.671Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/03/07/c-strlen-sizeof/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.670Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/06/13/c-sizeof-xiang-jie/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.669Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/04/18/c-ref/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.668Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/08/08/c-malloc-zero/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.666Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/08/22/c-lambda-bu-huo/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.665Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/05/30/c-malloc-new/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.665Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/04/04/c-friend/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.664Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/07/25/c-const-mutable/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.663Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/07/11/c-zi-zeng-yun-suan-fu/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.662Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/01/10/c-zhi-zhen/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.661Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/10/31/c-zhi-yu-yi/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.660Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/09/19/c-yuan-zi-bian-liang/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.659Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/02/07/c-yu-yan-lian-jie/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.658Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/11/14/c-you-zhi-yin-yong/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.657Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2018/12/27/c-yin-yong/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.656Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/05/02/c-ming-ling-xing-can-shu/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.654Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/06/27/c-mian-shi-ti/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.653Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/01/24/c-mei-ju/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.650Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/05/16/c-liu-huan-chong-qu/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.648Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/03/21/c-kao-bei-gou-zao/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.647Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/02/21/c-er-wei-shu-zu/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.645Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/10/03/c-dui-xiang-mo-xing/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.643Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://wuhangchen.github.io/2019/10/17/c-bian-yi/</loc>
-    
-    <lastmod>2026-09-09T09:13:18.641Z</lastmod>
     
   </url>
   
