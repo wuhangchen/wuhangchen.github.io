@@ -234,7 +234,8 @@
     
 <div class="bg-cover pd-header about-cover">
     <div class="container">
-    <div class="row">
+    
+<div class="row">
     <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
         <div class="brand">
             <div class="title center-align">
@@ -256,9 +257,17 @@
     </div>
 </div>
 <script>
-// 每天切换 banner 图.  Switch banner image every day.
-$('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay() + '.jpg)');
+// 优先使用最新必应壁纸,否则每天切换本地 banner 图.
+$('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.jpg)');
 </script>
+
+<div class="bing-copyright">
+    <a href="https://www.bing.com/search?q=%E7%A7%8B%E5%88%86&form=hpcapt&mkt=zh-cn" target="_blank" rel="noopener">
+    图源:必应每日壁纸 &middot; 地坛公园秋日美景，北京，中国 (© by Wei/Adobestock)
+    </a>
+</div>
+
+
     </div>
 </div>
 
@@ -279,7 +288,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/bing-20260915.jpg" class="responsive-img" alt="C++ 对象模型：内存布局详解">
+                            <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="C++ 对象模型：内存布局详解">
                             
                             <span class="card-title">C++ 对象模型：内存布局详解</span>
                         </div>
@@ -330,7 +339,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="C++ 右值引用">
+                            <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="C++ 右值引用">
                             
                             <span class="card-title">C++ 右值引用</span>
                         </div>
@@ -380,7 +389,7 @@ int&amp; j = i;
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="整型变量赋值是原子操作吗？">
+                            <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="整型变量赋值是原子操作吗？">
                             
                             <span class="card-title">整型变量赋值是原子操作吗？</span>
                         </div>
@@ -429,7 +438,7 @@ int a = 1;
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="undefined symbol 排查：ldd、nm、c++filt">
+                            <img src="/medias/featureimages/bing-20260916.jpg" class="responsive-img" alt="undefined symbol 排查：ldd、nm、c++filt">
                             
                             <span class="card-title">undefined symbol 排查：ldd、nm、c++filt</span>
                         </div>
@@ -478,7 +487,7 @@ int a = 1;
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/bing-20260909.jpg" class="responsive-img" alt="C++ 静态库与动态库">
+                            <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="C++ 静态库与动态库">
                             
                             <span class="card-title">C++ 静态库与动态库</span>
                         </div>
@@ -525,7 +534,7 @@ int a = 1;
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/bing-20260912.jpg" class="responsive-img" alt="C++ 基础面试题精选">
+                            <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="C++ 基础面试题精选">
                             
                             <span class="card-title">C++ 基础面试题精选</span>
                         </div>
@@ -578,7 +587,7 @@ static 关键字：
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="C++ 流缓冲区">
+                            <img src="/medias/featureimages/25.jpg" class="responsive-img" alt="C++ 流缓冲区">
                             
                             <span class="card-title">C++ 流缓冲区</span>
                         </div>
@@ -628,7 +637,7 @@ static 关键字：
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="C++ 语言链接：extern "C"">
+                            <img src="/medias/featureimages/bing-20260917.jpg" class="responsive-img" alt="C++ 语言链接：extern "C"">
                             
                             <span class="card-title">C++ 语言链接：extern "C"</span>
                         </div>
@@ -678,7 +687,7 @@ extern 字符串字面量 声明     (2)
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/28.jpg" class="responsive-img" alt="Lambda 表达式的捕获列表">
+                            <img src="/medias/featureimages/bing-20260909.jpg" class="responsive-img" alt="Lambda 表达式的捕获列表">
                             
                             <span class="card-title">Lambda 表达式的捕获列表</span>
                         </div>
@@ -725,7 +734,7 @@ extern 字符串字面量 声明     (2)
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="std::ref 的作用">
+                            <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="std::ref 的作用">
                             
                             <span class="card-title">std::ref 的作用</span>
                         </div>
@@ -820,7 +829,7 @@ void f(int&amp; n1, int&amp; n2,
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/bing-20260908.jpg" class="responsive-img" alt="C++ friend 友元">
+                            <img src="/medias/featureimages/bing-20260919.jpg" class="responsive-img" alt="C++ friend 友元">
                             
                             <span class="card-title">C++ friend 友元</span>
                         </div>

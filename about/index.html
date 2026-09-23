@@ -240,7 +240,8 @@
 
 <div class="bg-cover pd-header about-cover">
     <div class="container">
-    <div class="row">
+    
+<div class="row">
     <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
         <div class="brand">
             <div class="title center-align">
@@ -262,9 +263,17 @@
     </div>
 </div>
 <script>
-// 每天切换 banner 图.  Switch banner image every day.
-$('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay() + '.jpg)');
+// 优先使用最新必应壁纸,否则每天切换本地 banner 图.
+$('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.jpg)');
 </script>
+
+<div class="bing-copyright">
+    <a href="https://www.bing.com/search?q=%E7%A7%8B%E5%88%86&form=hpcapt&mkt=zh-cn" target="_blank" rel="noopener">
+    图源:必应每日壁纸 &middot; 地坛公园秋日美景，北京，中国 (© by Wei/Adobestock)
+    </a>
+</div>
+
+
     </div>
 </div>
 
@@ -503,7 +512,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                 type: 'pie',
                 radius: '50%',
                 color: ['#6772e5', '#ff9e0f', '#fa755a', '#3ecf8e', '#82d3f4', '#ab47bc', '#525f7f', '#f51c47', '#26A69A'],
-                data: [{"name":"C++","value":32},{"name":"Jetson","value":4},{"name":"LLM","value":7},{"name":"Linux","value":39},{"name":"Shell","value":20},{"name":"TCP/IP","value":2},{"name":"llama.cpp","value":3},{"name":"thinking","value":1},{"name":"高通QNN","value":3}],
+                data: [{"name":"C++","value":32},{"name":"Jetson","value":4},{"name":"LLM","value":7},{"name":"Linux","value":39},{"name":"Shell","value":20},{"name":"TCP/IP","value":2},{"name":"thinking","value":1},{"name":"llama.cpp","value":3},{"name":"高通QNN","value":3}],
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
@@ -674,14 +683,14 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
             
             
-            <a href="/tags/llama-cpp/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">llama.cpp</span>
+            <a href="/tags/thinking/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">thinking</span>
             </a>
             
             
             
-            <a href="/tags/thinking/" target="_blank">
-                <span class="chip center-align waves-effect waves-light chip-default">thinking</span>
+            <a href="/tags/llama-cpp/" target="_blank">
+                <span class="chip center-align waves-effect waves-light chip-default">llama.cpp</span>
             </a>
             
             

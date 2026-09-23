@@ -621,6 +621,22 @@ header .go-back i {
     margin-top: -30px;
 }
 
+/* bing wallpaper attribution. */
+.bg-cover .bing-copyright {
+    position: absolute;
+    right: 15px;
+    bottom: 10px;
+    font-size: 0.8rem;
+    color: #fff;
+    opacity: .65;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .5);
+    z-index: 2;
+}
+
+.carousel-post .bing-copyright a {
+    color: #fff;
+}
+
 .dream {
     margin-top: 20px;
     margin-bottom: 40px;

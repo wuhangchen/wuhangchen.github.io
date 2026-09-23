@@ -234,7 +234,8 @@
     
 <div class="bg-cover pd-header about-cover">
     <div class="container">
-    <div class="row">
+    
+<div class="row">
     <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
         <div class="brand">
             <div class="title center-align">
@@ -256,9 +257,17 @@
     </div>
 </div>
 <script>
-// 每天切换 banner 图.  Switch banner image every day.
-$('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay() + '.jpg)');
+// 优先使用最新必应壁纸,否则每天切换本地 banner 图.
+$('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.jpg)');
 </script>
+
+<div class="bing-copyright">
+    <a href="https://www.bing.com/search?q=%E7%A7%8B%E5%88%86&form=hpcapt&mkt=zh-cn" target="_blank" rel="noopener">
+    图源:必应每日壁纸 &middot; 地坛公园秋日美景，北京，中国 (© by Wei/Adobestock)
+    </a>
+</div>
+
+
     </div>
 </div>
 
@@ -279,7 +288,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/bing-20260910.jpg" class="responsive-img" alt="C++ 拷贝构造与赋值函数">
+                            <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="C++ 拷贝构造与赋值函数">
                             
                             <span class="card-title">C++ 拷贝构造与赋值函数</span>
                         </div>
@@ -327,7 +336,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="new 与 malloc 的区别">
+                            <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="new 与 malloc 的区别">
                             
                             <span class="card-title">new 与 malloc 的区别</span>
                         </div>
@@ -374,7 +383,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/25.jpg" class="responsive-img" alt="malloc(0) 会返回什么？">
+                            <img src="/medias/featureimages/bing-20260907.jpg" class="responsive-img" alt="malloc(0) 会返回什么？">
                             
                             <span class="card-title">malloc(0) 会返回什么？</span>
                         </div>
@@ -426,7 +435,7 @@ else
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="C++ 命令行参数">
+                            <img src="/medias/featureimages/bing-20260916.jpg" class="responsive-img" alt="C++ 命令行参数">
                             
                             <span class="card-title">C++ 命令行参数</span>
                         </div>
@@ -474,7 +483,7 @@ else
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="sizeof 的 9 个特殊规则">
+                            <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="sizeof 的 9 个特殊规则">
                             
                             <span class="card-title">sizeof 的 9 个特殊规则</span>
                         </div>
@@ -521,7 +530,7 @@ else
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="sizeof 与 strlen 的区别">
+                            <img src="/medias/featureimages/bing-20260909.jpg" class="responsive-img" alt="sizeof 与 strlen 的区别">
                             
                             <span class="card-title">sizeof 与 strlen 的区别</span>
                         </div>
@@ -570,7 +579,7 @@ void testArr
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/26.jpg" class="responsive-img" alt="++i 与 i++ 的区别">
+                            <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="++i 与 i++ 的区别">
                             
                             <span class="card-title">++i 与 i++ 的区别</span>
                         </div>
@@ -617,7 +626,7 @@ void testArr
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="C++ 二维数组">
+                            <img src="/medias/featureimages/bing-20260909.jpg" class="responsive-img" alt="C++ 二维数组">
                             
                             <span class="card-title">C++ 二维数组</span>
                         </div>
@@ -667,7 +676,7 @@ int b[4][5];
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/28.jpg" class="responsive-img" alt="C++ 枚举">
+                            <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="C++ 枚举">
                             
                             <span class="card-title">C++ 枚举</span>
                         </div>
@@ -715,7 +724,7 @@ enum-关键词 attr(可选) enum-名(可选)
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="C++ 引用">
+                            <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="C++ 引用">
                             
                             <span class="card-title">C++ 引用</span>
                         </div>
@@ -766,7 +775,7 @@ enum-关键词 attr(可选) enum-名(可选)
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/25.jpg" class="responsive-img" alt="C++ 指针">
+                            <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="C++ 指针">
                             
                             <span class="card-title">C++ 指针</span>
                         </div>
@@ -817,7 +826,7 @@ enum-关键词 attr(可选) enum-名(可选)
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Linux systemd 入门教程：命令篇">
+                            <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Linux systemd 入门教程：命令篇">
                             
                             <span class="card-title">Linux systemd 入门教程：命令篇</span>
                         </div>

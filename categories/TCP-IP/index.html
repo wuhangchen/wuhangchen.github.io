@@ -233,7 +233,8 @@
 
     <div class="bg-cover pd-header about-cover">
     <div class="container">
-    <div class="row">
+    
+<div class="row">
     <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
         <div class="brand">
             <div class="title center-align">
@@ -255,9 +256,17 @@
     </div>
 </div>
 <script>
-// 每天切换 banner 图.  Switch banner image every day.
-$('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay() + '.jpg)');
+// 优先使用最新必应壁纸,否则每天切换本地 banner 图.
+$('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.jpg)');
 </script>
+
+<div class="bing-copyright">
+    <a href="https://www.bing.com/search?q=%E7%A7%8B%E5%88%86&form=hpcapt&mkt=zh-cn" target="_blank" rel="noopener">
+    图源:必应每日壁纸 &middot; 地坛公园秋日美景，北京，中国 (© by Wei/Adobestock)
+    </a>
+</div>
+
+
     </div>
 </div>
 
@@ -329,20 +338,20 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                 </a>
                 
                 
-                <a href="/categories/llama-cpp/" title="llama.cpp: 3">
+                <a href="/categories/thinking/" title="thinking: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #82E0AA;">llama.cpp
-                        <span class="tag-length">3</span>
+                            style="background-color: #82E0AA;">thinking
+                        <span class="tag-length">1</span>
                     </span>
                 </a>
                 
                 
-                <a href="/categories/thinking/" title="thinking: 1">
+                <a href="/categories/llama-cpp/" title="llama.cpp: 3">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #D7BDE2;">thinking
-                        <span class="tag-length">1</span>
+                            style="background-color: #D7BDE2;">llama.cpp
+                        <span class="tag-length">3</span>
                     </span>
                 </a>
                 
@@ -372,7 +381,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                         <div class="card-image tag-image">
                             
                             
-                            <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="TCP为什么需要TIME_WAIT">
+                            <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="TCP为什么需要TIME_WAIT">
                             
                             <span class="card-title">TCP为什么需要TIME_WAIT</span>
                         </div>
@@ -420,7 +429,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                         <div class="card-image tag-image">
                             
                             
-                            <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="TCP在CLOSE_WAIT状态还能收到报文">
+                            <img src="/medias/featureimages/bing-20260908.jpg" class="responsive-img" alt="TCP在CLOSE_WAIT状态还能收到报文">
                             
                             <span class="card-title">TCP在CLOSE_WAIT状态还能收到报文</span>
                         </div>
