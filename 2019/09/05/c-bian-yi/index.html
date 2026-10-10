@@ -248,7 +248,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -511,8 +511,7 @@
 <li>编辑 <code>/etc/ld.so.conf</code> 文件，加入库文件所在目录的路径</li>
 <li>运行 <code>ldconfig</code>，该命令会重建 <code>/etc/ld.so.cache</code> 文件。我们将创建的动态库复制到/usr/lib 下面，然后运行测试程序。</li>
 </ul>
-<p>另外如何从 C++动态库中获取类，附上几篇相关文章，但我并不建议这么做：<a href="http://www.cppblog.com/codejie/archive/2009/09/24/97141.html" target="_blank" rel="noopener">LoadLibrary 调用 DLL 中的 Class</a></p>
-<p><a href="http://blog.csdn.net/denny_233/article/details/7255673" target="_blank" rel="noopener">C++ dlopen mini HOWTO</a><br>“显式”使用 C++动态库中的 Class 是非常繁琐和危险的事情，因此能用“隐式”就不要用“显式”，能静态就不要用动态。</p>
+<p>另外如何从 C++动态库中获取类：显式加载动态库再取类对象的操作非常繁琐和危险，因此能用“隐式”就不要用“显式”，能静态就不要用动态。</p>
 <pre class="line-numbers language-text"><code class="language-text">-shared ：指定生成动态链接库。
 -static ：指定生成静态链接库。
 -fPIC ：表示编译为位置独立的代码，用于编译共享库。目标文件需要创建成位置无关码，概念上就是在可执行程序装载它们的时候，它们可以放在可执行程序的内存里的任何地方。
@@ -665,7 +664,7 @@
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/bing-20260916.jpg" class="responsive-img" alt="undefined symbol 排查：ldd、nm、c++filt">
+                        <img src="/medias/featureimages/bing-20260927.jpg" class="responsive-img" alt="undefined symbol 排查：ldd、nm、c++filt">
                         
                         <span class="card-title">undefined symbol 排查：ldd、nm、c++filt</span>
                     </div>
@@ -716,7 +715,7 @@
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="C++ 基础面试题精选">
+                        <img src="/medias/featureimages/bing-20261006.jpg" class="responsive-img" alt="C++ 基础面试题精选">
                         
                         <span class="card-title">C++ 基础面试题精选</span>
                     </div>
@@ -928,7 +927,7 @@ static 关键字：
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">189.8k</span>
+            <span class="white-color">484.3k</span>
             
 
             <br>
@@ -963,15 +962,7 @@ static 关键字：
 
 
 
-    <a href="https://zhihu.com/people/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
-        <i class="fa fa-inverse">知</i>
-    </a>
 
-
-
-    <a href="http://wpa.qq.com/msgrd?v=3&uin=1714593434&site=qq&menu=yes" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
-        <i class="fa fa-qq"></i>
-    </a>
 
 
 

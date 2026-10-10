@@ -248,7 +248,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -433,7 +433,7 @@
 <p><code>join</code> 同步点则表现为多个并行进程因某种原因必须同步、汇合的点。直到现在，多线程编程中这个点依然叫 join，比如 Java Thread 的 <code>join</code> 方法、pthread 的 <code>pthread_join</code> 函数。广义上讲，join 也表示临界区等必须串行通过的点，减少 join 点的数量会提高并行效率。</p>
 <p>Conway 论文的另一个创举，是把处理进程与执行它的处理器分离，抽象出了 <code>schedule</code> 层——大意是”只要满足系统中的活动处理器数量是总处理器数量和并行处理进程的最小值即可”。这意味着调度程序可以把所有处理器和所有处理进程分别看作统一的资源池和消费者，执行统一调度。这种多处理器并行的设计思想，最终影响了 UNIX 以及后来的 Linux。</p>
 <p>Conway 本人还有一句名言：</p>
-<pre class="line-numbers language-text"><code class="language-text">Any organization that designs a system (defined broadly) will produce a design whose structure is a copy of the organization's communication structure.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-text"><code class="language-text">Any organization that designs a system (defined broadly) will produce a design whose structure is a copy of the organization&#39;s communication structure.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <h2 id="早期-UNIX-的覆盖技术"><a href="#早期-UNIX-的覆盖技术" class="headerlink" title="早期 UNIX 的覆盖技术"></a>早期 UNIX 的覆盖技术</h2><p>接下来看 UNIX fork 的另一个脉络——早期 UNIX 的覆盖（overlaying）技术。</p>
 <p>1969 年最初的 UNIX 运行方式在现在看来非常奇怪。一般资料都从 UNIX v6 版本讲起，那个版本已经是比较”现代”的了，所以很少有人能看到最初的 UNIX。1969 年的汤普森版 UNIX 极其简陋，这可以在 Dennis M. Ritchie 的论文 <a href="http://www.read.seas.harvard.edu/~kohler/class/aosref/ritchie84evolution.pdf" target="_blank" rel="noopener">The Evolution of the Unix Time-sharing System</a> 中见一斑。</p>
 <p>最初的 UNIX 是分时系统，只有两个 shell 进程，分属两个终端。这里插叙一段分时系统的背景：分时系统最初并不是基于进程分时的（那时还没有完整的进程概念），而是针对<strong>终端</strong>分时的——操作员坐在终端前，为了让每个人感觉独占机器，每个终端享受一段时间的时间片（十几秒到分钟级，与现在的进程调度时间片完全是两个概念）。所以最初的 UNIX 为了体现分时特性，只实现了最少的两个终端。</p>
@@ -598,7 +598,7 @@
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="Linux clone 系统调用：fork 的变体">
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="Linux clone 系统调用：fork 的变体">
                         
                         <span class="card-title">Linux clone 系统调用：fork 的变体</span>
                     </div>
@@ -648,7 +648,7 @@
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/bing-20260915.jpg" class="responsive-img" alt="enable_shared_from_this 的使用场景">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="enable_shared_from_this 的使用场景">
                         
                         <span class="card-title">enable_shared_from_this 的使用场景</span>
                     </div>
@@ -856,7 +856,7 @@ template&lt; class T > class enable_shared_from_this;
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">189.8k</span>
+            <span class="white-color">484.3k</span>
             
 
             <br>
@@ -891,15 +891,7 @@ template&lt; class T > class enable_shared_from_this;
 
 
 
-    <a href="https://zhihu.com/people/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
-        <i class="fa fa-inverse">知</i>
-    </a>
 
-
-
-    <a href="http://wpa.qq.com/msgrd?v=3&uin=1714593434&site=qq&menu=yes" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
-        <i class="fa fa-qq"></i>
-    </a>
 
 
 

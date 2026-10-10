@@ -248,7 +248,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/bing-20260920.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -259,12 +259,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    
-    <div class="bing-copyright">
-        <a href="https://www.bing.com/search?q=%E6%B5%B7%E7%8D%AD%E8%AE%A4%E7%9F%A5%E5%91%A8&form=hpcapt&mkt=zh-cn" target="_blank" rel="noopener">
-        图源:必应每日壁纸 &middot; 正在梳理皮毛的海獭，蒙特雷湾，加利福尼亚州，美国 (© Suzi Eszterhas/Minden Pictures)
-        </a>
     </div>
     
 </div>
@@ -436,7 +430,7 @@
             <div id="articleContent">
                 <p>netstat 命令用于显示各种网络相关信息，如网络连接、路由表、接口状态（Interface Statistics）、masquerade 连接、多播成员（Multicast Memberships）等等。它是排查网络问题最常用的工具之一，本文将结合示例详细介绍它的输出含义和常见用法。</p>
 <h2 id="输出信息含义"><a href="#输出信息含义" class="headerlink" title="输出信息含义"></a>输出信息含义</h2><p>执行 netstat 后，其输出结果为：</p>
-<pre class="line-numbers language-console"><code class="language-console">Active Internet connections (w/o servers)
+<pre class="line-numbers language-console"><code class="language-console">Active Internet connections <span class="token punctuation">(</span>w/o servers<span class="token punctuation">)</span>
 Proto Recv-Q Send-Q Local Address           Foreign Address         State
 tcp        0      2 210.34.6.89:telnet      210.34.6.96:2873        ESTABLISHED
 tcp      296      0 210.34.6.89:1165        210.34.6.84:netbios-ssn ESTABLISHED
@@ -444,12 +438,12 @@ tcp        0      0 localhost.localdom:9001 localhost.localdom:1162 ESTABLISHED
 tcp        0      0 localhost.localdom:1162 localhost.localdom:9001 ESTABLISHED
 tcp        0     80 210.34.6.89:1161        210.34.6.10:netbios-ssn CLOSE
 
-Active UNIX domain sockets (w/o servers)
+Active UNIX domain sockets <span class="token punctuation">(</span>w/o servers<span class="token punctuation">)</span>
 Proto RefCnt Flags       Type       State         I-Node Path
-unix  1      [ ]         STREAM     CONNECTED     16178  @000000dd
-unix  1      [ ]         STREAM     CONNECTED     16176  @000000dc
-unix  9      [ ]         DGRAM                    5292   /dev/log
-unix  1      [ ]         STREAM     CONNECTED     16182  @000000df<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+unix  1      <span class="token punctuation">[</span> <span class="token punctuation">]</span>         STREAM     CONNECTED     16178  @000000dd
+unix  1      <span class="token punctuation">[</span> <span class="token punctuation">]</span>         STREAM     CONNECTED     16176  @000000dc
+unix  9      <span class="token punctuation">[</span> <span class="token punctuation">]</span>         DGRAM                    5292   /dev/log
+unix  1      <span class="token punctuation">[</span> <span class="token punctuation">]</span>         STREAM     CONNECTED     16182  @000000df<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>从整体上看，netstat 的输出结果可以分为两个部分：</p>
 <p>一个是 Active Internet connections，称为有源 TCP 连接，其中 “Recv-Q” 和 “Send-Q” 指的是接收队列和发送队列。这些数字一般都应该是 0，如果不是则表示数据包正在队列中堆积，这种情况只能在非常少的情况下见到。</p>
 <p>另一个是 Active UNIX domain sockets，称为有源 Unix 域套接口（和网络套接字一样，但是只能用于本机通信，性能可以提高一倍）。</p>
@@ -504,61 +498,61 @@ unix  1      [ ]         STREAM     CONNECTED     16182  @000000df<span aria-hid
 </tbody></table>
 <p>提示：LISTEN 和 LISTENING 的状态只有用 <code>-a</code> 或者 <code>-l</code> 才能看到。</p>
 <h2 id="实用命令实例"><a href="#实用命令实例" class="headerlink" title="实用命令实例"></a>实用命令实例</h2><h3 id="1-列出所有端口（包括监听和未监听的）"><a href="#1-列出所有端口（包括监听和未监听的）" class="headerlink" title="1. 列出所有端口（包括监听和未监听的）"></a>1. 列出所有端口（包括监听和未监听的）</h3><p>列出所有端口 <code>netstat -a</code>：</p>
-<pre class="line-numbers language-console"><code class="language-console"># netstat -a | more
-Active Internet connections (servers and established)
+<pre class="line-numbers language-console"><code class="language-console"><span class="token comment" spellcheck="true"># netstat -a | more</span>
+Active Internet connections <span class="token punctuation">(</span>servers and established<span class="token punctuation">)</span>
 Proto Recv-Q Send-Q Local Address           Foreign Address         State
 tcp        0      0 localhost:30037         *:*                     LISTEN
 udp        0      0 *:bootpc                *:*
 
-Active UNIX domain sockets (servers and established)
+Active UNIX domain sockets <span class="token punctuation">(</span>servers and established<span class="token punctuation">)</span>
 Proto RefCnt Flags       Type       State         I-Node Path
-unix  2      [ ACC ]     STREAM     LISTENING     6135   /tmp/.X11-unix/X0
-unix  2      [ ACC ]     STREAM     LISTENING     5140   /var/run/acpid.socket<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+unix  2      <span class="token punctuation">[</span> ACC <span class="token punctuation">]</span>     STREAM     LISTENING     6135   /tmp/.X11-unix/X0
+unix  2      <span class="token punctuation">[</span> ACC <span class="token punctuation">]</span>     STREAM     LISTENING     5140   /var/run/acpid.socket<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>列出所有 tcp 端口 <code>netstat -at</code>：</p>
-<pre class="line-numbers language-console"><code class="language-console"># netstat -at
-Active Internet connections (servers and established)
+<pre class="line-numbers language-console"><code class="language-console"><span class="token comment" spellcheck="true"># netstat -at</span>
+Active Internet connections <span class="token punctuation">(</span>servers and established<span class="token punctuation">)</span>
 Proto Recv-Q Send-Q Local Address           Foreign Address         State
 tcp        0      0 localhost:30037         *:*                     LISTEN
 tcp        0      0 localhost:ipp           *:*                     LISTEN
 tcp        0      0 *:smtp                  *:*                     LISTEN
-tcp6       0      0 localhost:ipp           [::]:*                  LISTEN<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+tcp6       0      0 localhost:ipp           <span class="token punctuation">[</span>::<span class="token punctuation">]</span>:*                  LISTEN<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>列出所有 udp 端口 <code>netstat -au</code>：</p>
-<pre class="line-numbers language-console"><code class="language-console"># netstat -au
-Active Internet connections (servers and established)
+<pre class="line-numbers language-console"><code class="language-console"><span class="token comment" spellcheck="true"># netstat -au</span>
+Active Internet connections <span class="token punctuation">(</span>servers and established<span class="token punctuation">)</span>
 Proto Recv-Q Send-Q Local Address           Foreign Address         State
 udp        0      0 *:bootpc                *:*
 udp        0      0 *:49119                 *:*
 udp        0      0 *:mdns                  *:*<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="2-列出所有处于监听状态的-Sockets"><a href="#2-列出所有处于监听状态的-Sockets" class="headerlink" title="2. 列出所有处于监听状态的 Sockets"></a>2. 列出所有处于监听状态的 Sockets</h3><p>只显示监听端口 <code>netstat -l</code>：</p>
-<pre class="line-numbers language-console"><code class="language-console"># netstat -l
-Active Internet connections (only servers)
+<pre class="line-numbers language-console"><code class="language-console"><span class="token comment" spellcheck="true"># netstat -l</span>
+Active Internet connections <span class="token punctuation">(</span>only servers<span class="token punctuation">)</span>
 Proto Recv-Q Send-Q Local Address           Foreign Address         State
 tcp        0      0 localhost:ipp           *:*                     LISTEN
-tcp6       0      0 localhost:ipp           [::]:*                  LISTEN
+tcp6       0      0 localhost:ipp           <span class="token punctuation">[</span>::<span class="token punctuation">]</span>:*                  LISTEN
 udp        0      0 *:49119                 *:*<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>只列出所有监听 tcp 端口 <code>netstat -lt</code>：</p>
-<pre class="line-numbers language-console"><code class="language-console"># netstat -lt
-Active Internet connections (only servers)
+<pre class="line-numbers language-console"><code class="language-console"><span class="token comment" spellcheck="true"># netstat -lt</span>
+Active Internet connections <span class="token punctuation">(</span>only servers<span class="token punctuation">)</span>
 Proto Recv-Q Send-Q Local Address           Foreign Address         State
 tcp        0      0 localhost:30037         *:*                     LISTEN
 tcp        0      0 *:smtp                  *:*                     LISTEN
-tcp6       0      0 localhost:ipp           [::]:*                  LISTEN<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+tcp6       0      0 localhost:ipp           <span class="token punctuation">[</span>::<span class="token punctuation">]</span>:*                  LISTEN<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>只列出所有监听 udp 端口 <code>netstat -lu</code>：</p>
-<pre class="line-numbers language-console"><code class="language-console"># netstat -lu
-Active Internet connections (only servers)
+<pre class="line-numbers language-console"><code class="language-console"><span class="token comment" spellcheck="true"># netstat -lu</span>
+Active Internet connections <span class="token punctuation">(</span>only servers<span class="token punctuation">)</span>
 Proto Recv-Q Send-Q Local Address           Foreign Address         State
 udp        0      0 *:49119                 *:*
 udp        0      0 *:mdns                  *:*<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>只列出所有监听 UNIX 端口 <code>netstat -lx</code>：</p>
-<pre class="line-numbers language-console"><code class="language-console"># netstat -lx
-Active UNIX domain sockets (only servers)
+<pre class="line-numbers language-console"><code class="language-console"><span class="token comment" spellcheck="true"># netstat -lx</span>
+Active UNIX domain sockets <span class="token punctuation">(</span>only servers<span class="token punctuation">)</span>
 Proto RefCnt Flags       Type       State         I-Node Path
-unix  2      [ ACC ]     STREAM     LISTENING     6294   private/maildrop
-unix  2      [ ACC ]     STREAM     LISTENING     6203   public/cleanup
-unix  2      [ ACC ]     STREAM     LISTENING     6302   private/ifmail
-unix  2      [ ACC ]     STREAM     LISTENING     6306   private/bsmtp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+unix  2      <span class="token punctuation">[</span> ACC <span class="token punctuation">]</span>     STREAM     LISTENING     6294   private/maildrop
+unix  2      <span class="token punctuation">[</span> ACC <span class="token punctuation">]</span>     STREAM     LISTENING     6203   public/cleanup
+unix  2      <span class="token punctuation">[</span> ACC <span class="token punctuation">]</span>     STREAM     LISTENING     6302   private/ifmail
+unix  2      <span class="token punctuation">[</span> ACC <span class="token punctuation">]</span>     STREAM     LISTENING     6306   private/bsmtp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="3-显示每个协议的统计信息"><a href="#3-显示每个协议的统计信息" class="headerlink" title="3. 显示每个协议的统计信息"></a>3. 显示每个协议的统计信息</h3><p>显示所有端口的统计信息 <code>netstat -s</code>：</p>
-<pre class="line-numbers language-console"><code class="language-console"># netstat -s
+<pre class="line-numbers language-console"><code class="language-console"><span class="token comment" spellcheck="true"># netstat -s</span>
 Ip:
     11150 total packets received
     1 with invalid addresses
@@ -576,13 +570,13 @@ Tcp:
 Udp:
     1183 packets received
     4 packets to unknown port received.
-    .....<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+    <span class="token punctuation">..</span><span class="token punctuation">..</span>.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>显示 TCP 或 UDP 端口的统计信息 <code>netstat -st</code> 或 <code>-su</code>：</p>
 <pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">netstat</span> -st
 <span class="token function">netstat</span> -su<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <h3 id="4-在-netstat-输出中显示-PID-和进程名称"><a href="#4-在-netstat-输出中显示-PID-和进程名称" class="headerlink" title="4. 在 netstat 输出中显示 PID 和进程名称"></a>4. 在 netstat 输出中显示 PID 和进程名称</h3><p><code>netstat -p</code> 可以与其它开关一起使用，就可以添加 “PID/进程名称” 到 netstat 输出中，这样 debugging 的时候可以很方便地发现特定端口上运行的程序：</p>
-<pre class="line-numbers language-console"><code class="language-console"># netstat -pt
-Active Internet connections (w/o servers)
+<pre class="line-numbers language-console"><code class="language-console"><span class="token comment" spellcheck="true"># netstat -pt</span>
+Active Internet connections <span class="token punctuation">(</span>w/o servers<span class="token punctuation">)</span>
 Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
 tcp        1      0 ramesh-laptop.loc:47212 192.168.185.75:www      CLOSE_WAIT  2109/firefox
 tcp        0      0 ramesh-laptop.loc:52750 lax:www                 ESTABLISHED 2109/firefox<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
@@ -594,19 +588,19 @@ tcp        0      0 ramesh-laptop.loc:52750 lax:www                 ESTABLISHED 
 <span class="token function">netstat</span> -a --numeric-hosts
 <span class="token function">netstat</span> -a --numeric-users<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <h3 id="6-持续输出-netstat-信息"><a href="#6-持续输出-netstat-信息" class="headerlink" title="6. 持续输出 netstat 信息"></a>6. 持续输出 netstat 信息</h3><p><code>netstat -c</code> 将每隔一秒输出网络信息：</p>
-<pre class="line-numbers language-console"><code class="language-console"># netstat -c
-Active Internet connections (w/o servers)
+<pre class="line-numbers language-console"><code class="language-console"><span class="token comment" spellcheck="true"># netstat -c</span>
+Active Internet connections <span class="token punctuation">(</span>w/o servers<span class="token punctuation">)</span>
 Proto Recv-Q Send-Q Local Address           Foreign Address         State
 tcp        0      0 ramesh-laptop.loc:36130 101-101-181-225.ama:www ESTABLISHED
 tcp        1      1 ramesh-laptop.loc:52564 101.11.169.230:www      CLOSING
 tcp        0      0 ramesh-laptop.loc:43758 server-101-101-43-2:www ESTABLISHED
 tcp        1      1 ramesh-laptop.loc:42367 101.101.34.101:www      CLOSING<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="7-显示系统不支持的地址族（Address-Families）"><a href="#7-显示系统不支持的地址族（Address-Families）" class="headerlink" title="7. 显示系统不支持的地址族（Address Families）"></a>7. 显示系统不支持的地址族（Address Families）</h3><p><code>netstat --verbose</code>，在输出的末尾，会有如下的信息：</p>
-<pre class="line-numbers language-console"><code class="language-console">netstat: no support for `AF IPX' on this system.
-netstat: no support for `AF AX25' on this system.
-netstat: no support for `AF X25' on this system.
-netstat: no support for `AF NETROM' on this system.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="8-显示核心路由信息"><a href="#8-显示核心路由信息" class="headerlink" title="8. 显示核心路由信息"></a>8. 显示核心路由信息</h3><pre class="line-numbers language-console"><code class="language-console"># netstat -r
+<pre class="line-numbers language-console"><code class="language-console">netstat: no support <span class="token keyword">for</span> `AF IPX<span class="token string">' on this system.
+netstat: no support for `AF AX25'</span> on this system.
+netstat: no support <span class="token keyword">for</span> `AF X25<span class="token string">' on this system.
+netstat: no support for `AF NETROM'</span> on this system.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="8-显示核心路由信息"><a href="#8-显示核心路由信息" class="headerlink" title="8. 显示核心路由信息"></a>8. 显示核心路由信息</h3><pre class="line-numbers language-console"><code class="language-console"><span class="token comment" spellcheck="true"># netstat -r</span>
 Kernel IP routing table
 Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
 192.168.1.0     *               255.255.255.0   U         0 0          0 eth2
@@ -614,26 +608,26 @@ link-local      *               255.255.0.0     U         0 0          0 eth2
 default         192.168.1.1     0.0.0.0         UG        0 0          0 eth2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><strong>注意：</strong>使用 <code>netstat -rn</code> 显示数字格式，不查询主机名称。</p>
 <h3 id="9-找出程序运行的端口"><a href="#9-找出程序运行的端口" class="headerlink" title="9. 找出程序运行的端口"></a>9. 找出程序运行的端口</h3><p>并不是所有的进程都能找到，没有权限的会不显示，使用 root 权限查看所有的信息：</p>
-<pre class="line-numbers language-console"><code class="language-console"># netstat -ap | grep ssh
+<pre class="line-numbers language-console"><code class="language-console"><span class="token comment" spellcheck="true"># netstat -ap | grep ssh</span>
 tcp        1      0 dev-db:ssh              101.174.100.22:39213    CLOSE_WAIT  -
 tcp        1      0 dev-db:ssh              101.174.100.22:57643    CLOSE_WAIT  -<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>找出运行在指定端口的进程：</p>
 <pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">netstat</span> -an <span class="token operator">|</span> <span class="token function">grep</span> <span class="token string">':80'</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h3 id="10-显示网络接口列表"><a href="#10-显示网络接口列表" class="headerlink" title="10. 显示网络接口列表"></a>10. 显示网络接口列表</h3><pre class="line-numbers language-console"><code class="language-console"># netstat -i
+<h3 id="10-显示网络接口列表"><a href="#10-显示网络接口列表" class="headerlink" title="10. 显示网络接口列表"></a>10. 显示网络接口列表</h3><pre class="line-numbers language-console"><code class="language-console"><span class="token comment" spellcheck="true"># netstat -i</span>
 Kernel Interface table
 Iface   MTU Met   RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg
 eth0       1500 0         0      0      0 0             0      0      0      0 BMU
 eth2       1500 0     26196      0      0 0         26883      6      0      0 BMRU
 lo        16436 0         4      0      0 0             4      0      0      0 LRU<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>显示详细信息，像是 ifconfig，使用 <code>netstat -ie</code>：</p>
-<pre class="line-numbers language-console"><code class="language-console"># netstat -ie
+<pre class="line-numbers language-console"><code class="language-console"><span class="token comment" spellcheck="true"># netstat -ie</span>
 Kernel Interface table
 eth0      Link encap:Ethernet  HWaddr 00:10:40:11:11:11
           UP BROADCAST MULTICAST  MTU:1500  Metric:1
           RX packets:0 errors:0 dropped:0 overruns:0 frame:0
           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:1000
-          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+          RX bytes:0 <span class="token punctuation">(</span>0.0 B<span class="token punctuation">)</span>  TX bytes:0 <span class="token punctuation">(</span>0.0 B<span class="token punctuation">)</span>
           Memory:f6ae0000-f6b00000<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="11-IP-和-TCP-分析"><a href="#11-IP-和-TCP-分析" class="headerlink" title="11. IP 和 TCP 分析"></a>11. IP 和 TCP 分析</h3><p>查看连接某服务端口最多的 IP 地址：</p>
 <pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">netstat</span> -nat <span class="token operator">|</span> <span class="token function">grep</span> <span class="token string">"192.168.1.15:22"</span> <span class="token operator">|</span> <span class="token function">awk</span> <span class="token string">'{print <span class="token variable">$5</span>}'</span> <span class="token operator">|</span> <span class="token function">awk</span> -F: <span class="token string">'{print <span class="token variable">$1</span>}'</span> <span class="token operator">|</span> <span class="token function">sort</span> <span class="token operator">|</span> <span class="token function">uniq</span> -c <span class="token operator">|</span> <span class="token function">sort</span> -nr <span class="token operator">|</span> <span class="token function">head</span> -20<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
@@ -660,7 +654,7 @@ eth0      Link encap:Ethernet  HWaddr 00:10:40:11:11:11
      36 LISTEN
       6 SYN_SENT
     113 TIME_WAIT
-      1 established)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+      1 established<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>最后的命令如下：</p>
 <pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">netstat</span> -nat <span class="token operator">|</span> <span class="token function">awk</span> <span class="token string">'{print <span class="token variable">$6</span>}'</span> <span class="token operator">|</span> <span class="token function">sort</span> <span class="token operator">|</span> <span class="token function">uniq</span> -c <span class="token operator">|</span> <span class="token function">sort</span> -rn<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>分析 access.log 获得访问前 10 位的 ip 地址：</p>
@@ -803,7 +797,7 @@ eth0      Link encap:Ethernet  HWaddr 00:10:40:11:11:11
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/bing-20260916.jpg" class="responsive-img" alt="Shell 实用技巧集锦">
+                        <img src="/medias/featureimages/bing-20260926.jpg" class="responsive-img" alt="Shell 实用技巧集锦">
                         
                         <span class="card-title">Shell 实用技巧集锦</span>
                     </div>
@@ -853,7 +847,7 @@ alias 命令别名对
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="nc（netcat）使用指南（上）">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="nc（netcat）使用指南（上）">
                         
                         <span class="card-title">nc（netcat）使用指南（上）</span>
                     </div>
@@ -1041,7 +1035,7 @@ nc 命令常见的用法是模拟一个服务器程序被其他客户端连接�
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">189.8k</span>
+            <span class="white-color">484.3k</span>
             
 
             <br>
@@ -1076,15 +1070,7 @@ nc 命令常见的用法是模拟一个服务器程序被其他客户端连接�
 
 
 
-    <a href="https://zhihu.com/people/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
-        <i class="fa fa-inverse">知</i>
-    </a>
 
-
-
-    <a href="http://wpa.qq.com/msgrd?v=3&uin=1714593434&site=qq&menu=yes" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
-        <i class="fa fa-qq"></i>
-    </a>
 
 
 

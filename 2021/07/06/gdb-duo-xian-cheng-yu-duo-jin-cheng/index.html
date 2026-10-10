@@ -1,0 +1,1654 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="GDB 调试多线程与多进程进阶, C++ Linux PRC Go Docker">
+    <meta name="baidu-site-verification" content="fmlEuI34ir">
+    <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
+    <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
+    <meta name="description" content="本文档主要参看«Debugging with GDB» Tenth Edition, for gdb version 8.0.1，本节我们主要讲述一下使用GDB来调试多线程及多进程程序。
+1. 调试多线程1.1 概念介绍在有一些操作系统上，">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>GDB 调试多线程与多进程进阶 | 吴杭沉的博客</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?ce84511d3df71640a9378a69f6293044";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    
+        <script>
+            (function(){
+                var bp = document.createElement('script');
+                var curProtocol = window.location.protocol.split(':')[0];
+                if (curProtocol === 'https') {
+                    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+                }
+                else {
+                    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+                }
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(bp, s);
+            })();
+        </script>
+    
+
+    <script>
+        (function(){
+        var src = "https://jspassport.ssl.qhimg.com/11.0.1.js?d182b3f28525f2db83acfaaf6e696dba";
+        document.write('<script src="' + src + '" id="sozz"><\/script>');
+        })();
+    </script>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">吴杭沉的博客</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/contact" class="waves-effect waves-light">
+            
+            <i class="fa fa-comments"></i>
+            
+            <span>留言板</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">吴杭沉的博客</div>
+        <div class="logo-desc">
+            
+            善良比聪明更重要
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contact" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-comments"></i>
+                
+                留言板
+            </a>
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        GDB 调试多线程与多进程进阶
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/GDB/" target="_blank">
+                            <span class="chip bg-color">GDB</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/GDB/" class="post-category" target="_blank">
+                            GDB
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2021-07-06
+                </div>
+
+                <div class="post-author info-break-policy">
+                    <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
+                    
+                    吴杭沉
+                    
+                </div>
+
+                
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    7.2k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    31 分
+                </div>
+                
+                
+
+                
+                <div id="busuanzi_container_page_pv" class="info-break-policy" style='display:none'>
+                    <i class="fa fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                    <span id="busuanzi_value_page_pv"></span>
+                </div>
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>本文档主要参看«Debugging with GDB» <code>Tenth Edition, for gdb version 8.0.1</code>，本节我们主要讲述一下使用GDB来调试多线程及多进程程序。</p>
+<h2 id="1-调试多线程"><a href="#1-调试多线程" class="headerlink" title="1. 调试多线程"></a>1. 调试多线程</h2><h3 id="1-1-概念介绍"><a href="#1-1-概念介绍" class="headerlink" title="1.1 概念介绍"></a>1.1 概念介绍</h3><p>在有一些操作系统上，比如GNU/Linux与Solaris，一个进程可以有多个执行线程。线程的精确语义因操作系统不同而有一些区别，但一般来说一个程序的线程类似与多进程，除了多线程是共享同一个地址空间之外。另一方面，每一个线程都有其自己的寄存器(registers)和执行栈(execution stack)，并可能拥有其自己的私有内存。</p>
+<p>GDB提供了如下的一些<code>facilities</code>来用于支持多线程的调试：</p>
+<ul>
+<li>新线程的自动通知</li>
+<li><strong>thread thread_id</strong>: 用于在线程之间切换的命令</li>
+<li><strong>info threads</strong>: 用于查询当前存在的线程信息</li>
+<li><strong>thread apply [thread-id-list] [all] args</strong>: 对一系列的线程应用某一个命令</li>
+<li>thread-specific breakpoints</li>
+<li><strong>set print thread-events</strong>: 控制是否打印线程启动、退出消息</li>
+<li><strong>set libthread-db-search-path path</strong>: 假如默认的选择不兼容当前程序的话，让用户选择使用那个<code>thread-db</code></li>
+</ul>
+<p>上面的<code>线程调试facility</code>使得你可以在程序运行期间观察到所有的线程，但是无论在什么时候只要被gdb接管控制权，只会有一个线程处于focus状态。该线程被称为<code>current thread</code>。GDB调试命令都是以当前线程(current thread)的视角来显示程序信息。</p>
+<p>当GDB在程序中检测到有一个新的线程，其都会打印该线程在目标系统的标识信息，格式为<code>[New systag]</code>, 这里<code>systag</code>是一个线程标识，其具体的形式可能依系统不同而有些差异。例如在GNU/Linux操作系统上，当GDB检测到有一个新的线程时，你可能会看到：</p>
+<pre class="line-numbers language-text"><code class="language-text">[New Thread 0x41e02940 (LWP 25582)]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>相反，在一些其他的系统上，<code>systag</code>可能只是一个很简单的标识，例如<code>process 368</code>。</p>
+<p>用于调试目的，GDB会用其自己的线程号与每一个“线程inferior”相关联。在同一个<code>inferior</code>下，所有线程之间的标识号都是唯一的；但是不同<code>inferior</code>下，线程之间的标识号则可能不唯一。你可以通过<code>inferior-num.thread-num</code>语法来引用某一个<code>inferior</code>中的指定线程（这被称为<code>qualified Thread ID</code>)。例如，线程<code>2.3</code>引用<code>inferior 2</code>中线程number为2的线程。假如你省略<code>inferior number</code>的话，则GDB默认引用的是当前<code>inferior</code>中的线程。</p>
+<p>在你创建第二个<code>inferior</code>之前，GDB并不会在<code>thread IDs</code>部分显示<code>inferior number</code>。</p>
+<p>有一些命令接受以空格分割的<code>thread ID</code>列表作为参数，一个列表元素可以是：</p>
+<pre class="line-numbers language-text"><code class="language-text">1) &#39;info threads&#39; 命令显示的&#39;thread ID&#39;可能包含inferior标识符，也可能不包括。例如： &#39;2.1&#39;或者&#39;1&#39;
+
+2) 指定线程数范围，格式为 &#39;inf.thr1-thr2&#39; 或者 &#39;thr1-thr2&#39;。例如： &#39;1.2-4&#39;或&#39;2-4&#39;
+
+3) 一个 &#39;inferior&#39;中的所有线程，可以通过&#39;*&#39;通配符来指定。格式为 &#39;inf.*&#39;或者 &#39;*&#39;。前者指定某个inferior中的所有线程；
+  后者指定当前inferior中的所有线程<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>例如，假如当前的<code>inferior</code>是1，<code>inferior 7</code>有一个线程，其ID为<code>7.1</code>，则线程列表<code>1 2-3 4.5 6.7-9 7.*</code>表示<code>inferior 1</code>中的线程1至线程3，<code>inferior 4</code>中的线程5，<code>inferior 6</code>中的线程7至线程9， 以及<code>inferior 7</code>中的所有线程。</p>
+<p>从GDB的视角来看，一个进程至少有一个线程。换句话说，GDB会为程序的主线程指定一个<code>thread number</code>，即使在该程序并不是多线程的情况下。参看如下：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h></span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span>argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"hello,world!\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">return</span> <span class="token number">0x0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>编译调试：</p>
+<pre class="line-numbers language-text"><code class="language-text"># gdb -q ./test
+Reading symbols from /root/workspace/test...done.
+(gdb) list
+1       #include &lt;stdio.h&gt;
+2       #include &lt;stdlib.h&gt;
+3
+4       int main(int argc, char *argv[])
+5       {
+6               printf(&quot;hello,world!\n&quot;);
+7
+8               return 0x0;
+9       }
+(gdb) b 6
+Breakpoint 1 at 0x40053c: file test.c, line 6.
+(gdb) r
+Starting program: /root/workspace/./test
+
+Breakpoint 1, main (argc=1, argv=0x7fffffffe638) at test.c:6
+6               printf(&quot;hello,world!\n&quot;);
+Missing separate debuginfos, use: debuginfo-install glibc-2.17-157.el7.x86_64
+(gdb) info inferiors
+  Num  Description       Executable
+* 1    process 26158     /root/workspace/./test
+(gdb) info threads
+  Id   Target Id         Frame
+* 1    process 26158 &quot;test&quot; main (argc=1, argv=0x7fffffffe638) at test.c:6
+(gdb)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>假如GDB检测到程序是多线程的，假如某个线程在断点处暂停时，其就会打印出该线程的ID及线程的名称：</p>
+<pre class="line-numbers language-text"><code class="language-text">Thread 2 &quot;client&quot; hit Breakpoint 1, send_message () at client.c:68<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>相似的，当程序收到一个信号之后，其会打印如下的信息：</p>
+<pre class="line-numbers language-text"><code class="language-text">Thread 1 &quot;main&quot; received signal SIGINT, Interrupt.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="1-2-GDB线程相关命令"><a href="#1-2-GDB线程相关命令" class="headerlink" title="1.2 GDB线程相关命令"></a>1.2 GDB线程相关命令</h3><ul>
+<li><strong>info threads [thread-id-list]</strong>: 用于显示一个或多个线程的信息。假如并未指定参数的话，则显示所有线程的信息。你可以指定想要显示的线程列表。GDB会按如下方式显示每一个线程：</li>
+</ul>
+<pre class="line-numbers language-text"><code class="language-text">1. 由GDB指定的每一个线程的thread number
+
+2. 由GDB指定的全局thread number(假如指定了&#39;-gid&#39;选项的话）
+
+3. 目标系统的线程标识符(systag)
+
+4. 线程名称。线程的名称可以由用户指定，在某一些情况下也可以由程序自身指定
+
+5. 该线程的当前stack frame信息
+
+注意： &#39;*&#39;指示的线程表示为当前线程<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>例如：</p>
+<pre class="line-numbers language-text"><code class="language-text">(gdb) info threads
+  Id   Target Id             Frame
+* 1    process 35 thread 13  main (argc=1, argv=0x7ffffff8)
+  2    process 35 thread 23  0x34e5 in sigpause ()
+  3    process 35 thread 27  0x34e5 in sigpause ()
+    at threadtest.c:68<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>假如当前你正在调试多个<code>inferiors</code>，则GDB会使用限定的<code>inferior-num.thread-num</code>这样的格式来显示<code>thread IDs</code>。否则的话，则只会显示<code>thread-num</code>。</p>
+<p>假如指定了<code>-gid</code>选项，那么在执行<code>info threads</code>命令时就会显示每一个线程的<code>global thread ID</code>:</p>
+<pre class="line-numbers language-text"><code class="language-text">(gdb) info threads
+  Id   GId  Target Id             Frame
+  1.1  1    process 35 thread 13  main (argc=1, argv=0x7ffffff8)
+  1.2  3    process 35 thread 23  0x34e5 in sigpause ()
+  1.3  4    process 35 thread 27  0x34e5 in sigpause ()
+* 2.1  2    process 65 thread 1   main (argc=1, argv=0x7ffffff8)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><strong>thread thread-id</strong>: 使<code>thread-id</code>所指定的线程为当前线程。该命令的参数<code>thread-id</code>是GDB所指定的<code>thread ID</code>，即上面<code>info threads</code>命令显示的第一列。通过此命令切换之后，GDB会打印你所选中的线程的系统标识和当前的栈帧信息：</li>
+</ul>
+<pre class="line-numbers language-text"><code class="language-text">(gdb) thread 2
+[Switching to thread 2 (Thread 0xb7fdab70 (LWP 12747))]
+#0  some_function (ignore=0x0) at example.c:8
+8           printf (&quot;hello\n&quot;);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>类似于在创建线程时打印出的<code>[New ...]</code>这样的消息，<code>Switching to</code>后面的消息打印也依赖于你所使用的系统</p>
+<ul>
+<li><code>thread apply [thread-id-list | all [-ascending]] command</code>: 本命令允许你在一个或多个线程上应用指定的<code>command</code>。如果要在所有线程上按降序的方式应用某个<code>command</code>，那么使用 ‘thread apply all command’; 如果要在所有线程上按升序的方式应用某个<code>command</code>，那么使用’thread apply all -ascending command’;</li>
+<li><strong>thread name [name]</strong>: 本命令用于为当前线程指定一个名称。假如并未指定参数的话，那么任何已存在的由用户指定的名称都将被移除。命名后线程的名称会出现在<code>info threads</code>的显示信息中。</li>
+<li><strong>thread find [regexp]</strong>: 用于查询名称或<code>systag</code>匹配查询表达式的线程。例如：</li>
+</ul>
+<pre class="line-numbers language-text"><code class="language-text">(gdb) thread find 26688
+Thread 4 has target id ’Thread 0x41e02940 (LWP 26688)’
+(gdb) info thread 4
+  Id   Target Id         Frame
+  4    Thread 0x41e02940 (LWP 26688) 0x00000031ca6cd372 in select ()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><strong>set libthread-db-search-path [path]</strong>: 假如本变量被设置，那么GDB将会使用所设置的路径(路径目录之间以’:’分割)来查找<code>libthread_db</code>。假如执行此命令时，并不指定path，那么将会被重置为默认值（在GNU/Linux及Solaris系统下默认值为<code>$sdir:$pdir</code>，即系统路径和当前进程所加载线程库的路径)。而在内部，默认值来自于<code>LIBTHREAD_DB_SEARCH_PATH</code>宏定义。</li>
+</ul>
+<p>在GNU/Linux以及Solaris操作系统上，GDB使用该辅助<code>libthread_db</code>库来获取inferior中线程的信息。GDB会使用’libthread-db-search-path’来搜索<code>libthread_db</code>。假如’set auto-load libthread-db’被启用的话，GDB首先会搜索该inferior所加载的线程调试库。</p>
+<pre class="line-numbers language-text"><code class="language-text">在使用libthread-db-search-path搜索libthread_db时，有两个特定的路径： $sydir、$pdir
+
+1) $sdir: 搜索共享库的默认的系统路径。本路径是唯一不需要通过&#39;set auto-load libthread_db&#39;命令来启用的
+
+2） $pdir: 指示inferior process加载libpthread库的位置<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>假如在上述目录中找到了<code>libpthread_db</code>库，那么GDB就会尝试用当前inferior process来初始化。假如初始化失败的话（一般在libpthread_db与libpthread版本不匹配的情况），GDB就会卸载该libpthread_db，然后尝试继续从下一个路径搜索libpthread_db。假如最后都没有找到适合的版本，GDB会打印相应的警告信息，接着线程调试将会被禁止。</p>
+<p>注意： 本命令只在一些特定的平台上可用。</p>
+<ul>
+<li><strong>show libpthread-db-search-path</strong>: 用于显示当前<code>libpthread_db</code>的搜索路径</li>
+<li><strong>set debug libpthread-db / show debug libpthread-db</strong>: 用于启用或关闭<code>libpthread-db</code>相关的事件信息的打印。1为启用， 0为关闭。</li>
+<li><strong>set scheduler-locking mode</strong>: 用于设置<code>锁定线程的模式</code>(scheduler locking mode)。其适用于程序正常执行、record mode以及重放模式。</li>
+</ul>
+<pre class="line-numbers language-text"><code class="language-text">1) mode为off时，则不锁定任何线程，即所有线程在任何时间都可以被执行；
+
+2) mode为on时，则锁定其他线程，只有当前线程执行；
+
+3) mode为step时,则当在进行单步调试(single-stepping)时只有当前线程会运行，其他的线程将不会获得运行的机会，这样就可以使得调试的焦点
+   只集中于当前线程。但是假如执行的时&#39;continue&#39;、&#39;until&#39;、&#39;finish&#39;这样的非单步调试命令的话，则其他的线程也会运行。
+
+一般来说，除非一个线程在其运行时间片内遇到断点(breakpoint)，否则GDB一般并不会从当前调试线程切换到该线程。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><strong>show scheduler-locking</strong>: 用于显示当前的锁定模式</li>
+</ul>
+<h3 id="1-3-多线程调试示例"><a href="#1-3-多线程调试示例" class="headerlink" title="1.3 多线程调试示例"></a>1.3 多线程调试示例</h3><ul>
+<li><strong>示例源代码</strong></li>
+</ul>
+<p>如下是我们所采用的调试示例源代码<code>test.c</code>:</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;unistd.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;pthread.h></span></span>
+
+<span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> b <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+<span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token operator">*</span> <span class="token function">pthread_run1</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>arg<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+        <span class="token keyword">int</span> runflag <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">while</span><span class="token punctuation">(</span>runflag<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+                a<span class="token operator">++</span><span class="token punctuation">;</span>
+                <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token function">pthread_exit</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span><span class="token punctuation">)</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token operator">*</span> <span class="token function">pthread_run2</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>arg<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+        <span class="token keyword">int</span> runflag <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">while</span><span class="token punctuation">(</span>runflag<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+                b<span class="token operator">++</span><span class="token punctuation">;</span>
+                <span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token function">pthread_exit</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span><span class="token punctuation">)</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span><span class="token keyword">char</span> <span class="token operator">*</span>argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+        pthread_t tid1<span class="token punctuation">,</span> tid2<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> retval_1<span class="token punctuation">,</span> retval_2<span class="token punctuation">;</span>
+
+        <span class="token function">pthread_create</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>tid1<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> pthread_run1<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">pthread_create</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>tid2<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> pthread_run2<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token function">pthread_join</span><span class="token punctuation">(</span>tid1<span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>retval_1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">pthread_join</span><span class="token punctuation">(</span>tid2<span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>retval_2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"retval_1: %d\n"</span><span class="token punctuation">,</span> retval_1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"retval_2: %d\n"</span><span class="token punctuation">,</span> retval_2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">return</span> <span class="token number">0x0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><strong>编译运行</strong></li>
+</ul>
+<pre class="line-numbers language-text"><code class="language-text"># gcc -c -g test.c gcc -c -g test.c -Wno-int-to-pointer-cast
+# gcc -o test test.o -lpthread
+
+# ps -aL | grep test
+ 40900  40900 pts/0    00:00:00 test
+ 40900  40901 pts/0    00:00:00 test
+ 40900  40902 pts/0    00:00:00 test<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>然后我们再通过如下命令查看主线程和两个子线程之间的关系：</p>
+<pre class="line-numbers language-text"><code class="language-text"># pstree -p 40900
+test(40900)─┬─{test}(40901)
+            └─{test}(40902)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>再接着通过<code>pstack</code>来查看线程栈结构：</p>
+<pre class="line-numbers language-text"><code class="language-text"># pstack 40900
+Thread 3 (Thread 0x7fd44f426700 (LWP 40901)):
+#0  0x00007fd44f4e566d in nanosleep () from /lib64/libc.so.6
+#1  0x00007fd44f4e5504 in sleep () from /lib64/libc.so.6
+#2  0x0000000000400757 in pthread_run1 (arg=0x0) at test.c:14
+#3  0x00007fd44f7efdc5 in start_thread () from /lib64/libpthread.so.0
+#4  0x00007fd44f51e73d in clone () from /lib64/libc.so.6
+Thread 2 (Thread 0x7fd44ec25700 (LWP 40902)):
+#0  0x00007fd44f4e566d in nanosleep () from /lib64/libc.so.6
+#1  0x00007fd44f4e5504 in sleep () from /lib64/libc.so.6
+#2  0x0000000000400794 in pthread_run2 (arg=0x0) at test.c:30
+#3  0x00007fd44f7efdc5 in start_thread () from /lib64/libpthread.so.0
+#4  0x00007fd44f51e73d in clone () from /lib64/libc.so.6
+Thread 1 (Thread 0x7fd44fc0c740 (LWP 40900)):
+#0  0x00007fd44f7f0ef7 in pthread_join () from /lib64/libpthread.so.0
+#1  0x00000000004007ff in main (argc=1, argv=0x7ffdbfa69a38) at test.c:46<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><strong>GDB调试多线程程序</strong></li>
+</ul>
+<p>1） 启动gdb调试，并在上述代码<code>a++</code>处加上断点</p>
+<pre class="line-numbers language-text"><code class="language-text"># gdb -q ./test
+Reading symbols from /root/workspace/test...done.
+(gdb) b test.c:14
+Breakpoint 1 at 0x400749: file test.c, line 13.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>2） 运行并查看inferiors及threads信息</p>
+<pre class="line-numbers language-text"><code class="language-text">(gdb) r
+Starting program: /root/workspace/./test
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library &quot;/lib64/libthread_db.so.1&quot;.
+[New Thread 0x7ffff77ff700 (LWP 41362)]
+[Switching to Thread 0x7ffff77ff700 (LWP 41362)]
+
+Breakpoint 1, pthread_run1 (arg=0x0) at test.c:13
+13                      a++;
+Missing separate debuginfos, use: debuginfo-install glibc-2.17-157.el7.x86_64
+(gdb) info inferiors
+  Num  Description       Executable
+* 1    process 41788     /root/workspace/./test
+(gdb) info threads
+  Id   Target Id         Frame
+  3    Thread 0x7ffff6ffe700 (LWP 41793) &quot;test&quot; 0x00007ffff7835480 in sigprocmask () from /lib64/libc.so.6
+* 2    Thread 0x7ffff77ff700 (LWP 41792) &quot;test&quot; pthread_run1 (arg=0x0) at test.c:14
+  1    Thread 0x7ffff7fe3740 (LWP 41788) &quot;test&quot; 0x00007ffff7bc9ef7 in pthread_join () from /lib64/libpthread.so.0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>从上面我们看到当前停在我们设置的断点处。</p>
+<p>接着我们执行如下：</p>
+<pre class="line-numbers language-text"><code class="language-text">(gdb) s
+15                      sleep(1);
+(gdb) s
+12              while(runflag)
+(gdb) s
+
+Breakpoint 1, pthread_run1 (arg=0x0) at test.c:14
+14                      a++;
+(gdb) s
+15                      sleep(1);
+(gdb) s
+12              while(runflag)
+(gdb) p b
+$1 = 4<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面我们看到当我们在单步调试<code>pthread_run1</code>的时候，<code>pthread_run2</code>也在执行。但是当我们暂停在断点处时，<code>pthread_run2</code>是不在执行的。</p>
+<p>如果我们想在调试一个线程时，其他线程暂停执行，那么可以使用<code>set scheduler-locking on</code>来锁定。例如：</p>
+<pre class="line-numbers language-text"><code class="language-text"># gdb -q ./test
+Reading symbols from /root/workspace/test...done.
+(gdb) b test.c:14
+Breakpoint 1 at 0x400742: file test.c, line 14.
+(gdb) r
+Starting program: /root/workspace/./test
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library &quot;/lib64/libthread_db.so.1&quot;.
+[New Thread 0x7ffff77ff700 (LWP 41951)]
+[Switching to Thread 0x7ffff77ff700 (LWP 41951)]
+
+Breakpoint 1, pthread_run1 (arg=0x0) at test.c:14
+14                      a++;
+Missing separate debuginfos, use: debuginfo-install glibc-2.17-157.el7.x86_64
+(gdb) set scheduler-locking on
+(gdb) p b
+$1 = 0
+(gdb) s
+15                      sleep(1);
+(gdb) s
+s
+12              while(runflag)
+(gdb) s
+
+Breakpoint 1, pthread_run1 (arg=0x0) at test.c:14
+14                      a++;
+(gdb) s
+15                      sleep(1);
+(gdb) s
+12              while(runflag)
+(gdb) s
+
+Breakpoint 1, pthread_run1 (arg=0x0) at test.c:14
+14                      a++;
+(gdb) s
+15                      sleep(1);
+(gdb) s
+12              while(runflag)
+(gdb) s
+
+Breakpoint 1, pthread_run1 (arg=0x0) at test.c:14
+14                      a++;
+(gdb) s
+15                      sleep(1);
+(gdb) s
+12              while(runflag)
+(gdb) p b
+$2 = 0
+(gdb)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="2-调试多进程"><a href="#2-调试多进程" class="headerlink" title="2. 调试多进程"></a>2. 调试多进程</h2><h3 id="2-1-基本概念"><a href="#2-1-基本概念" class="headerlink" title="2.1 基本概念"></a>2.1 基本概念</h3><p>在大多数系统上，GDB对于通过<code>fork()</code>函数创建的子进程的调试都没有专门的支持。当一个程序fork()之后，GDB会继续调试父进程，而子进程仍会畅通无阻的运行。假如你在代码的某个部分设置了断点，然后子进程执行到该位置时，则子进程会受到一个<code>SIGTRAP</code>信号并导致子进程退出（除非子进程catch了该信号）。</p>
+<p>然而，假如你想要调试子进程的话，也有一种相对简单的取巧方法。就是在执行完fork之后，在进入子进程代码时调用<code>sleep()</code>方法。这里可以根据某个环境变量是否设置或者某个文件是否存在来决定是否进入<code>sleep()</code>，这样就可以使得我们在非调试状态下避免休眠。当子进程进入sleep状态时，我们就可以通过<code>ps</code>命令查看到子进程的进程ID。接着可以通过使用GDB并attach到该子进程，然后就可以像调试普通程序一样进行调试了。</p>
+<p>在有一些系统上，GDB对使用<code>fork()</code>或<code>vfork()</code>函数创建的子进程的调试提供了支持。在GNU/Linux平台上，从内核<code>2.5.46</code>版本开始该特性就被支持。</p>
+<p>默认情况下，当一个程序forks之后，GDB会继续调试父进程，而对子进程没有任何的影响。</p>
+<p>假如你想要跟随子进程而不是父进程，那么可以使用<code>set follow-fork-mode</code>命令：</p>
+<ul>
+<li><strong>set follow-fork-mode mode</strong>: 设置GDB调试器如何对<code>fork</code>或者<code>vfork</code>进行响应。参数<code>mode</code>的取值可以为</li>
+</ul>
+<pre class="line-numbers language-text"><code class="language-text">parent: 表示跟随父进程。这是默认情况
+
+child: 表示跟随子进程<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><strong>show follow-fork-mode</strong>: 显示当前的跟随模式</li>
+</ul>
+<p>在Linux上，假如<code>parent</code>进程与<code>child</code>进程都想要调试的话，那么可以使用<code>set detach-on-fork</code>命令。</p>
+<ul>
+<li><strong>set detach-on-fork mode</strong>: 用于告诉GDB在fork()之后是否分离其中的一个进程，或者同时保持对他们的控制。mode可取值为</li>
+</ul>
+<pre class="line-numbers language-text"><code class="language-text">on: 子进程或者父进程将会被分离（取决于follow-fork-mode),使得该进程可以独立的运行。这是默认值
+
+off: 子进程和父进程都会在GDB的控制之下。其中一个进程（取决于follow-fork-mode)可以像平常那样进行调试，而另一个进程处于挂起状态<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><strong>show detach-on-fork</strong>: 用于显示<code>detach-on-fork</code>模式的值</li>
+</ul>
+<p>假如你选择设置<code>detach-on-fork</code>的值为off，那么GDB将会将会保持对所有fork进程的控制（也包括内部fork)。你可以通过使用<code>info inferiors</code>命令来查看当前处于GDB控制之下的进程，并使用<code>inferior</code>命令来进行切换。</p>
+<p>如果要退出对其中一个fork进程的调试，你可以通过使用<code>detach inferiors</code>命令来使得该进程独立的运行，或者通过<code>kill inferiors</code>命令来将该进程杀死。</p>
+<p>假如你使用GDB来调试子进程，并且是在执行完<code>vfork</code>再调用<code>exec</code>，那么GDB会调试该新的target直到遇到第一个breakpoint。另外，假如你在orginal program的main函数中设置了断点，那么在子进程的main函数中也会保持有该断点。</p>
+<p>在有一些系统上，当子进程是通过<code>vfork()</code>函数产生的，那么在完成<code>exec</code>调用之前，你将不能对父进程或子进程进行调试。</p>
+<p>假如在执行完<code>exec</code>调用之后，你通过运行<code>run</code>命令，那么该新的<code>target</code>将会重启。如果要重启父进程的话，使用<code>file</code>命令并将参数设置为<code>parent executable name</code>。默认情况下，当一个exec执行完成之后，GDB会丢弃前一个可执行镜像的符号表。你可以通过<code>set follow-exec-mode</code>命令来改变这一行为：</p>
+<ul>
+<li><strong>set follow-exec-mode mode</strong>: 当程序调用<code>exec</code>之后，GDB相应的行为。<code>exec</code>调用会替换一个进程的镜像。mode取值可以为：</li>
+</ul>
+<p>1） new: GDB会创建一个新的inferior，并将该进程重新绑定到新的inferior。在执行<code>exec</code>之前的所运行的程序可以通过重启原先的inferior(original inferior)来进行重启。例如：</p>
+<pre class="line-numbers language-text"><code class="language-text">(gdb) info inferiors
+(gdb) info inferior
+Id Description Executable
+* 1 &lt;null&gt; prog1
+(gdb) run
+process 12020 is executing new program: prog2
+Program exited normally.
+(gdb) info inferiors
+Id Description Executable
+1 &lt;null&gt; prog1
+* 2 &lt;null&gt; prog2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>2) same: GDB会将exec之后的新镜像加载到同一个<code>inferior</code>中,以替换原来的镜像。在执行exec之后如果要重启该inferior，那么可以通过运行<code>run</code>命令。这是默认模式。例如：</p>
+<pre class="line-numbers language-text"><code class="language-text">(gdb) info inferiors
+Id Description Executable
+* 1 &lt;null&gt; prog1
+(gdb) run
+process 12020 is executing new program: prog2
+Program exited normally.
+(gdb) info inferiors
+Id Description Executable
+* 1 &lt;null&gt; prog2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="2-2-调试示例"><a href="#2-2-调试示例" class="headerlink" title="2.2 调试示例"></a>2.2 调试示例</h3><ul>
+<li><strong>调试子进程</strong></li>
+</ul>
+<p>1） 示例源码</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;sys/types.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;unistd.h></span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span><span class="token keyword">char</span> <span class="token operator">*</span>argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+        pid_t pid<span class="token punctuation">;</span>
+
+        pid <span class="token operator">=</span> <span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">if</span><span class="token punctuation">(</span>pid <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>pid <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"hello,world!\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">return</span> <span class="token number">0x0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>2) 调试步骤</p>
+<p>首先执行下面的命令进行编译：</p>
+<pre class="line-numbers language-text"><code class="language-text"># gcc -g -c test.c
+# gcc -o test test.o<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>在调试多进程程序时，GDB默认会追踪处理父进程。例如：</p>
+<pre class="line-numbers language-text"><code class="language-text"># gdb -q ./test
+Reading symbols from /root/workspace/test...done.
+(gdb) start
+Temporary breakpoint 1 at 0x40058c: file test.c, line 10.
+Starting program: /root/workspace/./test
+
+Temporary breakpoint 1, main (argc=1, argv=0x7fffffffe638) at test.c:10
+10              pid = fork();
+Missing separate debuginfos, use: debuginfo-install glibc-2.17-157.el7.x86_64
+(gdb) n
+Detaching after fork from child process 52320.
+hello,world!
+12              if(pid &lt; 0)
+(gdb) n
+16              else if(pid &gt; 0)
+(gdb) n
+18                      return 1;
+(gdb) n
+23      }
+(gdb) n
+0x00007ffff7a3db35 in __libc_start_main () from /lib64/libc.so.6<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面我们看到，子进程很快就打印出了<code>hello,world!</code>,说明GDB并没有控制住子进程。而在父进程中，我们通过单步执行到第18行的return，然后父进程返回退出。</p>
+<p>如果要调试子进程，要使用如下的命令: <code>set follow-fork-mode child</code>。例如：</p>
+<pre class="line-numbers language-text"><code class="language-text"># gdb -q ./test
+Reading symbols from /root/workspace/test...done.
+(gdb) start
+Temporary breakpoint 1 at 0x40058c: file test.c, line 10.
+Starting program: /root/workspace/./test
+
+Temporary breakpoint 1, main (argc=1, argv=0x7fffffffe638) at test.c:10
+10              pid = fork();
+Missing separate debuginfos, use: debuginfo-install glibc-2.17-157.el7.x86_64
+(gdb) set follow-fork-mode child
+(gdb) show follow-fork-mode
+Debugger response to a program call of fork or vfork is &quot;child&quot;.
+(gdb) n
+[New process 52457]
+[Switching to process 52457]
+12              if(pid &lt; 0)
+(gdb) n
+16              else if(pid &gt; 0)
+(gdb) n
+20              printf(&quot;hello,world!\n&quot;);
+(gdb) n
+hello,world!
+22              return 0x0;
+(gdb) n
+23      }<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面我们看到程序执行到第20行： 子进程打印出<code>hello,world!</code>.</p>
+<ul>
+<li><strong>同时调试父进程和子进程</strong></li>
+</ul>
+<p>1） 示例源码</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h></span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span>argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    pid_t pid<span class="token punctuation">;</span>
+
+    pid <span class="token operator">=</span> <span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>pid <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>pid <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Parent\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Child\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>2) 调试步骤</p>
+<p>首先通过执行下面的命令执行编译：</p>
+<pre class="line-numbers language-text"><code class="language-text"># gcc -g -c test.c
+# gcc -o test test.o<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>从前面我们知道，GDB默认情况下只会追踪父进程的运行，而子进程会独立运行，GDB不会控制。</p>
+<p>如果同时调试父进程和子进程，可以使用<code>set detach-on-fork off</code>(默认值是on)命令，这样GDB就能同时调试父子进程，并且在调试一个进程时，另一个进程处于挂起状态。例如：</p>
+<pre class="line-numbers language-text"><code class="language-text"># gdb -q ./test
+Reading symbols from /root/workspace/test...done.
+(gdb) show detach-on-fork
+Whether gdb will detach the child of a fork is on.
+(gdb) set detach-on-fork off
+(gdb) start
+Temporary breakpoint 1 at 0x4005cc: file test.c, line 8.
+Starting program: /root/workspace/./test
+
+Temporary breakpoint 1, main (argc=1, argv=0x7fffffffe638) at test.c:8
+8           pid = fork();
+Missing separate debuginfos, use: debuginfo-install glibc-2.17-157.el7.x86_64
+(gdb) n
+[New process 53415]
+9           if (pid &lt; 0)
+Missing separate debuginfos, use: debuginfo-install glibc-2.17-157.el7.x86_64
+(gdb) info inferiors
+  Num  Description       Executable
+  2    process 53415     /root/workspace/./test
+* 1    process 52646     /root/workspace/./test
+(gdb) n
+13          else if (pid &gt; 0)
+(gdb) n
+15              printf(&quot;Parent\n&quot;);
+(gdb) n
+Parent
+16              exit(0);
+(gdb) n
+[Inferior 1 (process 52646) exited normally]
+(gdb) n
+The program is not being run.
+(gdb) info inferiors
+  Num  Description       Executable
+  2    process 53415     /root/workspace/./test
+* 1    &lt;null&gt;            /root/workspace/./test
+(gdb) inferior 2
+[Switching to inferior 2 [process 53415] (/root/workspace/./test)]
+[Switching to thread 2 (process 53415)]
+#0  0x00007ffff7ada74c in fork () from /lib64/libc.so.6
+(gdb) bt
+#0  0x00007ffff7ada74c in fork () from /lib64/libc.so.6
+#1  0x00000000004005d1 in main (argc=1, argv=0x7fffffffe638) at test.c:8
+(gdb) n
+Single stepping until exit from function fork,
+which has no line number information.
+main (argc=1, argv=0x7fffffffe638) at test.c:9
+9           if (pid &lt; 0)
+(gdb) n
+13          else if (pid &gt; 0)
+(gdb) n
+18          printf(&quot;Child\n&quot;);
+(gdb) n
+Child
+19          return 0;
+(gdb)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面在使用<code>set detach-on-fork off</code>命令之后，使用<code>info inferiors</code>命令查看进程状态，可以看到父进程处在被GDB调试的状态（前面显示<code>*</code>表示正在被调试）。当父进程退出后，用<code>inferior infno</code>切换到子进程去调试。</p>
+<p>此外，如果想让父子进程同时运行，可以使用<code>set schedule-multiple on</code>(默认值为off)命令，仍以上述代码为例：</p>
+<pre class="line-numbers language-text"><code class="language-text"># gdb -q ./test
+Reading symbols from /root/workspace/test...done.
+(gdb) set detach-on-fork off
+(gdb) set schedule-multiple on
+(gdb) start
+Temporary breakpoint 1 at 0x4005cc: file test.c, line 8.
+Starting program: /root/workspace/./test
+
+Temporary breakpoint 1, main (argc=1, argv=0x7fffffffe638) at test.c:8
+8           pid = fork();
+Missing separate debuginfos, use: debuginfo-install glibc-2.17-157.el7.x86_64
+(gdb) n
+[New process 54810]
+Child
+[process 54810 exited]
+9           if (pid &lt; 0)
+Missing separate debuginfos, use: debuginfo-install glibc-2.17-157.el7.x86_64
+(gdb)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以看到打印出了<code>Child</code>，证明子进程也在运行了。</p>
+<h2 id="3-设置用于返回的书签"><a href="#3-设置用于返回的书签" class="headerlink" title="3. 设置用于返回的书签"></a>3. 设置用于返回的书签</h2><p>在许多操作系统上，GDB能够将程序的运行状态保存为snapshot，这被称为<code>checkpoint</code>，后续我们就可以通过相应的命令返回到该checkpoint。</p>
+<p>回退到一个<code>checkpoint</code>，会使得所有发生在该checkpoint之后的操作都会被做undo。这包括内存的修改、寄存器的修改、甚至是系统的状态（有一些限制）。事实上，类似于回到保存checkpoint的时间点。</p>
+<p>因此，当你在单步调试程序，并且认为快接近有错误的代码点时，你就可以先保存一个checkpoint。然后，你继续进行调试，假如碰巧错过了该关键代码段，这时你就可以回退到该checkpoint并从该位置继续进行调试，而不用完全从头开始来调试整个程序。</p>
+<p>要使用<code>checkpoint/restart</code>方法来进行调试的话，需要用到如下命令：</p>
+<ul>
+<li><strong>checkpoint</strong>: 将调试程序的当前执行状态保存为一个snapshot。本命令不携带任何参数，但是其实GDB内部对于每一个checkpoint都会指定一个整数ID，这有些类似于breakpoint ID.</li>
+<li><strong>info checkpoints</strong>: 列出当前调试session所保存的checkpoints。对于每一个checkpoint，都会有如下信息被列出</li>
+</ul>
+<pre class="line-numbers language-text"><code class="language-text">Checkpoint ID
+Process ID
+Code Address
+Source line, or label<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><strong>restart checkpoint-id</strong>: 重新装载<code>checkpoint-id</code>位置的程序状态。所有的程序变量、寄存器、栈帧等都会被恢复为在保存该checkpoint时的状态。实际上，GDB类似于将时间拨回到保存该checkpoint的时间点。</li>
+</ul>
+<p>注意，对于breakpoints、GDB variables、command history等，在执行恢复到某个checkpoint时并不会受到影响。一般来说，checkpoint只存储调试程序的信息，而并不存储调试器本身的信息。</p>
+<ul>
+<li><strong>delete checkpoint checkpoint-id</strong>: 删除以前保存的某个checkpoint</li>
+</ul>
+<p>返回到前一个保存的checkpoint时，将会恢复该调试程序的用户状态，也会恢复一部分的操作系统状态，包括文件指针。恢复时，并不会对一个文件中的数据执行<code>un-write</code>操作，但是会将文件指针恢复到原来的位置，因此之前所写的数据可以被<code>overwritten</code>。对于那些以读模式打开的文件，文件指针将会恢复到原来所读的位置。</p>
+<p>当然，对于那些已经发送到打印机（或其他外部设备）的字符将不能够<code>snatched back</code>，而对于从外部设备（例如串口设备）接收到字符则从内部程序缓冲中移除，但是并不能<code>push back</code>回串行设备的pipeline中。相似的，对于文件的数据发生了实质性的更改这一情况，也是不能进行恢复。</p>
+<p>然而，即使有上面的这些限制，你还是可以返回到checkpoint处开始进行调试，此时可能还可以调试一条不同的执行路径。</p>
+<p>最后，当你回退到checkpoint时，程序会回退到上次保存时的状态，但是进程ID会发生改变。每一个checkpoint都会有一个唯一的进程ID，并且会与原来程序的进程ID不同。假如你所调试的程序在本地保存了进程ID的话，则可能会出现一些潜在的问题。</p>
+<h3 id="3-1-使用checkpoint的潜在优势"><a href="#3-1-使用checkpoint的潜在优势" class="headerlink" title="3.1 使用checkpoint的潜在优势"></a>3.1 使用checkpoint的潜在优势</h3><p>在有一些系统上，比如GNU/Linux，通常情况下由于安全原因每一个新进程的地址空间都是随机的。这就使得几乎不太可能在一个绝对的地址上设置一个breakpoint或者watchpoint，因为在程序下一次重启时，程序中symbol的绝对路径可能发生改变。</p>
+<p>然而一个checkpoint，等价于一个进程拷贝。因此假如你在main的开始就创建一个checkpoint，后续返回到该checkpoint而不是重启程序，这就可以避免受到重启程序地址随机这一情况的影响。通过返回checkpoint，可以使得程序的<code>symbols</code>仍保持在原来的位置</p>
+<h3 id="3-2-checkpoint使用示例"><a href="#3-2-checkpoint使用示例" class="headerlink" title="3.2 checkpoint使用示例"></a>3.2 checkpoint使用示例</h3><p><strong>1） 示例程序</strong></p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+
+<span class="token keyword">static</span> <span class="token keyword">int</span> <span class="token function">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">static</span> <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token operator">++</span>i<span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">==</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">static</span> <span class="token keyword">int</span> <span class="token function">func3</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">static</span> <span class="token keyword">int</span> <span class="token function">func2</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">static</span> <span class="token keyword">int</span> <span class="token function">func1</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> ret <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+    ret <span class="token operator">+</span><span class="token operator">=</span> <span class="token function">func1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ret <span class="token operator">+</span><span class="token operator">=</span> <span class="token function">func2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ret <span class="token operator">+</span><span class="token operator">=</span> <span class="token function">func3</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> ret<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>2) 调试技巧</strong></p>
+<p>首先采用如下的命令编译程序：</p>
+<pre class="line-numbers language-text"><code class="language-text"># gcc -g -c test.c
+# gcc -o test test.o<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>下面我们进行调试，在<code>ret += func1()</code>前保存一个checkpoint:</p>
+<pre class="line-numbers language-text"><code class="language-text"># gdb -q ./test
+Reading symbols from /root/workspace/test...done.
+(gdb) start
+Temporary breakpoint 1 at 0x400551: file test.c, line 32.
+Starting program: /root/workspace/./test
+
+Temporary breakpoint 1, main () at test.c:32
+32          int ret = 0;
+Missing separate debuginfos, use: debuginfo-install glibc-2.17-157.el7.x86_64
+(gdb) n
+34          ret += func1();
+(gdb) checkpoint
+checkpoint: fork returned pid 68595.
+(gdb) info checkpoints
+  1 process 68595 at 0x400558, file test.c, line 34
+* 0 process 68591 (main process) at 0x400558, file test.c, line 34<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>然后使用<code>next</code>步进，并每次调用完毕，打印ret的值：</p>
+<pre class="line-numbers language-text"><code class="language-text">(gdb) n
+35          ret += func2();
+(gdb) p ret
+$1 = 0
+(gdb) n
+36          ret += func3();
+(gdb) p ret
+$2 = 1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>结果发现，在调用<code>func2()</code>后，ret的值变为了1。可是此时，我们已经错过了调试<code>fun2()</code>的机会。如果没有<code>checkpoint</code>，就需要再次从头调试了。对于这个问题从头调试很容易，但是对于很难复现的bug可能就会比较困难了。</p>
+<p>下面我们使用checkpoint恢复：</p>
+<pre class="line-numbers language-text"><code class="language-text">(gdb) info checkpoints
+  1 process 68595 at 0x400558, file test.c, line 34
+* 0 process 68591 (main process) at 0x400572, file test.c, line 36
+(gdb) restart 1
+Switching to process 68595
+#0  main () at test.c:34
+34          ret += func1();<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面我们看到，GDB恢复到了保存checkpoint时的状态了。上面<code>restart 1</code>中1为checkpoint的ID号。</p>
+<p>从上面我们看出checkpoint的用法很简单，但是很有用。就是在平时的简单的bug修复中，也可以加快我们的调试速度，毕竟减少了不必要的重现bug的时间。</p>
+
+            </div>
+            <hr />
+
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《GDB 调试多线程与多进程进阶》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2021/07/06/gdb-duo-xian-cheng-yu-duo-jin-cheng/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                吴杭沉
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div id="giscus-card" class="card giscus-card" data-aos="fade-up">
+    <div class="card-content">
+        <div class="giscus"></div>
+    </div>
+</div>
+
+<script>
+    // 懒加载：滚动到评论区可见时才请求 giscus.app，
+    // 避免 giscus.app 不可达时阻塞页面加载
+    (function () {
+        var card = document.getElementById('giscus-card');
+        var holder = card ? card.querySelector('.giscus') : null;
+        if (!card || !holder) { return; }
+
+        var loaded = false;
+        function loadGiscus() {
+            if (loaded) { return; }
+            loaded = true;
+            var s = document.createElement('script');
+            s.src = 'https://giscus.app/client.js';
+            s.async = true;
+            s.crossOrigin = 'anonymous';
+            s.setAttribute('data-repo', 'wuhangchen/wuhangchen.github.io');
+            s.setAttribute('data-repo-id', 'R_kgDOMPl9sA');
+            s.setAttribute('data-category', 'Announcements');
+            s.setAttribute('data-category-id', 'DIC_kwDOMPl9sM4DDr8I');
+            s.setAttribute('data-mapping', 'pathname');
+            s.setAttribute('data-strict', '0');
+            s.setAttribute('data-reactions-enabled', '1');
+            s.setAttribute('data-emit-metadata', '0');
+            s.setAttribute('data-input-position', 'bottom');
+            s.setAttribute('data-theme', 'preferred_color_scheme');
+            s.setAttribute('data-lang', 'zh-CN');
+            holder.appendChild(s);
+        }
+
+        if (!('IntersectionObserver' in window)) {
+            // 旧浏览器直接降级为页面加载完成后加载
+            window.addEventListener('load', loadGiscus);
+            return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+            if (entries[0].isIntersecting) {
+                loadGiscus();
+                io.disconnect();
+            }
+        });
+        io.observe(card);
+    })();
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2021/07/13/tcpip-xi-lie-dao-du/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/bing-20260922.jpg" class="responsive-img" alt="TCP/IP 系列导读：从 HTTP 到 epoll 的完整学习路径">
+                        
+                        <span class="card-title">TCP/IP 系列导读：从 HTTP 到 epoll 的完整学习路径</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            这个系列把 TCP/IP 相关的知识整理成了一条由浅入深的完整路径：从大家最熟悉的 HTTP 讲起，一路下探到 TCP 的连接建立、状态机、传输控制，最后落到 Linux 下的 I/O 多路复用与线上问题排查实战。全系列 23 篇，按发文时
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2021-07-13
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/TCP-IP/" class="post-category" target="_blank">
+                                    TCP/IP
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/TCP-IP/" target="_blank">
+                        <span class="chip bg-color">TCP/IP</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2021/06/24/gdb-shi-zhan-ding-wei-si-suo/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/bing-20261005.jpg" class="responsive-img" alt="GDB 实战：定位多线程死锁">
+                        
+                        <span class="card-title">GDB 实战：定位多线程死锁</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            本文用一个「双线程、双互斥锁、加锁顺序相反」的最小示例，演示如何用 gdb attach 定位程序死锁。死锁是并发编程里最棘手的问题之一，通过这个例子可以掌握一套通用的分析思路：先看线程与栈回溯（backtrace），再顺着栈找到等待的锁，
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2021-06-24
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/GDB/" class="post-category" target="_blank">
+                                    GDB
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/GDB/" target="_blank">
+                        <span class="chip bg-color">GDB</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 吴杭沉的博客<br />'
+            + '作者: 吴杭沉<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { bodyElement.removeChild(newdiv); }, 200);
+    });
+</script>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+	            fixPostCardWidth('artDetail', 'giscus-card');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy; 2017-2024 Wuhangchen. 版权所有
+
+            
+            &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+            <span class="white-color">484.3k</span>
+            
+
+            <br>
+            <span id="sitetime"></span>
+
+            
+            
+            <br>
+            
+            <span id="busuanzi_container_site_pv" style='display:none'>
+                <i class="fa fa-heart-o"></i>
+                本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv" style='display:none'>
+                人次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+            </span>
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:codewu1996@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);
+        var fixTries = 0;
+        var pvcountOffset = 80000;
+        var uvcountOffset = 20000;
+
+        function fixCount() {
+            // 本地环境不加载不蒜子时避免无限轮询：最多等待 10 秒
+            if (++fixTries > 200) {
+                clearInterval(int);
+                return;
+            }
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int);
+            }
+        }
+    });
+</script>
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2017, 09, 11, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    siteTime();
+</script>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "Σ(っ °Д °;)っ喔哟，崩溃啦！", clearTimeout(st)) : (document.title = "φ(゜▽゜*)♪咦，又好了！", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) })
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    
+    <script src="/libs/others/clicklove.js"></script>
+    
+
+    
+    <script>
+        // 本地调试（localhost/127.0.0.1）不加载不蒜子：
+        // 不蒜子按 Referer 计数，所有开发者本地环境的 localhost 计数是共用的，数值严重失真
+        if (!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) {
+            var bsz = document.createElement('script');
+            bsz.src = '/libs/others/busuanzi.pure.mini.js';
+            bsz.async = true;
+            document.body.appendChild(bsz);
+        }
+    </script>
+    
+
+    <!-- 雪花特效 -->
+    
+    <script type="text/javascript" src="/libs/others/snow.js"></script>
+    
+
+</body>
+
+</html>

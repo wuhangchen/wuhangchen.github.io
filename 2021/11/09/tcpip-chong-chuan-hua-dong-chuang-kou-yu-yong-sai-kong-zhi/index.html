@@ -1,0 +1,1163 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="TCP 重传、滑动窗口、流量控制与拥塞控制, C++ Linux PRC Go Docker">
+    <meta name="baidu-site-verification" content="fmlEuI34ir">
+    <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
+    <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
+    <meta name="description" content="为了实现可靠性传输，需要考虑很多事情，例如数据的破坏、丢包、重复以及分片顺序混乱等问题。如不能解决这些问题，也就无从谈起可靠传输。那么，TCP 是通过序列号、确认应答、重发控制、连接管理以及窗口控制等机制实现可靠性传输的。今天，将重点介绍 ">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>TCP 重传、滑动窗口、流量控制与拥塞控制 | 吴杭沉的博客</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?ce84511d3df71640a9378a69f6293044";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    
+        <script>
+            (function(){
+                var bp = document.createElement('script');
+                var curProtocol = window.location.protocol.split(':')[0];
+                if (curProtocol === 'https') {
+                    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+                }
+                else {
+                    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+                }
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(bp, s);
+            })();
+        </script>
+    
+
+    <script>
+        (function(){
+        var src = "https://jspassport.ssl.qhimg.com/11.0.1.js?d182b3f28525f2db83acfaaf6e696dba";
+        document.write('<script src="' + src + '" id="sozz"><\/script>');
+        })();
+    </script>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">吴杭沉的博客</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/contact" class="waves-effect waves-light">
+            
+            <i class="fa fa-comments"></i>
+            
+            <span>留言板</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">吴杭沉的博客</div>
+        <div class="logo-desc">
+            
+            善良比聪明更重要
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contact" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-comments"></i>
+                
+                留言板
+            </a>
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/bing-20261009.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        TCP 重传、滑动窗口、流量控制与拥塞控制
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bing-copyright">
+        <a href="https://www.bing.com/search?q=%E4%B8%96%E7%95%8C%E5%80%99%E9%B8%9F%E6%97%A5&form=hpcapt&mkt=zh-cn" target="_blank" rel="noopener">
+        图源:必应每日壁纸 &middot; 蒙特雷湾上空的双冠鸬鹚，加利福尼亚州，美国 (© Hiroya Minakuchi/Minden Pictures)
+        </a>
+    </div>
+    
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/TCP-IP/" target="_blank">
+                            <span class="chip bg-color">TCP/IP</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/TCP-IP/" class="post-category" target="_blank">
+                            TCP/IP
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2021-11-09
+                </div>
+
+                <div class="post-author info-break-policy">
+                    <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
+                    
+                    吴杭沉
+                    
+                </div>
+
+                
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    7.4k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    25 分
+                </div>
+                
+                
+
+                
+                <div id="busuanzi_container_page_pv" class="info-break-policy" style='display:none'>
+                    <i class="fa fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                    <span id="busuanzi_value_page_pv"></span>
+                </div>
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>为了实现可靠性传输，需要考虑很多事情，例如数据的破坏、丢包、重复以及分片顺序混乱等问题。如不能解决这些问题，也就无从谈起可靠传输。那么，TCP 是通过序列号、确认应答、重发控制、连接管理以及窗口控制等机制实现可靠性传输的。今天，将重点介绍 TCP 的重传机制、滑动窗口、流量控制、拥塞控制。对重传与拥塞这段「历史往事」感兴趣的，还可以配合着看看《<a href="/2021/08/17/tcpip-tcp-de-na-xie-shi-er/">TCP 的那些事儿</a>》。</p>
+<p>TCP 实现可靠传输的方式之一，是通过序列号与确认应答。在 TCP 中，当发送端的数据到达接收主机时，接收端主机会返回一个确认应答消息，表示已收到消息。</p>
+<p>但在错综复杂的网络里，数据传输并不总能这么顺利——万一数据在传输过程中丢失了呢？所以 TCP 针对数据包丢失的情况，会用重传机制解决。</p>
+<p>接下来说说常见的重传机制：</p>
+<h2 id="超时重传"><a href="#超时重传" class="headerlink" title="超时重传"></a>超时重传</h2><p>重传机制的其中一个方式，就是在发送数据时，设定一个定时器，当超过指定的时间后，没有收到对方的 ACK 确认应答报文，就会重发该数据，也就是我们常说的超时重传。</p>
+<p>TCP 会在以下两种情况发生超时重传：</p>
+<ul>
+<li>一是数据包丢了</li>
+<li>二是 ACK 确认应答丢了</li>
+</ul>
+<p>超时时间应该设置为多少呢？</p>
+<p>我们先来了解一下什么是 RTT（Round-Trip Time 往返时延）：RTT 就是数据从网络一端传送到另一端所需的时间，也就是包的往返时间。</p>
+<p>超时重传时间是以 RTO（Retransmission Timeout 超时重传时间）表示。</p>
+<p>假设在重传的情况下，超时时间 RTO「较长或较短」时，会发生什么事情呢？</p>
+<p>RTO 过长和过短各有问题：</p>
+<ul>
+<li>RTO 较大：丢包后要等很久才会重传，效率低，性能差</li>
+<li>RTO 较小：包可能还没丢就重发了，不必要的重传会徒增网络流量，加剧网络拥塞</li>
+</ul>
+<p>精确的测量超时时间 RTO 的值是非常重要的，这可让我们的重传机制更高效。根据上述的两种情况，我们可以得知，超时重传时间 RTO 的值应该略大于报文往返 RTT 的值。</p>
+<p>至此，可能大家觉得超时重传时间 RTO 的值计算，也不是很复杂嘛。好像就是在发送端发包时记下 t0，然后接收端再把这个 ack 回来时再记一个 t1，于是 RTT = t1 – t0。没那么简单，这只是一个采样，不能代表普遍情况。</p>
+<p>实际上「报文往返 RTT 的值」是经常变化的，因为我们的网络也是时常变化的。也就因为「报文往返 RTT 的值」是经常波动变化的，所以「超时重传时间 RTO 的值」应该是一个动态变化的值。</p>
+<p>我们来看看 Linux 是如何计算 RTO 的呢？估计往返时间，通常需要采样以下两个：</p>
+<ul>
+<li>采样 RTT 的时间，进行加权平均，算出平滑的 RTT，也就是 SRTT</li>
+<li>采样 RTT 与 SRTT 之间的差距，也就是 DevRTT，差距越大说明网络越不平稳</li>
+</ul>
+<p>RFC 6298 建议使用以下的公式计算 RTO：</p>
+<pre class="line-numbers language-text"><code class="language-text">SRTT   = (1 - α) * SRTT + α * RTT
+DevRTT = (1 - β) * DevRTT + β * |RTT - SRTT|
+RTO    = μ * SRTT + ∂ * DevRTT<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>其中 SRTT 是平滑后的 RTT，DevRTT 是平滑后的 RTT 与最新 RTT 之间的差距。α = 0.125，β = 0.25，μ = 1，∂ = 4 是 RFC 6298 给出的推荐值，Linux 的实现也采用这组参数。别问怎么来的，问就是大量实验中调出来的。</p>
+<p>如果超时重发的数据，再次超时的时候，又需要重传的时候，TCP 的策略是超时间隔加倍。也就是每当遇到一次超时重传的时候，都会将下一次超时时间间隔设为先前值的两倍。两次超时，就说明网络环境差，不宜频繁反复发送。</p>
+<p>超时触发重传存在的问题是，超时周期可能相对较长。那是不是可以有更快的方式呢？于是就可以用「快速重传」机制来解决超时重发的时间等待。</p>
+<h2 id="快速重传"><a href="#快速重传" class="headerlink" title="快速重传"></a>快速重传</h2><p>TCP 还有另外一种快速重传（Fast Retransmit）机制，它不以时间为驱动，而是以数据驱动重传。快速重传机制是如何工作的呢？其实很简单，我们直接看收发双方的过程。假设发送方发出了 1、2、3、4、5 五份数据：</p>
+<ul>
+<li>接收方收到 Seq1 后，回复 ACK 2</li>
+<li>但 Seq2 丢失了，Seq3 到达时，接收方依然回复 ACK 2</li>
+<li>随后 Seq4、Seq5 也陆续到达，接收方还是回复 ACK 2</li>
+<li>发送方连续收到三个重复的 ACK 2，就知道是 Seq2 丢失了，于是在定时器过期之前直接重传 Seq2</li>
+</ul>
+<p>所以，快速重传的工作方式是当收到三个相同的 ACK 报文时，会在定时器过期之前，重传丢失的报文段。</p>
+<p>快速重传机制只解决了一个问题，就是超时时间的问题，但是它依然面临着另外一个问题。就是重传的时候，是重传之前的一个，还是重传所有的问题。比如对于上面的例子，是重传 Seq2 呢？还是重传 Seq2、Seq3、Seq4、Seq5 呢？因为发送端并不清楚这连续的三个 Ack 2 是谁传回来的。根据 TCP 不同的实现，以上两种情况都是有可能的。可见，这是一把双刃剑。</p>
+<p>为了解决不知道该重传哪些 TCP 报文，于是就有 SACK 方法。</p>
+<h2 id="SACK-方法"><a href="#SACK-方法" class="headerlink" title="SACK 方法"></a>SACK 方法</h2><p>还有一种实现重传机制的方式叫：SACK（Selective Acknowledgment 选择性确认）。这种方式需要在 TCP 头部「选项」字段里加一个 SACK 的东西，它可以将缓存的地图发送给发送方，这样发送方就可以知道哪些数据收到了，哪些数据没收到，知道了这些信息，就可以只重传丢失的数据。</p>
+<p>举个栗子：假设发送方连续发出了 100<del>199、200</del>299、300<del>399、400</del>499 四个报文段，其中 200<del>299 这个报文段在途中丢失，其余的都到达了接收方。接收方收不到 200</del>299，只能反复回复 ACK 200，同时通过 SACK 选项告诉发送方「300<del>399、400</del>499 我已经收到了」。</p>
+<p>当发送方收到了三次同样的 ACK 确认报文，就会触发快速重传机制；通过 SACK 信息可以知道只有 200~299 这段数据丢失，于是重发时只重传这个 TCP 段。</p>
+<p>如果要支持 SACK，必须双方都要支持。在 Linux 下，可以通过 <code>net.ipv4.tcp_sack</code> 参数打开这个功能（Linux 2.4 后默认打开）。</p>
+<p>Duplicate SACK 又称 D-SACK，其主要使用了 SACK 来告诉「发送方」有哪些数据被重复接收了。下面举例两个栗子，来说明 D-SACK 的作用。</p>
+<h3 id="栗子一号：ACK-丢包"><a href="#栗子一号：ACK-丢包" class="headerlink" title="栗子一号：ACK 丢包"></a>栗子一号：ACK 丢包</h3><p>「发送方」发出的数据包接收方都正常收到了，也回复了 ACK，但其中某个 ACK 在回程中丢了。发送方迟迟收不到这个 ACK，于是触发重传，把数据又发了一遍。接收方发现这些数据是重复收到的，就通过 SACK 把重复的部分告知发送方。发送方由此可以判断：丢的不是自己发出去的数据包，而是接收方回应的 ACK 包。</p>
+<h3 id="栗子二号：网络延时"><a href="#栗子二号：网络延时" class="headerlink" title="栗子二号：网络延时"></a>栗子二号：网络延时</h3><p>这一次数据包并没有丢，只是在网络里「玩了一会儿」，迟迟没有到达。发送方等不及，超时重传了数据。之后，先发的包和重传的包先后到达接收方，接收方通过 SACK 把重复收到的部分告诉发送方。发送方由此可以判断：是网络延迟变大了，而不是接收方出了什么问题。</p>
+<p>可见，D-SACK 有这么几个好处：</p>
+<ul>
+<li>可以让「发送方」知道，是发出去的包丢了，还是接收方回应的 ACK 包丢了</li>
+<li>可以知道是不是「发送方」的数据包被网络延迟了</li>
+<li>可以知道网络中是不是把「发送方」的数据包给复制了</li>
+</ul>
+<p>在 Linux 下可以通过 <code>net.ipv4.tcp_dsack</code> 参数开启/关闭这个功能（Linux 2.4 后默认打开）。</p>
+<h2 id="引入窗口概念的原因"><a href="#引入窗口概念的原因" class="headerlink" title="引入窗口概念的原因"></a>引入窗口概念的原因</h2><p>我们都知道 TCP 是每发送一个数据，都要进行一次确认应答。当上一个数据包收到了应答了，再发送下一个。这个模式就有点像我和你面对面聊天，你一句我一句。但这种方式的缺点是效率比较低的。如果你说完一句话，我在处理其他事情，没有及时回复你，那你不是要干等着我做完其他事情后，我回复你，你才能说下一句话，很显然这不现实。</p>
+<p>所以，这样的传输方式有一个缺点：数据包的往返时间越长，通信的效率就越低。为解决这个问题，TCP 引入了窗口这个概念。即使在往返时间较长的情况下，它也不会降低网络通信的效率。（窗口的动态变化过程，可以配合《<a href="/2021/11/16/tcpip-chuang-kou-hua-dong-yu-yong-sai-kong-zhi-tu-jie/">窗口滑动与拥塞控制图解</a>》来看。）</p>
+<p>那么有了窗口，就可以指定窗口大小，窗口大小就是指无需等待确认应答，而可以继续发送数据的最大值。窗口的实现实际上是操作系统开辟的一个缓存空间，发送方主机在等到确认应答返回之前，必须在缓冲区中保留已发送的数据。如果按期收到确认应答，此时数据就可以从缓存区清除。假设窗口大小为 3 个 TCP 段，那么发送方就可以「连续发送」3 个 TCP 段，并且中途若有 ACK 丢失，可以通过「下一个确认应答进行确认」。</p>
+<p>接着上面的例子：假设发送方依次发出了 100<del>199、200</del>299、300<del>399、400</del>499、500<del>599、600</del>699 这几个报文段，即使中途 ACK 600 这个确认应答报文丢失了，也没关系，因为可以通过下一个确认应答进行确认——只要发送方收到了 ACK 700 确认应答，就意味着 700 之前的所有数据「接收方」都收到了。这个模式就叫累计确认或者累计应答。</p>
+<h2 id="窗口大小由哪一方决定？"><a href="#窗口大小由哪一方决定？" class="headerlink" title="窗口大小由哪一方决定？"></a>窗口大小由哪一方决定？</h2><p>TCP 头里有一个字段叫 Window，也就是窗口大小。这个字段是接收端告诉发送端自己还有多少缓冲区可以接收数据。于是发送端就可以根据这个接收端的处理能力来发送数据，而不会导致接收端处理不过来。所以，通常窗口的大小是由接收方决定的。发送方发送的数据大小不能超过接收方的窗口大小，否则接收方就无法正常接收到数据。</p>
+<h2 id="发送方的滑动窗口"><a href="#发送方的滑动窗口" class="headerlink" title="发送方的滑动窗口"></a>发送方的滑动窗口</h2><p>我们先来看看发送方的窗口。发送方缓存里的数据，根据处理的情况分成四个部分：</p>
+<ul>
+<li>#1 已发送并已确认的数据</li>
+<li>#2 已发送但未确认的数据</li>
+<li>#3 未发送但可以发送的数据</li>
+<li>#4 未发送且不可发送的数据</li>
+</ul>
+<p>其中 #2 + #3 的范围就是发送窗口，#3 则是「可用窗口」。</p>
+<p>当发送方把数据「全部」都一下发送出去后，可用窗口的大小就为 0 了，表明可用窗口耗尽，在没收到 ACK 确认之前是无法继续发送数据了。</p>
+<p>当收到之前发送的 32<del>36 字节数据的 ACK 确认应答后，如果发送窗口的大小没有变化，则滑动窗口往右边移动 5 个字节，因为有 5 个字节的数据被应答确认，接下来 52</del>56 字节又变成了可用窗口，那么后续也就可以发送 52~56 这 5 个字节的数据了。</p>
+<p>程序是如何表示发送方的四个部分的呢？TCP 滑动窗口方案使用三个指针来跟踪在四个传输类别中的每一个类别中的字节。其中两个指针是绝对指针（指特定的序列号），一个是相对指针（需要做偏移）：</p>
+<ul>
+<li>SND.WND：发送窗口的大小（相对指针，需要加上 SND.UNA 的偏移）</li>
+<li>SND.UNA：绝对指针，指向已发送但未被确认的第一个字节的序列号</li>
+<li>SND.NXT：绝对指针，指向未发送但可发送的第一个字节的序列号</li>
+</ul>
+<p>那么可用窗口大小的计算就可以是：</p>
+<p><strong>可用窗口大小 = SND.WND -（SND.NXT - SND.UNA）</strong></p>
+<h2 id="接收方的滑动窗口"><a href="#接收方的滑动窗口" class="headerlink" title="接收方的滑动窗口"></a>接收方的滑动窗口</h2><p>接下来我们看看接收方的窗口，接收窗口相对简单一些，根据处理的情况划分成三个部分：</p>
+<ul>
+<li>已接收并已确认的数据</li>
+<li>未收到但可以接收的数据</li>
+<li>未收到且不可以接收的数据</li>
+</ul>
+<p>其中三个接收部分，使用两个指针进行划分：</p>
+<ul>
+<li>RCVD.WND：表示接收窗口的大小</li>
+<li>RCVD.NXT：表示下一个期望接收的数据序列号</li>
+</ul>
+<h2 id="接收窗口和发送窗口的大小是相等的吗？"><a href="#接收窗口和发送窗口的大小是相等的吗？" class="headerlink" title="接收窗口和发送窗口的大小是相等的吗？"></a>接收窗口和发送窗口的大小是相等的吗？</h2><p>并不是完全相等，接收窗口的大小是约等于发送窗口的大小的。因为滑动窗口并不是一成不变的。比如，当接收方的应用进程读取数据的速度非常快的话，这样的话接收窗口可以很快的就空缺出来。那么新的接收窗口大小，是通过 TCP 报文中的 Window 字段来告诉发送方。那么这个传输过程是存在时延的，所以接收窗口和发送窗口是约等于的关系。</p>
+<p>发送方不能无脑的发数据给接收方，要考虑接收方处理能力。如果一直无脑的发数据给对方，但对方处理不过来，那么就会导致触发重发机制，从而导致网络流量的无端的浪费。为了解决这种现象发生，TCP 提供一种机制可以让「发送方」根据「接收方」的实际接收能力控制发送的数据量，这就是所谓的流量控制。</p>
+<p>下面举个栗子，为了简单起见，假设以下场景：</p>
+<ul>
+<li>客户端是发送方，服务端是接收方</li>
+<li>双方的接收窗口和发送窗口相同，都为 200 字节，且每个报文段的大小为 100 字节</li>
+</ul>
+<p>整个过程大致如下：客户端一口气发出了 180 字节的数据；服务端由于应用进程没有及时读取数据，处理不过来，于是在确认时只确认了其中一部分，并把自己的接收窗口调小，通过 ACK 告诉客户端；客户端收到后，也跟着把自己的发送窗口缩小，能继续发送的数据随之变少；等服务端应用读走了一些数据，接收窗口重新变大，再通过 ACK 通告给客户端，客户端的发送窗口随之扩大。窗口的大小，就这样随着 ACK 报文里的 Window 字段动态地收缩与打开。</p>
+<h2 id="操作系统缓冲区与滑动窗口的关系"><a href="#操作系统缓冲区与滑动窗口的关系" class="headerlink" title="操作系统缓冲区与滑动窗口的关系"></a>操作系统缓冲区与滑动窗口的关系</h2><p>前面的流量控制例子，我们假定了发送窗口和接收窗口是不变的，但是实际上，发送窗口和接收窗口中所存放的字节数，都是放在操作系统内存缓冲区中的，而操作系统的缓冲区，会被操作系统调整。当应用进程没办法及时读取缓冲区的内容时，也会对我们的缓冲区造成影响。那操作系统的缓冲区，是如何影响发送窗口和接收窗口的呢？</p>
+<p>我们先来看看第一个例子：当应用程序没有及时读取缓存时，发送窗口和接收窗口会发生什么变化。这种情况下，接收方的应用进程一直不读取数据，接收缓存里的数据越堆越多，接收窗口只能一步步缩小，发送方的窗口也随之收缩。最后，窗口都收缩为 0，也就是发生了窗口关闭。当发送方可用窗口变为 0 时，发送方实际上会定时发送窗口探测报文，以便知道接收方的窗口是否发生了改变，这个内容后面会说，这里先简单提一下。</p>
+<p>我们先来看看第二个例子。当服务端系统资源非常紧张的时候，操作系统可能会直接减少了接收缓冲区大小，这时应用程序又无法及时读取缓存数据，那么这时候就有严重的事情发生了：接收缓冲区被砍小之后，接收窗口来不及同步收缩，发送方还在按旧的窗口大小发送数据，超出的部分接收方根本装不下，于是出现数据包丢失的现象。</p>
+<p>所以，如果发生了先减少缓存，再收缩窗口，就会出现丢包的现象。为了防止这种情况发生，TCP 规定是不允许同时减少缓存又收缩窗口的，而是采用先收缩窗口，过段时间再减少缓存，这样就可以避免了丢包情况。</p>
+<h2 id="窗口关闭"><a href="#窗口关闭" class="headerlink" title="窗口关闭"></a>窗口关闭</h2><p>在前面我们都看到了，TCP 通过让接收方指明希望从发送方接收的数据大小（窗口大小）来进行流量控制。如果窗口大小为 0 时，就会阻止发送方给接收方传递数据，直到窗口变为非 0 为止，这就是窗口关闭。</p>
+<h2 id="窗口关闭潜在的危险"><a href="#窗口关闭潜在的危险" class="headerlink" title="窗口关闭潜在的危险"></a>窗口关闭潜在的危险</h2><p>接收方向发送方通告窗口大小时，是通过 ACK 报文来通告的。那么，当发生窗口关闭时，接收方处理完数据后，会向发送方通告一个窗口非 0 的 ACK 报文，如果这个通告窗口的 ACK 报文在网络中丢失了，那麻烦就大了。</p>
+<p>这会导致发送方一直等待接收方的非 0 窗口通知，接收方也一直等待发送方的数据，如果不采取措施，这种相互等待的过程，会造成了死锁的现象。</p>
+<p>TCP 是如何解决窗口关闭时，潜在的死锁现象呢？为了解决这个问题，TCP 为每个连接设有一个持续定时器，只要 TCP 连接一方收到对方的零窗口通知，就启动持续计时器。如果持续计时器超时，就会发送窗口探测（Window probe）报文，而对方在确认这个探测报文时，给出自己现在的接收窗口大小。</p>
+<p>窗口探测的次数一般为 3 次，每次大约 30-60 秒（不同的实现可能会不一样）。如果 3 次过后接收窗口还是 0 的话，有的 TCP 实现就会发 RST 报文来中断连接。</p>
+<h2 id="糊涂窗口综合症"><a href="#糊涂窗口综合症" class="headerlink" title="糊涂窗口综合症"></a>糊涂窗口综合症</h2><p>如果接收方太忙了，来不及取走接收窗口里的数据，那么就会导致发送方的发送窗口越来越小。到最后，如果接收方腾出几个字节并告诉发送方现在有几个字节的窗口，而发送方会义无反顾地发送这几个字节，这就是糊涂窗口综合症。</p>
+<p>要知道，我们的 TCP + IP 头有 40 个字节，为了传输那几个字节的数据，要搭上这么大的开销，这太不经济了。就好像一个可以承载 50 人的大巴车，每次来了一两个人，就直接发车。除非家里有矿的大巴司机，才敢这样玩，不然迟早破产。要解决这个问题也不难，大巴司机等乘客数量超过了 25 个，才认定可以发车。</p>
+<p>现举个糊涂窗口综合症的栗子：接收方的窗口大小是 360 字节，但接收方由于某些原因陷入困境，应用层每次只能读取很少的字节，接收窗口只能一点点地被腾出来。可以看到，窗口在不断缩小，发送方每次发送的数据也越来越小。</p>
+<p>所以，糊涂窗口综合症的现象是可以发生在发送方和接收方：</p>
+<ul>
+<li>接收方：处理太慢，来不及读取数据，通告了很小的窗口</li>
+<li>发送方：明知数据很小，还是发了出去</li>
+</ul>
+<p>于是，要解决糊涂窗口综合症，就解决上面两个问题就可以了。</p>
+<h3 id="怎么让接收方不通告小窗口呢？"><a href="#怎么让接收方不通告小窗口呢？" class="headerlink" title="怎么让接收方不通告小窗口呢？"></a>怎么让接收方不通告小窗口呢？</h3><p>接收方通常的策略如下：当「窗口大小」小于 min（MSS，缓存空间/2），也就是小于 MSS 与 1/2 缓存大小中的最小值时，就会向发送方通告窗口为 0，也就阻止了发送方再发数据过来。等到接收方处理了一些数据后，窗口大小 &gt;= MSS，或者接收方缓存空间有一半可以使用，就可以把窗口打开让发送方发送数据过来。</p>
+<h3 id="怎么让发送方避免发送小数据呢？"><a href="#怎么让发送方避免发送小数据呢？" class="headerlink" title="怎么让发送方避免发送小数据呢？"></a>怎么让发送方避免发送小数据呢？</h3><p>发送方通常的策略：使用 Nagle 算法，该算法的思路是延时处理，它满足以下两个条件中的一条才可以发送数据：</p>
+<ul>
+<li>要等到窗口大小 &gt;= MSS 或是 Data 长度 &gt;= MSS</li>
+<li>收到之前发送数据的 ACK 回包</li>
+</ul>
+<p>只要没满足上面条件中的一条，发送方一直在囤积数据，直到满足上面的发送条件。</p>
+<p>另外，Nagle 算法默认是打开的，如果对于一些需要小数据包交互的场景的程序，比如，telnet 或 ssh 这样的交互性比较强的程序，则需要关闭 Nagle 算法。</p>
+<p>可以在 Socket 设置 <code>TCP_NODELAY</code> 选项来关闭这个算法（关闭 Nagle 算法没有全局参数，需要根据每个应用自己的特点来关闭）。另外，Nagle 算法和延迟 ACK 凑在一起时还会衍生出不少「疑难杂症」，感兴趣可以看《<a href="/2021/11/23/tcpip-xie-yi-yi-nan-za-zheng-quan-jing/">TCP 协议疑难杂症全景解析</a>》。</p>
+<h2 id="为什么要有拥塞控制呀，不是有流量控制了吗？"><a href="#为什么要有拥塞控制呀，不是有流量控制了吗？" class="headerlink" title="为什么要有拥塞控制呀，不是有流量控制了吗？"></a>为什么要有拥塞控制呀，不是有流量控制了吗？</h2><p>前面的流量控制是避免「发送方」的数据填满「接收方」的缓存，但是并不知道网络中发生了什么。一般来说，计算机网络都处在一个共享的环境。因此也有可能会因为其他主机之间的通信使得网络拥堵。在网络出现拥堵时，如果继续发送大量数据包，可能会导致数据包时延、丢失等，这时 TCP 就会重传数据，但是一重传就会导致网络的负担更重，于是会导致更大的延迟以及更多的丢包，这个情况就会进入恶性循环被不断地放大……</p>
+<p>所以，TCP 不能忽略网络上发生的事，它被设计成一个无私的协议，当网络发生拥塞时，TCP 会自我牺牲，降低发送的数据量。于是，就有了拥塞控制，控制的目的就是避免「发送方」的数据填满整个网络。为了在「发送方」调节所要发送数据的量，定义了一个叫做「拥塞窗口」的概念。</p>
+<h2 id="什么是拥塞窗口？和发送窗口有什么关系呢？"><a href="#什么是拥塞窗口？和发送窗口有什么关系呢？" class="headerlink" title="什么是拥塞窗口？和发送窗口有什么关系呢？"></a>什么是拥塞窗口？和发送窗口有什么关系呢？</h2><p>拥塞窗口 cwnd 是发送方维护的一个状态变量，它会根据网络的拥塞程度动态变化的。我们在前面提到过发送窗口 swnd 和接收窗口 rwnd 是约等于的关系，那么由于引入了拥塞窗口的概念后，此时发送窗口的值是 <code>swnd = min(cwnd, rwnd)</code>，也就是拥塞窗口和接收窗口中的最小值。</p>
+<p>那么怎么知道当前网络是否出现了拥塞呢？其实只要「发送方」没有在规定时间内接收到 ACK 应答报文，也就是发生了超时重传，就会认为网络出现了拥塞。</p>
+<h2 id="拥塞控制有哪些控制算法？"><a href="#拥塞控制有哪些控制算法？" class="headerlink" title="拥塞控制有哪些控制算法？"></a>拥塞控制有哪些控制算法？</h2><p>拥塞控制主要是四个算法：</p>
+<ul>
+<li>慢启动</li>
+<li>拥塞避免</li>
+<li>拥塞发生</li>
+<li>快速恢复</li>
+</ul>
+<h3 id="慢启动"><a href="#慢启动" class="headerlink" title="慢启动"></a>慢启动</h3><p>TCP 在刚建立连接完成后，首先是有个慢启动的过程，这个慢启动的意思就是一点一点的提高发送数据包的数量，如果一上来就发大量的数据，这不是给网络添堵吗？慢启动的算法记住一个规则就行：当发送方每收到一个 ACK，拥塞窗口 cwnd 的大小就会加 1。这里假定拥塞窗口 cwnd 和发送窗口 swnd 相等，假定发包按轮次被确认，那么发包个数的变化就是 1 变 2、2 变 4、4 变 8，可以看出慢启动算法，发包的个数是指数性的增长。</p>
+<p>那慢启动涨到什么时候是个头呢？有一个叫慢启动门限 ssthresh（slow start threshold）状态变量。</p>
+<h3 id="拥塞避免算法"><a href="#拥塞避免算法" class="headerlink" title="拥塞避免算法"></a>拥塞避免算法</h3><p>前面说到，当拥塞窗口 cwnd「超过」慢启动门限 ssthresh 就会进入拥塞避免算法。ssthresh 的初始值一般取 65535 字节（16 位窗口字段能表示的最大值），之后会随着拥塞的发生被动态调整。那么进入拥塞避免算法后，它的规则是：每当收到一个 ACK 时，cwnd 增加 1/cwnd。接上前面的慢启动的栗子，现假定 ssthresh 为 8，那么 cwnd 的增长就从指数增长变成了每个轮次加 1 的线性增长：8 变 9、9 变 10、10 变 11……</p>
+<p>所以，我们可以发现，拥塞避免算法就是将原本慢启动算法的指数增长变成了线性增长，还是增长阶段，但是增长速度缓慢了一些。</p>
+<p>就这么一直增长下去，网络就会慢慢进入拥塞的状况，于是就会出现丢包现象，这时就需要对丢失的数据包进行重传。当触发了重传机制，也就进入了「拥塞发生算法」。</p>
+<h3 id="拥塞发生"><a href="#拥塞发生" class="headerlink" title="拥塞发生"></a>拥塞发生</h3><p>当网络出现拥塞，也就是会发生数据包重传，重传机制主要有两种：超时重传和快速重传，这两种重传使用的拥塞发生算法是不同的，接下来分别来说说。</p>
+<h4 id="发生超时重传的拥塞发生算法"><a href="#发生超时重传的拥塞发生算法" class="headerlink" title="发生超时重传的拥塞发生算法"></a>发生超时重传的拥塞发生算法</h4><p>当发生了「超时重传」，则就会使用拥塞发生算法。这个时候，ssthresh 和 cwnd 的值会发生变化：</p>
+<ul>
+<li>ssthresh 会更新为 cwnd/2（更严格地说，RFC 5681 建议取 <code>max(cwnd/2, 2*MSS)</code>，给门限留一个下限，防止收缩得过小）</li>
+<li>cwnd 会重置为 1，也就是重新开始慢启动的初始值</li>
+</ul>
+<p>接着，就重新开始慢启动，数据流会被猛地砍到接近于零。这真是一旦「超时重传」，马上回到解放前。但是这种方式太激进了，反应也很强烈，会造成网络卡顿。就好像本来在秋名山高速漂移着，突然来个紧急刹车，轮胎受得了吗。。。</p>
+<h4 id="发生快速重传的拥塞发生算法"><a href="#发生快速重传的拥塞发生算法" class="headerlink" title="发生快速重传的拥塞发生算法"></a>发生快速重传的拥塞发生算法</h4><p>还有更好的方式，前面我们讲过「快速重传算法」。当接收方发现丢了一个中间包的时候，发送三次前一个包的 ACK，于是发送端就会快速地重传，不必等待超时再重传。TCP 认为这种情况不严重，因为大部分没丢，只丢了一小部分，则 ssthresh 和 cwnd 变化如下：</p>
+<ul>
+<li>ssthresh 会更新为 cwnd/2</li>
+<li>cwnd 也会更新为 cwnd/2</li>
+</ul>
+<h3 id="快速恢复"><a href="#快速恢复" class="headerlink" title="快速恢复"></a>快速恢复</h3><p>快速重传和快速恢复算法一般同时使用。快速恢复算法认为，你还能收到 3 个重复 ACK，说明网络也不那么糟糕，所以没有必要像 RTO 超时那么强烈。正如前面所说，进入快速恢复之前，cwnd 和 ssthresh 已被更新了。然后，进入快速恢复算法如下：</p>
+<ul>
+<li>拥塞窗口 cwnd = ssthresh + 3（3 的意思是确认有 3 个数据包被收到了）</li>
+<li>重传丢失的数据包</li>
+<li>如果再收到重复的 ACK，那么 cwnd 加 1</li>
+<li>如果收到新数据的 ACK，就把 cwnd 设置为 ssthresh，重新进入拥塞避免算法</li>
+</ul>
+<p>也就是没有像「超时重传」一夜回到解放前，而是还在比较高的值，后续呈线性增长。</p>
+<h2 id="巨人的肩膀"><a href="#巨人的肩膀" class="headerlink" title="巨人的肩膀"></a>巨人的肩膀</h2><ul>
+<li>[1] 趣谈网络协议专栏.刘超.极客时间</li>
+<li>[2] Web协议详解与抓包实战专栏.陶辉.极客时间</li>
+<li>[3] TCP/IP详解 卷1：协议.范建华 译.机械工业出版社</li>
+<li>[4] 图解TCP/IP.竹下隆史.人民邮电出版社</li>
+<li>[5] TCP那些事（上）.陈皓.酷壳博客.<a href="https://coolshell.cn/articles/11564.html" target="_blank" rel="noopener">https://coolshell.cn/articles/11564.html</a></li>
+<li>[6] TCP那些事（下）.陈皓.酷壳博客.<a href="https://coolshell.cn/articles/11609.html" target="_blank" rel="noopener">https://coolshell.cn/articles/11609.html</a></li>
+</ul>
+
+            </div>
+            <hr />
+
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《TCP 重传、滑动窗口、流量控制与拥塞控制》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2021/11/09/tcpip-chong-chuan-hua-dong-chuang-kou-yu-yong-sai-kong-zhi/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                吴杭沉
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div id="giscus-card" class="card giscus-card" data-aos="fade-up">
+    <div class="card-content">
+        <div class="giscus"></div>
+    </div>
+</div>
+
+<script>
+    // 懒加载：滚动到评论区可见时才请求 giscus.app，
+    // 避免 giscus.app 不可达时阻塞页面加载
+    (function () {
+        var card = document.getElementById('giscus-card');
+        var holder = card ? card.querySelector('.giscus') : null;
+        if (!card || !holder) { return; }
+
+        var loaded = false;
+        function loadGiscus() {
+            if (loaded) { return; }
+            loaded = true;
+            var s = document.createElement('script');
+            s.src = 'https://giscus.app/client.js';
+            s.async = true;
+            s.crossOrigin = 'anonymous';
+            s.setAttribute('data-repo', 'wuhangchen/wuhangchen.github.io');
+            s.setAttribute('data-repo-id', 'R_kgDOMPl9sA');
+            s.setAttribute('data-category', 'Announcements');
+            s.setAttribute('data-category-id', 'DIC_kwDOMPl9sM4DDr8I');
+            s.setAttribute('data-mapping', 'pathname');
+            s.setAttribute('data-strict', '0');
+            s.setAttribute('data-reactions-enabled', '1');
+            s.setAttribute('data-emit-metadata', '0');
+            s.setAttribute('data-input-position', 'bottom');
+            s.setAttribute('data-theme', 'preferred_color_scheme');
+            s.setAttribute('data-lang', 'zh-CN');
+            holder.appendChild(s);
+        }
+
+        if (!('IntersectionObserver' in window)) {
+            // 旧浏览器直接降级为页面加载完成后加载
+            window.addEventListener('load', loadGiscus);
+            return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+            if (entries[0].isIntersecting) {
+                loadGiscus();
+                io.disconnect();
+            }
+        });
+        io.observe(card);
+    })();
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2021/11/16/tcpip-chuang-kou-hua-dong-yu-yong-sai-kong-zhi-tu-jie/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/28.jpg" class="responsive-img" alt="TCP 滑动窗口与拥塞控制图解">
+                        
+                        <span class="card-title">TCP 滑动窗口与拥塞控制图解</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            TCP 协议作为一个可靠的面向流的传输协议，其可靠传输与流量控制由滑动窗口协议保证，而拥塞控制则由拥塞窗口结合一系列的控制算法实现。
+滑动窗口协议关于这部分自己不晓得怎么叙述才好，因为理解的部分更多，下面就用自己的理解来介绍下 TCP 的精
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2021-11-16
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/TCP-IP/" class="post-category" target="_blank">
+                                    TCP/IP
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/TCP-IP/" target="_blank">
+                        <span class="chip bg-color">TCP/IP</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2021/11/02/tcpip-da-liang-close-wait-pai-cha/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/bing-20260911.jpg" class="responsive-img" alt="服务端出现大量 CLOSE_WAIT 的排查思路">
+                        
+                        <span class="card-title">服务端出现大量 CLOSE_WAIT 的排查思路</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+问题：服务端出现大量 CLOSE_WAIT 状态，什么原因？有什么危害？应该怎么办？
+CLOSE_WAIT 是什么时候出现的回答这个问题，首先需要知道 CLOSE_WAIT 状态是什么时候出现的？还是回到经典的四次挥手过程，这个过程得不断
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2021-11-02
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/TCP-IP/" class="post-category" target="_blank">
+                                    TCP/IP
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/TCP-IP/" target="_blank">
+                        <span class="chip bg-color">TCP/IP</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 吴杭沉的博客<br />'
+            + '作者: 吴杭沉<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { bodyElement.removeChild(newdiv); }, 200);
+    });
+</script>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+	            fixPostCardWidth('artDetail', 'giscus-card');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy; 2017-2024 Wuhangchen. 版权所有
+
+            
+            &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+            <span class="white-color">484.3k</span>
+            
+
+            <br>
+            <span id="sitetime"></span>
+
+            
+            
+            <br>
+            
+            <span id="busuanzi_container_site_pv" style='display:none'>
+                <i class="fa fa-heart-o"></i>
+                本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv" style='display:none'>
+                人次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+            </span>
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:codewu1996@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);
+        var fixTries = 0;
+        var pvcountOffset = 80000;
+        var uvcountOffset = 20000;
+
+        function fixCount() {
+            // 本地环境不加载不蒜子时避免无限轮询：最多等待 10 秒
+            if (++fixTries > 200) {
+                clearInterval(int);
+                return;
+            }
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int);
+            }
+        }
+    });
+</script>
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2017, 09, 11, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    siteTime();
+</script>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "Σ(っ °Д °;)っ喔哟，崩溃啦！", clearTimeout(st)) : (document.title = "φ(゜▽゜*)♪咦，又好了！", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) })
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    
+    <script src="/libs/others/clicklove.js"></script>
+    
+
+    
+    <script>
+        // 本地调试（localhost/127.0.0.1）不加载不蒜子：
+        // 不蒜子按 Referer 计数，所有开发者本地环境的 localhost 计数是共用的，数值严重失真
+        if (!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) {
+            var bsz = document.createElement('script');
+            bsz.src = '/libs/others/busuanzi.pure.mini.js';
+            bsz.async = true;
+            document.body.appendChild(bsz);
+        }
+    </script>
+    
+
+    <!-- 雪花特效 -->
+    
+    <script type="text/javascript" src="/libs/others/snow.js"></script>
+    
+
+</body>
+
+</html>

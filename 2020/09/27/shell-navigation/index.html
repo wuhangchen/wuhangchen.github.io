@@ -248,7 +248,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/bing-20260913.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -259,6 +259,12 @@
                 </div>
             </div>
         </div>
+    </div>
+    
+    <div class="bing-copyright">
+        <a href="https://www.bing.com/search?q=%E5%9C%B0%E8%82%A4&form=hpcapt&mkt=zh-cn" target="_blank" rel="noopener">
+        图源:必应每日壁纸 &middot; 地肤田，中国 (© lingqi xie/Getty Images)
+        </a>
     </div>
     
 </div>
@@ -435,11 +441,11 @@
 <p>One important difference between the legacy operating system and Unix-like operating systems such as Linux is that Linux does not employ the concept of drive letters. While drive letters split the file system into a series of different trees (one for each drive), Linux always has a single tree. Different storage devices may contain different branches of the tree, but there is always a single tree.</p>
 <h3 id="pwd"><a href="#pwd" class="headerlink" title="pwd"></a>pwd</h3><p>Since a command line interface cannot provide graphic pictures of the file system structure, it must have a different way of representing it. Think of the file system tree as a maze, and you are standing in it. At any given moment, you are located in a single directory. Inside that directory, you can see its files and the pathway to its <em>parent directory</em> and the pathways to the subdirectories of the directory in which you are standing.</p>
 <p>The directory you are standing in is called the <em>working directory</em>. To find the name of the working directory, use the pwd command.</p>
-<pre class="line-numbers language-console"><code class="language-console">[me@linuxbox me]$ pwd
+<pre class="line-numbers language-console"><code class="language-console"><span class="token punctuation">[</span>me@linuxbox me<span class="token punctuation">]</span>$ <span class="token function">pwd</span>
 /home/me<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>When you first log on to a Linux system, the working directory is set to your <em>home directory</em>. This is where you put your files. On most systems, your home directory will be called /home/your_user_name, but it can be anything according to the whims of the system administrator.</p>
 <p>To list the files in the working directory, use the ls command.</p>
-<pre class="line-numbers language-console"><code class="language-console">[me@linuxbox me]$ ls
+<pre class="line-numbers language-console"><code class="language-console"><span class="token punctuation">[</span>me@linuxbox me<span class="token punctuation">]</span>$ <span class="token function">ls</span>
 Desktop     Xrootenv.0    linuxcmd
 GNUstep     bin           nedit.rpm
 GUILG00.GZ  hitni123.jpg  nsmail<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
@@ -447,11 +453,11 @@ GUILG00.GZ  hitni123.jpg  nsmail<span aria-hidden="true" class="line-numbers-row
 <h3 id="cd"><a href="#cd" class="headerlink" title="cd"></a>cd</h3><p><strong>To change your working directory</strong> (where you are standing in the maze) you use the cd command. To do this, type cd followed by the <em>pathname</em> of the desired working directory. A pathname is the route you take along the branches of the tree to get to the directory you want. Pathnames can be specified in one of two different ways; <em>absolute pathnames</em> or <em>relative pathnames</em>. Let’s look with absolute pathnames first.</p>
 <p>An absolute pathname begins with the root directory and follows the tree branch by branch until the path to the desired directory or file is completed. For example, there is a directory on your system in which most programs are installed. The pathname of the directory is /usr/bin. This means from the root directory (represented by the leading slash in the pathname) there is a directory called “usr” which contains a directory called “bin”.</p>
 <p>Let’s try this out:</p>
-<pre class="line-numbers language-console"><code class="language-console">[me@linuxbox me]$ cd /usr/bin
-[me@linuxbox bin]$ pwd
+<pre class="line-numbers language-console"><code class="language-console"><span class="token punctuation">[</span>me@linuxbox me<span class="token punctuation">]</span>$ <span class="token function">cd</span> /usr/bin
+<span class="token punctuation">[</span>me@linuxbox bin<span class="token punctuation">]</span>$ <span class="token function">pwd</span>
 /usr/bin
-[me@linuxbox bin]$ ls
-[                        lwp-request
+<span class="token punctuation">[</span>me@linuxbox bin<span class="token punctuation">]</span>$ <span class="token function">ls</span>
+<span class="token punctuation">[</span>                        lwp-request
 2to3                     lwp-rget
 2to3-2.6                 lxterm
 a2p                      lz
@@ -465,28 +471,28 @@ addpart                  magnifier<span aria-hidden="true" class="line-numbers-r
 <p>Now we can see that we have changed the current working directory to /usr/bin and that it is full of files. Notice how your prompt has changed? As a convenience, it is usually set up to display the name of the working directory.</p>
 <p>Where an absolute pathname starts from the root directory and leads to its destination, a relative pathname starts from the working directory. To do this, it uses a couple of special notations to represent relative positions in the file system tree. These special notations are “.” (dot) and “..” (dot dot).</p>
 <p>The “.” notation refers to the working directory itself and the “..” notation refers to the working directory’s parent directory. Here is how it works. Let’s change the working directory to /usr/bin again:</p>
-<pre class="line-numbers language-console"><code class="language-console">[me@linuxbox me]$ cd /usr/bin
-[me@linuxbox bin]$ pwd
+<pre class="line-numbers language-console"><code class="language-console"><span class="token punctuation">[</span>me@linuxbox me<span class="token punctuation">]</span>$ <span class="token function">cd</span> /usr/bin
+<span class="token punctuation">[</span>me@linuxbox bin<span class="token punctuation">]</span>$ <span class="token function">pwd</span>
 /usr/bin<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>O.K., now let’s say that we wanted to change the working directory to the parent of /usr/bin which is /usr. We could do that two different ways. First, with an absolute pathname:</p>
-<pre class="line-numbers language-console"><code class="language-console">[me@linuxbox bin]$ cd /usr
-[me@linuxbox usr]$ pwd
+<pre class="line-numbers language-console"><code class="language-console"><span class="token punctuation">[</span>me@linuxbox bin<span class="token punctuation">]</span>$ <span class="token function">cd</span> /usr
+<span class="token punctuation">[</span>me@linuxbox usr<span class="token punctuation">]</span>$ <span class="token function">pwd</span>
 /usr<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>Or, with a relative pathname:</p>
-<pre class="line-numbers language-console"><code class="language-console">[me@linuxbox bin]$ cd ..
-[me@linuxbox usr]$ pwd
+<pre class="line-numbers language-console"><code class="language-console"><span class="token punctuation">[</span>me@linuxbox bin<span class="token punctuation">]</span>$ <span class="token function">cd</span> <span class="token punctuation">..</span>
+<span class="token punctuation">[</span>me@linuxbox usr<span class="token punctuation">]</span>$ <span class="token function">pwd</span>
 /usr<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>Two different methods with identical results. Which one should you use? The one that requires the least typing!</p>
 <p>Likewise, we can change the working directory from /usr to /usr/bin in two different ways. First using an absolute pathname:</p>
-<pre class="line-numbers language-console"><code class="language-console">[me@linuxbox usr]$ cd /usr/bin
-[me@linuxbox bin]$ pwd
+<pre class="line-numbers language-console"><code class="language-console"><span class="token punctuation">[</span>me@linuxbox usr<span class="token punctuation">]</span>$ <span class="token function">cd</span> /usr/bin
+<span class="token punctuation">[</span>me@linuxbox bin<span class="token punctuation">]</span>$ <span class="token function">pwd</span>
 /usr/bin<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>Or, with a relative pathname:</p>
-<pre class="line-numbers language-console"><code class="language-console">[me@linuxbox usr]$ cd ./bin
-[me@linuxbox bin]$ pwd
+<pre class="line-numbers language-console"><code class="language-console"><span class="token punctuation">[</span>me@linuxbox usr<span class="token punctuation">]</span>$ <span class="token function">cd</span> ./bin
+<span class="token punctuation">[</span>me@linuxbox bin<span class="token punctuation">]</span>$ <span class="token function">pwd</span>
 /usr/bin<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>Now, there is something important that I must point out here. In almost all cases, you can omit the “./“. It is implied. Typing:</p>
-<pre class="line-numbers language-console"><code class="language-console">[me@linuxbox usr]$ cd bin<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-console"><code class="language-console"><span class="token punctuation">[</span>me@linuxbox usr<span class="token punctuation">]</span>$ <span class="token function">cd</span> bin<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>would do the same thing. In general, if you do not specify a pathname to something, the working directory will be assumed. There is one important exception to this, but we won’t get to that for a while.</p>
 <h3 id="A-Few-Shortcuts"><a href="#A-Few-Shortcuts" class="headerlink" title="A Few Shortcuts"></a>A Few Shortcuts</h3><p>If you type cd followed by nothing, cd will change the working directory to your home directory.</p>
 <p>A related shortcut is to type cd ~<em>user_name</em>. In this case, cd will change the working directory to the home directory of the specified user.</p>
@@ -635,7 +641,7 @@ addpart                  magnifier<span aria-hidden="true" class="line-numbers-r
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/28.jpg" class="responsive-img" alt="Looking Around">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="Looking Around">
                         
                         <span class="card-title">Looking Around</span>
                     </div>
@@ -684,7 +690,7 @@ addpart                  magnifier<span aria-hidden="true" class="line-numbers-r
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Learning the Shell">
+                        <img src="/medias/featureimages/bing-20260928.jpg" class="responsive-img" alt="Learning the Shell">
                         
                         <span class="card-title">Learning the Shell</span>
                     </div>
@@ -871,7 +877,7 @@ addpart                  magnifier<span aria-hidden="true" class="line-numbers-r
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">189.8k</span>
+            <span class="white-color">484.3k</span>
             
 
             <br>
@@ -906,15 +912,7 @@ addpart                  magnifier<span aria-hidden="true" class="line-numbers-r
 
 
 
-    <a href="https://zhihu.com/people/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
-        <i class="fa fa-inverse">知</i>
-    </a>
 
-
-
-    <a href="http://wpa.qq.com/msgrd?v=3&uin=1714593434&site=qq&menu=yes" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
-        <i class="fa fa-qq"></i>
-    </a>
 
 
 

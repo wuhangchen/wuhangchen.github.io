@@ -258,12 +258,12 @@
 </div>
 <script>
 // 优先使用最新必应壁纸,否则每天切换本地 banner 图.
-$('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.jpg)');
+$('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20261009.jpg)');
 </script>
 
 <div class="bing-copyright">
-    <a href="https://www.bing.com/search?q=%E7%A7%8B%E5%88%86&form=hpcapt&mkt=zh-cn" target="_blank" rel="noopener">
-    图源:必应每日壁纸 &middot; 地坛公园秋日美景，北京，中国 (© by Wei/Adobestock)
+    <a href="https://www.bing.com/search?q=%E4%B8%96%E7%95%8C%E5%80%99%E9%B8%9F%E6%97%A5&form=hpcapt&mkt=zh-cn" target="_blank" rel="noopener">
+    图源:必应每日壁纸 &middot; 蒙特雷湾上空的双冠鸬鹚，加利福尼亚州，美国 (© Hiroya Minakuchi/Minden Pictures)
     </a>
 </div>
 
@@ -284,32 +284,33 @@ $('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/03/29/linux-jin-cheng-xian-cheng-mo-xing/" target="_blank">
+                    <a href="/2023/09/26/rpc-04-go-grpc-fu-wu-duan-liu-shi/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/bing-20260918.jpg" class="responsive-img" alt="Linux 进程与线程模型">
+                            <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="RPC 系列（四）：Go gRPC 服务端流式 RPC">
                             
-                            <span class="card-title">Linux 进程与线程模型</span>
+                            <span class="card-title">RPC 系列（四）：Go gRPC 服务端流式 RPC</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            UNIX 的传统倾向于把一个任务交给一个进程全权受理。但一个任务内部往往不止一个执行流——就像公司里所有人做同一件事，每个人只负责一部分，粒度减小后各事情可以同时进行，同时大家又共享着所有资源。于是就有了线程：线程就是共享资源的不同的执行流
+                            上一篇介绍了简单模式 RPC，当数据量大或者需要不断传输数据的时候，我们应该使用流式 RPC，它允许我们边处理边传输数据。本篇先介绍服务端流式 RPC。
+服务端流式 RPC：客户端发送请求到服务器，拿到一个流去读取返回的消息序列，客户端读取
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-03-29
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2023-09-26
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                                <a href="/categories/gRPC/" class="post-category" target="_blank">
+                                    gRPC
                                 </a>
                                 
                                 
@@ -320,8 +321,8 @@ $('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Linux/" target="_blank">
-                            <span class="chip bg-color">Linux</span>
+                        <a href="/tags/gRPC/" target="_blank">
+                            <span class="chip bg-color">gRPC</span>
                         </a>
                         
                     </div>
@@ -331,33 +332,32 @@ $('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/03/19/tcp-zai-close-wait-zhuang-tai-huan-neng-shou-dao-bao-wen/" target="_blank">
+                    <a href="/2023/09/19/rpc-03-go-grpc-jian-dan-rpc/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/bing-20260908.jpg" class="responsive-img" alt="TCP在CLOSE_WAIT状态还能收到报文">
+                            <img src="/medias/featureimages/bing-20261002.jpg" class="responsive-img" alt="RPC 系列（三）：Go gRPC 简单 RPC">
                             
-                            <span class="card-title">TCP在CLOSE_WAIT状态还能收到报文</span>
+                            <span class="card-title">RPC 系列（三）：Go gRPC 简单 RPC</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            
-我们都知道 TCP 是全双工通信，当客户端发送 FIN 后，服务端回复 ACK 进入 CLOSE_WAIT 状态，这个时候对于客户端来说，发送功能没有了，但是还可以正常接收服务端的数据，对于服务端来说，既可以接收客户端的数据也可以给客户端
+                            gRPC 主要有 4 种请求/响应模式，分别是简单模式（Simple RPC）、服务端流式（Server-side streaming RPC）、客户端流式（Client-side streaming RPC）和双向流式（Bidirecti
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-03-19
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2023-09-19
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/TCP-IP/" class="post-category" target="_blank">
-                                    TCP/IP
+                                <a href="/categories/gRPC/" class="post-category" target="_blank">
+                                    gRPC
                                 </a>
                                 
                                 
@@ -368,8 +368,8 @@ $('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/TCP-IP/" target="_blank">
-                            <span class="chip bg-color">TCP/IP</span>
+                        <a href="/tags/gRPC/" target="_blank">
+                            <span class="chip bg-color">gRPC</span>
                         </a>
                         
                     </div>
@@ -379,32 +379,35 @@ $('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/03/17/linux-jiang-shi-jin-cheng/" target="_blank">
+                    <a href="/2023/09/12/rpc-02-go-grpc-huan-jing-an-zhuang/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Linux 僵尸进程的产生与处理">
+                            <img src="/medias/featureimages/bing-20260919.jpg" class="responsive-img" alt="RPC 系列（二）：Go gRPC 环境安装">
                             
-                            <span class="card-title">Linux 僵尸进程的产生与处理</span>
+                            <span class="card-title">RPC 系列（二）：Go gRPC 环境安装</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            可能很少有人意识到，一个进程调用 exit 之后，它并非马上就消失，而是留下一个称为僵尸进程（Zombie）的数据结构。在 Linux 进程的几种状态中，僵尸进程非常特殊：它已经放弃了几乎所有内存空间，没有任何可执行代码，也不能被调度，仅仅
+                            在开始编写 gRPC 应用之前，需要先安装 protoc 编译器以及 Go 语言相关的依赖包。本篇介绍环境搭建的完整过程。
+安装 protoc根据自身电脑的操作系统，选择 protoc 最新的 releases 版本下载。
+
+解压后在 bi
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-03-17
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2023-09-12
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                                <a href="/categories/gRPC/" class="post-category" target="_blank">
+                                    gRPC
                                 </a>
                                 
                                 
@@ -415,8 +418,8 @@ $('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Linux/" target="_blank">
-                            <span class="chip bg-color">Linux</span>
+                        <a href="/tags/gRPC/" target="_blank">
+                            <span class="chip bg-color">gRPC</span>
                         </a>
                         
                     </div>
@@ -426,33 +429,32 @@ $('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/03/05/linux-gu-er-jin-cheng-yu-jiang-shi-jin-cheng/" target="_blank">
+                    <a href="/2023/09/05/rpc-01-grpc-quan-jing/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="Linux 孤儿进程与僵尸进程">
+                            <img src="/medias/featureimages/bing-20261007.jpg" class="responsive-img" alt="RPC 系列（一）：RPC 与 gRPC 全景">
                             
-                            <span class="card-title">Linux 孤儿进程与僵尸进程</span>
+                            <span class="card-title">RPC 系列（一）：RPC 与 gRPC 全景</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            子进程的结束和父进程的运行是异步的——父进程永远无法预测子进程什么时候结束。那么，会不会因为父进程太忙来不及 wait 子进程，或者不知道子进程何时结束，而丢失子进程结束时的状态信息呢？答案是：不会。
-UNIX 提供了一种机制来保证：只要父
+                            在分布式系统开发中，进程之间经常需要通过网络进行远程通信，RPC 就是让这一过程像调用本地函数一样简单的技术。本文先梳理 RPC 的基本原理，再对 gRPC 框架做整体介绍，最后演示如何编译 gRPC 源码，并用 C++ 跑通一个简单的登录
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-03-05
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2023-09-05
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                                <a href="/categories/gRPC/" class="post-category" target="_blank">
+                                    gRPC
                                 </a>
                                 
                                 
@@ -463,8 +465,8 @@ UNIX 提供了一种机制来保证：只要父
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Linux/" target="_blank">
-                            <span class="chip bg-color">Linux</span>
+                        <a href="/tags/gRPC/" target="_blank">
+                            <span class="chip bg-color">gRPC</span>
                         </a>
                         
                     </div>
@@ -474,33 +476,36 @@ UNIX 提供了一种机制来保证：只要父
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/02/20/linux-jin-cheng-zhuang-tai-xiang-jie/" target="_blank">
+                    <a href="/2023/09/04/rpc-xi-lie-dao-du/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/bing-20260919.jpg" class="responsive-img" alt="Linux 进程状态详解">
+                            <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="RPC 系列导读：从 gRPC 实战到 brpc 内核的完整路径">
                             
-                            <span class="card-title">Linux 进程状态详解</span>
+                            <span class="card-title">RPC 系列导读：从 gRPC 实战到 brpc 内核的完整路径</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            有同事问到 top 命令里的 running、sleep、stop、zombie 等进程状态分别是什么意思，于是借这个机会整理一下 Linux 系统里的进程状态。
-概述进程（Process）即当前正在运行的计算机程序的实例。每个进程都有一些
+                            这个系列把 RPC 的知识整理成了一条由浅入深的完整路径：从「RPC 与 gRPC 全景」的第一问开始，用一套 Go gRPC 教程跑通四种通信形态与超时、认证，再进入 gRPC 的高级专题，随后以 brpc 为主线深入一个工业级 RPC 
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-02-20
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2023-09-04
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                                <a href="/categories/gRPC/" class="post-category" target="_blank">
+                                    gRPC
+                                </a>
+                                
+                                <a href="/categories/bRPC/" class="post-category" target="_blank">
+                                    bRPC
                                 </a>
                                 
                                 
@@ -511,8 +516,12 @@ UNIX 提供了一种机制来保证：只要父
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Linux/" target="_blank">
-                            <span class="chip bg-color">Linux</span>
+                        <a href="/tags/gRPC/" target="_blank">
+                            <span class="chip bg-color">gRPC</span>
+                        </a>
+                        
+                        <a href="/tags/bRPC/" target="_blank">
+                            <span class="chip bg-color">bRPC</span>
                         </a>
                         
                     </div>
@@ -522,36 +531,33 @@ UNIX 提供了一种机制来保证：只要父
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/02/06/linux-shu-ju-lei-xing-json/" target="_blank">
+                    <a href="/2023/08/29/docker-55-kubernetes-jia-gou-she-ji/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="JSON/YAML 数据模型">
+                            <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Docker 系列（五十五）：Kubernetes 架构设计">
                             
-                            <span class="card-title">JSON/YAML 数据模型</span>
+                            <span class="card-title">Docker 系列（五十五）：Kubernetes 架构设计</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            从结构上看，所有的数据最终都可以分解成三种类型：
-
-标量（scalar）：一个单独的字符串或数字，如”北京”。
-序列（sequence）：若干相关数据按顺序并列，又称数组（array）或列表（list），如”北京，上海”。
-映射（mappi
+                            任何优秀的项目都离不开优秀的架构设计。本文将介绍 Kubernetes 在架构方面的设计考虑。
+如果让我们自己从头设计一套容器管理平台，很容易想到需要考虑资源调度、服务发现、故障恢复、水平伸缩等诸多方面。下面这张图完整展示了 Kuberne
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-02-06
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2023-08-29
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                                <a href="/categories/Docker/" class="post-category" target="_blank">
+                                    Docker
                                 </a>
                                 
                                 
@@ -562,8 +568,8 @@ UNIX 提供了一种机制来保证：只要父
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Linux/" target="_blank">
-                            <span class="chip bg-color">Linux</span>
+                        <a href="/tags/Docker/" target="_blank">
+                            <span class="chip bg-color">Docker</span>
                         </a>
                         
                     </div>
@@ -573,35 +579,34 @@ UNIX 提供了一种机制来保证：只要父
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/01/23/linux-cha-xun-duan-kou-zhan-yong/" target="_blank">
+                    <a href="/2023/08/22/docker-54-kubernetes-ji-ben-gai-nian/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="Linux 查看端口占用">
+                            <img src="/medias/featureimages/bing-20260917.jpg" class="responsive-img" alt="Docker 系列（五十四）：Kubernetes 基本概念">
                             
-                            <span class="card-title">Linux 查看端口占用</span>
+                            <span class="card-title">Docker 系列（五十四）：Kubernetes 基本概念</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            一、lsof 查看端口占用用 lsof -i:端口号 可以查看某一端口的占用情况：
-# lsof -i:8000
-COMMAND   PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
-lwfs  
+                            
+Kubernetes 的概念体系可以概括为操作对象、功能组件与功能特性三个层面，如图所示。下面介绍其中最基础的两个概念：节点（Node）与容器组（Pod）。
+节点（Node）在 Kubernetes 中，节点是实际工作的点，节点可以是虚拟
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-01-23
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2023-08-22
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                                <a href="/categories/Docker/" class="post-category" target="_blank">
+                                    Docker
                                 </a>
                                 
                                 
@@ -612,8 +617,8 @@ lwfs
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Linux/" target="_blank">
-                            <span class="chip bg-color">Linux</span>
+                        <a href="/tags/Docker/" target="_blank">
+                            <span class="chip bg-color">Docker</span>
                         </a>
                         
                     </div>
@@ -623,32 +628,34 @@ lwfs
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/01/09/linux-nc/" target="_blank">
+                    <a href="/2023/08/15/docker-53-kubernetes-jian-jie/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/bing-20260920.jpg" class="responsive-img" alt="Linux nc(netcat) 使用指南">
+                            <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Docker 系列（五十三）：Kubernetes 简介">
                             
-                            <span class="card-title">Linux nc(netcat) 使用指南</span>
+                            <span class="card-title">Docker 系列（五十三）：Kubernetes 简介</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            netcat 号称 TCP/IP 的瑞士军刀，以体积小（可执行文件约 200KB）、功能灵活著称，各大发行版默认安装。netcat 主要有 GNU 版本和 OpenBSD 版本，两者在 debian/ubuntu 下均可安装（Windows
+                            从这一篇开始，我们来正式认识 Kubernetes，先从它的定位与来历说起。
+
+Kubernetes 是 Google 团队发起的开源项目，它的目标是管理跨多个主机的容器，提供基本的部署、维护以及应用伸缩，主要实现语言为 Go 语言。作为一
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-01-09
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2023-08-15
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                                <a href="/categories/Docker/" class="post-category" target="_blank">
+                                    Docker
                                 </a>
                                 
                                 
@@ -659,8 +666,8 @@ lwfs
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Linux/" target="_blank">
-                            <span class="chip bg-color">Linux</span>
+                        <a href="/tags/Docker/" target="_blank">
+                            <span class="chip bg-color">Docker</span>
                         </a>
                         
                     </div>
@@ -670,34 +677,32 @@ lwfs
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2019/12/26/linux-netstat/" target="_blank">
+                    <a href="/2023/08/08/docker-52-kubernetes-chu-shi/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Linux netstat 查看网络状态">
+                            <img src="/medias/featureimages/bing-20260928.jpg" class="responsive-img" alt="Docker 系列（五十二）：Kubernetes 初识">
                             
-                            <span class="card-title">Linux netstat 查看网络状态</span>
+                            <span class="card-title">Docker 系列（五十二）：Kubernetes 初识</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            netstat 用于显示各种网络相关信息，如网络连接、路由表、接口状态、masquerade 连接、多播成员等。
-输出信息含义执行 netstat 后，输出分为两部分：
-Active Internet connections (w/o se
+                            在前面的章节里，我们已经可以在单机上熟练地使用 Docker 构建和运行容器。然而当容器化应用走向生产环境、需要跨越多台主机部署时，容器如何调度、服务之间如何发现与通信、节点出现故障后如何自动恢复，单靠 Docker 本身就难以应对了，这就
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-12-26
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2023-08-08
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                                <a href="/categories/Docker/" class="post-category" target="_blank">
+                                    Docker
                                 </a>
                                 
                                 
@@ -708,8 +713,8 @@ Active Internet connections (w/o se
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Linux/" target="_blank">
-                            <span class="chip bg-color">Linux</span>
+                        <a href="/tags/Docker/" target="_blank">
+                            <span class="chip bg-color">Docker</span>
                         </a>
                         
                     </div>
@@ -719,32 +724,35 @@ Active Internet connections (w/o se
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2019/12/12/linux-wang-luo-gong-ju/" target="_blank">
+                    <a href="/2023/08/01/docker-51-docker-ke-hu-duan-ming-ling/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/bing-20260916.jpg" class="responsive-img" alt="Linux 常用网络工具">
+                            <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Docker 系列（五十一）：客户端命令 docker">
                             
-                            <span class="card-title">Linux 常用网络工具</span>
+                            <span class="card-title">Docker 系列（五十一）：客户端命令 docker</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            在 Linux 上监控网络，命令行工具非常实用。常见的工具包括 nethogs、ntopng、nload、iftop、iptraf、bmon、slurm、tcptrack、cbm、netwatch、collectl、trafshow、eth
+                            docker 客户端是与 Docker 守护进程交互的最主要方式，基本命令格式为：
+docker [OPTIONS] COMMAND [ARG...]
+可以通过 docker COMMAND --help 来查看这些命令的具体用法。
+Doc
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-12-12
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2023-08-01
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                                <a href="/categories/Docker/" class="post-category" target="_blank">
+                                    Docker
                                 </a>
                                 
                                 
@@ -755,8 +763,8 @@ Active Internet connections (w/o se
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Linux/" target="_blank">
-                            <span class="chip bg-color">Linux</span>
+                        <a href="/tags/Docker/" target="_blank">
+                            <span class="chip bg-color">Docker</span>
                         </a>
                         
                     </div>
@@ -766,33 +774,32 @@ Active Internet connections (w/o se
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2019/11/28/linux-risk-command/" target="_blank">
+                    <a href="/2023/07/25/docker-50-dockerd-ming-ling/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="Linux 10 个危险命令">
+                            <img src="/medias/featureimages/bing-20260921.jpg" class="responsive-img" alt="Docker 系列（五十）：服务端命令 dockerd">
                             
-                            <span class="card-title">Linux 10 个危险命令</span>
+                            <span class="card-title">Docker 系列（五十）：服务端命令 dockerd</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            Linux 命令行很有用、很高效，但也很危险——尤其是在你不确定自己在做什么的时候。本文列出一些危险命令，最好不要尝试。以下命令通常是在 root 权限下才具备毁灭性；普通用户身份下，破坏的只是自己的文件。
-rm -rfrm -rf 是删除
+                            dockerd 是 Docker 的服务端守护进程，负责镜像管理、容器的创建与运行，以及网络、存储等核心工作。一般情况下，dockerd 由系统的 systemd 服务（服务名通常为 docker）托管，无需手动启动；但在调试或定制配置时，
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-11-28
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2023-07-25
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Linux/" class="post-category" target="_blank">
-                                    Linux
+                                <a href="/categories/Docker/" class="post-category" target="_blank">
+                                    Docker
                                 </a>
                                 
                                 
@@ -803,8 +810,8 @@ rm -rfrm -rf 是删除
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Linux/" target="_blank">
-                            <span class="chip bg-color">Linux</span>
+                        <a href="/tags/Docker/" target="_blank">
+                            <span class="chip bg-color">Docker</span>
                         </a>
                         
                     </div>
@@ -814,32 +821,33 @@ rm -rfrm -rf 是删除
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2019/11/14/c-zhi-yu-yi/" target="_blank">
+                    <a href="/2023/07/18/docker-49-ru-he-diao-shi-docker/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="C++ 工程实践：值语义">
+                            <img src="/medias/featureimages/bing-20260926.jpg" class="responsive-img" alt="Docker 系列（四十九）：如何调试 Docker">
                             
-                            <span class="card-title">C++ 工程实践：值语义</span>
+                            <span class="card-title">Docker 系列（四十九）：如何调试 Docker</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            什么是值语义值语义指的是对象的拷贝与原对象无关，就像拷贝 int 一样。C++ 的内置类型 bool、int、double、char 都是值语义，标准库里的 complex&lt;&gt;、pair&lt;&gt;、vector&lt;&g
+                            排查 Docker 相关问题时，一般可以从开启守护进程的调试日志入手，必要时还可以查看守护进程的运行时堆栈，或者在数据可以丢弃的情况下彻底重置本地数据。本篇介绍这几种常用的调试手段。
+开启调试日志在 dockerd 配置文件 daemon.
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-11-14
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2023-07-18
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/C/" class="post-category" target="_blank">
-                                    C++
+                                <a href="/categories/Docker/" class="post-category" target="_blank">
+                                    Docker
                                 </a>
                                 
                                 
@@ -850,8 +858,8 @@ rm -rfrm -rf 是删除
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/C/" target="_blank">
-                            <span class="chip bg-color">C++</span>
+                        <a href="/tags/Docker/" target="_blank">
+                            <span class="chip bg-color">Docker</span>
                         </a>
                         
                     </div>
@@ -876,7 +884,7 @@ rm -rfrm -rf 是删除
             
         </div>
         <div class="page-info col m4 l4 hide-on-small-only">
-            <div class="center-align b-text-gray">6 / 10</div>
+            <div class="center-align b-text-gray">6 / 24</div>
         </div>
         <div class="col s6 m4 l4">
             
@@ -897,7 +905,7 @@ rm -rfrm -rf 是删除
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">189.8k</span>
+            <span class="white-color">484.3k</span>
             
 
             <br>
@@ -932,15 +940,7 @@ rm -rfrm -rf 是删除
 
 
 
-    <a href="https://zhihu.com/people/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
-        <i class="fa fa-inverse">知</i>
-    </a>
 
-
-
-    <a href="http://wpa.qq.com/msgrd?v=3&uin=1714593434&site=qq&menu=yes" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
-        <i class="fa fa-qq"></i>
-    </a>
 
 
 

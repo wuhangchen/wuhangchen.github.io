@@ -249,7 +249,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/bing-20260916.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -260,12 +260,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    
-    <div class="bing-copyright">
-        <a href="https://www.bing.com/search?q=%E6%A1%91%E7%89%B9%E5%A5%88%E8%91%A1%E8%90%84%E9%85%92%E4%BA%A7%E5%8C%BA&form=hpcapt&mkt=zh-cn" target="_blank" rel="noopener">
-        图源:必应每日壁纸 &middot; 桑特奈葡萄酒产区葡萄园中的索林风车，伯恩丘，勃艮第，法国 (© Marco Bottigelli/Getty Images)
-        </a>
     </div>
     
 </div>
@@ -520,12 +514,12 @@ start to process 3 para
 we get option -a<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>如果输入的选项不支持，就会提示未知选项：</p>
 <pre class="line-numbers language-text"><code class="language-text">$ ./main1 -u
-./main1: invalid option -- 'u'
+./main1: invalid option -- &#39;u&#39;
 start to process 2 para
 unknow option:u<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <p>对于-n 选项，我们需要参数，如果没有参数会怎样？</p>
 <pre class="line-numbers language-text"><code class="language-text">$ ./main1 -n
-./main1: option requires an argument -- 'n'
+./main1: option requires an argument -- &#39;n&#39;
 start to process 2 para
 unknow option:n<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <p>它会提示我们 n 选项需要参数，于是带上参数：</p>
@@ -608,11 +602,11 @@ we get option -h,index 0<span aria-hidden="true" class="line-numbers-rows"><span
 <p>注意，为什么-v 参数的 index 是 0？因为只有长选项才会对应 index。可以看到，使用–跟长选项，单个-后面跟短选项，但是如果是下面这样呢？</p>
 <pre class="line-numbers language-text"><code class="language-text">$ ./main2 -help
 we get option -h,index 0
-./main2: invalid option -- 'e'
+./main2: invalid option -- &#39;e&#39;
 unknow option:e
-./main2: invalid option -- 'l'
+./main2: invalid option -- &#39;l&#39;
 unknow option:l
-./main2: invalid option -- 'p'
+./main2: invalid option -- &#39;p&#39;
 unknow option:p<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>在这里，由于使用的 getopt_long，它对于单个-的字符串，里面每个字符都当成了一个选项，因此 help 对它来说，其实是四个选项，但是后三个不被识别。如果想要-help 也被当成长选项，那么就需要用到 getopt_long_only 函数了。最后，再完整的用一遍：</p>
 <pre class="line-numbers language-text"><code class="language-text">$ ./main2 --help --verbose --number 10
@@ -758,7 +752,7 @@ we get option -n,para is 10<span aria-hidden="true" class="line-numbers-rows"><s
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/bing-20260907.jpg" class="responsive-img" alt="malloc(0) 会返回什么？">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="malloc(0) 会返回什么？">
                         
                         <span class="card-title">malloc(0) 会返回什么？</span>
                     </div>
@@ -812,7 +806,7 @@ else
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="sizeof 的 9 个特殊规则">
+                        <img src="/medias/featureimages/bing-20260926.jpg" class="responsive-img" alt="sizeof 的 9 个特殊规则">
                         
                         <span class="card-title">sizeof 的 9 个特殊规则</span>
                     </div>
@@ -1018,7 +1012,7 @@ else
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">189.8k</span>
+            <span class="white-color">484.3k</span>
             
 
             <br>
@@ -1053,15 +1047,7 @@ else
 
 
 
-    <a href="https://zhihu.com/people/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
-        <i class="fa fa-inverse">知</i>
-    </a>
 
-
-
-    <a href="http://wpa.qq.com/msgrd?v=3&uin=1714593434&site=qq&menu=yes" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
-        <i class="fa fa-qq"></i>
-    </a>
 
 
 

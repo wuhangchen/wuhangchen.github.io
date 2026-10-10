@@ -258,12 +258,12 @@
 </div>
 <script>
 // 优先使用最新必应壁纸,否则每天切换本地 banner 图.
-$('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.jpg)');
+$('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20261009.jpg)');
 </script>
 
 <div class="bing-copyright">
-    <a href="https://www.bing.com/search?q=%E7%A7%8B%E5%88%86&form=hpcapt&mkt=zh-cn" target="_blank" rel="noopener">
-    图源:必应每日壁纸 &middot; 地坛公园秋日美景，北京，中国 (© by Wei/Adobestock)
+    <a href="https://www.bing.com/search?q=%E4%B8%96%E7%95%8C%E5%80%99%E9%B8%9F%E6%97%A5&form=hpcapt&mkt=zh-cn" target="_blank" rel="noopener">
+    图源:必应每日壁纸 &middot; 蒙特雷湾上空的双冠鸬鹚，加利福尼亚州，美国 (© Hiroya Minakuchi/Minden Pictures)
     </a>
 </div>
 
@@ -284,33 +284,33 @@ $('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/12/13/shell-ding-shi-shan-chu-30-tian-qian-de-wen-jian/" target="_blank">
+                    <a href="/2024/06/04/rpc-40-backup-request/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/bing-20260916.jpg" class="responsive-img" alt="定时删除 30 天前的文件：cron 与 find">
+                            <img src="/medias/featureimages/bing-20261005.jpg" class="responsive-img" alt="RPC 系列（四十）：Backup Request 策略">
                             
-                            <span class="card-title">定时删除 30 天前的文件：cron 与 find</span>
+                            <span class="card-title">RPC 系列（四十）：Backup Request 策略</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            服务器上的日志文件如果一直不清理，迟早会把磁盘占满。最省心的办法是用 Linux 的 cron job 定期执行一条 find 命令，自动删掉 30 天前的旧文件。本文以每天清理 /logs 目录为例，记录完整的配置过程。
-编写清理脚本cr
+                            有时为了保证可用性，需要同时访问两路服务，哪个先返回就取哪个。在 brpc 中，这有多种做法。
+在 Channel 中开启 backup requestChannel 开启 backup request 后，会先向其中一个 server 发
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-12-13
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-06-04
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Shell/" class="post-category" target="_blank">
-                                    Shell
+                                <a href="/categories/bRPC/" class="post-category" target="_blank">
+                                    bRPC
                                 </a>
                                 
                                 
@@ -321,8 +321,8 @@ $('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Shell/" target="_blank">
-                            <span class="chip bg-color">Shell</span>
+                        <a href="/tags/bRPC/" target="_blank">
+                            <span class="chip bg-color">bRPC</span>
                         </a>
                         
                     </div>
@@ -332,33 +332,32 @@ $('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/12/06/shell-sed-grep-pi-liang-ti-huan-zi-fu-chuan/" target="_blank">
+                    <a href="/2024/05/28/rpc-39-yi-zhi-xing-ha-xi/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/bing-20260909.jpg" class="responsive-img" alt="用 sed + grep 批量替换目录下文件中的字符串">
+                            <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="RPC 系列（三十九）：brpc 的一致性哈希">
                             
-                            <span class="card-title">用 sed + grep 批量替换目录下文件中的字符串</span>
+                            <span class="card-title">RPC 系列（三十九）：brpc 的一致性哈希</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            改代码时经常遇到这种需求：把整个工程里某个旧字符串全部替换成新的，比如交叉编译工具链从 arm-none-linux-gnueabi- 换成 arm-linux-。手工逐个文件改既慢又容易漏，用 sed 配合 grep 一条命令就能搞定。
-
+                            一些场景希望同样的请求尽量落到一台机器上，比如访问缓存集群时，我们往往希望同一种请求能落到同一个后端上，以充分利用其上已有的缓存，不同的机器承载不同的稳定 working set；而不是随机地散落到所有机器上，那样的话会迫使所有机器缓存所有
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-12-06
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-05-28
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Shell/" class="post-category" target="_blank">
-                                    Shell
+                                <a href="/categories/bRPC/" class="post-category" target="_blank">
+                                    bRPC
                                 </a>
                                 
                                 
@@ -369,8 +368,8 @@ $('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Shell/" target="_blank">
-                            <span class="chip bg-color">Shell</span>
+                        <a href="/tags/bRPC/" target="_blank">
+                            <span class="chip bg-color">bRPC</span>
                         </a>
                         
                     </div>
@@ -380,33 +379,33 @@ $('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/11/29/shell-ln-ruan-lian-jie/" target="_blank">
+                    <a href="/2024/05/21/rpc-38-lalb-suan-fa/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/bing-20260919.jpg" class="responsive-img" alt="ln -s 软链接使用指南与常见误区">
+                            <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="RPC 系列（三十八）：lalb 自适应负载均衡">
                             
-                            <span class="card-title">ln -s 软链接使用指南与常见误区</span>
+                            <span class="card-title">RPC 系列（三十八）：lalb 自适应负载均衡</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            在 Linux 下，ln -s 用来创建软链接（也叫符号链接），作用类似 Windows 里的快捷方式：它指向真实的源文件或源目录，访问链接就等于访问源。本文整理了软链接的常见用法、容易踩的坑，以及它与硬链接的区别。
-基本用法创建软链接的命
+                            LALB 全称 Locality-aware load balancing，是一个能把请求及时、自动地送到延时最低的下游的负载均衡算法，特别适合混合部署环境。该算法产生自 DP 系统，现已加入 brpc。
+为什么需要 LALB最常见的分流算
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-11-29
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-05-21
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Shell/" class="post-category" target="_blank">
-                                    Shell
+                                <a href="/categories/bRPC/" class="post-category" target="_blank">
+                                    bRPC
                                 </a>
                                 
                                 
@@ -417,8 +416,8 @@ $('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Shell/" target="_blank">
-                            <span class="chip bg-color">Shell</span>
+                        <a href="/tags/bRPC/" target="_blank">
+                            <span class="chip bg-color">bRPC</span>
                         </a>
                         
                     </div>
@@ -428,34 +427,32 @@ $('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/11/22/shell-fen-ge-zi-fu-chuan/" target="_blank">
+                    <a href="/2024/05/14/rpc-37-fu-zai-jun-heng/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="Shell 分割字符串的常用方法">
+                            <img src="/medias/featureimages/bing-20261009.jpg" class="responsive-img" alt="RPC 系列（三十七）：brpc 的负载均衡">
                             
-                            <span class="card-title">Shell 分割字符串的常用方法</span>
+                            <span class="card-title">RPC 系列（三十七）：brpc 的负载均衡</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            处理日志、配置文件或命令输出时，按分隔符把一个字符串切成几段是最常见的操作之一。Shell 下能做这件事的工具不少：cut、awk、IFS、参数展开、tr 各有适用场景，本文逐一给出示例。
-以下示例统一使用这个字符串：
-str="192.1
+                            上游一般通过命名服务发现所有的下游节点，并通过多种负载均衡方法把流量分配给下游节点。当下游节点出现问题时，它可能会被隔离以提高负载均衡的效率。被隔离的节点会定期被健康检查，成功后重新加入正常节点。理解「命名服务 + 负载均衡 + 健康检查」
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-11-22
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-05-14
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Shell/" class="post-category" target="_blank">
-                                    Shell
+                                <a href="/categories/bRPC/" class="post-category" target="_blank">
+                                    bRPC
                                 </a>
                                 
                                 
@@ -466,8 +463,8 @@ str="192.1
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Shell/" target="_blank">
-                            <span class="chip bg-color">Shell</span>
+                        <a href="/tags/bRPC/" target="_blank">
+                            <span class="chip bg-color">bRPC</span>
                         </a>
                         
                     </div>
@@ -477,33 +474,32 @@ str="192.1
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/11/15/shell-huo-qu-jiao-ben-suo-zai-mu-lu-de-jue-dui-lu-jing/" target="_blank">
+                    <a href="/2024/05/07/rpc-36-zu-he-tong-dao/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/28.jpg" class="responsive-img" alt="获取 Shell 脚本所在目录的绝对路径">
+                            <img src="/medias/featureimages/bing-20260922.jpg" class="responsive-img" alt="RPC 系列（三十六）：brpc 的组合通道">
                             
-                            <span class="card-title">获取 Shell 脚本所在目录的绝对路径</span>
+                            <span class="card-title">RPC 系列（三十六）：brpc 的组合通道</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            写脚本时经常需要引用脚本同目录下的其他文件（配置、日志目录、依赖脚本等）。这时很多人的第一反应是用 pwd 或者 $0，但这两种做法都有陷阱。总结一下，最可靠的做法其实就是一条命令：
-root_path=$(cd $(dirname ${B
+                            随着服务规模的增大，对下游的访问流程会越来越复杂，其中往往包含多个同时发起的 RPC 或有复杂的层次结构。但这类代码的多线程陷阱很多，用户可能写出了 bug 也不自知，复现和调试也比较困难。而且实现要么只能支持同步的情况，要么得为异步重写一
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-11-15
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-05-07
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Shell/" class="post-category" target="_blank">
-                                    Shell
+                                <a href="/categories/bRPC/" class="post-category" target="_blank">
+                                    bRPC
                                 </a>
                                 
                                 
@@ -514,8 +510,8 @@ root_path=$(cd $(dirname ${B
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Shell/" target="_blank">
-                            <span class="chip bg-color">Shell</span>
+                        <a href="/tags/bRPC/" target="_blank">
+                            <span class="chip bg-color">bRPC</span>
                         </a>
                         
                     </div>
@@ -525,33 +521,33 @@ root_path=$(cd $(dirname ${B
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/11/08/shell-history/" target="_blank">
+                    <a href="/2024/04/30/rpc-35-brpc-client/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="history：让历史命令显示执行时间">
+                            <img src="/medias/featureimages/bing-20260912.jpg" class="responsive-img" alt="RPC 系列（三十五）：brpc Client 全解">
                             
-                            <span class="card-title">history：让历史命令显示执行时间</span>
+                            <span class="card-title">RPC 系列（三十五）：brpc Client 全解</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            Linux 下用 history 查看历史命令时，默认只显示序号和命令本身，看不到这条命令是什么时候执行的，排查问题时很不方便。其实只要设置 HISTTIMEFORMAT 环境变量，就能让 history 显示每条命令的执行时间。
-临时生效
+                            本文对应的示例是 example/echo_c++ 中的 client 端代码。
+Client 指发起请求的一端，在 brpc 中没有对应的实体，取而代之的是 brpc::Channel，它代表和一台或一组服务器的交互通道。Client 和
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-11-08
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-04-30
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Shell/" class="post-category" target="_blank">
-                                    Shell
+                                <a href="/categories/bRPC/" class="post-category" target="_blank">
+                                    bRPC
                                 </a>
                                 
                                 
@@ -562,8 +558,8 @@ root_path=$(cd $(dirname ${B
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Shell/" target="_blank">
-                            <span class="chip bg-color">Shell</span>
+                        <a href="/tags/bRPC/" target="_blank">
+                            <span class="chip bg-color">bRPC</span>
                         </a>
                         
                     </div>
@@ -573,37 +569,32 @@ root_path=$(cd $(dirname ${B
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/11/01/shell-kuai-jie-jian/" target="_blank">
+                    <a href="/2024/04/23/rpc-34-server-diao-shi/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="Shell 快捷键速查">
+                            <img src="/medias/featureimages/24.jpg" class="responsive-img" alt="RPC 系列（三十四）：brpc Server 的调试方法">
                             
-                            <span class="card-title">Shell 快捷键速查</span>
+                            <span class="card-title">RPC 系列（三十四）：brpc Server 的调试方法</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            在终端里熟练使用快捷键，能大幅减少手在键盘和鼠标之间来回移动的时间。本文按功能对 Bash 中常用的 Ctrl 快捷键进行分组整理，方便速查。特别提醒：Ctrl+D 在不同语境下有两种完全不同的含义，文末会单独说明。
-光标移动
-
-
-快捷键
-
+                            工作线程是否够用查看 /vars/bthread_worker_count 和 /vars/bthread_worker_usage，分别是工作线程的个数和正在被使用的工作线程个数。如果 usage 和 count 接近，说明线程不够用了。
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-11-01
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-04-23
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Shell/" class="post-category" target="_blank">
-                                    Shell
+                                <a href="/categories/bRPC/" class="post-category" target="_blank">
+                                    bRPC
                                 </a>
                                 
                                 
@@ -614,8 +605,8 @@ root_path=$(cd $(dirname ${B
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Shell/" target="_blank">
-                            <span class="chip bg-color">Shell</span>
+                        <a href="/tags/bRPC/" target="_blank">
+                            <span class="chip bg-color">bRPC</span>
                         </a>
                         
                     </div>
@@ -625,34 +616,42 @@ root_path=$(cd $(dirname ${B
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/10/25/shell-jiao-ben-tiao-jian/" target="_blank">
+                    <a href="/2024/04/16/rpc-33-lian-jie-guan-li/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Shell 脚本条件判断详解">
+                            <img src="/medias/featureimages/25.jpg" class="responsive-img" alt="RPC 系列（三十三）：brpc 的连接管理">
                             
-                            <span class="card-title">Shell 脚本条件判断详解</span>
+                            <span class="card-title">RPC 系列（三十三）：brpc 的连接管理</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            条件判断是 Shell 脚本流程控制的基石。本文系统整理 if 语句的基本语法、[ ] 中的各类测试条件，以及 (( )) 和 [[ ]] 这两种高级写法，并附上常见用法示例。
-基本语法if [ command ]; then
-    符合
+                            /connections 服务可以查看所有的连接。一个典型的页面如下。
+server 端的连接（server_socket_count: 5）：
+
+
+
+CreatedTime
+RemoteSide
+SSL
+Protocol
+fd
+Bytes
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-10-25
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-04-16
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Shell/" class="post-category" target="_blank">
-                                    Shell
+                                <a href="/categories/bRPC/" class="post-category" target="_blank">
+                                    bRPC
                                 </a>
                                 
                                 
@@ -663,8 +662,8 @@ root_path=$(cd $(dirname ${B
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Shell/" target="_blank">
-                            <span class="chip bg-color">Shell</span>
+                        <a href="/tags/bRPC/" target="_blank">
+                            <span class="chip bg-color">bRPC</span>
                         </a>
                         
                     </div>
@@ -674,33 +673,32 @@ root_path=$(cd $(dirname ${B
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/10/18/shell-ji-chu-yu-fa/" target="_blank">
+                    <a href="/2024/04/09/rpc-32-vars-bian-liang/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/bing-20260920.jpg" class="responsive-img" alt="Shell 基础语法：变量、条件、循环与函数">
+                            <img src="/medias/featureimages/bing-20260915.jpg" class="responsive-img" alt="RPC 系列（三十二）：brpc 的 vars 变量">
                             
-                            <span class="card-title">Shell 基础语法：变量、条件、循环与函数</span>
+                            <span class="card-title">RPC 系列（三十二）：brpc 的 vars 变量</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            Shell 脚本是 Linux 运维和日常开发中最常用的自动化工具。本文整理 Shell 最基础的语法知识：变量的定义与引用、字符串操作、条件判断、循环、函数，以及一个脚本究竟有哪几种执行方式、它们之间有什么区别。
-变量的定义与引用变量名由
+                            bvar 是多线程环境下的计数器类库，方便记录和查看用户程序中的各类数值，它利用了 thread local 存储减少了 cache bouncing，相比 UbMonitor（百度内的老计数器库）几乎不会给程序增加性能开销，也快于竞争频繁
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-10-18
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-04-09
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Shell/" class="post-category" target="_blank">
-                                    Shell
+                                <a href="/categories/bRPC/" class="post-category" target="_blank">
+                                    bRPC
                                 </a>
                                 
                                 
@@ -711,8 +709,8 @@ root_path=$(cd $(dirname ${B
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Shell/" target="_blank">
-                            <span class="chip bg-color">Shell</span>
+                        <a href="/tags/bRPC/" target="_blank">
+                            <span class="chip bg-color">bRPC</span>
                         </a>
                         
                     </div>
@@ -722,32 +720,32 @@ root_path=$(cd $(dirname ${B
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/10/11/shell-a-guided-tour/" target="_blank">
+                    <a href="/2024/04/02/rpc-31-bvar-zhi-biao/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="A Guided Tour">
+                            <img src="/medias/featureimages/bing-20261006.jpg" class="responsive-img" alt="RPC 系列（三十一）：bvar 与性能指标">
                             
-                            <span class="card-title">A Guided Tour</span>
+                            <span class="card-title">RPC 系列（三十一）：bvar 与性能指标</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            A Guided TourIt’s time to take our tour. The table below lists some interesting places to explore. This is by no means a
+                            bvar 是多线程环境下的计数器类库，方便记录和查看用户程序中的各类数值。它利用了 thread local 存储减少了 cache bouncing，相比 UbMonitor（百度内的老计数器库）几乎不会给程序增加性能开销，也快于竞争频繁
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-10-11
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-04-02
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Shell/" class="post-category" target="_blank">
-                                    Shell
+                                <a href="/categories/bRPC/" class="post-category" target="_blank">
+                                    bRPC
                                 </a>
                                 
                                 
@@ -758,8 +756,8 @@ root_path=$(cd $(dirname ${B
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Shell/" target="_blank">
-                            <span class="chip bg-color">Shell</span>
+                        <a href="/tags/bRPC/" target="_blank">
+                            <span class="chip bg-color">bRPC</span>
                         </a>
                         
                     </div>
@@ -769,32 +767,32 @@ root_path=$(cd $(dirname ${B
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/10/04/shell-looking-around/" target="_blank">
+                    <a href="/2024/03/26/rpc-30-rpcz-guan-ce/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/28.jpg" class="responsive-img" alt="Looking Around">
+                            <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="RPC 系列（三十）：用 rpcz 观测 RPC">
                             
-                            <span class="card-title">Looking Around</span>
+                            <span class="card-title">RPC 系列（三十）：用 rpcz 观测 RPC</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            Looking AroundNow that you know how to move from working directory to working directory, we’re going to take a tour of y
+                            用户能通过 /rpcz 看到最近请求的详细信息，并可以插入注释（annotation）。不同于 tracing system（如 Dapper）以全局视角看到整体系统的延时分布，rpcz 更多是一个调试工具。虽然角色有所不同，但在 brpc
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-10-04
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-03-26
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Shell/" class="post-category" target="_blank">
-                                    Shell
+                                <a href="/categories/bRPC/" class="post-category" target="_blank">
+                                    bRPC
                                 </a>
                                 
                                 
@@ -805,8 +803,8 @@ root_path=$(cd $(dirname ${B
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Shell/" target="_blank">
-                            <span class="chip bg-color">Shell</span>
+                        <a href="/tags/bRPC/" target="_blank">
+                            <span class="chip bg-color">bRPC</span>
                         </a>
                         
                     </div>
@@ -816,32 +814,32 @@ root_path=$(cd $(dirname ${B
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/09/27/shell-navigation/" target="_blank">
+                    <a href="/2024/03/19/rpc-29-gflags-pei-zhi/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="Navigation">
+                            <img src="/medias/featureimages/bing-20260911.jpg" class="responsive-img" alt="RPC 系列（二十九）：brpc 的 gflags 配置">
                             
-                            <span class="card-title">Navigation</span>
+                            <span class="card-title">RPC 系列（二十九）：brpc 的 gflags 配置</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            NavigationIn this lesson, I will introduce your first three commands: pwd (print working directory), cd (change director
+                            brpc 使用 gflags 管理配置。如果你的程序也使用 gflags，那么你应该已经可以修改和 brpc 相关的 flags，你可以浏览 flags 服务了解每个 flag 的具体功能。如果你的程序还没有使用 gflags，我们建议你使
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-09-27
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-03-19
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Shell/" class="post-category" target="_blank">
-                                    Shell
+                                <a href="/categories/bRPC/" class="post-category" target="_blank">
+                                    bRPC
                                 </a>
                                 
                                 
@@ -852,8 +850,8 @@ root_path=$(cd $(dirname ${B
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Shell/" target="_blank">
-                            <span class="chip bg-color">Shell</span>
+                        <a href="/tags/bRPC/" target="_blank">
+                            <span class="chip bg-color">bRPC</span>
                         </a>
                         
                     </div>
@@ -878,7 +876,7 @@ root_path=$(cd $(dirname ${B
             
         </div>
         <div class="page-info col m4 l4 hide-on-small-only">
-            <div class="center-align b-text-gray">3 / 10</div>
+            <div class="center-align b-text-gray">3 / 24</div>
         </div>
         <div class="col s6 m4 l4">
             
@@ -899,7 +897,7 @@ root_path=$(cd $(dirname ${B
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">189.8k</span>
+            <span class="white-color">484.3k</span>
             
 
             <br>
@@ -934,15 +932,7 @@ root_path=$(cd $(dirname ${B
 
 
 
-    <a href="https://zhihu.com/people/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
-        <i class="fa fa-inverse">知</i>
-    </a>
 
-
-
-    <a href="http://wpa.qq.com/msgrd?v=3&uin=1714593434&site=qq&menu=yes" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
-        <i class="fa fa-qq"></i>
-    </a>
 
 
 

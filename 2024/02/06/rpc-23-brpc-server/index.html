@@ -1,0 +1,1611 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="RPC 系列（二十三）：brpc Server 全解, C++ Linux PRC Go Docker">
+    <meta name="baidu-site-verification" content="fmlEuI34ir">
+    <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
+    <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
+    <meta name="description" content="下面以 Echo 为例说明 brpc Server 的定义与使用方法。
+填写 proto 文件请求、回复、服务的接口均定义在 proto 文件中。
+# 告诉protoc要生成C++ Service基类，如果是java或python，则应分别">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>RPC 系列（二十三）：brpc Server 全解 | 吴杭沉的博客</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?ce84511d3df71640a9378a69f6293044";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    
+        <script>
+            (function(){
+                var bp = document.createElement('script');
+                var curProtocol = window.location.protocol.split(':')[0];
+                if (curProtocol === 'https') {
+                    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+                }
+                else {
+                    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+                }
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(bp, s);
+            })();
+        </script>
+    
+
+    <script>
+        (function(){
+        var src = "https://jspassport.ssl.qhimg.com/11.0.1.js?d182b3f28525f2db83acfaaf6e696dba";
+        document.write('<script src="' + src + '" id="sozz"><\/script>');
+        })();
+    </script>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">吴杭沉的博客</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/contact" class="waves-effect waves-light">
+            
+            <i class="fa fa-comments"></i>
+            
+            <span>留言板</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">吴杭沉的博客</div>
+        <div class="logo-desc">
+            
+            善良比聪明更重要
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contact" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-comments"></i>
+                
+                留言板
+            </a>
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/28.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        RPC 系列（二十三）：brpc Server 全解
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/bRPC/" target="_blank">
+                            <span class="chip bg-color">bRPC</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/bRPC/" class="post-category" target="_blank">
+                            bRPC
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-02-06
+                </div>
+
+                <div class="post-author info-break-policy">
+                    <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
+                    
+                    吴杭沉
+                    
+                </div>
+
+                
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    9.9k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    41 分
+                </div>
+                
+                
+
+                
+                <div id="busuanzi_container_page_pv" class="info-break-policy" style='display:none'>
+                    <i class="fa fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                    <span id="busuanzi_value_page_pv"></span>
+                </div>
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>下面以 Echo 为例说明 brpc Server 的定义与使用方法。</p>
+<h2 id="填写-proto-文件"><a href="#填写-proto-文件" class="headerlink" title="填写 proto 文件"></a>填写 proto 文件</h2><p>请求、回复、服务的接口均定义在 proto 文件中。</p>
+<pre class="line-numbers language-protobuf"><code class="language-protobuf"># 告诉protoc要生成C<span class="token operator">++</span> Service基类，如果是java或python，则应分别修改为java_generic_services和py_generic_services
+option cc_generic_services <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+
+<span class="token keyword">message</span> EchoRequest <span class="token punctuation">{</span>
+      <span class="token builtin">required</span> <span class="token primitive symbol">string</span> <span class="token keyword">message</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">message</span> EchoResponse <span class="token punctuation">{</span>
+      <span class="token builtin">required</span> <span class="token primitive symbol">string</span> <span class="token keyword">message</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+service EchoService <span class="token punctuation">{</span>
+      rpc <span class="token function">Echo</span><span class="token punctuation">(</span>EchoRequest<span class="token punctuation">)</span> <span class="token function">returns</span> <span class="token punctuation">(</span>EchoResponse<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>protobuf 的更多用法请阅读其官方文档。</p>
+<h2 id="实现生成的-Service-接口"><a href="#实现生成的-Service-接口" class="headerlink" title="实现生成的 Service 接口"></a>实现生成的 Service 接口</h2><p>protoc 运行后会生成 echo.pb.cc 和 echo.pb.h 文件，你得 include echo.pb.h，实现其中的 <code>EchoService</code> 基类：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"echo.pb.h"</span></span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token keyword">class</span> <span class="token class-name">MyEchoService</span> <span class="token operator">:</span> <span class="token keyword">public</span> EchoService <span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">void</span> <span class="token function">Echo</span><span class="token punctuation">(</span><span class="token operator">::</span>google<span class="token operator">::</span>protobuf<span class="token operator">::</span>RpcController<span class="token operator">*</span> cntl_base<span class="token punctuation">,</span>
+              <span class="token keyword">const</span> <span class="token operator">::</span>example<span class="token operator">::</span>EchoRequest<span class="token operator">*</span> request<span class="token punctuation">,</span>
+              <span class="token operator">::</span>example<span class="token operator">::</span>EchoResponse<span class="token operator">*</span> response<span class="token punctuation">,</span>
+              <span class="token operator">::</span>google<span class="token operator">::</span>protobuf<span class="token operator">::</span>Closure<span class="token operator">*</span> done<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 这个对象确保在return时自动调用done->Run()</span>
+        brpc<span class="token operator">::</span>ClosureGuard <span class="token function">done_guard</span><span class="token punctuation">(</span>done<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        brpc<span class="token operator">::</span>Controller<span class="token operator">*</span> cntl <span class="token operator">=</span> <span class="token keyword">static_cast</span><span class="token operator">&lt;</span>brpc<span class="token operator">::</span>Controller<span class="token operator">*</span><span class="token operator">></span><span class="token punctuation">(</span>cntl_base<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">// 填写response</span>
+        response<span class="token operator">-</span><span class="token operator">></span><span class="token function">set_message</span><span class="token punctuation">(</span>request<span class="token operator">-</span><span class="token operator">></span><span class="token function">message</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Service 在插入 <code>brpc::Server</code> 后才可能提供服务。</p>
+<p>当客户端发来请求时，<code>Echo()</code> 会被调用。参数的含义分别是：</p>
+<ul>
+<li><strong>controller</strong>：在 brpc 中可以静态转为 <code>brpc::Controller</code>（前提是代码运行在 <code>brpc::Server</code> 中），包含了所有 request 和 response 之外的参数集合，具体接口查阅 <code>controller.h</code>。</li>
+<li><strong>request</strong>：请求，只读的，来自 client 端的数据包。</li>
+<li><strong>response</strong>：回复，需要用户填充，如果存在 <code>required</code> 字段没有被设置，该次调用会失败。</li>
+<li><strong>done</strong>：由框架创建，递给服务回调，包含了调用服务回调后的后续动作，包括检查 response 正确性、序列化、打包、发送等逻辑。</li>
+</ul>
+<p><strong>不管成功失败，<code>done-&gt;Run()</code> 必须在请求处理完成后被用户调用一次。</strong></p>
+<p>为什么框架不自己调用 done-&gt;Run()？这是为了允许用户把 done 保存下来，在服务回调之后的某事件发生时再调用，即实现<strong>异步 Service</strong>。</p>
+<p>强烈建议使用 <code>ClosureGuard</code> 确保 done-&gt;Run() 被调用，即在服务回调开头的那句：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">brpc<span class="token operator">::</span>ClosureGuard <span class="token function">done_guard</span><span class="token punctuation">(</span>done<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>不管在中间还是末尾脱离服务回调，都会使 done_guard 析构，其中会调用 done-&gt;Run()。这个机制称为 RAII。没有这个的话你得在每次 return 前都加上 done-&gt;Run()，极易忘记。</p>
+<p>在异步 Service 中，退出服务回调时请求未处理完成，done-&gt;Run() 不应被调用，done 应被保存下来供以后调用。乍看起来，这里并不需要用 ClosureGuard。但在实践中，异步 Service 照样会因各种原因跳出回调，如果不使用 ClosureGuard，一些分支很可能会在 return 前忘记调用 done-&gt;Run()，所以我们也建议在异步 Service 中使用 done_guard。与同步 Service 不同的是，为了避免正常脱离函数时 done-&gt;Run() 也被调用，你可以调用 <code>done_guard.release()</code> 来释放其中的 done。</p>
+<p>一般来说，同步 Service 和异步 Service 分别按如下代码处理 done：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">MyFooService</span> <span class="token operator">:</span> <span class="token keyword">public</span> FooService <span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token comment" spellcheck="true">// 同步服务</span>
+    <span class="token keyword">void</span> <span class="token function">SyncFoo</span><span class="token punctuation">(</span><span class="token operator">::</span>google<span class="token operator">::</span>protobuf<span class="token operator">::</span>RpcController<span class="token operator">*</span> cntl_base<span class="token punctuation">,</span>
+                 <span class="token keyword">const</span> <span class="token operator">::</span>example<span class="token operator">::</span>EchoRequest<span class="token operator">*</span> request<span class="token punctuation">,</span>
+                 <span class="token operator">::</span>example<span class="token operator">::</span>EchoResponse<span class="token operator">*</span> response<span class="token punctuation">,</span>
+                 <span class="token operator">::</span>google<span class="token operator">::</span>protobuf<span class="token operator">::</span>Closure<span class="token operator">*</span> done<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        brpc<span class="token operator">::</span>ClosureGuard <span class="token function">done_guard</span><span class="token punctuation">(</span>done<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// 异步服务</span>
+    <span class="token keyword">void</span> <span class="token function">AsyncFoo</span><span class="token punctuation">(</span><span class="token operator">::</span>google<span class="token operator">::</span>protobuf<span class="token operator">::</span>RpcController<span class="token operator">*</span> cntl_base<span class="token punctuation">,</span>
+                  <span class="token keyword">const</span> <span class="token operator">::</span>example<span class="token operator">::</span>EchoRequest<span class="token operator">*</span> request<span class="token punctuation">,</span>
+                  <span class="token operator">::</span>example<span class="token operator">::</span>EchoResponse<span class="token operator">*</span> response<span class="token punctuation">,</span>
+                  <span class="token operator">::</span>google<span class="token operator">::</span>protobuf<span class="token operator">::</span>Closure<span class="token operator">*</span> done<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        brpc<span class="token operator">::</span>ClosureGuard <span class="token function">done_guard</span><span class="token punctuation">(</span>done<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+        done_guard<span class="token punctuation">.</span><span class="token function">release</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>ClosureGuard 的接口如下：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">// RAII: Call Run() of the closure on destruction.</span>
+<span class="token keyword">class</span> <span class="token class-name">ClosureGuard</span> <span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token function">ClosureGuard</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// Constructed with a closure which will be Run() inside dtor.</span>
+    <span class="token keyword">explicit</span> <span class="token function">ClosureGuard</span><span class="token punctuation">(</span>google<span class="token operator">::</span>protobuf<span class="token operator">::</span>Closure<span class="token operator">*</span> done<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// Call Run() of internal closure if it's not NULL.</span>
+    <span class="token operator">~</span><span class="token function">ClosureGuard</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// Call Run() of internal closure if it's not NULL and set it to `done'.</span>
+    <span class="token keyword">void</span> <span class="token function">reset</span><span class="token punctuation">(</span>google<span class="token operator">::</span>protobuf<span class="token operator">::</span>Closure<span class="token operator">*</span> done<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// Set internal closure to NULL and return the one before set.</span>
+    google<span class="token operator">::</span>protobuf<span class="token operator">::</span>Closure<span class="token operator">*</span> <span class="token function">release</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="标记当前调用为失败"><a href="#标记当前调用为失败" class="headerlink" title="标记当前调用为失败"></a>标记当前调用为失败</h2><p>调用 <code>Controller.SetFailed()</code> 可以把当前调用设置为失败，当发送过程出现错误时，框架也会调用这个函数。用户一般是在服务的 CallMethod 里调用这个函数，比如某个处理环节出错，SetFailed() 后确认 done-&gt;Run() 被调用了就可以跳出函数了（若使用了 ClosureGuard，跳出函数时会自动调用 done，不用手动调用）。Server 端的 done 的逻辑主要是发送 response 回 client，当其发现用户调用了 SetFailed() 后，会把错误信息送回 client。client 收到后，它的 <code>Controller::Failed()</code> 会为 true（成功时为 false），<code>Controller::ErrorCode()</code> 和 <code>Controller::ErrorText()</code> 则分别是错误码和错误信息。</p>
+<p>用户可以为 http 访问设置 status-code，在 server 端一般是调用 <code>controller.http_response().set_status_code()</code>，标准的 status-code 定义在 <code>http_status_code.h</code> 中。<code>Controller.SetFailed()</code> 也会设置 status-code，值是与错误码含义最接近的 status-code，没有相关的则填 500 错误（<code>brpc::HTTP_STATUS_INTERNAL_SERVER_ERROR</code>）。如果你要覆盖 status_code，设置代码一定要放在 SetFailed() 之后，而不是之前。</p>
+<h2 id="获取-Client-的地址"><a href="#获取-Client-的地址" class="headerlink" title="获取 Client 的地址"></a>获取 Client 的地址</h2><p><code>controller-&gt;remote_side()</code> 可获得发送该请求的 client 地址和端口，类型是 <code>butil::EndPoint</code>。如果 client 是 nginx，remote_side() 是 nginx 的地址。要获取真实 client 的地址，可以在 nginx 里设置 <code>proxy_header ClientIp $remote_addr;</code>，在 rpc 中通过 <code>controller-&gt;http_request().GetHeader(&quot;ClientIp&quot;)</code> 获得对应的值。</p>
+<p>打印方式：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token function">LOG</span><span class="token punctuation">(</span>INFO<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"remote_side="</span> <span class="token operator">&lt;&lt;</span> cntl<span class="token operator">-</span><span class="token operator">></span><span class="token function">remote_side</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"remote_side=%s\n"</span><span class="token punctuation">,</span> butil<span class="token operator">::</span><span class="token function">endpoint2str</span><span class="token punctuation">(</span>cntl<span class="token operator">-</span><span class="token operator">></span><span class="token function">remote_side</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="获取-Server-的地址"><a href="#获取-Server-的地址" class="headerlink" title="获取 Server 的地址"></a>获取 Server 的地址</h2><p><code>controller-&gt;local_side()</code> 获得 server 端的地址，类型是 <code>butil::EndPoint</code>。打印方式：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token function">LOG</span><span class="token punctuation">(</span>INFO<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"local_side="</span> <span class="token operator">&lt;&lt;</span> cntl<span class="token operator">-</span><span class="token operator">></span><span class="token function">local_side</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"local_side=%s\n"</span><span class="token punctuation">,</span> butil<span class="token operator">::</span><span class="token function">endpoint2str</span><span class="token punctuation">(</span>cntl<span class="token operator">-</span><span class="token operator">></span><span class="token function">local_side</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="异步-Service"><a href="#异步-Service" class="headerlink" title="异步 Service"></a>异步 Service</h2><p>异步 Service 即 done-&gt;Run() 在 Service 回调之外被调用。</p>
+<p>有些 server 以等待后端服务返回结果为主，且处理时间特别长，为了及时地释放出线程资源，更好的办法是把 done 注册到被等待事件的回调中，等到事件发生后再调用 done-&gt;Run()。</p>
+<p>异步 Service 的最后一行一般是 <code>done_guard.release()</code>，以确保正常退出 CallMethod 时不会调用 done-&gt;Run()。完整例子可参考 example/session_data_and_thread_local。</p>
+<p>Service 和 Channel 都可以使用 done 来表达后续的操作，但它们是<strong>完全不同</strong>的，请勿混淆：</p>
+<ul>
+<li>Service 的 done 由框架创建，用户处理请求后调用 done 把 response 发回给 client。</li>
+<li>Channel 的 done 由用户创建，待 RPC 结束后被框架调用以执行用户的后续代码。</li>
+</ul>
+<p>在一个会访问下游服务的异步服务中会同时接触两者，容易搞混，请注意区分。</p>
+<h2 id="加入-Service"><a href="#加入-Service" class="headerlink" title="加入 Service"></a>加入 Service</h2><p>默认构造后的 Server 不包含任何服务，也不会对外提供服务，仅仅是一个对象。</p>
+<p>通过如下方法插入你的 Service 实例：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">int</span> <span class="token function">AddService</span><span class="token punctuation">(</span>google<span class="token operator">::</span>protobuf<span class="token operator">::</span>Service<span class="token operator">*</span> service<span class="token punctuation">,</span> ServiceOwnership ownership<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>若 ownership 参数为 <code>SERVER_OWNS_SERVICE</code>，Server 在析构时会一并删除 Service，否则应设为 <code>SERVER_DOESNT_OWN_SERVICE</code>。</p>
+<p>插入 MyEchoService 代码如下：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">brpc<span class="token operator">::</span>Server server<span class="token punctuation">;</span>
+MyEchoService my_echo_service<span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>server<span class="token punctuation">.</span><span class="token function">AddService</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>my_echo_service<span class="token punctuation">,</span> brpc<span class="token operator">::</span>SERVER_DOESNT_OWN_SERVICE<span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">LOG</span><span class="token punctuation">(</span>FATAL<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"Fail to add my_echo_service"</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Server 启动后你无法再修改其中的 Service。</p>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>调用以下 <code>brpc::Server</code> 的接口启动服务：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">int</span> <span class="token function">Start</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> ip_and_port_str<span class="token punctuation">,</span> <span class="token keyword">const</span> ServerOptions<span class="token operator">*</span> opt<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">Start</span><span class="token punctuation">(</span>EndPoint ip_and_port<span class="token punctuation">,</span> <span class="token keyword">const</span> ServerOptions<span class="token operator">*</span> opt<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">Start</span><span class="token punctuation">(</span><span class="token keyword">int</span> port<span class="token punctuation">,</span> <span class="token keyword">const</span> ServerOptions<span class="token operator">*</span> opt<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">Start</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>ip_str<span class="token punctuation">,</span> PortRange port_range<span class="token punctuation">,</span> <span class="token keyword">const</span> ServerOptions <span class="token operator">*</span>opt<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// r32009 后增加</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>“localhost:9000”、”cq01-cos-dev00.cq01:8000”、”127.0.0.1:7000” 都是合法的 ip_and_port_str。</p>
+<p>options 为 NULL 时所有参数取默认值，如果你要使用非默认值，这么做就行了：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">brpc<span class="token operator">::</span>ServerOptions options<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// 包含了默认值</span>
+options<span class="token punctuation">.</span>xxx <span class="token operator">=</span> yyy<span class="token punctuation">;</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+server<span class="token punctuation">.</span><span class="token function">Start</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>options<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>一个 server 只能监听一个端口（不考虑 <code>ServerOptions.internal_port</code>），需要监听 N 个端口就起 N 个 Server。</p>
+<h2 id="停止"><a href="#停止" class="headerlink" title="停止"></a>停止</h2><pre class="line-numbers language-cpp"><code class="language-cpp">server<span class="token punctuation">.</span><span class="token function">Stop</span><span class="token punctuation">(</span>closewait_ms<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// closewait_ms实际无效，出于历史原因未删</span>
+server<span class="token punctuation">.</span><span class="token function">Join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>Stop() 不会阻塞，Join() 会。分成两个函数的原因在于当多个 Server 需要退出时，可以先全部 Stop 再一起 Join，如果一个个 Stop/Join，可能得花费 Server 个数倍的等待时间。</p>
+<p>不管 closewait_ms 是什么值，server 在退出时会等待所有正在被处理的请求完成，同时对新请求立刻回复 <code>ELOGOFF</code> 错误以防止新请求加入。这么做的原因在于只要 server 退出时仍有处理线程运行，就有访问到已释放内存的风险。如果你的 server”退不掉”，很有可能是由于某个检索线程没结束或忘记调用 done 了。</p>
+<p>当 client 看到 ELOGOFF 时，会跳过对应的 server，并在其他 server 上重试对应的请求。所以在一般情况下 brpc 总是”优雅退出”的，重启或上线时几乎不会或只会丢失很少量的流量。</p>
+<p><code>RunUntilAskedToQuit()</code> 函数可以在大部分情况下简化 server 的运转和停止代码。在 server.Start 后，只需如下代码即会让 server 运行直到按到 Ctrl-C：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">// Wait until Ctrl-C is pressed, then Stop() and Join() the server.</span>
+server<span class="token punctuation">.</span><span class="token function">RunUntilAskedToQuit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// server已经停止了，这里可以写释放资源的代码。</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Join() 完成后可以修改其中的 Service，并重新 Start。</p>
+<h2 id="被-http-h2-访问"><a href="#被-http-h2-访问" class="headerlink" title="被 http/h2 访问"></a>被 http/h2 访问</h2><p>使用 Protobuf 的服务通常可以通过 http/h2+json 访问，存于 body 的 json 串可与对应 protobuf 消息相互自动转化。</p>
+<p>以 echo server 为例，你可以用 curl 访问这个服务：</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># -H 'Content-Type: application/json' is optional</span>
+$ curl -d <span class="token string">'{"message":"hello"}'</span> http://brpc.baidu.com:8765/EchoService/Echo
+<span class="token punctuation">{</span><span class="token string">"message"</span><span class="token keyword">:</span><span class="token string">"hello"</span><span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p><strong>提示</strong>：也可以指定 <code>Content-Type: application/proto</code> 用 http/h2+protobuf 二进制串访问服务，序列化性能更好。</p>
+</blockquote>
+<h3 id="json-与-pb-的相互转化"><a href="#json-与-pb-的相互转化" class="headerlink" title="json 与 pb 的相互转化"></a>json 与 pb 的相互转化</h3><p>json 字段通过匹配的名字和结构与 pb 字段一一对应。json 中一定要包含 pb 的 required 字段，否则转化会失败，对应请求会被拒绝。json 中可以包含 pb 中没有定义的字段，但它们会被丢弃而不会存入 pb 的 unknown 字段。</p>
+<p>开启选项 <code>-pb_enum_as_number</code> 后，pb 中的 enum 会转化为它的数值而不是名字，比如在 <code>enum MyEnum { Foo = 1; Bar = 2; };</code> 中，不开启此选项时 MyEnum 类型的字段会转化为 “Foo” 或 “Bar”，开启后为 1 或 2。此选项同时影响 client 发出的请求和 server 返回的回复。由于转化为名字相比数值有更好的前后兼容性，此选项只应用于兼容无法处理 enum 名字的老代码。</p>
+<h3 id="兼容早期版本-client"><a href="#兼容早期版本-client" class="headerlink" title="兼容早期版本 client"></a>兼容早期版本 client</h3><p>早期的 brpc 允许一个 pb service 被 http 协议访问时不填充 pb 请求，即使里面有 required 字段。一般来说这种 service 会自行解析 http 请求和设置 http 回复，并不会访问 pb 请求。但这也是非常危险的行为，毕竟这是 pb service，但 pb 请求却是未定义的。</p>
+<p>这种服务在升级到新版本 rpc 时会遇到障碍，因为 brpc 已不允许这种行为。为了帮助这种服务升级，brpc 允许经过一些设置后不把 http body 自动转化为 pb request（从而可自行处理），方法如下：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">brpc<span class="token operator">::</span>ServiceOptions svc_opt<span class="token punctuation">;</span>
+svc_opt<span class="token punctuation">.</span>ownership <span class="token operator">=</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">;</span>
+svc_opt<span class="token punctuation">.</span>restful_mappings <span class="token operator">=</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">;</span>
+svc_opt<span class="token punctuation">.</span>allow_http_body_to_pb <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 关闭http/h2 body至pb request的自动转化</span>
+server<span class="token punctuation">.</span><span class="token function">AddService</span><span class="token punctuation">(</span>service<span class="token punctuation">,</span> svc_opt<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>如此设置后 service 收到 http/h2 请求后不会尝试把 body 转化为 pb 请求，所以 pb 请求总是未定义状态，用户得在 <code>cntl-&gt;request_protocol() == brpc::PROTOCOL_HTTP || cntl-&gt;request_protocol() == brpc::PROTOCOL_H2</code> 成立时自行解析 body。</p>
+<p>相应地，当 <code>cntl-&gt;response_attachment()</code> 不为空且 pb 回复不为空时，框架不再报错，而是直接把 cntl-&gt;response_attachment() 作为回复的 body。这个功能和设置 allow_http_body_to_pb 与否无关。如果放开自由度导致过多的用户犯错，可能会有进一步的调整。</p>
+<h2 id="协议支持"><a href="#协议支持" class="headerlink" title="协议支持"></a>协议支持</h2><p>server 端会自动尝试其支持的协议，无需用户指定。<code>cntl-&gt;protocol()</code> 可获得当前协议。server 能从一个 listen 端口建立不同协议的连接，不需要为不同的协议使用不同的 listen 端口；一个连接上也可以传输多种协议的数据包，但一般不会这么做（也不建议）。支持的协议有：</p>
+<ul>
+<li>百度标准协议 baidu_std，默认启用。</li>
+<li>流式 RPC 协议 streaming_rpc，默认启用。</li>
+<li>http/1.0 和 http/1.1 协议，显示为 “http”，默认启用。</li>
+<li>http/2 和 gRPC 协议，显示为 “h2c”（未加密）或 “h2”（加密），默认启用。</li>
+<li>RTMP 协议，显示为 “rtmp”，默认启用。</li>
+<li>hulu-pbrpc 协议，显示为 “hulu_pbrpc”，默认启用。</li>
+<li>sofa-pbrpc 协议，显示为 “sofa_pbrpc”，默认启用。</li>
+<li>nova_pbrpc、public_pbrpc、nshead_mcpack 等协议默认不启用，需要通过 <code>ServerOptions.nshead_service</code> 设置对应的 ServiceAdaptor 才能开启。</li>
+<li>和 UB 相关的协议请参考官方文档中实现 NsheadService 的说明。</li>
+</ul>
+<p>如果你有更多的协议需求，可以联系我们。</p>
+<h2 id="fork-without-exec"><a href="#fork-without-exec" class="headerlink" title="fork without exec"></a>fork without exec</h2><p>一般来说，fork 出的子进程应尽快调用 exec 以重置所有状态，中间只应调用满足 async-signal-safe 的函数。这么使用 fork 的 brpc 程序在之前的版本也不会有问题。</p>
+<p>但在一些场景中，用户想直接运行 fork 出的子进程，而不调用 exec。由于 fork 只复制其调用者的线程，其余线程便随之消失了。对应到 brpc 中，bvar 会依赖一个 sampling_thread 采样各种信息，在 fork 后便消失了，现象是很多 bvar 归零。</p>
+<p>最新版本的 brpc 会在 fork 后重建这个线程（如有必要），从而使 bvar 在 fork 后能正常工作，再次 fork 也可以。已知问题是 fork 后 cpu profiler 不正常。然而，这并不意味着用户可随意地 fork，不管是 brpc 还是上层应用都会大量地创建线程，它们在 fork 后不会被重建，因为：</p>
+<ul>
+<li>大部分 fork 会紧接 exec，浪费了重建。</li>
+<li>给代码编写带来很多的麻烦和复杂度。</li>
+</ul>
+<p>brpc 的策略是按需创建这类线程，同时 fork without exec 必须发生在所有可能创建这些线程的代码之前。具体地说，至少<strong>发生在初始化所有 Server/Channel/应用代码之前</strong>，越早越好，不遵守这个约定的 fork 会导致程序不正常。另外，不支持 fork without exec 的 lib 相当普遍，最好避免这种用法。</p>
+<h2 id="常用设置"><a href="#常用设置" class="headerlink" title="常用设置"></a>常用设置</h2><h3 id="版本"><a href="#版本" class="headerlink" title="版本"></a>版本</h3><p><code>Server.set_version(...)</code> 可以为 server 设置一个名称+版本，可通过 <code>/version</code> 内置服务访问到。虽然叫做 “version”，但设置的值请包含服务名，而不仅仅是一个数字版本。</p>
+<h3 id="关闭闲置连接"><a href="#关闭闲置连接" class="headerlink" title="关闭闲置连接"></a>关闭闲置连接</h3><p>如果一个连接在 <code>ServerOptions.idle_timeout_sec</code> 对应的时间内没有读取或写出数据，则被视为”闲置”而被 server 主动关闭。默认值为 -1，代表不开启。</p>
+<p>打开 <code>-log_idle_connection_close</code> 后关闭前会打印一条日志：</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Value</th>
+<th>Description</th>
+<th>Defined At</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>log_idle_connection_close</td>
+<td>false</td>
+<td>Print log when an idle connection is closed</td>
+<td>src/brpc/socket.cpp</td>
+</tr>
+</tbody></table>
+<h3 id="pid-file"><a href="#pid-file" class="headerlink" title="pid_file"></a>pid_file</h3><p>如果设置了此字段，Server 启动时会创建一个同名文件，内容为进程号。默认为空。</p>
+<h3 id="在每条日志后打印-hostname"><a href="#在每条日志后打印-hostname" class="headerlink" title="在每条日志后打印 hostname"></a>在每条日志后打印 hostname</h3><p>打开 <code>-log_hostname</code> 后每条日志后都会带本机名称，如果所有的日志需要汇总到一起进行分析，这个功能可以帮助你了解某条日志来自哪台机器。此功能只对 <code>butil/logging.h</code> 中的日志宏有效。</p>
+<h3 id="打印-FATAL-日志后退出程序"><a href="#打印-FATAL-日志后退出程序" class="headerlink" title="打印 FATAL 日志后退出程序"></a>打印 FATAL 日志后退出程序</h3><p>打开 <code>-crash_on_fatal_log</code> 后，如果程序使用 LOG(FATAL) 打印了异常日志或违反了 CHECK 宏中的断言，那么程序会在打印日志后 abort，这一般也会产生 coredump 文件，默认不打开。这个开关可在对程序的压力测试中打开，以确认程序没有进入过严重错误的分支。此功能只对 <code>butil/logging.h</code> 中的日志宏有效，glog 默认在 FATAL 日志时 crash。</p>
+<blockquote>
+<p><strong>注意</strong>：一般的惯例是，ERROR 表示可容忍的错误，FATAL 代表不可逆转的错误。</p>
+</blockquote>
+<h3 id="最低日志级别"><a href="#最低日志级别" class="headerlink" title="最低日志级别"></a>最低日志级别</h3><p>只有<strong>不低于</strong> <code>-minloglevel</code> 指定的日志级别的日志才会被打印。这个选项可以动态修改。设置值和日志级别的对应关系：0=INFO 1=NOTICE 2=WARNING 3=ERROR 4=FATAL，默认为 0。此功能由 <code>butil/logging.h</code> 和 glog 各自实现，为同名选项。</p>
+<p>未打印日志的开销只是一次 if 判断，也不会评估参数（比如某个参数调用了函数，日志不打，这个函数就不会被调用）。如果日志最终打印到自定义 LogSink，那么还要经过 LogSink 的过滤。</p>
+<h3 id="归还空闲内存至系统"><a href="#归还空闲内存至系统" class="headerlink" title="归还空闲内存至系统"></a>归还空闲内存至系统</h3><p>选项 <code>-free_memory_to_system_interval</code> 表示每过这么多秒就尝试向系统归还空闲内存，&lt;= 0 表示不开启，默认值为 0，若开启建议设为 10 及以上的值。此功能支持 tcmalloc，之前程序中对 <code>MallocExtension::instance()-&gt;ReleaseFreeMemory()</code> 的定期调用可改成设置此选项。</p>
+<h3 id="打印发送给-client-的错误"><a href="#打印发送给-client-的错误" class="headerlink" title="打印发送给 client 的错误"></a>打印发送给 client 的错误</h3><p>server 的框架部分一般不针对个别 client 打印错误日志，因为当大量 client 出现错误时，可能导致 server 高频打印日志而严重影响性能。但有时为了调试问题，或就是需要让 server 打印错误，打开参数 <code>-log_error_text</code> 即可。</p>
+<h3 id="定制延时的分位值"><a href="#定制延时的分位值" class="headerlink" title="定制延时的分位值"></a>定制延时的分位值</h3><p>显示的服务延时分位值默认为 80（曾经为 50）、90、99、99.9、99.99，前三项可分别通过 <code>-bvar_latency_p1</code>、<code>-bvar_latency_p2</code>、<code>-bvar_latency_p3</code> 三个 gflags 定制。</p>
+<p>以下是正确的设置：</p>
+<pre class="line-numbers language-text"><code class="language-text">-bvar_latency_p3=97   # p3从默认99修改为97
+-bvar_latency_p1=60 -bvar_latency_p2=80 -bvar_latency_p3=95<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>以下是错误的设置：</p>
+<pre class="line-numbers language-text"><code class="language-text">-bvar_latency_p3=100   # 设置值必须在[1,99]闭区间内，gflags解析会失败
+-bvar_latency_p1=-1    # 同上<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="设置栈大小"><a href="#设置栈大小" class="headerlink" title="设置栈大小"></a>设置栈大小</h3><p>brpc 的 Server 是运行在 bthread 之上，默认栈大小为 1MB，而 pthread 默认栈大小为 10MB，所以在 pthread 上正常运行的程序，在 bthread 上可能遇到栈不足。</p>
+<p>可设置如下的 gflag 以调整栈的大小：</p>
+<pre class="line-numbers language-bash"><code class="language-bash">--stack_size_normal<span class="token operator">=</span>10000000    <span class="token comment" spellcheck="true"># 表示调整栈大小为10M左右</span>
+--tc_stack_normal<span class="token operator">=</span>1             <span class="token comment" spellcheck="true"># 默认为8，表示每个worker缓存的栈的个数(以加快分配速度)，size越大，缓存数目可以适当调小(以减少内存占用)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<blockquote>
+<p><strong>注意</strong>：不是说程序 coredump 就意味着”栈不够大”，只是因为这个试起来最容易，所以优先排除掉可能性。事实上百度内如此多的应用也很少碰到栈不够大的情况。</p>
+</blockquote>
+<h3 id="限制最大消息"><a href="#限制最大消息" class="headerlink" title="限制最大消息"></a>限制最大消息</h3><p>为了保护 server 和 client，当 server 收到的 request 或 client 收到的 response 过大时，server 或 client 会拒收并关闭连接。此最大尺寸由 <code>-max_body_size</code> 控制，单位为字节。</p>
+<p>超过最大消息时会打印如下错误日志：</p>
+<pre class="line-numbers language-text"><code class="language-text">FATAL: 05-10 14:40:05: * 0 src/brpc/input_messenger.cpp:89] A message from 127.0.0.1:35217(protocol=baidu_std) is bigger than 67108864 bytes, the connection will be closed. Set max_body_size to allow bigger messages<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>protobuf 中有类似的限制，出错时会打印如下日志：</p>
+<pre class="line-numbers language-text"><code class="language-text">FATAL: 05-10 13:35:02: * 0 google/protobuf/io/coded_stream.cc:156] A protocol message was rejected because it was too big (more than 67108864 bytes). To increase the limit (or to disable these warnings), see CodedInputStream::SetTotalBytesLimit() in google/protobuf/io/coded_stream.h.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>brpc 移除了 protobuf 中的限制，全交由此选项控制，只要 <code>-max_body_size</code> 足够大，用户就不会看到错误日志。此功能对 protobuf 的版本没有要求。</p>
+<h3 id="压缩"><a href="#压缩" class="headerlink" title="压缩"></a>压缩</h3><p><code>set_response_compress_type()</code> 设置 response 的压缩方式，默认不压缩。</p>
+<blockquote>
+<p><strong>注意</strong>：附件不会被压缩。</p>
+</blockquote>
+<p>支持的压缩方法有：</p>
+<ul>
+<li><code>brpc::CompressTypeSnappy</code>：snappy 压缩，压缩和解压显著快于其他压缩方法，但压缩率最低。</li>
+<li><code>brpc::CompressTypeGzip</code>：gzip 压缩，显著慢于 snappy，但压缩率高。</li>
+<li><code>brpc::CompressTypeZlib</code>：zlib 压缩，比 gzip 快 10%~20%，压缩率略好于 gzip，但速度仍明显慢于 snappy。</li>
+</ul>
+<p>更具体的性能对比见 client 文档中的压缩一节。</p>
+<h3 id="附件"><a href="#附件" class="headerlink" title="附件"></a>附件</h3><p>baidu_std 和 hulu_pbrpc 协议支持传递附件，这段数据由用户自定义，不经过 protobuf 的序列化。站在 server 的角度，设置在 <code>Controller.response_attachment()</code> 的附件会被 client 端收到，<code>Controller.request_attachment()</code> 则包含了 client 端送来的附件。</p>
+<p>附件不会被框架压缩。</p>
+<p>在 http 协议中，附件对应 message body，比如要返回的数据就设置在 response_attachment() 中。</p>
+<h3 id="开启-SSL"><a href="#开启-SSL" class="headerlink" title="开启 SSL"></a>开启 SSL</h3><p>要开启 SSL，首先确保代码依赖了最新的 openssl 库。如果 openssl 版本很旧，会有严重的安全漏洞，支持的加密算法也少，违背了开启 SSL 的初衷。然后设置 <code>ServerOptions.ssl_options</code>，具体见 <code>ssl_options.h</code>：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">// Certificate structure</span>
+<span class="token keyword">struct</span> CertInfo <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Certificate in PEM format.</span>
+    <span class="token comment" spellcheck="true">// Note that CN and alt subjects will be extracted from the certificate,</span>
+    <span class="token comment" spellcheck="true">// and will be used as hostnames. Requests to this hostname (provided SNI</span>
+    <span class="token comment" spellcheck="true">// extension supported) will be encrypted using this certifcate.</span>
+    <span class="token comment" spellcheck="true">// Supported both file path and raw string</span>
+    std<span class="token operator">::</span>string certificate<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// Private key in PEM format.</span>
+    <span class="token comment" spellcheck="true">// Supported both file path and raw string based on prefix:</span>
+    std<span class="token operator">::</span>string private_key<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// Additional hostnames besides those inside the certificate. Wildcards</span>
+    <span class="token comment" spellcheck="true">// are supported but it can only appear once at the beginning (i.e. *.xxx.com).</span>
+    std<span class="token operator">::</span>vector<span class="token operator">&lt;</span>std<span class="token operator">::</span>string<span class="token operator">></span> sni_filters<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// SSL options at server side</span>
+<span class="token keyword">struct</span> ServerSSLOptions <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Default certificate which will be loaded into server. Requests</span>
+    <span class="token comment" spellcheck="true">// without hostname or whose hostname doesn't have a corresponding</span>
+    <span class="token comment" spellcheck="true">// certificate will use this certificate. MUST be set to enable SSL.</span>
+    CertInfo default_cert<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// Additional certificates which will be loaded into server. These</span>
+    <span class="token comment" spellcheck="true">// provide extra bindings between hostnames and certificates so that</span>
+    <span class="token comment" spellcheck="true">// we can choose different certificates according to different hostnames.</span>
+    <span class="token comment" spellcheck="true">// See `CertInfo' for detail.</span>
+    std<span class="token operator">::</span>vector<span class="token operator">&lt;</span>CertInfo<span class="token operator">></span> certs<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// When set, requests without hostname or whose hostname can't be found in</span>
+    <span class="token comment" spellcheck="true">// any of the cerficates above will be dropped. Otherwise, `default_cert'</span>
+    <span class="token comment" spellcheck="true">// will be used.</span>
+    <span class="token comment" spellcheck="true">// Default: false</span>
+    <span class="token keyword">bool</span> strict_sni<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// ... Other options</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="验证-client-身份"><a href="#验证-client-身份" class="headerlink" title="验证 client 身份"></a>验证 client 身份</h3><p>如果 server 端要开启验证功能，需要实现 <code>Authenticator</code> 中的接口：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Authenticator</span> <span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token comment" spellcheck="true">// Implement this method to verify credential information `auth_str' from</span>
+    <span class="token comment" spellcheck="true">// `client_addr'. You can fill credential context (result) into `*out_ctx'</span>
+    <span class="token comment" spellcheck="true">// and later fetch this pointer from `Controller'.</span>
+    <span class="token comment" spellcheck="true">// Returns 0 on success, error code otherwise</span>
+    <span class="token keyword">virtual</span> <span class="token keyword">int</span> <span class="token function">VerifyCredential</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token operator">::</span>string<span class="token operator">&amp;</span> auth_str<span class="token punctuation">,</span>
+                                 <span class="token keyword">const</span> base<span class="token operator">::</span>EndPoint<span class="token operator">&amp;</span> client_addr<span class="token punctuation">,</span>
+                                 AuthContext<span class="token operator">*</span> out_ctx<span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">AuthContext</span> <span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">const</span> std<span class="token operator">::</span>string<span class="token operator">&amp;</span> <span class="token function">user</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> std<span class="token operator">::</span>string<span class="token operator">&amp;</span> <span class="token function">group</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> std<span class="token operator">::</span>string<span class="token operator">&amp;</span> <span class="token function">roles</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> std<span class="token operator">::</span>string<span class="token operator">&amp;</span> <span class="token function">starter</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span><span class="token punctuation">;</span>
+    <span class="token keyword">bool</span> <span class="token function">is_service</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>server 的验证是基于连接的。当 server 收到连接上的第一个请求时，会尝试解析出其中的身份信息部分（如 baidu_std 里的 auth 字段、HTTP 协议里的 Authorization 头），然后附带 client 地址信息一起调用 <code>VerifyCredential</code>。若返回 0，表示验证成功，用户可以把验证后的信息填入 <code>AuthContext</code>，后续可通过 <code>controller-&gt;auth_context()</code> 获取，用户不需要关心其分配和释放。否则表示验证失败，连接会被直接关闭，client 访问失败。</p>
+<p>后续请求默认通过验证，没有认证开销。</p>
+<p>把实现的 <code>Authenticator</code> 实例赋值到 <code>ServerOptions.auth</code>，即开启验证功能，需要保证该实例在整个 server 运行周期内都有效，不能被析构。</p>
+<h3 id="worker-线程数"><a href="#worker-线程数" class="headerlink" title="worker 线程数"></a>worker 线程数</h3><p>设置 <code>ServerOptions.num_threads</code> 即可，默认是 cpu core 的个数（包含超线程的）。</p>
+<blockquote>
+<p><strong>注意</strong>：ServerOptions.num_threads 仅仅是个<strong>提示</strong>。</p>
+</blockquote>
+<p>你不能认为 Server 就用了这么多线程，因为进程内的所有 Server 和 Channel 会共享线程资源，线程总数是所有 ServerOptions.num_threads 和 <code>-bthread_concurrency</code> 中的最大值。比如一个程序内有两个 Server，num_threads 分别为 24 和 36，bthread_concurrency 为 16，那么 worker 线程数为 max(24, 36, 16) = 36。这不同于其他 RPC 实现中往往是加起来。</p>
+<p>Channel 没有相应的选项，但可以通过选项 <code>-bthread_concurrency</code> 调整。</p>
+<p>另外，brpc <strong>不区分 IO 线程和处理线程</strong>。brpc 知道如何编排 IO 和处理代码，以获得更高的并发度和线程利用率。</p>
+<h2 id="限制最大并发"><a href="#限制最大并发" class="headerlink" title="限制最大并发"></a>限制最大并发</h2><p>“并发”可能有两种含义，一种是连接数，一种是同时在处理的请求数。这里提到的是后者。</p>
+<p>在传统的同步 server 中，最大并发不会超过工作线程数，设定工作线程数量一般也限制了并发。但 brpc 的请求运行于 bthread 中，M 个 bthread 会映射至 N 个 worker 中（一般 M 大于 N），所以同步 server 的并发度可能超过 worker 数量。另一方面，虽然异步 server 的并发不受线程数控制，但有时也需要根据其他因素控制并发量。</p>
+<p>brpc 支持设置 server 级和 method 级的最大并发，当 server 或 method 同时处理的请求数超过并发度限制时，它会立刻给 client 回复 <code>brpc::ELIMIT</code> 错误，而不会调用服务回调。看到 ELIMIT 错误的 client 应重试另一个 server。这个选项可以防止 server 出现过度排队，或用于限制 server 占用的资源。默认不开启。</p>
+<h3 id="为什么超过最大并发要立刻给-client-返回错误而不是排队"><a href="#为什么超过最大并发要立刻给-client-返回错误而不是排队" class="headerlink" title="为什么超过最大并发要立刻给 client 返回错误而不是排队"></a>为什么超过最大并发要立刻给 client 返回错误而不是排队</h3><p>当前 server 达到最大并发并不意味着集群中的其他 server 也达到最大并发了，立刻让 client 获知错误，并去尝试另一台 server 在全局角度是更好的策略。</p>
+<h3 id="为什么不限制-QPS"><a href="#为什么不限制-QPS" class="headerlink" title="为什么不限制 QPS"></a>为什么不限制 QPS</h3><p>QPS 是一个秒级的指标，无法很好地控制瞬间的流量爆发。而最大并发和当前可用的重要资源紧密相关：”工作线程”、”槽位”等，能更好地抑制排队。</p>
+<p>另外当 server 的延时较为稳定时，限制并发的效果和限制 QPS 是等价的。但前者实现起来容易多了：只需加减一个代表并发度的计数器。这也是大部分流控都限制并发而不是 QPS 的原因，比如 TCP 中的”窗口”即是一种并发度。</p>
+<h3 id="计算最大并发数"><a href="#计算最大并发数" class="headerlink" title="计算最大并发数"></a>计算最大并发数</h3><p>最大并发度 = 极限 QPS * 低负载延时（little’s law）</p>
+<p>极限 QPS 指的是 server 能达到的最大 qps，低负载延时指的是 server 在没有严重积压请求的前提下时的平均延时。一般的服务上线都会有性能压测，把测得的 QPS 和延时相乘一般就是该服务的最大并发度。</p>
+<h3 id="限制-server-级别并发度"><a href="#限制-server-级别并发度" class="headerlink" title="限制 server 级别并发度"></a>限制 server 级别并发度</h3><p>设置 <code>ServerOptions.max_concurrency</code>，默认值 0 代表不限制。访问内置服务不受此选项限制。</p>
+<p><code>Server.ResetMaxConcurrency()</code> 可在 server 启动后动态修改 server 级别的 max_concurrency。</p>
+<h3 id="限制-method-级别并发度"><a href="#限制-method-级别并发度" class="headerlink" title="限制 method 级别并发度"></a>限制 method 级别并发度</h3><p><code>server.MaxConcurrencyOf(&quot;...&quot;) = ...</code> 可设置 method 级别的 max_concurrency。也可以通过设置 <code>ServerOptions.method_max_concurrency</code> 一次性为所有的 method 设置最大并发。当 ServerOptions.method_max_concurrency 和 server.MaxConcurrencyOf(“…”)=… 同时被设置时，使用 server.MaxConcurrencyOf() 所设置的值。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">ServerOptions<span class="token punctuation">.</span>method_max_concurrency <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>                   <span class="token comment" spellcheck="true">// Set the default maximum concurrency for all methods</span>
+server<span class="token punctuation">.</span><span class="token function">MaxConcurrencyOf</span><span class="token punctuation">(</span><span class="token string">"example.EchoService.Echo"</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">// Give priority to the value set by server.MaxConcurrencyOf()</span>
+server<span class="token punctuation">.</span><span class="token function">MaxConcurrencyOf</span><span class="token punctuation">(</span><span class="token string">"example.EchoService"</span><span class="token punctuation">,</span> <span class="token string">"Echo"</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+server<span class="token punctuation">.</span><span class="token function">MaxConcurrencyOf</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>service<span class="token punctuation">,</span> <span class="token string">"Echo"</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+server<span class="token punctuation">.</span><span class="token function">MaxConcurrencyOf</span><span class="token punctuation">(</span><span class="token string">"example.EchoService.Echo"</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"10"</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// You can also assign a string value</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>此设置一般<strong>发生在 AddService 后，server 启动前</strong>。当设置失败时（比如对应的 method 不存在），server 会启动失败同时提示用户修正 MaxConcurrencyOf 设置错误。</p>
+<p>当 method 级别和 server 级别的 max_concurrency 都被设置时，先检查 server 级别的，再检查 method 级别的。</p>
+<blockquote>
+<p><strong>注意</strong>：没有 service 级别的 max_concurrency。</p>
+</blockquote>
+<h3 id="使用自适应限流算法"><a href="#使用自适应限流算法" class="headerlink" title="使用自适应限流算法"></a>使用自适应限流算法</h3><p>实际生产环境中，最大并发未必一成不变，在每次上线前逐个压测和设置服务的最大并发也很繁琐。这个时候可以使用自适应限流算法。</p>
+<p>自适应限流是 method 级别的。要使用自适应限流算法，把 method 的最大并发度设置为 “auto” 即可：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">// Set auto concurrency limiter for all methods</span>
+brpc<span class="token operator">::</span>ServerOptions options<span class="token punctuation">;</span>
+options<span class="token punctuation">.</span>method_max_concurrency <span class="token operator">=</span> <span class="token string">"auto"</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// Set auto concurrency limiter for specific method</span>
+server<span class="token punctuation">.</span><span class="token function">MaxConcurrencyOf</span><span class="token punctuation">(</span><span class="token string">"example.EchoService.Echo"</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"auto"</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>关于自适应限流的更多细节可以看官方文档中自适应限流一节。</p>
+<h2 id="pthread-模式"><a href="#pthread-模式" class="headerlink" title="pthread 模式"></a>pthread 模式</h2><p>用户代码（客户端的 done，服务器端的 CallMethod）默认在栈为 1MB 的 bthread 中运行。但有些用户代码无法在 bthread 中运行，比如：</p>
+<ul>
+<li>JNI 会检查 stack layout 而无法在 bthread 中运行。</li>
+<li>代码中广泛地使用 pthread local 传递 session 级别全局数据，在 RPC 前后均使用了相同的 pthread local 的数据，且数据有前后依赖性。比如在 RPC 前往 pthread-local 保存了一个值，RPC 后又读出来希望和之前保存的相等，就会有问题。而像 tcmalloc 虽然也使用了 pthread/LWP local，但每次使用之间没有直接的依赖，是安全的。</li>
+</ul>
+<p>对于这些情况，brpc 提供了 pthread 模式，开启 <code>-usercode_in_pthread</code> 后，用户代码均会在 pthread 中运行，原先阻塞 bthread 的函数转而阻塞 pthread。</p>
+<p>打开 pthread 模式后在性能上的注意点：</p>
+<ul>
+<li>同步 RPC 都会阻塞 worker pthread，server 端一般需要设置更多的工作线程（<code>ServerOptions.num_threads</code>），调度效率会略微降低。</li>
+<li>运行用户代码的仍然是 bthread，只是很特殊，会直接使用 pthread worker 的栈。这些特殊 bthread 的调度方式和其他 bthread 是一致的，这方面性能差异很小。</li>
+<li>bthread 支持一个独特的功能：把当前使用的 pthread worker 让给另一个新创建的 bthread 运行，以消除一次上下文切换。brpc client 利用了这点，从而使一次 RPC 过程中 3 次上下文切换变为了 2 次。在高 QPS 系统中，消除上下文切换可以明显改善性能和延时分布。但 pthread 模式不具备这个能力，在高 QPS 系统中性能会有一定下降。</li>
+<li>pthread 模式中线程资源是硬限，一旦线程被打满，请求就会迅速拥塞而造成大量超时。一个常见的例子是：下游服务大量超时后，上游服务可能由于线程大都在等待下游也被打满从而影响性能。开启 pthread 模式后请考虑设置 <code>ServerOptions.max_concurrency</code> 以控制 server 的最大并发。而在 bthread 模式中 bthread 个数是软限，对此类问题的反应会更加平滑。</li>
+</ul>
+<p>pthread 模式可以让一些老代码快速尝试 brpc，但我们仍然建议逐渐地把代码改造为使用 bthread local 或最好不用 TLS，从而最终能关闭这个开关。</p>
+<h2 id="安全模式"><a href="#安全模式" class="headerlink" title="安全模式"></a>安全模式</h2><p>如果你的服务流量来自外部（包括经过 nginx 等转发），你需要注意一些安全因素。</p>
+<h3 id="对外隐藏内置服务"><a href="#对外隐藏内置服务" class="headerlink" title="对外隐藏内置服务"></a>对外隐藏内置服务</h3><p>内置服务很有用，但包含了大量内部信息，不应对外暴露。有多种方式可以对外隐藏内置服务，比如 http proxy 指定转发路径：nginx 等可配置 URL 的映射关系，下面的配置把访问 /MyAPI 的外部流量映射到 target-server 的 /ServiceName/MethodName。当外部流量尝试访问内置服务（比如说 /status）时，将直接被 nginx 拒绝。</p>
+<pre class="line-numbers language-nginx"><code class="language-nginx"><span class="token keyword">location</span> <span class="token operator">/</span>MyAPI <span class="token punctuation">{</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token keyword">proxy_pass</span> <span class="token keyword">http</span><span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span><span class="token operator">&lt;</span>target<span class="token operator">-</span><span class="token keyword">server</span><span class="token operator">></span><span class="token operator">/</span>ServiceName<span class="token operator">/</span>MethodName<span class="token variable">$query_string</span>   <span class="token comment" spellcheck="true"># $query_string是nginx变量，更多变量请查询nginx官方文档</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>请勿在对外服务上开启</strong> <code>-enable_dir_service</code> 和 <code>-enable_threads_service</code> 两个选项，它们虽然很方便，但会严重泄露服务器上的其他信息。检查对外的 rpc 服务是否打开了这两个开关：</p>
+<pre class="line-numbers language-bash"><code class="language-bash">curl -s -m 1 <span class="token operator">&lt;</span>HOSTNAME<span class="token operator">></span>:<span class="token operator">&lt;</span>PORT<span class="token operator">></span>/flags/enable_dir_service,enable_threads_service <span class="token operator">|</span> <span class="token function">awk</span> <span class="token string">'{if(<span class="token variable">$3</span>=="false"){++falsecnt}else if(<span class="token variable">$3</span>=="Value"){isrpc=1}}END{if(isrpc!=1||falsecnt==2){print "SAFE"}else{print "NOT SAFE"}}'</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="转义外部可控的-URL"><a href="#转义外部可控的-URL" class="headerlink" title="转义外部可控的 URL"></a>转义外部可控的 URL</h3><p>可调用 <code>brpc::WebEscape()</code> 对 url 进行转义，防止恶意 URI 注入攻击。</p>
+<h3 id="不返回内部-server-地址"><a href="#不返回内部-server-地址" class="headerlink" title="不返回内部 server 地址"></a>不返回内部 server 地址</h3><p>可以考虑对 server 地址做签名。比如在设置 <code>ServerOptions.internal_port</code> 后，server 返回的错误信息中的 IP 信息是其 MD5 签名，而不是明文。</p>
+<h2 id="定制-health-页面"><a href="#定制-health-页面" class="headerlink" title="定制 /health 页面"></a>定制 /health 页面</h2><p>/health 页面默认返回 “OK”，若需定制 /health 页面的内容：先继承 <code>HealthReporter</code>，在其中实现生成页面的逻辑（就像实现其他 http service 那样），然后把实例赋给 <code>ServerOptions.health_reporter</code>，这个实例不被 server 拥有，必须保证在 server 运行期间有效。用户在定制逻辑中可以根据业务的运行状态返回更多样的状态信息。</p>
+<h2 id="线程私有变量"><a href="#线程私有变量" class="headerlink" title="线程私有变量"></a>线程私有变量</h2><p>百度内的检索程序大量地使用了 thread-local storage（缩写 TLS），有些是为了缓存频繁访问的对象以避免反复创建，有些则是为了在全局函数间隐式地传递状态。你应当尽量避免后者，这样的函数难以测试，不设置 thread-local 变量甚至无法运行。brpc 中有三套机制解决和 thread-local 相关的问题。</p>
+<h3 id="session-local"><a href="#session-local" class="headerlink" title="session-local"></a>session-local</h3><p>session-local data 与一次 server 端 RPC 绑定：从进入 service 回调开始，到调用 server 端的 done 结束，不管该 service 是同步还是异步处理。session-local data 会尽量被重用，在 server 停止前不会被删除。</p>
+<p>设置 <code>ServerOptions.session_local_data_factory</code> 后访问 <code>Controller.session_local_data()</code> 即可获得 session-local 数据。若没有设置，Controller.session_local_data() 总是返回 NULL。</p>
+<p>若 <code>ServerOptions.reserved_session_local_data</code> 大于 0，Server 会在提供服务前就创建这么多个数据。</p>
+<p>示例用法：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">struct</span> MySessionLocalData <span class="token punctuation">{</span>
+    <span class="token function">MySessionLocalData</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token function">x</span><span class="token punctuation">(</span><span class="token number">123</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token keyword">int</span> x<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">EchoServiceImpl</span> <span class="token operator">:</span> <span class="token keyword">public</span> example<span class="token operator">::</span>EchoService <span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token keyword">void</span> <span class="token function">Echo</span><span class="token punctuation">(</span>google<span class="token operator">::</span>protobuf<span class="token operator">::</span>RpcController<span class="token operator">*</span> cntl_base<span class="token punctuation">,</span>
+              <span class="token keyword">const</span> example<span class="token operator">::</span>EchoRequest<span class="token operator">*</span> request<span class="token punctuation">,</span>
+              example<span class="token operator">::</span>EchoResponse<span class="token operator">*</span> response<span class="token punctuation">,</span>
+              google<span class="token operator">::</span>protobuf<span class="token operator">::</span>Closure<span class="token operator">*</span> done<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+        brpc<span class="token operator">::</span>Controller<span class="token operator">*</span> cntl <span class="token operator">=</span> <span class="token keyword">static_cast</span><span class="token operator">&lt;</span>brpc<span class="token operator">::</span>Controller<span class="token operator">*</span><span class="token operator">></span><span class="token punctuation">(</span>cntl_base<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">// Get the session-local data which is created by ServerOptions.session_local_data_factory</span>
+        <span class="token comment" spellcheck="true">// and reused between different RPC.</span>
+        MySessionLocalData<span class="token operator">*</span> sd <span class="token operator">=</span> <span class="token keyword">static_cast</span><span class="token operator">&lt;</span>MySessionLocalData<span class="token operator">*</span><span class="token operator">></span><span class="token punctuation">(</span>cntl<span class="token operator">-</span><span class="token operator">></span><span class="token function">session_local_data</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>sd <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            cntl<span class="token operator">-</span><span class="token operator">></span><span class="token function">SetFailed</span><span class="token punctuation">(</span><span class="token string">"Require ServerOptions.session_local_data_factory to be set with a correctly implemented instance"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">struct</span> ServerOptions <span class="token punctuation">{</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token comment" spellcheck="true">// The factory to create/destroy data attached to each RPC session.</span>
+    <span class="token comment" spellcheck="true">// If this field is NULL, Controller::session_local_data() is always NULL.</span>
+    <span class="token comment" spellcheck="true">// NOT owned by Server and must be valid when Server is running.</span>
+    <span class="token comment" spellcheck="true">// Default: NULL</span>
+    <span class="token keyword">const</span> DataFactory<span class="token operator">*</span> session_local_data_factory<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// Prepare so many session-local data before server starts, so that calls</span>
+    <span class="token comment" spellcheck="true">// to Controller::session_local_data() get data directly rather than</span>
+    <span class="token comment" spellcheck="true">// calling session_local_data_factory->Create() at first time. Useful when</span>
+    <span class="token comment" spellcheck="true">// Create() is slow, otherwise the RPC session may be blocked by the</span>
+    <span class="token comment" spellcheck="true">// creation of data and not served within timeout.</span>
+    <span class="token comment" spellcheck="true">// Default: 0</span>
+    size_t reserved_session_local_data<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>session_local_data_factory 的类型为 <code>DataFactory</code>，你需要实现其中的 <code>CreateData</code> 和 <code>DestroyData</code>。</p>
+<blockquote>
+<p><strong>注意</strong>：CreateData 和 DestroyData 会被多个线程同时调用，必须线程安全。</p>
+</blockquote>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">MySessionLocalDataFactory</span> <span class="token operator">:</span> <span class="token keyword">public</span> brpc<span class="token operator">::</span>DataFactory <span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">void</span><span class="token operator">*</span> <span class="token function">CreateData</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> MySessionLocalData<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">void</span> <span class="token function">DestroyData</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token operator">*</span> d<span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">{</span>
+        <span class="token keyword">delete</span> <span class="token keyword">static_cast</span><span class="token operator">&lt;</span>MySessionLocalData<span class="token operator">*</span><span class="token operator">></span><span class="token punctuation">(</span>d<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    MySessionLocalDataFactory session_local_data_factory<span class="token punctuation">;</span>
+
+    brpc<span class="token operator">::</span>Server server<span class="token punctuation">;</span>
+    brpc<span class="token operator">::</span>ServerOptions options<span class="token punctuation">;</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    options<span class="token punctuation">.</span>session_local_data_factory <span class="token operator">=</span> <span class="token operator">&amp;</span>session_local_data_factory<span class="token punctuation">;</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="server-thread-local"><a href="#server-thread-local" class="headerlink" title="server-thread-local"></a>server-thread-local</h3><p>server-thread-local 与一次 service 回调绑定，从进 service 回调开始，到出 service 回调结束。所有的 server-thread-local data 会被尽量重用，在 server 停止前不会被删除。在实现上 server-thread-local 是一个特殊的 bthread-local。</p>
+<p>设置 <code>ServerOptions.thread_local_data_factory</code> 后访问 <code>brpc::thread_local_data()</code> 即可获得 thread-local 数据。若没有设置，brpc::thread_local_data() 总是返回 NULL。</p>
+<p>若 <code>ServerOptions.reserved_thread_local_data</code> 大于 0，Server 会在启动前就创建这么多个数据。</p>
+<p>与 session-local 的区别：</p>
+<p>session-local data 得从 server 端的 Controller 获得，server-thread-local 可以在任意函数中获得，只要这个函数直接或间接地运行在 server 线程中。</p>
+<p>当 service 是同步时，session-local 和 server-thread-local 基本没有差别，除了前者需要 Controller 创建。当 service 是异步时，且你需要在 done-&gt;Run() 中访问到数据，这时只能用 session-local，因为 server-thread-local 在 service 回调外已经失效。</p>
+<p>示例用法：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">struct</span> MyThreadLocalData <span class="token punctuation">{</span>
+    <span class="token function">MyThreadLocalData</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token function">y</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token keyword">int</span> y<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">EchoServiceImpl</span> <span class="token operator">:</span> <span class="token keyword">public</span> example<span class="token operator">::</span>EchoService <span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token keyword">void</span> <span class="token function">Echo</span><span class="token punctuation">(</span>google<span class="token operator">::</span>protobuf<span class="token operator">::</span>RpcController<span class="token operator">*</span> cntl_base<span class="token punctuation">,</span>
+              <span class="token keyword">const</span> example<span class="token operator">::</span>EchoRequest<span class="token operator">*</span> request<span class="token punctuation">,</span>
+              example<span class="token operator">::</span>EchoResponse<span class="token operator">*</span> response<span class="token punctuation">,</span>
+              google<span class="token operator">::</span>protobuf<span class="token operator">::</span>Closure<span class="token operator">*</span> done<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+        brpc<span class="token operator">::</span>Controller<span class="token operator">*</span> cntl <span class="token operator">=</span> <span class="token keyword">static_cast</span><span class="token operator">&lt;</span>brpc<span class="token operator">::</span>Controller<span class="token operator">*</span><span class="token operator">></span><span class="token punctuation">(</span>cntl_base<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">// Get the thread-local data which is created by ServerOptions.thread_local_data_factory</span>
+        <span class="token comment" spellcheck="true">// and reused between different threads.</span>
+        <span class="token comment" spellcheck="true">// "tls" is short for "thread local storage".</span>
+        MyThreadLocalData<span class="token operator">*</span> tls <span class="token operator">=</span> <span class="token keyword">static_cast</span><span class="token operator">&lt;</span>MyThreadLocalData<span class="token operator">*</span><span class="token operator">></span><span class="token punctuation">(</span>brpc<span class="token operator">::</span><span class="token function">thread_local_data</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>tls <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            cntl<span class="token operator">-</span><span class="token operator">></span><span class="token function">SetFailed</span><span class="token punctuation">(</span><span class="token string">"Require ServerOptions.thread_local_data_factory "</span>
+                            <span class="token string">"to be set with a correctly implemented instance"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">struct</span> ServerOptions <span class="token punctuation">{</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token comment" spellcheck="true">// The factory to create/destroy data attached to each searching thread</span>
+    <span class="token comment" spellcheck="true">// in server.</span>
+    <span class="token comment" spellcheck="true">// If this field is NULL, brpc::thread_local_data() is always NULL.</span>
+    <span class="token comment" spellcheck="true">// NOT owned by Server and must be valid when Server is running.</span>
+    <span class="token comment" spellcheck="true">// Default: NULL</span>
+    <span class="token keyword">const</span> DataFactory<span class="token operator">*</span> thread_local_data_factory<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// Prepare so many thread-local data before server starts, so that calls</span>
+    <span class="token comment" spellcheck="true">// to brpc::thread_local_data() get data directly rather than calling</span>
+    <span class="token comment" spellcheck="true">// thread_local_data_factory->Create() at first time. Useful when Create()</span>
+    <span class="token comment" spellcheck="true">// is slow, otherwise the RPC session may be blocked by the creation</span>
+    <span class="token comment" spellcheck="true">// of data and not served within timeout.</span>
+    <span class="token comment" spellcheck="true">// Default: 0</span>
+    size_t reserved_thread_local_data<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>thread_local_data_factory 的类型为 <code>DataFactory</code>，你需要实现其中的 <code>CreateData</code> 和 <code>DestroyData</code>。</p>
+<blockquote>
+<p><strong>注意</strong>：CreateData 和 DestroyData 会被多个线程同时调用，必须线程安全。</p>
+</blockquote>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">MyThreadLocalDataFactory</span> <span class="token operator">:</span> <span class="token keyword">public</span> brpc<span class="token operator">::</span>DataFactory <span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">void</span><span class="token operator">*</span> <span class="token function">CreateData</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> MyThreadLocalData<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">void</span> <span class="token function">DestroyData</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token operator">*</span> d<span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">{</span>
+        <span class="token keyword">delete</span> <span class="token keyword">static_cast</span><span class="token operator">&lt;</span>MyThreadLocalData<span class="token operator">*</span><span class="token operator">></span><span class="token punctuation">(</span>d<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    MyThreadLocalDataFactory thread_local_data_factory<span class="token punctuation">;</span>
+
+    brpc<span class="token operator">::</span>Server server<span class="token punctuation">;</span>
+    brpc<span class="token operator">::</span>ServerOptions options<span class="token punctuation">;</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    options<span class="token punctuation">.</span>thread_local_data_factory <span class="token operator">=</span> <span class="token operator">&amp;</span>thread_local_data_factory<span class="token punctuation">;</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="bthread-local"><a href="#bthread-local" class="headerlink" title="bthread-local"></a>bthread-local</h3><p>Session-local 和 server-thread-local 对大部分 server 已经够用。不过在一些情况下，我们需要更通用的 thread-local 方案。在这种情况下，你可以使用 <code>bthread_key_create</code>、<code>bthread_key_destroy</code>、<code>bthread_getspecific</code>、<code>bthread_setspecific</code> 等函数，它们的用法类似 pthread 中的函数。</p>
+<p>这些函数同时支持 bthread 和 pthread，当它们在 bthread 中被调用时，获得的是 bthread 私有变量；当它们在 pthread 中被调用时，获得的是 pthread 私有变量。但注意，这里的”pthread 私有变量”不是通过 <code>pthread_key_create</code> 创建的，使用 pthread_key_create 创建的 pthread-local 是无法被 <code>bthread_getspecific</code> 访问到，这是两个独立的体系。由 gcc 的 <code>__thread</code>、c++11 的 <code>thread_local</code> 等声明的私有变量也无法被 bthread_getspecific 访问到。</p>
+<p>由于 brpc 会为每个请求建立一个 bthread，server 中的 bthread-local 行为特殊：一个 server 创建的 bthread 在退出时并不删除 bthread-local，而是还回 server 的一个 pool 中，以被其他 bthread 复用。这可以避免 bthread-local 随着 bthread 的创建和退出而不停地构造和析构。这对于用户是透明的。</p>
+<p>主要接口：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">// Create a key value identifying a slot in a thread-specific data area.</span>
+<span class="token comment" spellcheck="true">// Each thread maintains a distinct thread-specific data area.</span>
+<span class="token comment" spellcheck="true">// `destructor', if non-NULL, is called with the value associated to that key</span>
+<span class="token comment" spellcheck="true">// when the key is destroyed. `destructor' is not called if the value</span>
+<span class="token comment" spellcheck="true">// associated is NULL when the key is destroyed.</span>
+<span class="token comment" spellcheck="true">// Returns 0 on success, error code otherwise.</span>
+<span class="token keyword">extern</span> <span class="token keyword">int</span> <span class="token function">bthread_key_create</span><span class="token punctuation">(</span>bthread_key_t<span class="token operator">*</span> key<span class="token punctuation">,</span> <span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">*</span>destructor<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token operator">*</span> data<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// Delete a key previously returned by bthread_key_create().</span>
+<span class="token comment" spellcheck="true">// It is the responsibility of the application to free the data related to</span>
+<span class="token comment" spellcheck="true">// the deleted key in any running thread. No destructor is invoked by</span>
+<span class="token comment" spellcheck="true">// this function. Any destructor that may have been associated with key</span>
+<span class="token comment" spellcheck="true">// will no longer be called upon thread exit.</span>
+<span class="token comment" spellcheck="true">// Returns 0 on success, error code otherwise.</span>
+<span class="token keyword">extern</span> <span class="token keyword">int</span> <span class="token function">bthread_key_delete</span><span class="token punctuation">(</span>bthread_key_t key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// Store `data' in the thread-specific slot identified by `key'.</span>
+<span class="token comment" spellcheck="true">// bthread_setspecific() is callable from within destructor. If the application</span>
+<span class="token comment" spellcheck="true">// does so, destructors will be repeatedly called for at most</span>
+<span class="token comment" spellcheck="true">// PTHREAD_DESTRUCTOR_ITERATIONS times to clear the slots.</span>
+<span class="token comment" spellcheck="true">// NOTE: If the thread is not created by brpc server and lifetime is</span>
+<span class="token comment" spellcheck="true">// very short(doing a little thing and exit), avoid using bthread-local. The</span>
+<span class="token comment" spellcheck="true">// reason is that bthread-local always allocate keytable on first call to</span>
+<span class="token comment" spellcheck="true">// bthread_setspecific, the overhead is negligible in long-lived threads,</span>
+<span class="token comment" spellcheck="true">// but noticeable in shortly-lived threads. Threads in brpc server</span>
+<span class="token comment" spellcheck="true">// are special since they reuse keytables from a bthread_keytable_pool_t</span>
+<span class="token comment" spellcheck="true">// in the server.</span>
+<span class="token comment" spellcheck="true">// Returns 0 on success, error code otherwise.</span>
+<span class="token comment" spellcheck="true">// If the key is invalid or deleted, return EINVAL.</span>
+<span class="token keyword">extern</span> <span class="token keyword">int</span> <span class="token function">bthread_setspecific</span><span class="token punctuation">(</span>bthread_key_t key<span class="token punctuation">,</span> <span class="token keyword">void</span><span class="token operator">*</span> data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// Return current value of the thread-specific slot identified by `key'.</span>
+<span class="token comment" spellcheck="true">// If bthread_setspecific() had not been called in the thread, return NULL.</span>
+<span class="token comment" spellcheck="true">// If the key is invalid or deleted, return NULL.</span>
+<span class="token keyword">extern</span> <span class="token keyword">void</span><span class="token operator">*</span> <span class="token function">bthread_getspecific</span><span class="token punctuation">(</span>bthread_key_t key<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>使用方法：</p>
+<ul>
+<li>用 <code>bthread_key_create</code> 创建一个 <code>bthread_key_t</code>，它代表一种 bthread 私有变量。</li>
+<li>用 <code>bthread_[get|set]specific</code> 查询和设置 bthread 私有变量。一个线程中第一次访问某个私有变量返回 NULL。</li>
+<li>在所有线程都不使用和某个 bthread_key_t 相关的私有变量后再删除它。如果删除了一个仍在被使用的 bthread_key_t，相关的私有变量就泄露了。</li>
+</ul>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">my_data_destructor</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token operator">*</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">}</span>
+
+bthread_key_t tls_key<span class="token punctuation">;</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">bthread_key_create</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>tls_key<span class="token punctuation">,</span> my_data_destructor<span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">LOG</span><span class="token punctuation">(</span>ERROR<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"Fail to create tls_key"</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// in some thread ...</span>
+MyThreadLocalData<span class="token operator">*</span> tls <span class="token operator">=</span> <span class="token keyword">static_cast</span><span class="token operator">&lt;</span>MyThreadLocalData<span class="token operator">*</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token function">bthread_getspecific</span><span class="token punctuation">(</span>tls_key<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>tls <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  <span class="token comment" spellcheck="true">// First call to bthread_getspecific (and before any bthread_setspecific) returns NULL</span>
+    tls <span class="token operator">=</span> <span class="token keyword">new</span> MyThreadLocalData<span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">// Create thread-local data on demand.</span>
+    <span class="token function">CHECK_EQ</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token function">bthread_setspecific</span><span class="token punctuation">(</span>tls_key<span class="token punctuation">,</span> tls<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// set the data so that next time bthread_getspecific in the thread returns the data.</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>示例代码：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">my_thread_local_data_deleter</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token operator">*</span> d<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">delete</span> <span class="token keyword">static_cast</span><span class="token operator">&lt;</span>MyThreadLocalData<span class="token operator">*</span><span class="token operator">></span><span class="token punctuation">(</span>d<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">EchoServiceImpl</span> <span class="token operator">:</span> <span class="token keyword">public</span> example<span class="token operator">::</span>EchoService <span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token function">EchoServiceImpl</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">CHECK_EQ</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token function">bthread_key_create</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>_tls2_key<span class="token punctuation">,</span> my_thread_local_data_deleter<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token operator">~</span><span class="token function">EchoServiceImpl</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">CHECK_EQ</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token function">bthread_key_delete</span><span class="token punctuation">(</span>_tls2_key<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+    bthread_key_t _tls2_key<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">EchoServiceImpl</span> <span class="token operator">:</span> <span class="token keyword">public</span> example<span class="token operator">::</span>EchoService <span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token keyword">void</span> <span class="token function">Echo</span><span class="token punctuation">(</span>google<span class="token operator">::</span>protobuf<span class="token operator">::</span>RpcController<span class="token operator">*</span> cntl_base<span class="token punctuation">,</span>
+              <span class="token keyword">const</span> example<span class="token operator">::</span>EchoRequest<span class="token operator">*</span> request<span class="token punctuation">,</span>
+              example<span class="token operator">::</span>EchoResponse<span class="token operator">*</span> response<span class="token punctuation">,</span>
+              google<span class="token operator">::</span>protobuf<span class="token operator">::</span>Closure<span class="token operator">*</span> done<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+        <span class="token comment" spellcheck="true">// You can create bthread-local data for your own.</span>
+        <span class="token comment" spellcheck="true">// The interfaces are similar with pthread equivalence:</span>
+        <span class="token comment" spellcheck="true">//   pthread_key_create  -> bthread_key_create</span>
+        <span class="token comment" spellcheck="true">//   pthread_key_delete  -> bthread_key_delete</span>
+        <span class="token comment" spellcheck="true">//   pthread_getspecific -> bthread_getspecific</span>
+        <span class="token comment" spellcheck="true">//   pthread_setspecific -> bthread_setspecific</span>
+        MyThreadLocalData<span class="token operator">*</span> tls2 <span class="token operator">=</span> <span class="token keyword">static_cast</span><span class="token operator">&lt;</span>MyThreadLocalData<span class="token operator">*</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token function">bthread_getspecific</span><span class="token punctuation">(</span>_tls2_key<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>tls2 <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            tls2 <span class="token operator">=</span> <span class="token keyword">new</span> MyThreadLocalData<span class="token punctuation">;</span>
+            <span class="token function">CHECK_EQ</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token function">bthread_setspecific</span><span class="token punctuation">(</span>_tls2_key<span class="token punctuation">,</span> tls2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="Q-Fail-to-write-into-fd-1865-SocketId-8905-10-208-245-43-54742-8230-Got-EOF-是什么意思"><a href="#Q-Fail-to-write-into-fd-1865-SocketId-8905-10-208-245-43-54742-8230-Got-EOF-是什么意思" class="headerlink" title="Q: Fail to write into fd=1865 SocketId=8905@10.208.245.43:54742@8230: Got EOF 是什么意思"></a>Q: Fail to write into fd=1865 SocketId=8905@10.208.245.43:54742@8230: Got EOF 是什么意思</h3><p>A: 一般是 client 端使用了连接池或短连接模式，在 RPC 超时后会关闭连接，server 写回 response 时发现连接已经关了就报这个错。Got EOF 就是指之前已经收到了 EOF（对端正常关闭了连接）。client 端使用单连接模式 server 端一般不会报这个。</p>
+<h3 id="Q-Remote-side-of-fd-9-SocketId-2-10-94-66-55-8000-was-closed-是什么意思"><a href="#Q-Remote-side-of-fd-9-SocketId-2-10-94-66-55-8000-was-closed-是什么意思" class="headerlink" title="Q: Remote side of fd=9 SocketId=2@10.94.66.55:8000 was closed 是什么意思"></a>Q: Remote side of fd=9 SocketId=2@10.94.66.55:8000 was closed 是什么意思</h3><p>这不是错误，是常见的 warning，表示对端关掉连接了（EOF）。这个日志有时对排查问题有帮助。</p>
+<p>默认关闭，把参数 <code>-log_connection_close</code> 设置为 true 就打开了（支持动态修改）。</p>
+<h3 id="Q-为什么-server-端线程数设了没用"><a href="#Q-为什么-server-端线程数设了没用" class="headerlink" title="Q: 为什么 server 端线程数设了没用"></a>Q: 为什么 server 端线程数设了没用</h3><p>brpc 同一个进程中所有的 server 共用线程，如果创建了多个 server，最终的工作线程数多半是最大的那个 <code>ServerOptions.num_threads</code>。</p>
+<h3 id="Q-为什么-client-端的延时远大于-server-端的延时"><a href="#Q-为什么-client-端的延时远大于-server-端的延时" class="headerlink" title="Q: 为什么 client 端的延时远大于 server 端的延时"></a>Q: 为什么 client 端的延时远大于 server 端的延时</h3><p>可能是 server 端的工作线程不够用了，出现了排队现象。排查方法请参考官方文档中的”高效率排查服务卡顿”。</p>
+<h3 id="Q-Fail-to-open-proc-self-io"><a href="#Q-Fail-to-open-proc-self-io" class="headerlink" title="Q: Fail to open /proc/self/io"></a>Q: Fail to open /proc/self/io</h3><p>有些内核没这个文件，不影响服务正确性，但如下几个 bvar 会无法更新：</p>
+<pre class="line-numbers language-text"><code class="language-text">process_io_read_bytes_second
+process_io_write_bytes_second
+process_io_read_second
+process_io_write_second<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Q-json-串-“-1-2-3-”-没法直接转为-protobuf-message"><a href="#Q-json-串-“-1-2-3-”-没法直接转为-protobuf-message" class="headerlink" title="Q: json 串 “[1,2,3]” 没法直接转为 protobuf message"></a>Q: json 串 “[1,2,3]” 没法直接转为 protobuf message</h3><p>这不是标准的 json。最外层必须是花括号 <code>{}</code> 包围的 json object。</p>
+<h2 id="附：Server-端基本流程"><a href="#附：Server-端基本流程" class="headerlink" title="附：Server 端基本流程"></a>附：Server 端基本流程</h2><p><img src="img_32.png" alt="brpc 的 Server 端基本流程：Acceptor 接收连接后经 Socket 与 Event Dispatcher 分发，由 Parse 切包并交给 ProcessRequest，最终调用对应的 Service 处理"></p>
+<h2 id="系列导航"><a href="#系列导航" class="headerlink" title="系列导航"></a>系列导航</h2><ul>
+<li>上一篇：<a href="/2024/01/30/rpc-22-ding-shi-qi/">RPC 系列（二十二）：brpc 的定时器</a></li>
+<li><a href="/2023/09/04/rpc-xi-lie-dao-du/">RPC 系列导读：从 gRPC 实战到 brpc 内核的完整路径</a></li>
+<li>下一篇：<a href="/2024/02/13/rpc-24-nei-zhi-fu-wu/">RPC 系列（二十四）：brpc 内置服务</a></li>
+</ul>
+
+            </div>
+            <hr />
+
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《RPC 系列（二十三）：brpc Server 全解》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/02/06/rpc-23-brpc-server/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                吴杭沉
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div id="giscus-card" class="card giscus-card" data-aos="fade-up">
+    <div class="card-content">
+        <div class="giscus"></div>
+    </div>
+</div>
+
+<script>
+    // 懒加载：滚动到评论区可见时才请求 giscus.app，
+    // 避免 giscus.app 不可达时阻塞页面加载
+    (function () {
+        var card = document.getElementById('giscus-card');
+        var holder = card ? card.querySelector('.giscus') : null;
+        if (!card || !holder) { return; }
+
+        var loaded = false;
+        function loadGiscus() {
+            if (loaded) { return; }
+            loaded = true;
+            var s = document.createElement('script');
+            s.src = 'https://giscus.app/client.js';
+            s.async = true;
+            s.crossOrigin = 'anonymous';
+            s.setAttribute('data-repo', 'wuhangchen/wuhangchen.github.io');
+            s.setAttribute('data-repo-id', 'R_kgDOMPl9sA');
+            s.setAttribute('data-category', 'Announcements');
+            s.setAttribute('data-category-id', 'DIC_kwDOMPl9sM4DDr8I');
+            s.setAttribute('data-mapping', 'pathname');
+            s.setAttribute('data-strict', '0');
+            s.setAttribute('data-reactions-enabled', '1');
+            s.setAttribute('data-emit-metadata', '0');
+            s.setAttribute('data-input-position', 'bottom');
+            s.setAttribute('data-theme', 'preferred_color_scheme');
+            s.setAttribute('data-lang', 'zh-CN');
+            holder.appendChild(s);
+        }
+
+        if (!('IntersectionObserver' in window)) {
+            // 旧浏览器直接降级为页面加载完成后加载
+            window.addEventListener('load', loadGiscus);
+            return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+            if (entries[0].isIntersecting) {
+                loadGiscus();
+                io.disconnect();
+            }
+        });
+        io.observe(card);
+    })();
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2024/02/13/rpc-24-nei-zhi-fu-wu/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="RPC 系列（二十四）：brpc 内置服务">
+                        
+                        <span class="card-title">RPC 系列（二十四）：brpc 内置服务</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            什么是内置服务内置服务以多种形式展现服务器内部状态，提高你开发和调试服务的效率。brpc 通过 HTTP 协议提供内置服务，可通过浏览器或 curl 访问，服务器会根据 User-Agent 返回纯文本或 html，你也可以添加 ?cons
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-02-13
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/bRPC/" class="post-category" target="_blank">
+                                    bRPC
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/bRPC/" target="_blank">
+                        <span class="chip bg-color">bRPC</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/01/30/rpc-22-ding-shi-qi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/bing-20260913.jpg" class="responsive-img" alt="RPC 系列（二十二）：brpc 的定时器">
+                        
+                        <span class="card-title">RPC 系列（二十二）：brpc 的定时器</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            在几点几分做某件事是 RPC 框架的基本需求，这件事比看上去难。
+让我们先来看看系统提供了些什么：posix 系统能以 signal 方式告知 timer 触发，不过 signal 逼迫我们使用全局变量，写 async-signal-saf
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-01-30
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/bRPC/" class="post-category" target="_blank">
+                                    bRPC
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/bRPC/" target="_blank">
+                        <span class="chip bg-color">bRPC</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 吴杭沉的博客<br />'
+            + '作者: 吴杭沉<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { bodyElement.removeChild(newdiv); }, 200);
+    });
+</script>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+	            fixPostCardWidth('artDetail', 'giscus-card');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy; 2017-2024 Wuhangchen. 版权所有
+
+            
+            &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+            <span class="white-color">484.3k</span>
+            
+
+            <br>
+            <span id="sitetime"></span>
+
+            
+            
+            <br>
+            
+            <span id="busuanzi_container_site_pv" style='display:none'>
+                <i class="fa fa-heart-o"></i>
+                本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv" style='display:none'>
+                人次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+            </span>
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:codewu1996@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);
+        var fixTries = 0;
+        var pvcountOffset = 80000;
+        var uvcountOffset = 20000;
+
+        function fixCount() {
+            // 本地环境不加载不蒜子时避免无限轮询：最多等待 10 秒
+            if (++fixTries > 200) {
+                clearInterval(int);
+                return;
+            }
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int);
+            }
+        }
+    });
+</script>
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2017, 09, 11, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    siteTime();
+</script>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "Σ(っ °Д °;)っ喔哟，崩溃啦！", clearTimeout(st)) : (document.title = "φ(゜▽゜*)♪咦，又好了！", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) })
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    
+    <script src="/libs/others/clicklove.js"></script>
+    
+
+    
+    <script>
+        // 本地调试（localhost/127.0.0.1）不加载不蒜子：
+        // 不蒜子按 Referer 计数，所有开发者本地环境的 localhost 计数是共用的，数值严重失真
+        if (!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) {
+            var bsz = document.createElement('script');
+            bsz.src = '/libs/others/busuanzi.pure.mini.js';
+            bsz.async = true;
+            document.body.appendChild(bsz);
+        }
+    </script>
+    
+
+    <!-- 雪花特效 -->
+    
+    <script type="text/javascript" src="/libs/others/snow.js"></script>
+    
+
+</body>
+
+</html>

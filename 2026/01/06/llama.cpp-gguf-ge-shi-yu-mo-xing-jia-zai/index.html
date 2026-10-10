@@ -249,7 +249,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/24.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/bing-20260923.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -260,6 +260,12 @@
                 </div>
             </div>
         </div>
+    </div>
+    
+    <div class="bing-copyright">
+        <a href="https://www.bing.com/search?q=%E8%A5%BF%E7%8F%AD%E7%89%99%E5%85%B0%E8%90%A8%E7%BD%97%E7%89%B9%E5%B2%9B&form=hpcapt&mkt=zh-cn" target="_blank" rel="noopener">
+        图源:必应每日壁纸 &middot; 黑色熔岩海滩鸟瞰图，埃尔戈尔福，兰萨罗特岛，加那利群岛，西班牙 (© Westend61/Adobe Stock)
+        </a>
     </div>
     
 </div>
@@ -406,7 +412,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.2k
+                    2.3k
                 </div>
                 
 
@@ -455,9 +461,9 @@
 │ Header (8 bytes): JSON 部分的长度              │
 ├──────────────────────────────────────────────┤
 │ JSON Metadata:                               │
-│   "token_embd.weight": {shape:[768,6400],    │
-│     dtype:"F16", offsets:[0, 9830400]}       │
-│   "blk.0.attn_q.weight": {...}               │
+│   &quot;token_embd.weight&quot;: {shape:[768,6400],    │
+│     dtype:&quot;F16&quot;, offsets:[0, 9830400]}       │
+│   &quot;blk.0.attn_q.weight&quot;: {...}               │
 │   ...                                        │
 ├──────────────────────────────────────────────┤
 │ Tensor Data (raw bytes):                     │
@@ -483,7 +489,7 @@
 </ul>
 <p>GGUF 的设计目标一句话：<strong>打开文件，一切就绪。</strong> 不需要 config.json，不需要 tokenizer.json，不需要 Python，不需要 GPU。一个文件，纯 C 读取，mmap 瞬间加载，量化格式内嵌，跨平台。</p>
 <h2 id="第二章：GGUF-的二进制格式——五段结构"><a href="#第二章：GGUF-的二进制格式——五段结构" class="headerlink" title="第二章：GGUF 的二进制格式——五段结构"></a>第二章：GGUF 的二进制格式——五段结构</h2><h3 id="2-1-规范就在源码注释里"><a href="#2-1-规范就在源码注释里" class="headerlink" title="2.1 规范就在源码注释里"></a>2.1 规范就在源码注释里</h3><p>打开 ggml/include/gguf.h，前 31 行就是完整的文件格式规范。不用翻文档，不用查 wiki——<strong>源码注释就是规范本身</strong>。这很 GGML——把复杂的事情说得尽可能简单。</p>
-<pre class="line-numbers language-text"><code class="language-text">1. File magic "GGUF" (4 bytes)                     ← 文件头，固定 0x47475546
+<pre class="line-numbers language-text"><code class="language-text">1. File magic &quot;GGUF&quot; (4 bytes)                     ← 文件头，固定 0x47475546
 2. File version (uint32_t)                          ← 当前是 3
 3. Number of ggml tensors in file (int64_t)         ← 有多少个权重张量
 4. Number of key-value-pairs in file (int64_t)      ← 有多少个元数据键值对
@@ -501,7 +507,7 @@
 7. The tensor data binary blob (optional, aligned)  ← 实际权重数据<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>画成图就是五段：</p>
 <pre class="line-numbers language-text"><code class="language-text">┌──────────────────────────────────────────────┐
-│ 1. Magic  "GGUF"  (4 bytes)                  │
+│ 1. Magic  &quot;GGUF&quot;  (4 bytes)                  │
 ├──────────────────────────────────────────────┤
 │ 2. Header                                     │
 │    version     = 3        (uint32)            │
@@ -509,23 +515,23 @@
 │    n_kv        = 33      (int64)              │
 ├──────────────────────────────────────────────┤
 │ 3. KV Metadata (33 pairs, variable length)    │
-│    "general.architecture"  → "qwen3"          │
-│    "qwen3.block_count"     → 8                │
-│    "qwen3.embedding_length"→ 768              │
-│    "tokenizer.ggml.tokens" → ["<|endoftext|>",│
-│                               "<|im_start|>", │
+│    &quot;general.architecture&quot;  → &quot;qwen3&quot;          │
+│    &quot;qwen3.block_count&quot;     → 8                │
+│    &quot;qwen3.embedding_length&quot;→ 768              │
+│    &quot;tokenizer.ggml.tokens&quot; → [&quot;&lt;|endoftext|&gt;&quot;,│
+│                               &quot;&lt;|im_start|&gt;&quot;, │
 │                               ...]            │
 │    ... (30 more)                               │
 ├──────────────────────────────────────────────┤
 │ 4. Tensor Info Array (90 entries)              │
-│    [0] "token_embd.weight"                    │
+│    [0] &quot;token_embd.weight&quot;                    │
 │        dims=[768, 6400], type=F16, offset=0   │
-│    [1] "blk.0.attn_norm.weight"               │
+│    [1] &quot;blk.0.attn_norm.weight&quot;               │
 │        dims=[768], type=F32, offset=9.8M      │
-│    [2] "blk.0.attn_q.weight"                  │
+│    [2] &quot;blk.0.attn_q.weight&quot;                  │
 │        dims=[768, 768], type=F16, offset=...  │
 │    ... (87 more)                              │
-│   [89] "output_norm.weight"                   │
+│   [89] &quot;output_norm.weight&quot;                   │
 │        dims=[768], type=F32, offset=127.8M    │
 ├──────────────────────────────────────────────┤
 │ 5. Tensor Data (aligned to 32 bytes)           │
@@ -552,16 +558,16 @@
 <h2 id="第三章：一个完整的加载流程——从命令行到你第一个-token"><a href="#第三章：一个完整的加载流程——从命令行到你第一个-token" class="headerlink" title="第三章：一个完整的加载流程——从命令行到你第一个 token"></a>第三章：一个完整的加载流程——从命令行到你第一个 token</h2><p>把上面所有内容串起来。当你在终端输入：</p>
 <pre class="line-numbers language-bash"><code class="language-bash">llama-cli -m minimind-f16.gguf -p <span class="token string">"你好"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>发生的完整流程：</p>
-<pre class="line-numbers language-text"><code class="language-text">llama_model_load_from_file("minimind-f16.gguf")
+<pre class="line-numbers language-text"><code class="language-text">llama_model_load_from_file(&quot;minimind-f16.gguf&quot;)
   │
-  ├─► gguf_init_from_file("minimind-f16.gguf")
+  ├─► gguf_init_from_file(&quot;minimind-f16.gguf&quot;)
   │     → 读 Header: version=3, n_tensors=90, n_kv=33
   │     → 读 33 个 KV 对 → gguf_context.kv
   │     → 读 90 个 Tensor Info → gguf_context.info
   │     → mmap 数据区 → gguf_context.data = 0x7f...
   │
   ├─► llama_model_loader 构造
-  │     → 读 "general.architecture" = "qwen3"
+  │     → 读 &quot;general.architecture&quot; = &quot;qwen3&quot;
   │     → 读 超参数: n_layer=8, n_embd=768, n_head=8, ...
   │     → 读 tokenizer: 6400 个 token, BPE merges
   │
@@ -577,14 +583,14 @@
   │
   ├─► ggml_backend_alloc_ctx_tensors_from_buft(model_ctx, cpu_buft)
   │     → 计算总大小 = 122 MB
-  │     → mmap 映射: 每个 tensor->data 直接指向 GGUF 文件内对应偏移
+  │     → mmap 映射: 每个 tensor-&gt;data 直接指向 GGUF 文件内对应偏移
   │     → 或 malloc: 分配 122MB, memcpy 从文件读取
   │
   └─► 返回 llama_model *
-         model->layers[0].wq->data → 0x7f... (GGUF 文件内偏移)
-         model->layers[0].wq->ne   = [768, 768]
-         model->hparams.n_layer    = 8
-         model->vocab.n_tokens     = 6400
+         model-&gt;layers[0].wq-&gt;data → 0x7f... (GGUF 文件内偏移)
+         model-&gt;layers[0].wq-&gt;ne   = [768, 768]
+         model-&gt;hparams.n_layer    = 8
+         model-&gt;vocab.n_tokens     = 6400
 
 llama_init_from_model(model, params)
   → 创建 llama_context, KV Cache, sampler, ...
@@ -728,32 +734,31 @@ llama_decode(ctx, batch)
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2026/01/11/llama.cpp-rpc-fen-bu-shi-tui-li/">
+                <a href="/2026/01/09/llm-xi-lie-dao-du/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/26.jpg" class="responsive-img" alt="llama.cpp RPC 局域网分布式推理验证">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="LLM 推理系列导读：从数值格式到投机解码">
                         
-                        <span class="card-title">llama.cpp RPC 局域网分布式推理验证</span>
+                        <span class="card-title">LLM 推理系列导读：从数值格式到投机解码</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            一、RPC 分布式推理的核心原理llama.cpp 的 RPC 模式基于一个非常朴素的想法：大模型是一层一层叠起来的，不同层可以在不同机器上算。
-Transformer 模型的每一层计算相对独立——上一层算完把结果传给下一层。这就给了分布式
+                            大模型推理优化是一个层层递进的话题：先搞懂数在硬件上长什么样，再算清模型要占多少内存，然后理解 KV Cache 这个核心机制，接着学会用量化压缩它，最后把带宽、容量这些端侧约束和投机解码这类算法加速串起来。7 篇文章按发文时间顺序读即是推
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2026-01-11
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2026-01-09
                         </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/llama-cpp/" class="post-category" target="_blank">
-                                    llama.cpp
+                            <a href="/categories/LLM/" class="post-category" target="_blank">
+                                    LLM
                                 </a>
                             
                             
@@ -763,8 +768,8 @@ Transformer 模型的每一层计算相对独立——上一层算完把结果�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/llama-cpp/" target="_blank">
-                        <span class="chip bg-color">llama.cpp</span>
+                    <a href="/tags/LLM/" target="_blank">
+                        <span class="chip bg-color">LLM</span>
                     </a>
                     
                 </div>
@@ -782,7 +787,7 @@ Transformer 模型的每一层计算相对独立——上一层算完把结果�
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/bing-20260913.jpg" class="responsive-img" alt="llama.cpp 源码解析（一）：GGML——大模型推理引擎是如何设计的">
+                        <img src="/medias/featureimages/bing-20261004.jpg" class="responsive-img" alt="llama.cpp 源码解析（一）：GGML——大模型推理引擎是如何设计的">
                         
                         <span class="card-title">llama.cpp 源码解析（一）：GGML——大模型推理引擎是如何设计的</span>
                     </div>
@@ -970,7 +975,7 @@ Transformer 模型的每一层计算相对独立——上一层算完把结果�
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">189.8k</span>
+            <span class="white-color">484.3k</span>
             
 
             <br>
@@ -1005,15 +1010,7 @@ Transformer 模型的每一层计算相对独立——上一层算完把结果�
 
 
 
-    <a href="https://zhihu.com/people/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
-        <i class="fa fa-inverse">知</i>
-    </a>
 
-
-
-    <a href="http://wpa.qq.com/msgrd?v=3&uin=1714593434&site=qq&menu=yes" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
-        <i class="fa fa-qq"></i>
-    </a>
 
 
 

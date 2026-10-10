@@ -258,12 +258,12 @@
 </div>
 <script>
 // 优先使用最新必应壁纸,否则每天切换本地 banner 图.
-$('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.jpg)');
+$('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20261009.jpg)');
 </script>
 
 <div class="bing-copyright">
-    <a href="https://www.bing.com/search?q=%E7%A7%8B%E5%88%86&form=hpcapt&mkt=zh-cn" target="_blank" rel="noopener">
-    图源:必应每日壁纸 &middot; 地坛公园秋日美景，北京，中国 (© by Wei/Adobestock)
+    <a href="https://www.bing.com/search?q=%E4%B8%96%E7%95%8C%E5%80%99%E9%B8%9F%E6%97%A5&form=hpcapt&mkt=zh-cn" target="_blank" rel="noopener">
+    图源:必应每日壁纸 &middot; 蒙特雷湾上空的双冠鸬鹚，加利福尼亚州，美国 (© Hiroya Minakuchi/Minden Pictures)
     </a>
 </div>
 
@@ -284,11 +284,106 @@ $('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
+                    <a href="/2026/01/31/llm-mo-xing-liang-hua/" target="_blank">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="LLM 推理系列（四）：模型量化——原理与范式">
+                            
+                            <span class="card-title">LLM 推理系列（四）：模型量化——原理与范式</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                            一、引言你有一张 RTX 4090，24GB 显存。你下载了 Llama-3.1-70B-Instruct，想在本机跑推理。然后发现：模型参数 70B，哪怕用 FP16（2 bytes per param），光是加载参数就需要 70×10⁹
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2026-01-31
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fa fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/LLM/" class="post-category" target="_blank">
+                                    LLM
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/LLM/" target="_blank">
+                            <span class="chip bg-color">LLM</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2026/01/26/llm-kv-cache/" target="_blank">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/bing-20260928.jpg" class="responsive-img" alt="LLM 推理系列（三）：KV Cache 原理与显存占用">
+                            
+                            <span class="card-title">LLM 推理系列（三）：KV Cache 原理与显存占用</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                            先快速过一遍前向传播：token 先查表变成向量，然后逐层经过 Transformer Block，每层里用 Q、K、V 三个向量做自注意力，最后从词表分布里挑出下一个 token。
+我们也知道了生成是自回归（Autoregressive）
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2026-01-26
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fa fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/LLM/" class="post-category" target="_blank">
+                                    LLM
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/LLM/" target="_blank">
+                            <span class="chip bg-color">LLM</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
                     <a href="/2026/01/21/llm-gpu-nei-cun-gu-suan/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="LLM 推理系列（二）：运行大型语言模型需要多少 GPU 内存？">
+                            <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="LLM 推理系列（二）：运行大型语言模型需要多少 GPU 内存？">
                             
                             <span class="card-title">LLM 推理系列（二）：运行大型语言模型需要多少 GPU 内存？</span>
                         </div>
@@ -336,7 +431,7 @@ $('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="LLM 推理系列（一）：讲清 FP64、FP32、TF32、BF16、FP16、FP8、INT8、INT4、NVFP4">
+                            <img src="/medias/featureimages/bing-20260916.jpg" class="responsive-img" alt="LLM 推理系列（一）：讲清 FP64、FP32、TF32、BF16、FP16、FP8、INT8、INT4、NVFP4">
                             
                             <span class="card-title">LLM 推理系列（一）：讲清 FP64、FP32、TF32、BF16、FP16、FP8、INT8、INT4、NVFP4</span>
                         </div>
@@ -384,7 +479,7 @@ $('.bg-cover').css('background-image', 'url(/medias/featureimages/bing-20260922.
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/26.jpg" class="responsive-img" alt="llama.cpp RPC 局域网分布式推理验证">
+                            <img src="/medias/featureimages/bing-20261001.jpg" class="responsive-img" alt="llama.cpp RPC 局域网分布式推理验证">
                             
                             <span class="card-title">llama.cpp RPC 局域网分布式推理验证</span>
                         </div>
@@ -428,11 +523,58 @@ Transformer 模型的每一层计算相对独立——上一层算完把结果�
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
+                    <a href="/2026/01/09/llm-xi-lie-dao-du/" target="_blank">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="LLM 推理系列导读：从数值格式到投机解码">
+                            
+                            <span class="card-title">LLM 推理系列导读：从数值格式到投机解码</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                            大模型推理优化是一个层层递进的话题：先搞懂数在硬件上长什么样，再算清模型要占多少内存，然后理解 KV Cache 这个核心机制，接着学会用量化压缩它，最后把带宽、容量这些端侧约束和投机解码这类算法加速串起来。7 篇文章按发文时间顺序读即是推
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2026-01-09
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fa fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/LLM/" class="post-category" target="_blank">
+                                    LLM
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/LLM/" target="_blank">
+                            <span class="chip bg-color">LLM</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
                     <a href="/2026/01/06/llama.cpp-gguf-ge-shi-yu-mo-xing-jia-zai/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/24.jpg" class="responsive-img" alt="llama.cpp 源码解析（二）：GGUF 格式与模型加载——从磁盘文件到内存张量">
+                            <img src="/medias/featureimages/bing-20260923.jpg" class="responsive-img" alt="llama.cpp 源码解析（二）：GGUF 格式与模型加载——从磁盘文件到内存张量">
                             
                             <span class="card-title">llama.cpp 源码解析（二）：GGUF 格式与模型加载——从磁盘文件到内存张量</span>
                         </div>
@@ -480,7 +622,7 @@ Transformer 模型的每一层计算相对独立——上一层算完把结果�
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/bing-20260913.jpg" class="responsive-img" alt="llama.cpp 源码解析（一）：GGML——大模型推理引擎是如何设计的">
+                            <img src="/medias/featureimages/bing-20261004.jpg" class="responsive-img" alt="llama.cpp 源码解析（一）：GGML——大模型推理引擎是如何设计的">
                             
                             <span class="card-title">llama.cpp 源码解析（一）：GGML——大模型推理引擎是如何设计的</span>
                         </div>
@@ -524,32 +666,34 @@ Transformer 模型的每一层计算相对独立——上一层算完把结果�
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2021/01/31/c-qbreakpad/" target="_blank">
+                    <a href="/2025/12/25/llama.cpp-xi-lie-dao-du/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/bing-20260907.jpg" class="responsive-img" alt="qBreakpad 踩坑记：ARM 平台崩溃转储收集">
+                            <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="llama.cpp 系列导读：源码解析三部曲">
                             
-                            <span class="card-title">qBreakpad 踩坑记：ARM 平台崩溃转储收集</span>
+                            <span class="card-title">llama.cpp 系列导读：源码解析三部曲</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            在 ARM 嵌入式平台上，程序崩溃后往往只留下一句模糊的报错，日志里很难定位到崩溃现场。qBreakpad 是基于 google-breakpad 封装的 Qt 库，可以在程序崩溃时自动生成 dump 文件，方便事后用符号文件还原调用栈。本
+                            想读懂 llama.cpp，最好的路径是从底往上：先看它如何设计推理引擎（GGML），再看模型如何从磁盘走进内存（GGUF），最后看它如何把推理搬到局域网的另一台机器上（RPC）。3 篇文章按发文时间顺序读即是推荐阅读顺序。
+全系列
+lla
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2021-01-31
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2025-12-25
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/C/" class="post-category" target="_blank">
-                                    C++
+                                <a href="/categories/llama-cpp/" class="post-category" target="_blank">
+                                    llama.cpp
                                 </a>
                                 
                                 
@@ -560,8 +704,8 @@ Transformer 模型的每一层计算相对独立——上一层算完把结果�
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/C/" target="_blank">
-                            <span class="chip bg-color">C++</span>
+                        <a href="/tags/llama-cpp/" target="_blank">
+                            <span class="chip bg-color">llama.cpp</span>
                         </a>
                         
                     </div>
@@ -571,33 +715,32 @@ Transformer 模型的每一层计算相对独立——上一层算完把结果�
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2021/01/24/shell-shi-yong-ji-qiao/" target="_blank">
+                    <a href="/2024/06/25/rpc-43-execution-queue/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/bing-20260916.jpg" class="responsive-img" alt="Shell 实用技巧集锦">
+                            <img src="/medias/featureimages/bing-20260908.jpg" class="responsive-img" alt="RPC 系列（四十三）：ExecutionQueue 详解">
                             
-                            <span class="card-title">Shell 实用技巧集锦</span>
+                            <span class="card-title">RPC 系列（四十三）：ExecutionQueue 详解</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            Shell 是每个开发者的日常工具，掌握一些高频技巧能显著提升命令行下的工作效率。本文整理了别名定义、后台任务管理、重定向与管道、批量处理、进程管理、磁盘排查等实用技巧，每个技巧都配有可直接运行的示例，方便边看边练。
-alias 命令别名对
+                            类似于 kylin 的 ExecMan，bthread::ExecutionQueue 提供了异步串行执行的功能。ExecutionQueue 的相关技术最早使用在 RPC 中实现多线程向同一个 fd 写数据，在 r31345 之后加入到了
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2021-01-24
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-06-25
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Shell/" class="post-category" target="_blank">
-                                    Shell
+                                <a href="/categories/bRPC/" class="post-category" target="_blank">
+                                    bRPC
                                 </a>
                                 
                                 
@@ -608,8 +751,8 @@ alias 命令别名对
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Shell/" target="_blank">
-                            <span class="chip bg-color">Shell</span>
+                        <a href="/tags/bRPC/" target="_blank">
+                            <span class="chip bg-color">bRPC</span>
                         </a>
                         
                     </div>
@@ -619,32 +762,33 @@ alias 命令别名对
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2021/01/17/shell-netstat/" target="_blank">
+                    <a href="/2024/06/18/rpc-42-xue-beng-fang-hu/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/bing-20260920.jpg" class="responsive-img" alt="netstat 命令详解">
+                            <img src="/medias/featureimages/bing-20260920.jpg" class="responsive-img" alt="RPC 系列（四十二）：从雪崩看限流">
                             
-                            <span class="card-title">netstat 命令详解</span>
+                            <span class="card-title">RPC 系列（四十二）：从雪崩看限流</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            netstat 命令用于显示各种网络相关信息，如网络连接、路由表、接口状态（Interface Statistics）、masquerade 连接、多播成员（Multicast Memberships）等等。它是排查网络问题最常用的工具之一
+                            “雪崩”指的是访问服务集群时绝大部分请求都超时，且在流量减少时仍无法恢复的现象。下面解释这个现象的来源。
+单一服务：过载但可恢复当流量超出服务的最大 qps 时，服务将无法正常服务；当流量恢复正常时（小于服务的处理能力），积压的请求会被处理
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2021-01-17
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-06-18
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Shell/" class="post-category" target="_blank">
-                                    Shell
+                                <a href="/categories/bRPC/" class="post-category" target="_blank">
+                                    bRPC
                                 </a>
                                 
                                 
@@ -655,8 +799,8 @@ alias 命令别名对
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Shell/" target="_blank">
-                            <span class="chip bg-color">Shell</span>
+                        <a href="/tags/bRPC/" target="_blank">
+                            <span class="chip bg-color">bRPC</span>
                         </a>
                         
                     </div>
@@ -666,33 +810,33 @@ alias 命令别名对
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2021/01/10/shell-nc-shang/" target="_blank">
+                    <a href="/2024/06/11/rpc-41-zi-gua-ying-xian-liu/" target="_blank">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="nc（netcat）使用指南（上）">
+                            <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="RPC 系列（四十一）：自适应并发限流">
                             
-                            <span class="card-title">nc（netcat）使用指南（上）</span>
+                            <span class="card-title">RPC 系列（四十一）：自适应并发限流</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                            nc 即 netcat 命令，这个工具在排查网络故障时非常有用，功能非常强大，因而被业界称为网络界的”瑞士军刀”，请读者务必掌握。默认系统是没有这个命令的，你需要先安装一下。
-nc 命令常见的用法是模拟一个服务器程序被其他客户端连接，或者模
+                            服务的处理能力是有客观上限的。当请求速度超过服务的处理速度时，服务就会过载。如果服务持续过载，会导致越来越多的请求积压，最终所有的请求都必须等待较长时间才能被处理，从而使整个服务处于瘫痪状态。
+与之相对的，如果直接拒绝掉一部分请求，反而能够
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2021-01-10
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-06-11
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/Shell/" class="post-category" target="_blank">
-                                    Shell
+                                <a href="/categories/bRPC/" class="post-category" target="_blank">
+                                    bRPC
                                 </a>
                                 
                                 
@@ -703,150 +847,8 @@ nc 命令常见的用法是模拟一个服务器程序被其他客户端连接�
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/Shell/" target="_blank">
-                            <span class="chip bg-color">Shell</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2021/01/03/shell-jq/" target="_blank">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/bing-20260918.jpg" class="responsive-img" alt="jq：命令行 JSON 处理神器">
-                            
-                            <span class="card-title">jq：命令行 JSON 处理神器</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                            JSON 是前端编程经常用到的格式，对于 PHP 或者 Python，解析 JSON 都不是什么大事，尤其是 PHP 的 json_encode 和 json_decode 非常好用。而 Linux 下也有这样的神器，就是 jq 命令，对于
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2021-01-03
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Shell/" class="post-category" target="_blank">
-                                    Shell
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Shell/" target="_blank">
-                            <span class="chip bg-color">Shell</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/12/27/shell-curl/" target="_blank">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/bing-20260907.jpg" class="responsive-img" alt="curl 命令详解与常用示例">
-                            
-                            <span class="card-title">curl 命令详解与常用示例</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                            在 Linux 中，curl 是一个利用 URL 规则在命令行下工作的文件传输工具，可以说是一款非常强大的 HTTP 命令行工具。它支持文件的上传和下载，是综合传输工具，但按传统，习惯称 curl 为下载工具。本文先介绍 curl 的常见参
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-12-27
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Shell/" class="post-category" target="_blank">
-                                    Shell
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Shell/" target="_blank">
-                            <span class="chip bg-color">Shell</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/12/20/shell-kuai-su-ding-wei-da-wen-jian/" target="_blank">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="快速定位磁盘中的大文件">
-                            
-                            <span class="card-title">快速定位磁盘中的大文件</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                            作为系统维护人员，你肯定遇到过硬盘被占满的情况。日志文件往往是占用大量磁盘空间的”罪魁祸首”，但要找出这些”隐形”的大块头并非易事。本文介绍几个高效的命令和工具，帮助你快速定位并管理这些占用空间的大文件。
-用 du 查看磁盘使用情况du（d
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-12-20
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Shell/" class="post-category" target="_blank">
-                                    Shell
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Shell/" target="_blank">
-                            <span class="chip bg-color">Shell</span>
+                        <a href="/tags/bRPC/" target="_blank">
+                            <span class="chip bg-color">bRPC</span>
                         </a>
                         
                     </div>
@@ -871,7 +873,7 @@ nc 命令常见的用法是模拟一个服务器程序被其他客户端连接�
             
         </div>
         <div class="page-info col m4 l4 hide-on-small-only">
-            <div class="center-align b-text-gray">2 / 10</div>
+            <div class="center-align b-text-gray">2 / 24</div>
         </div>
         <div class="col s6 m4 l4">
             
@@ -892,7 +894,7 @@ nc 命令常见的用法是模拟一个服务器程序被其他客户端连接�
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">189.8k</span>
+            <span class="white-color">484.3k</span>
             
 
             <br>
@@ -927,15 +929,7 @@ nc 命令常见的用法是模拟一个服务器程序被其他客户端连接�
 
 
 
-    <a href="https://zhihu.com/people/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
-        <i class="fa fa-inverse">知</i>
-    </a>
 
-
-
-    <a href="http://wpa.qq.com/msgrd?v=3&uin=1714593434&site=qq&menu=yes" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
-        <i class="fa fa-qq"></i>
-    </a>
 
 
 

@@ -1,0 +1,1292 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="RPC 系列（三十六）：brpc 的组合通道, C++ Linux PRC Go Docker">
+    <meta name="baidu-site-verification" content="fmlEuI34ir">
+    <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
+    <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
+    <meta name="description" content="随着服务规模的增大，对下游的访问流程会越来越复杂，其中往往包含多个同时发起的 RPC 或有复杂的层次结构。但这类代码的多线程陷阱很多，用户可能写出了 bug 也不自知，复现和调试也比较困难。而且实现要么只能支持同步的情况，要么得为异步重写一">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>RPC 系列（三十六）：brpc 的组合通道 | 吴杭沉的博客</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?ce84511d3df71640a9378a69f6293044";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    
+        <script>
+            (function(){
+                var bp = document.createElement('script');
+                var curProtocol = window.location.protocol.split(':')[0];
+                if (curProtocol === 'https') {
+                    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+                }
+                else {
+                    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+                }
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(bp, s);
+            })();
+        </script>
+    
+
+    <script>
+        (function(){
+        var src = "https://jspassport.ssl.qhimg.com/11.0.1.js?d182b3f28525f2db83acfaaf6e696dba";
+        document.write('<script src="' + src + '" id="sozz"><\/script>');
+        })();
+    </script>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">吴杭沉的博客</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/contact" class="waves-effect waves-light">
+            
+            <i class="fa fa-comments"></i>
+            
+            <span>留言板</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">吴杭沉的博客</div>
+        <div class="logo-desc">
+            
+            善良比聪明更重要
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contact" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-comments"></i>
+                
+                留言板
+            </a>
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/bing-20260922.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        RPC 系列（三十六）：brpc 的组合通道
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bing-copyright">
+        <a href="https://www.bing.com/search?q=%E7%A7%8B%E5%88%86&form=hpcapt&mkt=zh-cn" target="_blank" rel="noopener">
+        图源:必应每日壁纸 &middot; 地坛公园秋日美景，北京，中国 (© by Wei/Adobestock)
+        </a>
+    </div>
+    
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/bRPC/" target="_blank">
+                            <span class="chip bg-color">bRPC</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/bRPC/" class="post-category" target="_blank">
+                            bRPC
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-05-07
+                </div>
+
+                <div class="post-author info-break-policy">
+                    <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
+                    
+                    吴杭沉
+                    
+                </div>
+
+                
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    4.3k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    20 分
+                </div>
+                
+                
+
+                
+                <div id="busuanzi_container_page_pv" class="info-break-policy" style='display:none'>
+                    <i class="fa fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                    <span id="busuanzi_value_page_pv"></span>
+                </div>
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>随着服务规模的增大，对下游的访问流程会越来越复杂，其中往往包含多个同时发起的 RPC 或有复杂的层次结构。但这类代码的多线程陷阱很多，用户可能写出了 bug 也不自知，复现和调试也比较困难。而且实现要么只能支持同步的情况，要么得为异步重写一套。</p>
+<p>以”在多个异步 RPC 完成后运行一些代码”为例：它的同步实现一般是异步地发起多个 RPC，然后逐个等待各自完成；它的异步实现一般是用一个带计数器的回调，每当一个 RPC 完成时计数器减一，直到 0 时调用回调。可以看到这类实现有不少缺点。</p>
+<p>我们需要更好的抽象。如果我们能以不同的方式把一些 Channel 组合为更大的 Channel，并把不同的访问模式置入其中，那么用户可以使用统一接口完成同步、异步、取消等操作。这种 channel 在 brpc 中被称为组合 channel。</p>
+<h2 id="ParallelChannel"><a href="#ParallelChannel" class="headerlink" title="ParallelChannel"></a>ParallelChannel</h2><p>ParallelChannel（有时被称为”pchan”）同时访问其包含的 sub channel，并合并它们的结果。用户可通过 CallMapper 修改请求，通过 ResponseMerger 合并结果。ParallelChannel 看起来就像是一个普通的 Channel，示例代码见 <code>example/parallel_echo_c++</code>。</p>
+<p>任何 <code>brpc::ChannelBase</code> 的子类都可以加入 ParallelChannel，包括 ParallelChannel 和其他组合 Channel。用户可以设置 <code>ParallelChannelOptions.fail_limit</code> 来控制访问的最大失败次数，当失败的访问达到这个数目时，RPC 会立刻结束而不等待超时。</p>
+<p>一个 sub channel 可多次加入同一个 ParallelChannel。当你需要对同一个服务发起多次异步访问并等待它们完成的话，这很有用。</p>
+<p>ParallelChannel 的内部结构大致如下：</p>
+<p><img src="img_27.png" alt="ParallelChannel 的内部结构：request 分发给各 CallMapper、Channel、ResponseMerger，sub request/response 可以和整体的不同"></p>
+<p>可通过如下接口把 sub channel 插入 ParallelChannel：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">int</span> <span class="token function">AddChannel</span><span class="token punctuation">(</span>brpc<span class="token operator">::</span>ChannelBase<span class="token operator">*</span> sub_channel<span class="token punctuation">,</span>
+               ChannelOwnership ownership<span class="token punctuation">,</span>
+               CallMapper<span class="token operator">*</span> call_mapper<span class="token punctuation">,</span>
+               ResponseMerger<span class="token operator">*</span> response_merger<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>当 ownership 为 <code>brpc::OWNS_CHANNEL</code> 时，sub_channel 会在 ParallelChannel 析构时被删除。一个 sub channel 可能会多次加入一个 ParallelChannel，如果其中一个指明了 ownership 为 <code>brpc::OWNS_CHANNEL</code>，那个 sub channel 会在 ParallelChannel 析构时被最多删除一次。</p>
+<p>访问 ParallelChannel 时调用 AddChannel 是线程不安全的。</p>
+<h3 id="CallMapper"><a href="#CallMapper" class="headerlink" title="CallMapper"></a>CallMapper</h3><p>CallMapper 用于把对 ParallelChannel 的调用转化为对 sub channel 的调用。如果 call_mapper 是 NULL，sub channel 的请求就是 ParallelChannel 的请求，而 response 则 New() 自 ParallelChannel 的 response。如果 call_mapper 不为 NULL，则会在 ParallelChannel 析构时被删除。call_mapper 内含引用计数，一个 call_mapper 可与多个 sub channel 关联。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">CallMapper</span> <span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">virtual</span> <span class="token operator">~</span><span class="token function">CallMapper</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">virtual</span> SubCall <span class="token function">Map</span><span class="token punctuation">(</span><span class="token keyword">int</span> channel_index<span class="token comment" spellcheck="true">/*starting from 0*/</span><span class="token punctuation">,</span>
+                        <span class="token keyword">const</span> google<span class="token operator">::</span>protobuf<span class="token operator">::</span>MethodDescriptor<span class="token operator">*</span> method<span class="token punctuation">,</span>
+                        <span class="token keyword">const</span> google<span class="token operator">::</span>protobuf<span class="token operator">::</span>Message<span class="token operator">*</span> request<span class="token punctuation">,</span>
+                        google<span class="token operator">::</span>protobuf<span class="token operator">::</span>Message<span class="token operator">*</span> response<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>channel_index：该 sub channel 在 ParallelChannel 中的位置，从 0 开始计数。</li>
+<li>method/request/response：ParallelChannel.CallMethod() 的参数。</li>
+</ul>
+<p>返回的 SubCall 被用于访问对应的 sub channel。SubCall 有两个特殊值，其中之一是 <code>SubCall::Bad()</code>，返回后该次访问会立刻失败。</p>
+<p>常见的 Map() 实现有：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Broadcaster</span> <span class="token operator">:</span> <span class="token keyword">public</span> CallMapper <span class="token punctuation">{</span>
+  <span class="token keyword">public</span><span class="token operator">:</span>
+      SubCall <span class="token function">Map</span><span class="token punctuation">(</span><span class="token keyword">int</span> channel_index<span class="token comment" spellcheck="true">/*starting from 0*/</span><span class="token punctuation">,</span>
+                  <span class="token keyword">const</span> google<span class="token operator">::</span>protobuf<span class="token operator">::</span>MethodDescriptor<span class="token operator">*</span> method<span class="token punctuation">,</span>
+                  <span class="token keyword">const</span> google<span class="token operator">::</span>protobuf<span class="token operator">::</span>Message<span class="token operator">*</span> request<span class="token punctuation">,</span>
+                  google<span class="token operator">::</span>protobuf<span class="token operator">::</span>Message<span class="token operator">*</span> response<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token comment" spellcheck="true">// method/request和pchan保持一致.</span>
+          <span class="token comment" spellcheck="true">// response是new出来的，最后的flag告诉pchan在RPC结束后删除Response。</span>
+          <span class="token keyword">return</span> <span class="token function">SubCall</span><span class="token punctuation">(</span>method<span class="token punctuation">,</span> request<span class="token punctuation">,</span> response<span class="token operator">-</span><span class="token operator">></span><span class="token function">New</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> DELETE_RESPONSE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">ModifyRequest</span> <span class="token operator">:</span> <span class="token keyword">public</span> CallMapper <span class="token punctuation">{</span>
+  <span class="token keyword">public</span><span class="token operator">:</span>
+    SubCall <span class="token function">Map</span><span class="token punctuation">(</span><span class="token keyword">int</span> channel_index<span class="token comment" spellcheck="true">/*starting from 0*/</span><span class="token punctuation">,</span>
+                <span class="token keyword">const</span> google<span class="token operator">::</span>protobuf<span class="token operator">::</span>MethodDescriptor<span class="token operator">*</span> method<span class="token punctuation">,</span>
+                <span class="token keyword">const</span> google<span class="token operator">::</span>protobuf<span class="token operator">::</span>Message<span class="token operator">*</span> request<span class="token punctuation">,</span>
+                google<span class="token operator">::</span>protobuf<span class="token operator">::</span>Message<span class="token operator">*</span> response<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        FooRequest<span class="token operator">*</span> copied_req <span class="token operator">=</span> brpc<span class="token operator">::</span>Clone<span class="token operator">&lt;</span>FooRequest<span class="token operator">></span><span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        copied_req<span class="token operator">-</span><span class="token operator">></span><span class="token function">set_xxx</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 拷贝并修改request，最后的flag告诉pchan在RPC结束后删除Request和Response。</span>
+        <span class="token keyword">return</span> <span class="token function">SubCall</span><span class="token punctuation">(</span>method<span class="token punctuation">,</span> copied_req<span class="token punctuation">,</span> response<span class="token operator">-</span><span class="token operator">></span><span class="token function">New</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> DELETE_REQUEST <span class="token operator">|</span> DELETE_RESPONSE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">UseFieldAsSubRequest</span> <span class="token operator">:</span> <span class="token keyword">public</span> CallMapper <span class="token punctuation">{</span>
+  <span class="token keyword">public</span><span class="token operator">:</span>
+    SubCall <span class="token function">Map</span><span class="token punctuation">(</span><span class="token keyword">int</span> channel_index<span class="token comment" spellcheck="true">/*starting from 0*/</span><span class="token punctuation">,</span>
+                <span class="token keyword">const</span> google<span class="token operator">::</span>protobuf<span class="token operator">::</span>MethodDescriptor<span class="token operator">*</span> method<span class="token punctuation">,</span>
+                <span class="token keyword">const</span> google<span class="token operator">::</span>protobuf<span class="token operator">::</span>Message<span class="token operator">*</span> request<span class="token punctuation">,</span>
+                google<span class="token operator">::</span>protobuf<span class="token operator">::</span>Message<span class="token operator">*</span> response<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>channel_index <span class="token operator">>=</span> request<span class="token operator">-</span><span class="token operator">></span><span class="token function">sub_request_size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// sub_request不够，说明外面准备数据的地方和pchan中sub channel的个数不符.</span>
+            <span class="token comment" spellcheck="true">// 返回Bad()让该次访问立刻失败</span>
+            <span class="token keyword">return</span> SubCall<span class="token operator">::</span><span class="token function">Bad</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 取出对应的sub request，增加一个sub response，最后的flag为0告诉pchan什么都不用删</span>
+        <span class="token keyword">return</span> <span class="token function">SubCall</span><span class="token punctuation">(</span>sub_method<span class="token punctuation">,</span> request<span class="token operator">-</span><span class="token operator">></span><span class="token function">sub_request</span><span class="token punctuation">(</span>channel_index<span class="token punctuation">)</span><span class="token punctuation">,</span> response<span class="token operator">-</span><span class="token operator">></span><span class="token function">add_sub_response</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="ResponseMerger"><a href="#ResponseMerger" class="headerlink" title="ResponseMerger"></a>ResponseMerger</h3><p>response_merger 把 sub channel 的 response 合并入总的 response。其为 NULL 时，则使用 <code>response-&gt;MergeFrom(*sub_response)</code>，MergeFrom 的行为可概括为”除了合并 repeated 字段，其余都是覆盖”。如果你需要更复杂的行为，则需实现 ResponseMerger。</p>
+<p>response_merger 是一个个执行的，所以你并不需要考虑多个 Merge 同时运行的情况。response_merger 在 ParallelChannel 析构时被删除。response_merger 内含引用计数，一个 response_merger 可与多个 sub channel 关联。</p>
+<h3 id="访问-sub-channel-的细节"><a href="#访问-sub-channel-的细节" class="headerlink" title="访问 sub channel 的细节"></a>访问 sub channel 的细节</h3><p>有时访问者需要了解访问 sub channel 时的细节，通过 <code>Controller.sub(i)</code> 可获得访问 sub channel 的 controller：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">// Get the controllers for accessing sub channels in combo channels.</span>
+<span class="token comment" spellcheck="true">// Ordinary channel:</span>
+<span class="token comment" spellcheck="true">//   sub_count() is 0 and sub() is always NULL.</span>
+<span class="token comment" spellcheck="true">// ParallelChannel/PartitionChannel:</span>
+<span class="token comment" spellcheck="true">//   sub_count() is #sub-channels and sub(i) is the controller for</span>
+<span class="token comment" spellcheck="true">//   accessing i-th sub channel inside ParallelChannel, if i is outside</span>
+<span class="token comment" spellcheck="true">//    [0, sub_count() - 1], sub(i) is NULL.</span>
+<span class="token comment" spellcheck="true">//   NOTE: You must test sub() against NULL, ALWAYS. Even if i is inside</span>
+<span class="token comment" spellcheck="true">//   range, sub(i) can still be NULL:</span>
+<span class="token comment" spellcheck="true">//   * the rpc call may fail and terminate before accessing the sub channel</span>
+<span class="token comment" spellcheck="true">//   * the sub channel was skipped</span>
+<span class="token comment" spellcheck="true">// SelectiveChannel/DynamicPartitionChannel:</span>
+<span class="token comment" spellcheck="true">//   sub_count() is always 1 and sub(0) is the controller of successful</span>
+<span class="token comment" spellcheck="true">//   or last call to sub channels.</span>
+<span class="token keyword">int</span> <span class="token function">sub_count</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> Controller<span class="token operator">*</span> <span class="token function">sub</span><span class="token punctuation">(</span><span class="token keyword">int</span> index<span class="token punctuation">)</span> <span class="token keyword">const</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="SelectiveChannel"><a href="#SelectiveChannel" class="headerlink" title="SelectiveChannel"></a>SelectiveChannel</h2><p>SelectiveChannel（有时被称为”schan”）按负载均衡算法访问其包含的 Channel，相比普通 Channel 它更加高层：把流量分给 sub channel，而不是具体的 Server。SelectiveChannel 主要用来支持机器组之间的负载均衡，它具备 Channel 的主要属性。示例代码见 <code>example/selective_echo_c++</code>。</p>
+<p>任何 <code>brpc::ChannelBase</code> 的子类都可加入 SelectiveChannel，包括 SelectiveChannel 和其他组合 Channel。</p>
+<p>SelectiveChannel 的重试独立于其中的 sub channel，当 SelectiveChannel 访问某个 sub channel 失败后（本身可能重试），它会重试另外一个 sub channel。</p>
+<p>目前 SelectiveChannel 要求 request 必须在 RPC 结束前有效，其他 channel 没有这个要求。如果你使用 SelectiveChannel 发起异步操作，确保 request 在 done 中才被删除。</p>
+<p>SelectiveChannel 的初始化和普通 Channel 基本一样，但 Init 不需要指定命名服务，因为 SelectiveChannel 通过 AddChannel 动态添加 sub channel，而普通 Channel 通过命名服务动态管理 server：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;brpc/selective_channel.h></span></span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+brpc<span class="token operator">::</span>SelectiveChannel schan<span class="token punctuation">;</span>
+brpc<span class="token operator">::</span>ChannelOptions schan_options<span class="token punctuation">;</span>
+schan_options<span class="token punctuation">.</span>timeout_ms <span class="token operator">=</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">;</span>
+schan_options<span class="token punctuation">.</span>backup_request_ms <span class="token operator">=</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">;</span>
+schan_options<span class="token punctuation">.</span>max_retry <span class="token operator">=</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>schan<span class="token punctuation">.</span><span class="token function">Init</span><span class="token punctuation">(</span>load_balancer<span class="token punctuation">,</span> <span class="token operator">&amp;</span>schan_options<span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">LOG</span><span class="token punctuation">(</span>ERROR<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"Fail to init SelectiveChannel"</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>初始化完毕后通过 AddChannel 加入 sub channel：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">if</span> <span class="token punctuation">(</span>schan<span class="token punctuation">.</span><span class="token function">AddChannel</span><span class="token punctuation">(</span>sub_channel<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token comment" spellcheck="true">/*ChannelHandle*/</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  <span class="token comment" spellcheck="true">// 第二个参数ChannelHandle用于删除sub channel，不用删除可填NULL</span>
+    <span class="token function">LOG</span><span class="token punctuation">(</span>ERROR<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"Fail to add sub_channel"</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p><strong>提示</strong>：访问 SelectiveChannel 的方式和普通 Channel 是一样的。</p>
+</blockquote>
+<h3 id="向多个命名服务分流"><a href="#向多个命名服务分流" class="headerlink" title="向多个命名服务分流"></a>向多个命名服务分流</h3><p>一些场景中我们需要向多个命名服务下的机器分流，这都可以通过 SelectiveChannel 完成。</p>
+<p>下面的代码创建了一个 SelectiveChannel，并插入三个访问不同 bns 的普通 Channel：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">brpc<span class="token operator">::</span>SelectiveChannel channel<span class="token punctuation">;</span>
+brpc<span class="token operator">::</span>ChannelOptions schan_options<span class="token punctuation">;</span>
+schan_options<span class="token punctuation">.</span>timeout_ms <span class="token operator">=</span> FLAGS_timeout_ms<span class="token punctuation">;</span>
+schan_options<span class="token punctuation">.</span>max_retry <span class="token operator">=</span> FLAGS_max_retry<span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>channel<span class="token punctuation">.</span><span class="token function">Init</span><span class="token punctuation">(</span><span class="token string">"c_murmurhash"</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>schan_options<span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">LOG</span><span class="token punctuation">(</span>ERROR<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"Fail to init SelectiveChannel"</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">3</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    brpc<span class="token operator">::</span>Channel<span class="token operator">*</span> sub_channel <span class="token operator">=</span> <span class="token keyword">new</span> brpc<span class="token operator">::</span>Channel<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>sub_channel<span class="token operator">-</span><span class="token operator">></span><span class="token function">Init</span><span class="token punctuation">(</span>ns_node_name<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token string">"rr"</span><span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">LOG</span><span class="token punctuation">(</span>ERROR<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"Fail to init sub channel "</span> <span class="token operator">&lt;&lt;</span> i<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>channel<span class="token punctuation">.</span><span class="token function">AddChannel</span><span class="token punctuation">(</span>sub_channel<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token comment" spellcheck="true">/*handle for removal*/</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">LOG</span><span class="token punctuation">(</span>ERROR<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"Fail to add sub_channel to channel"</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+XXXService_Stub <span class="token function">stub</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>channel<span class="token punctuation">)</span><span class="token punctuation">;</span>
+stub<span class="token punctuation">.</span><span class="token function">FooMethod</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>cntl<span class="token punctuation">,</span> <span class="token operator">&amp;</span>request<span class="token punctuation">,</span> <span class="token operator">&amp;</span>response<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="PartitionChannel"><a href="#PartitionChannel" class="headerlink" title="PartitionChannel"></a>PartitionChannel</h2><p>PartitionChannel 是特殊的 ParallelChannel，它会根据命名服务中的 tag 自动建立对应分库的 sub channel。这样用户就可以把所有的分库机器挂在一个命名服务内，通过 tag 来指定哪台机器对应哪个分库。示例代码见 <code>example/partition_echo_c++</code>。</p>
+<p>PartitionChannel 只能处理一种分库方法。当用户需要多种分库方法共存，或从一个分库方法平滑地切换为另一种分库方法时，可以使用 DynamicPartitionChannel，它会根据不同的分库方式动态地建立对应的 sub PartitionChannel，并根据容量把请求分配给不同的分库。示例代码见 <code>example/dynamic_partition_echo_c++</code>。</p>
+<p>如果分库在不同的命名服务内，那么用户得自行用 ParallelChannel 组装，即每个 sub channel 对应一个分库（使用不同的命名服务），ParallelChannel 的使用方法见上文。</p>
+<h3 id="定制-PartitionParser"><a href="#定制-PartitionParser" class="headerlink" title="定制 PartitionParser"></a>定制 PartitionParser</h3><p>首先定制 PartitionParser。这个例子中 tag 的形式是 N/M，N 代表分库的 index，M 是分库的个数，比如 0/3 代表一共 3 个分库，这是第一个：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;brpc/partition_channel.h></span></span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token keyword">class</span> <span class="token class-name">MyPartitionParser</span> <span class="token operator">:</span> <span class="token keyword">public</span> brpc<span class="token operator">::</span>PartitionParser <span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">bool</span> <span class="token function">ParseFromTag</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token operator">::</span>string<span class="token operator">&amp;</span> tag<span class="token punctuation">,</span> brpc<span class="token operator">::</span>Partition<span class="token operator">*</span> out<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// "N/M" : #N partition of M partitions.</span>
+        size_t pos <span class="token operator">=</span> tag<span class="token punctuation">.</span><span class="token function">find_first_of</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>pos <span class="token operator">==</span> std<span class="token operator">::</span>string<span class="token operator">::</span>npos<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">LOG</span><span class="token punctuation">(</span>ERROR<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"Invalid tag="</span> <span class="token operator">&lt;&lt;</span> tag<span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">char</span><span class="token operator">*</span> endptr <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+        out<span class="token operator">-</span><span class="token operator">></span>index <span class="token operator">=</span> <span class="token function">strtol</span><span class="token punctuation">(</span>tag<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>endptr<span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>endptr <span class="token operator">!=</span> tag<span class="token punctuation">.</span><span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> pos<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">LOG</span><span class="token punctuation">(</span>ERROR<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"Invalid index="</span> <span class="token operator">&lt;&lt;</span> butil<span class="token operator">::</span><span class="token function">StringPiece</span><span class="token punctuation">(</span>tag<span class="token punctuation">.</span><span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> pos<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        out<span class="token operator">-</span><span class="token operator">></span>num_partition_kinds <span class="token operator">=</span> <span class="token function">strtol</span><span class="token punctuation">(</span>tag<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> pos <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>endptr<span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>endptr <span class="token operator">!=</span> tag<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> tag<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">LOG</span><span class="token punctuation">(</span>ERROR<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"Invalid num="</span> <span class="token operator">&lt;&lt;</span> tag<span class="token punctuation">.</span><span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> pos <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="初始化-PartitionChannel"><a href="#初始化-PartitionChannel" class="headerlink" title="初始化 PartitionChannel"></a>初始化 PartitionChannel</h3><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;brpc/partition_channel.h></span></span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+brpc<span class="token operator">::</span>PartitionChannel channel<span class="token punctuation">;</span>
+
+brpc<span class="token operator">::</span>PartitionChannelOptions options<span class="token punctuation">;</span>
+options<span class="token punctuation">.</span>protocol <span class="token operator">=</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">// PartitionChannelOptions继承了ChannelOptions，后者有的前者也有</span>
+options<span class="token punctuation">.</span>timeout_ms <span class="token operator">=</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 同上</span>
+options<span class="token punctuation">.</span>fail_limit <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">// PartitionChannel自己的选项，意思同ParallelChannel中的fail_limit。这里为1的意思是只要有1个分库访问失败，这次RPC就失败了。</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>channel<span class="token punctuation">.</span><span class="token function">Init</span><span class="token punctuation">(</span>num_partition_kinds<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token function">MyPartitionParser</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                 server_address<span class="token punctuation">,</span> load_balancer<span class="token punctuation">,</span> <span class="token operator">&amp;</span>options<span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">LOG</span><span class="token punctuation">(</span>ERROR<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"Fail to init PartitionChannel"</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// 访问方法和普通Channel是一样的</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="DynamicPartitionChannel"><a href="#DynamicPartitionChannel" class="headerlink" title="DynamicPartitionChannel"></a>DynamicPartitionChannel</h2><p>DynamicPartitionChannel 的使用方法和 PartitionChannel 基本上是一样的：先定制 PartitionParser 再初始化，但 Init 时不需要 num_partition_kinds，因为 DynamicPartitionChannel 会为不同的分库方法动态建立不同的 sub PartitionChannel。</p>
+<p>下面演示一下使用 DynamicPartitionChannel 平滑地从 3 库变成 4 库。</p>
+<h3 id="启动-3-分库的-server"><a href="#启动-3-分库的-server" class="headerlink" title="启动 3 分库的 server"></a>启动 3 分库的 server</h3><p>首先分别在 8004、8005、8006 端口启动三个 server：</p>
+<pre class="line-numbers language-bash"><code class="language-bash">$ ./echo_server -server_num 3
+TRACE: 09-06 10:40:39:   * 0 server.cpp:159<span class="token punctuation">]</span> EchoServer is serving on port<span class="token operator">=</span>8004
+TRACE: 09-06 10:40:39:   * 0 server.cpp:159<span class="token punctuation">]</span> EchoServer is serving on port<span class="token operator">=</span>8005
+TRACE: 09-06 10:40:39:   * 0 server.cpp:159<span class="token punctuation">]</span> EchoServer is serving on port<span class="token operator">=</span>8006
+TRACE: 09-06 10:40:40:   * 0 server.cpp:192<span class="token punctuation">]</span> S<span class="token punctuation">[</span>0<span class="token punctuation">]</span><span class="token operator">=</span>0 S<span class="token punctuation">[</span>1<span class="token punctuation">]</span><span class="token operator">=</span>0 S<span class="token punctuation">[</span>2<span class="token punctuation">]</span><span class="token operator">=</span>0 <span class="token punctuation">[</span>total<span class="token operator">=</span>0<span class="token punctuation">]</span>
+TRACE: 09-06 10:40:41:   * 0 server.cpp:192<span class="token punctuation">]</span> S<span class="token punctuation">[</span>0<span class="token punctuation">]</span><span class="token operator">=</span>0 S<span class="token punctuation">[</span>1<span class="token punctuation">]</span><span class="token operator">=</span>0 S<span class="token punctuation">[</span>2<span class="token punctuation">]</span><span class="token operator">=</span>0 <span class="token punctuation">[</span>total<span class="token operator">=</span>0<span class="token punctuation">]</span>
+TRACE: 09-06 10:40:42:   * 0 server.cpp:192<span class="token punctuation">]</span> S<span class="token punctuation">[</span>0<span class="token punctuation">]</span><span class="token operator">=</span>0 S<span class="token punctuation">[</span>1<span class="token punctuation">]</span><span class="token operator">=</span>0 S<span class="token punctuation">[</span>2<span class="token punctuation">]</span><span class="token operator">=</span>0 <span class="token punctuation">[</span>total<span class="token operator">=</span>0<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>启动后每个 Server 每秒会打印上一秒收到的流量，目前都是 0。</p>
+<p>在本地启动使用 DynamicPartitionChannel 的 Client，初始化代码如下：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    brpc<span class="token operator">::</span>DynamicPartitionChannel channel<span class="token punctuation">;</span>
+    brpc<span class="token operator">::</span>PartitionChannelOptions options<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 访问任何分库失败都认为RPC失败。调大这个数值可以使访问更宽松，比如等于2的话表示至少两个分库失败才算失败。</span>
+    options<span class="token punctuation">.</span>fail_limit <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>channel<span class="token punctuation">.</span><span class="token function">Init</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token function">MyPartitionParser</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"file://server_list"</span><span class="token punctuation">,</span> <span class="token string">"rr"</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>options<span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">LOG</span><span class="token punctuation">(</span>ERROR<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"Fail to init channel"</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>命名服务 <code>file://server_list</code> 的内容是：</p>
+<pre class="line-numbers language-text"><code class="language-text">0.0.0.0:8004  0/3  # 表示3分库中的第一个分库，其他依次类推
+0.0.0.0:8004  1/3
+0.0.0.0:8004  2/3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>3 分库方案的 3 个库都在 8004 端口对应的 server 上。启动 Client 后 Client 发现了 8004，并向其发送流量：</p>
+<pre class="line-numbers language-bash"><code class="language-bash">$ ./echo_client
+TRACE: 09-06 10:51:10:   * 0 src/brpc/policy/file_naming_service.cpp:83<span class="token punctuation">]</span> Got 3 unique addresses from `server_list'
+TRACE: 09-06 10:51:10:   * 0 src/brpc/socket.cpp:779<span class="token punctuation">]</span> Connected to 0.0.0.0:8004 via fd<span class="token operator">=</span>3 SocketId<span class="token operator">=</span>0 self_port<span class="token operator">=</span>46544
+TRACE: 09-06 10:51:11:   * 0 client.cpp:226<span class="token punctuation">]</span> Sending EchoRequest at qps<span class="token operator">=</span>132472 latency<span class="token operator">=</span>371
+TRACE: 09-06 10:51:12:   * 0 client.cpp:226<span class="token punctuation">]</span> Sending EchoRequest at qps<span class="token operator">=</span>132658 latency<span class="token operator">=</span>370
+TRACE: 09-06 10:51:13:   * 0 client.cpp:226<span class="token punctuation">]</span> Sending EchoRequest at qps<span class="token operator">=</span>133208 latency<span class="token operator">=</span>369<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>同时 Server 端收到了 3 倍的流量，因为访问一次 Client 端要访问三次 8004，分别对应每个分库：</p>
+<pre class="line-numbers language-text"><code class="language-text">TRACE: 09-06 10:51:11:   * 0 server.cpp:192] S[0]=398866 S[1]=0 S[2]=0 [total=398866]
+TRACE: 09-06 10:51:12:   * 0 server.cpp:192] S[0]=398117 S[1]=0 S[2]=0 [total=398117]
+TRACE: 09-06 10:51:13:   * 0 server.cpp:192] S[0]=398873 S[1]=0 S[2]=0 [total=398873]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="加入-4-分库的-server"><a href="#加入-4-分库的-server" class="headerlink" title="加入 4 分库的 server"></a>加入 4 分库的 server</h3><p>开始修改分库，在 server_list 中加入 4 分库的 8005：</p>
+<pre class="line-numbers language-text"><code class="language-text">0.0.0.0:8004  0/3
+0.0.0.0:8004  1/3
+0.0.0.0:8004  2/3
+
+0.0.0.0:8005  0/4
+0.0.0.0:8005  1/4
+0.0.0.0:8005  2/4
+0.0.0.0:8005  3/4<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>观察 Client 和 Server 的输出变化。Client 端发现了 server_list 的变化并重新载入，但 qps 并没有什么变化：</p>
+<pre class="line-numbers language-text"><code class="language-text">TRACE: 09-06 10:57:10:   * 0 src/brpc/policy/file_naming_service.cpp:83] Got 7 unique addresses from `server_list&#39;
+TRACE: 09-06 10:57:10:   * 0 src/brpc/socket.cpp:779] Connected to 0.0.0.0:8005 via fd=7 SocketId=768 self_port=39171
+TRACE: 09-06 10:57:11:   * 0 client.cpp:226] Sending EchoRequest at qps=135346 latency=363
+TRACE: 09-06 10:57:12:   * 0 client.cpp:226] Sending EchoRequest at qps=134201 latency=366
+TRACE: 09-06 10:57:13:   * 0 client.cpp:226] Sending EchoRequest at qps=137627 latency=356
+TRACE: 09-06 10:57:14:   * 0 client.cpp:226] Sending EchoRequest at qps=136775 latency=359
+TRACE: 09-06 10:57:15:   * 0 client.cpp:226] Sending EchoRequest at qps=139043 latency=353<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>server 端的变化比较大：8005 收到了流量，并且和 8004 的流量比例关系约为 4:3：</p>
+<pre class="line-numbers language-text"><code class="language-text">TRACE: 09-06 10:57:09:   * 0 server.cpp:192] S[0]=398597 S[1]=0 S[2]=0 [total=398597]
+TRACE: 09-06 10:57:10:   * 0 server.cpp:192] S[0]=392839 S[1]=0 S[2]=0 [total=392839]
+TRACE: 09-06 10:57:11:   * 0 server.cpp:192] S[0]=334704 S[1]=83219 S[2]=0 [total=417923]
+TRACE: 09-06 10:57:12:   * 0 server.cpp:192] S[0]=206215 S[1]=273873 S[2]=0 [total=480088]
+TRACE: 09-06 10:57:13:   * 0 server.cpp:192] S[0]=204520 S[1]=270483 S[2]=0 [total=475003]
+TRACE: 09-06 10:57:14:   * 0 server.cpp:192] S[0]=207055 S[1]=273725 S[2]=0 [total=480780]
+TRACE: 09-06 10:57:15:   * 0 server.cpp:192] S[0]=208453 S[1]=276803 S[2]=0 [total=485256]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>一次 RPC 要访问三次 8004 或四次 8005，8004 和 8005 流量比是 3:4，说明 Client 以 1:1 的比例访问了 3 分库和 4 分库。这个比例关系取决于其容量，容量的计算是递归的。在这儿的场景中，3 分库和 4 分库的容量都是 1，因为所有的 3 库都在 8004 一台 server 上，所有的 4 库都在 8005 一台 server 上。</p>
+<p>在 4 分库方案中加入 8006 端口的 server：</p>
+<pre class="line-numbers language-text"><code class="language-text">0.0.0.0:8004  0/3
+0.0.0.0:8004  1/3
+0.0.0.0:8004  2/3
+
+0.0.0.0:8005  0/4
+0.0.0.0:8005  1/4
+0.0.0.0:8005  2/4
+0.0.0.0:8005  3/4
+
+0.0.0.0:8006 0/4
+0.0.0.0:8006 1/4
+0.0.0.0:8006 2/4
+0.0.0.0:8006 3/4<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Client 的变化仍旧不大：</p>
+<pre class="line-numbers language-text"><code class="language-text">TRACE: 09-06 11:11:51:   * 0 src/brpc/policy/file_naming_service.cpp:83] Got 11 unique addresses from `server_list&#39;
+TRACE: 09-06 11:11:51:   * 0 src/brpc/socket.cpp:779] Connected to 0.0.0.0:8006 via fd=8 SocketId=1280 self_port=40759
+TRACE: 09-06 11:11:51:   * 0 client.cpp:226] Sending EchoRequest at qps=131799 latency=372
+TRACE: 09-06 11:11:52:   * 0 client.cpp:226] Sending EchoRequest at qps=136217 latency=361
+TRACE: 09-06 11:11:53:   * 0 client.cpp:226] Sending EchoRequest at qps=133531 latency=368
+TRACE: 09-06 11:11:54:   * 0 client.cpp:226] Sending EchoRequest at qps=136072 latency=361<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Server 端可以看到 8006 收到了流量，三台 server 的流量比例约为 3:4:4。这是因为 3 分库的容量仍为 1，而 4 分库由于 8006 的加入变成了 2，3 分库和 4 分库的流量比例是 3:8。4 分库中的每个分库在 8005 和 8006 上都有实例，同一个分库的不同实例使用 round robin 分流，所以 8005 和 8006 平摊了流量，最后的效果就是 3:4:4：</p>
+<pre class="line-numbers language-text"><code class="language-text">TRACE: 09-06 11:11:51:   * 0 server.cpp:192] S[0]=199625 S[1]=263226 S[2]=0 [total=462851]
+TRACE: 09-06 11:11:52:   * 0 server.cpp:192] S[0]=143248 S[1]=190717 S[2]=159756 [total=493721]
+TRACE: 09-06 11:11:53:   * 0 server.cpp:192] S[0]=133003 S[1]=178328 S[2]=178325 [total=489656]
+TRACE: 09-06 11:11:54:   * 0 server.cpp:192] S[0]=135534 S[1]=180386 S[2]=180333 [total=496253]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="下线-3-分库的-server"><a href="#下线-3-分库的-server" class="headerlink" title="下线 3 分库的 server"></a>下线 3 分库的 server</h3><p>尝试去掉 3 分库中的一个分库（你可以在 file://server_list 中使用 # 注释一行）：</p>
+<pre class="line-numbers language-text"><code class="language-text">0.0.0.0:8004  0/3
+0.0.0.0:8004  1/3
+#0.0.0.0:8004  2/3
+
+0.0.0.0:8005  0/4
+0.0.0.0:8005  1/4
+0.0.0.0:8005  2/4
+0.0.0.0:8005  3/4
+
+0.0.0.0:8006 0/4
+0.0.0.0:8006 1/4
+0.0.0.0:8006 2/4
+0.0.0.0:8006 3/4<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Client 端发现了这点：</p>
+<pre class="line-numbers language-text"><code class="language-text">TRACE: 09-06 11:17:47:   * 0 src/brpc/policy/file_naming_service.cpp:83] Got 10 unique addresses from `server_list&#39;
+TRACE: 09-06 11:17:47:   * 0 client.cpp:226] Sending EchoRequest at qps=131653 latency=373
+TRACE: 09-06 11:17:48:   * 0 client.cpp:226] Sending EchoRequest at qps=120560 latency=407
+TRACE: 09-06 11:17:49:   * 0 client.cpp:226] Sending EchoRequest at qps=124100 latency=395
+TRACE: 09-06 11:17:50:   * 0 client.cpp:226] Sending EchoRequest at qps=123743 latency=397<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Server 端更明显，8004 很快没有了流量。这是因为去掉的分库已经是 3 分库中最后的 2/3 分库，去掉后 3 分库的容量变为了 0，导致 8004 分不到任何流量了：</p>
+<pre class="line-numbers language-text"><code class="language-text">TRACE: 09-06 11:17:47:   * 0 server.cpp:192] S[0]=130864 S[1]=174499 S[2]=174548 [total=479911]
+TRACE: 09-06 11:17:48:   * 0 server.cpp:192] S[0]=20063 S[1]=230027 S[2]=230098 [total=480188]
+TRACE: 09-06 11:17:49:   * 0 server.cpp:192] S[0]=0 S[1]=245961 S[2]=245888 [total=491849]
+TRACE: 09-06 11:17:50:   * 0 server.cpp:192] S[0]=0 S[1]=250198 S[2]=250150 [total=500348]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在真实的线上环境中，我们会逐渐地增加 4 分库的 server，同时下掉 3 分库中的 server。DynamicPartitionChannel 会按照每种分库方式的容量动态切分流量。当某个时刻 3 分库的容量变为 0 时，我们便平滑地把 Server 从 3 分库变为了 4 分库，同时并没有修改 Client 的代码。</p>
+<h2 id="系列导航"><a href="#系列导航" class="headerlink" title="系列导航"></a>系列导航</h2><ul>
+<li>上一篇：<a href="/2024/04/30/rpc-35-brpc-client/">RPC 系列（三十五）：brpc Client 全解</a></li>
+<li><a href="/2023/09/04/rpc-xi-lie-dao-du/">RPC 系列导读：从 gRPC 实战到 brpc 内核的完整路径</a></li>
+<li>下一篇：<a href="/2024/05/14/rpc-37-fu-zai-jun-heng/">RPC 系列（三十七）：brpc 的负载均衡</a></li>
+</ul>
+
+            </div>
+            <hr />
+
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《RPC 系列（三十六）：brpc 的组合通道》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2024/05/07/rpc-36-zu-he-tong-dao/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                吴杭沉
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div id="giscus-card" class="card giscus-card" data-aos="fade-up">
+    <div class="card-content">
+        <div class="giscus"></div>
+    </div>
+</div>
+
+<script>
+    // 懒加载：滚动到评论区可见时才请求 giscus.app，
+    // 避免 giscus.app 不可达时阻塞页面加载
+    (function () {
+        var card = document.getElementById('giscus-card');
+        var holder = card ? card.querySelector('.giscus') : null;
+        if (!card || !holder) { return; }
+
+        var loaded = false;
+        function loadGiscus() {
+            if (loaded) { return; }
+            loaded = true;
+            var s = document.createElement('script');
+            s.src = 'https://giscus.app/client.js';
+            s.async = true;
+            s.crossOrigin = 'anonymous';
+            s.setAttribute('data-repo', 'wuhangchen/wuhangchen.github.io');
+            s.setAttribute('data-repo-id', 'R_kgDOMPl9sA');
+            s.setAttribute('data-category', 'Announcements');
+            s.setAttribute('data-category-id', 'DIC_kwDOMPl9sM4DDr8I');
+            s.setAttribute('data-mapping', 'pathname');
+            s.setAttribute('data-strict', '0');
+            s.setAttribute('data-reactions-enabled', '1');
+            s.setAttribute('data-emit-metadata', '0');
+            s.setAttribute('data-input-position', 'bottom');
+            s.setAttribute('data-theme', 'preferred_color_scheme');
+            s.setAttribute('data-lang', 'zh-CN');
+            holder.appendChild(s);
+        }
+
+        if (!('IntersectionObserver' in window)) {
+            // 旧浏览器直接降级为页面加载完成后加载
+            window.addEventListener('load', loadGiscus);
+            return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+            if (entries[0].isIntersecting) {
+                loadGiscus();
+                io.disconnect();
+            }
+        });
+        io.observe(card);
+    })();
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2024/05/14/rpc-37-fu-zai-jun-heng/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/bing-20261009.jpg" class="responsive-img" alt="RPC 系列（三十七）：brpc 的负载均衡">
+                        
+                        <span class="card-title">RPC 系列（三十七）：brpc 的负载均衡</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            上游一般通过命名服务发现所有的下游节点，并通过多种负载均衡方法把流量分配给下游节点。当下游节点出现问题时，它可能会被隔离以提高负载均衡的效率。被隔离的节点会定期被健康检查，成功后重新加入正常节点。理解「命名服务 + 负载均衡 + 健康检查」
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2024-05-14
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/bRPC/" class="post-category" target="_blank">
+                                    bRPC
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/bRPC/" target="_blank">
+                        <span class="chip bg-color">bRPC</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/04/30/rpc-35-brpc-client/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/bing-20260912.jpg" class="responsive-img" alt="RPC 系列（三十五）：brpc Client 全解">
+                        
+                        <span class="card-title">RPC 系列（三十五）：brpc Client 全解</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            本文对应的示例是 example/echo_c++ 中的 client 端代码。
+Client 指发起请求的一端，在 brpc 中没有对应的实体，取而代之的是 brpc::Channel，它代表和一台或一组服务器的交互通道。Client 和
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2024-04-30
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/bRPC/" class="post-category" target="_blank">
+                                    bRPC
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/bRPC/" target="_blank">
+                        <span class="chip bg-color">bRPC</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 吴杭沉的博客<br />'
+            + '作者: 吴杭沉<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { bodyElement.removeChild(newdiv); }, 200);
+    });
+</script>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+	            fixPostCardWidth('artDetail', 'giscus-card');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy; 2017-2024 Wuhangchen. 版权所有
+
+            
+            &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+            <span class="white-color">484.3k</span>
+            
+
+            <br>
+            <span id="sitetime"></span>
+
+            
+            
+            <br>
+            
+            <span id="busuanzi_container_site_pv" style='display:none'>
+                <i class="fa fa-heart-o"></i>
+                本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv" style='display:none'>
+                人次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+            </span>
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:codewu1996@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);
+        var fixTries = 0;
+        var pvcountOffset = 80000;
+        var uvcountOffset = 20000;
+
+        function fixCount() {
+            // 本地环境不加载不蒜子时避免无限轮询：最多等待 10 秒
+            if (++fixTries > 200) {
+                clearInterval(int);
+                return;
+            }
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int);
+            }
+        }
+    });
+</script>
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2017, 09, 11, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    siteTime();
+</script>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "Σ(っ °Д °;)っ喔哟，崩溃啦！", clearTimeout(st)) : (document.title = "φ(゜▽゜*)♪咦，又好了！", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) })
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    
+    <script src="/libs/others/clicklove.js"></script>
+    
+
+    
+    <script>
+        // 本地调试（localhost/127.0.0.1）不加载不蒜子：
+        // 不蒜子按 Referer 计数，所有开发者本地环境的 localhost 计数是共用的，数值严重失真
+        if (!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) {
+            var bsz = document.createElement('script');
+            bsz.src = '/libs/others/busuanzi.pure.mini.js';
+            bsz.async = true;
+            document.body.appendChild(bsz);
+        }
+    </script>
+    
+
+    <!-- 雪花特效 -->
+    
+    <script type="text/javascript" src="/libs/others/snow.js"></script>
+    
+
+</body>
+
+</html>

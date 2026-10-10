@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://wuhangchen.github.io/"/>
-  <updated>2026-09-22T06:48:06.787Z</updated>
+  <updated>2026-09-28T02:49:38.624Z</updated>
   <id>https://wuhangchen.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://wuhangchen.github.io/2026/03/22/gao-tong-qnn-xing-neng-diao-you-shi-zhan/"/>
     <id>https://wuhangchen.github.io/2026/03/22/gao-tong-qnn-xing-neng-diao-you-shi-zhan/</id>
     <published>2026-03-22T04:00:00.000Z</published>
-    <updated>2026-09-22T06:48:06.787Z</updated>
+    <updated>2026-09-28T02:49:38.624Z</updated>
     
     <summary type="html">
     
@@ -30,7 +30,7 @@
         
         
           &lt;p&gt;&lt;strong&gt;⚡ Profiling 三板斧 · Memory-Bound 破局 · 投机采样加速&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;前两篇聊了硬件架构和量化方法。到这一步，你应该已经有了一个量化好的模型，能在车机 NPU 上跑起来了。Qwen2.5-VL-3B 在
+&lt;p&gt;前两篇我们搞定了 QNN 的软件栈全景和部署实战。到这一步，你应该已经有了一个量化好的模型，能在车机 NPU
         
       
     
@@ -44,11 +44,11 @@
   </entry>
   
   <entry>
-    <title>高通 QNN 全景拆解（二）：从模型量化到多模型并发的完整部署实战</title>
+    <title>高通 QNN 全景拆解（二）：从模型量化到模型推理的完整部署实战</title>
     <link href="https://wuhangchen.github.io/2026/03/17/gao-tong-qnn-bu-shu-shi-zhan/"/>
     <id>https://wuhangchen.github.io/2026/03/17/gao-tong-qnn-bu-shu-shi-zhan/</id>
     <published>2026-03-17T04:00:00.000Z</published>
-    <updated>2026-09-22T06:48:06.613Z</updated>
+    <updated>2026-09-23T07:13:58.934Z</updated>
     
     <summary type="html">
     
@@ -76,7 +76,7 @@
     <link href="https://wuhangchen.github.io/2026/03/12/gao-tong-qnn-quan-jing-chai-jie/"/>
     <id>https://wuhangchen.github.io/2026/03/12/gao-tong-qnn-quan-jing-chai-jie/</id>
     <published>2026-03-12T04:00:00.000Z</published>
-    <updated>2026-09-22T06:48:06.430Z</updated>
+    <updated>2026-09-28T02:49:28.862Z</updated>
     
     <summary type="html">
     
@@ -84,7 +84,7 @@
       
         
         
-          &lt;p&gt;这是「高通 QNN 端侧 AI 部署全解析」系列的第一篇。两篇的结构：&lt;/p&gt;
+          &lt;p&gt;这是「高通 QNN 端侧 AI 部署全解析」系列的第一篇。三篇的结构：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;本篇&lt;/strong&gt;：QNN 全景 — 软件栈分层 + 三大后端 + API 核心调用&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;第二篇&lt;/strong&gt;：部署实战
@@ -124,6 +124,33 @@
     
     
       <category term="Jetson" scheme="https://wuhangchen.github.io/tags/Jetson/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>高通 QNN 系列导读：端侧 AI 部署三部曲</title>
+    <link href="https://wuhangchen.github.io/2026/03/05/gao-tong-qnn-xi-lie-dao-du/"/>
+    <id>https://wuhangchen.github.io/2026/03/05/gao-tong-qnn-xi-lie-dao-du/</id>
+    <published>2026-03-05T04:00:00.000Z</published>
+    <updated>2026-09-28T07:56:30.344Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;如果你在做端侧 AI——手机、车机还是 IoT——高通的 QNN 都绕不过去。这个系列三篇，从软件栈全景讲到部署实战，再讲到性能调优，按发文时间顺序读即是推荐阅读顺序。&lt;/p&gt;
+&lt;h2 id=&quot;全系列&quot;&gt;&lt;a href=&quot;#全系列&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="高通QNN" scheme="https://wuhangchen.github.io/categories/%E9%AB%98%E9%80%9AQNN/"/>
+    
+    
+      <category term="高通QNN" scheme="https://wuhangchen.github.io/tags/%E9%AB%98%E9%80%9AQNN/"/>
     
   </entry>
   
@@ -197,6 +224,33 @@
         
           &lt;p&gt;在本文中，您将找到在主机上安装 Jetpack 的指南。本部分假设您已经安装了 NVIDIA SDK Manager，要了解 SDK Manager，请查看安装 SDK Manager 部分。&lt;/p&gt;
 &lt;p&gt;以下小节介绍了在主机上安装 Jetpack 5.0.2
+        
+      
+    
+    </summary>
+    
+      <category term="Jetson" scheme="https://wuhangchen.github.io/categories/Jetson/"/>
+    
+    
+      <category term="Jetson" scheme="https://wuhangchen.github.io/tags/Jetson/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Jetson 系列导读：从环境搭建到视觉流水线</title>
+    <link href="https://wuhangchen.github.io/2026/02/16/jetson-xi-lie-dao-du/"/>
+    <id>https://wuhangchen.github.io/2026/02/16/jetson-xi-lie-dao-du/</id>
+    <published>2026-02-16T04:00:00.000Z</published>
+    <updated>2026-09-28T07:56:30.398Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;这个系列记录 Jetson Orin 上的完整视觉开发路径：先把环境搭起来，再把目标检测榨到硬件极限，然后打通相机到推理的全链路，最后补上 V4L2 这块底层拼图。4 篇文章按发文时间顺序读即是推荐阅读顺序。&lt;/p&gt;
+&lt;h2 id=&quot;全系列&quot;&gt;&lt;a href=&quot;#全系列&quot;
         
       
     
@@ -421,6 +475,33 @@
   </entry>
   
   <entry>
+    <title>LLM 推理系列导读：从数值格式到投机解码</title>
+    <link href="https://wuhangchen.github.io/2026/01/09/llm-xi-lie-dao-du/"/>
+    <id>https://wuhangchen.github.io/2026/01/09/llm-xi-lie-dao-du/</id>
+    <published>2026-01-09T04:00:00.000Z</published>
+    <updated>2026-09-28T07:56:47.242Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;大模型推理优化是一个层层递进的话题：先搞懂数在硬件上长什么样，再算清模型要占多少内存，然后理解 KV Cache 这个核心机制，接着学会用量化压缩它，最后把带宽、容量这些端侧约束和投机解码这类算法加速串起来。7 篇文章按发文时间顺序读即是推荐阅读顺序。&lt;/p&gt;
+&lt;h2
+        
+      
+    
+    </summary>
+    
+      <category term="LLM" scheme="https://wuhangchen.github.io/categories/LLM/"/>
+    
+    
+      <category term="LLM" scheme="https://wuhangchen.github.io/tags/LLM/"/>
+    
+  </entry>
+  
+  <entry>
     <title>llama.cpp 源码解析（二）：GGUF 格式与模型加载——从磁盘文件到内存张量</title>
     <link href="https://wuhangchen.github.io/2026/01/06/llama.cpp-gguf-ge-shi-yu-mo-xing-jia-zai/"/>
     <id>https://wuhangchen.github.io/2026/01/06/llama.cpp-gguf-ge-shi-yu-mo-xing-jia-zai/</id>
@@ -471,85 +552,6 @@
     
     
       <category term="llama.cpp" scheme="https://wuhangchen.github.io/tags/llama-cpp/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>qBreakpad 踩坑记：ARM 平台崩溃转储收集</title>
-    <link href="https://wuhangchen.github.io/2021/01/31/c-qbreakpad/"/>
-    <id>https://wuhangchen.github.io/2021/01/31/c-qbreakpad/</id>
-    <published>2021-01-31T04:00:00.000Z</published>
-    <updated>2026-09-22T07:20:57.205Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;在 ARM 嵌入式平台上，程序崩溃后往往只留下一句模糊的报错，日志里很难定位到崩溃现场。qBreakpad 是基于 google-breakpad 封装的 Qt 库，可以在程序崩溃时自动生成 dump 文件，方便事后用符号文件还原调用栈。本文记录一次在 ARM 环境下接入
-        
-      
-    
-    </summary>
-    
-      <category term="C++" scheme="https://wuhangchen.github.io/categories/C/"/>
-    
-    
-      <category term="C++" scheme="https://wuhangchen.github.io/tags/C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Shell 实用技巧集锦</title>
-    <link href="https://wuhangchen.github.io/2021/01/24/shell-shi-yong-ji-qiao/"/>
-    <id>https://wuhangchen.github.io/2021/01/24/shell-shi-yong-ji-qiao/</id>
-    <published>2021-01-24T04:00:00.000Z</published>
-    <updated>2026-09-22T07:24:13.937Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Shell 是每个开发者的日常工具，掌握一些高频技巧能显著提升命令行下的工作效率。本文整理了别名定义、后台任务管理、重定向与管道、批量处理、进程管理、磁盘排查等实用技巧，每个技巧都配有可直接运行的示例，方便边看边练。&lt;/p&gt;
-&lt;h2 id=&quot;alias-命令别名&quot;&gt;&lt;a
-        
-      
-    
-    </summary>
-    
-      <category term="Shell" scheme="https://wuhangchen.github.io/categories/Shell/"/>
-    
-    
-      <category term="Shell" scheme="https://wuhangchen.github.io/tags/Shell/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>netstat 命令详解</title>
-    <link href="https://wuhangchen.github.io/2021/01/17/shell-netstat/"/>
-    <id>https://wuhangchen.github.io/2021/01/17/shell-netstat/</id>
-    <published>2021-01-17T04:00:00.000Z</published>
-    <updated>2026-09-22T07:23:08.070Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;netstat 命令用于显示各种网络相关信息，如网络连接、路由表、接口状态（Interface Statistics）、masquerade 连接、多播成员（Multicast
-        
-      
-    
-    </summary>
-    
-      <category term="Shell" scheme="https://wuhangchen.github.io/categories/Shell/"/>
-    
-    
-      <category term="Shell" scheme="https://wuhangchen.github.io/tags/Shell/"/>
     
   </entry>
   

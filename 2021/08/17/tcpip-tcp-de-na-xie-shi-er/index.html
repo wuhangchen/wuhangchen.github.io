@@ -1,0 +1,1080 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="TCP 的那些事儿：协议头部与可靠传输, C++ Linux PRC Go Docker">
+    <meta name="baidu-site-verification" content="fmlEuI34ir">
+    <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
+    <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
+    <meta name="description" content="
+TCP 是一个巨复杂的协议，因为它要解决很多问题，而这些问题又带出了很多子问题和阴暗面。所以学习 TCP 本身是个比较痛苦的过程，但对于学习的过程却能让人有很多收获。关于 TCP 这个协议的细节，我还是推荐你去看 W. Richard S">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>TCP 的那些事儿：协议头部与可靠传输 | 吴杭沉的博客</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?ce84511d3df71640a9378a69f6293044";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    
+        <script>
+            (function(){
+                var bp = document.createElement('script');
+                var curProtocol = window.location.protocol.split(':')[0];
+                if (curProtocol === 'https') {
+                    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+                }
+                else {
+                    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+                }
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(bp, s);
+            })();
+        </script>
+    
+
+    <script>
+        (function(){
+        var src = "https://jspassport.ssl.qhimg.com/11.0.1.js?d182b3f28525f2db83acfaaf6e696dba";
+        document.write('<script src="' + src + '" id="sozz"><\/script>');
+        })();
+    </script>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">吴杭沉的博客</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/contact" class="waves-effect waves-light">
+            
+            <i class="fa fa-comments"></i>
+            
+            <span>留言板</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">吴杭沉的博客</div>
+        <div class="logo-desc">
+            
+            善良比聪明更重要
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contact" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-comments"></i>
+                
+                留言板
+            </a>
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        TCP 的那些事儿：协议头部与可靠传输
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/TCP-IP/" target="_blank">
+                            <span class="chip bg-color">TCP/IP</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/TCP-IP/" class="post-category" target="_blank">
+                            TCP/IP
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2021-08-17
+                </div>
+
+                <div class="post-author info-break-policy">
+                    <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
+                    
+                    吴杭沉
+                    
+                </div>
+
+                
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3.8k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    14 分
+                </div>
+                
+                
+
+                
+                <div id="busuanzi_container_page_pv" class="info-break-policy" style='display:none'>
+                    <i class="fa fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                    <span id="busuanzi_value_page_pv"></span>
+                </div>
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p><img src="img_10.jpeg" alt="文章题图"></p>
+<p>TCP 是一个巨复杂的协议，因为它要解决很多问题，而这些问题又带出了很多子问题和阴暗面。所以学习 TCP 本身是个比较痛苦的过程，但对于学习的过程却能让人有很多收获。关于 TCP 这个协议的细节，我还是推荐你去看 W. Richard Stevens 的《TCP/IP 详解 卷1：协议》（当然，你也可以去读一下 RFC 793 以及后面 N 多的 RFC）。另外，本文我会使用英文术语，这样方便你通过这些英文关键词来查找相关的技术文档。</p>
+<p>所以，本文不会面面俱到，只是对 TCP 协议、算法和原理的科普。</p>
+<p>我本来只想写一个篇幅的文章的，但是 TCP 真 TMD 的复杂，比 C++ 复杂多了，这 30 多年来，各种优化变种争论和修改。所以，写着写着就发现只有砍成两篇。</p>
+<p>废话少说，首先，我们需要知道 TCP 在网络 OSI 的七层模型中的第四层——Transport 层，IP 在第三层——Network 层，ARP 在第二层——Data Link 层。在第二层上的数据，我们叫 Frame，在第三层上的数据叫 Packet，第四层的数据叫 Segment。</p>
+<p>首先，我们需要知道，我们程序的数据首先会打到 TCP 的 Segment 中，然后 TCP 的 Segment 会打到 IP 的 Packet 中，然后再打到以太网 Ethernet 的 Frame 中。传到对端后，各个层解析自己的协议，然后把数据交给更高层的协议处理。</p>
+<h2 id="TCP-头格式"><a href="#TCP-头格式" class="headerlink" title="TCP 头格式"></a>TCP 头格式</h2><p>接下来，我们来看一下 TCP 头的格式：</p>
+<p><img src="img_11.jpeg" alt="TCP 头格式示意图"></p>
+<p>你需要注意这么几点：</p>
+<ul>
+<li>TCP 的包是没有 IP 地址的，那是 IP 层上的事情，但是有端口号——Source Port 和 Destination Port</li>
+<li>Sequence Number 是包的序号，用来解决网络包乱序（reordering）问题</li>
+<li>Acknowledgement Number 就是 ACK——用于确认收到，用来解决不丢包的问题</li>
+<li>Window 又叫 Advertised-Window，也就是著名的滑动窗口（Sliding Window），用于解决流控</li>
+<li>TCP Flag 是包的类型，主要用于操控 TCP 的状态机</li>
+</ul>
+<p>关于其它的东西，可以参看下面的图示：</p>
+<p><img src="img_12.jpeg" alt="TCP 头部其它字段图示"></p>
+<ul>
+<li>Checksum（校验和）：覆盖整个 TCP 报文段和伪首部，用于检测传输过程中的差错</li>
+<li>Offset：头部以 32 位字（4 字节）为单位计数，数值乘以 4 才是首部的实际字节长度，也就是上面说的“数据偏移”</li>
+<li>TCP Flags：每个标志位都有对应的十六进制值——CWR 0x80、ECE 0x40、URG 0x20、ACK 0x10、PSH 0x08、RST 0x04、SYN 0x02、FIN 0x01</li>
+<li>Congestion Notification：ECN 拥塞通知的编码规则（Packet State 与 ECN bits 的组合），配合上面说的 CWR、ECE 两个标志使用</li>
+<li>TCP Options：可变长的选项字段，常见的有 MSS（Kind=2）、Window Scale（Kind=3）、SACK-Permitted（Kind=4）、Timestamp（Kind=8），后文讲到的 SACK 也是靠选项来传递的</li>
+</ul>
+<h2 id="TCP-的状态机"><a href="#TCP-的状态机" class="headerlink" title="TCP 的状态机"></a>TCP 的状态机</h2><p>其实，网络上的传输是没有连接的，包括 TCP 也是一样的。而 TCP 所谓的“连接”，其实只不过是在通讯的双方维护一个“连接状态”，让它看上去好像有连接一样。所以，TCP 的状态变换是非常重要的。</p>
+<p>下面是“TCP 协议的状态机”和“TCP 建连接、TCP 断连接、传数据”的对照图，我把两个图放在一起，方便你对照着看。另外，下面这两个图非常非常的重要，你一定要记牢。（吐个槽：看到这样复杂的状态机，就知道这个协议有多复杂，复杂的东西总是有很多坑爹的事情，所以 TCP 协议其实也挺坑爹的）</p>
+<p><img src="img_55.png" alt="TCP 协议状态机图"></p>
+<p>状态机里的十一个状态——CLOSED、LISTEN、SYN-SENT、SYN-RCVD、ESTABLISHED、FIN-WAIT-1、FIN-WAIT-2、CLOSE-WAIT、CLOSING、LAST-ACK、TIME-WAIT——要能一一对应上。图中还画出了同时打开（Simultaneous Open）和同时关闭（Simultaneous Close）两条特殊路径，后者正是下面这张图要展开的情形。</p>
+<p><img src="img_13.jpeg" alt="TCP 建连接（三次握手）、断连接（四次挥手）与数据传输对照图"></p>
+<p>很多人会问，为什么建连接要 3 次握手，断连接需要 4 次挥手？这个问题展开讲内容很多，本站的《<a href="/2021/08/31/tcpip-san-ci-wo-shou-yu-si-ci-hui-shou/">三次握手与四次挥手</a>》和《<a href="/2021/09/07/tcpip-shen-ru-li-jie-wo-shou-fen-shou/">深入理解握手分手</a>》里有详细的讨论。这里只补充一个特殊情况——如果通信双方同时断开连接（同时关闭），状态变迁会是下图这样：</p>
+<p><img src="img_56.png" alt="两端同时断连接（同时关闭）的状态变迁图"></p>
+<p>从图中可以看到，同时关闭时双方走的是同一条路径：ESTABLISHED → FIN-WAIT-1 → CLOSING → TIME-WAIT → CLOSED。双方几乎同时发出 FIN，又几乎同时收到对方的 FIN，于是各自发出 ACK 并等待 2MSL 后关闭。</p>
+<p>另外，有一件事需要注意：使用 <code>tcp_tw_reuse</code> 和 <code>tcp_tw_recycle</code> 来解决 TIME_WAIT 的问题是非常非常危险的，因为这两个参数违反了 TCP 协议（RFC 1122）。</p>
+<p>其实，TIME_WAIT 表示的是你主动断连接，所以，这就是所谓的“不作死不会死”。试想，如果让对端断连接，那么这个破问题就是对方的了，呵呵。另外，如果你的服务器是 HTTP 服务器，那么设置一个 HTTP 的 KeepAlive 就非常重要了（浏览器会重用一个 TCP 连接来处理多个 HTTP 请求），然后让客户端去断连接（你要小心，浏览器可能会非常贪婪，它们不到万不得已不会主动断连接）。关于 TIME_WAIT 的细节，可以参看本站的《<a href="/2021/10/05/tcpip-time-wait-zhuang-tai-xiang-jie/">TIME_WAIT 状态详解</a>》和《<a href="/2021/10/12/tcpip-wei-shi-me-xu-yao-time-wait/">为什么需要 TIME_WAIT</a>》。另外注意，HTTP 的 KeepAlive 是应用层对 TCP 连接的复用，TCP 层还有一个同名的 Keepalive 机制，用来探测连接是否存活，两者不是一回事（详见本站的《<a href="/2021/08/24/tcpip-tcpkeepalive/">TCPKeepalive</a>》）。</p>
+<h2 id="数据传输中的-Sequence-Number"><a href="#数据传输中的-Sequence-Number" class="headerlink" title="数据传输中的 Sequence Number"></a>数据传输中的 Sequence Number</h2><p>下图是我从 Wireshark 中截的一个我在访问 coolshell.cn 时的有数据传输的图，给你看一下 SeqNum 是怎么变的（使用 Wireshark 菜单中的 <code>Statistics -&gt; Flow Graph…</code>）：</p>
+<p><img src="img_14.jpeg" alt="Wireshark 流图：数据传输中 SeqNum 的变化"></p>
+<p>你可以看到，SeqNum 的增加是和传输的字节数相关的。上图中，三次握手后，来了两个 <code>Len:1440</code> 的包，而第二个包的 SeqNum 就成了 1441。然后第一个 ACK 回的是 1441，表示第一个 1440 收到了。</p>
+<p>注意：如果你用 Wireshark 抓包程序看 3 次握手，你会发现 SeqNum 总是为 0——不是这样的，Wireshark 为了显示更友好，使用了 Relative SeqNum（相对序号），你只要在右键菜单中的 Protocol Preferences 里取消掉它，就可以看到“Absolute SeqNum”了。</p>
+<h2 id="TCP-重传机制"><a href="#TCP-重传机制" class="headerlink" title="TCP 重传机制"></a>TCP 重传机制</h2><p>TCP 要保证所有的数据包都可以到达，所以，必须有重传机制。</p>
+<p>注意，接收端给发送端的 ACK 确认只会确认最后一个连续的包。比如，发送端发了 1、2、3、4、5 一共五份数据，接收端收到了 1、2，于是回 ACK 3，然后收到了 4（注意此时 3 没收到），此时的 TCP 会怎么办？我们要知道，正如前面所说的，SeqNum 和 ACK 是以字节数为单位的，所以 ACK 的时候，不能跳着确认，只能确认最大的连续收到的包，不然，发送端就以为之前的都收到了。</p>
+<h3 id="超时重传机制"><a href="#超时重传机制" class="headerlink" title="超时重传机制"></a>超时重传机制</h3><p>超时重传机制的一种做法是：不回 ACK，死等 3，当发送方发现收不到 3 的 ACK 超时后，会重传 3。一旦接收方收到 3 后，会 ACK 回 4——意味着 3 和 4 都收到了。</p>
+<p>但是，这种方式会有比较严重的问题，那就是因为要死等 3，所以会导致 4 和 5 即便已经收到了，而发送方也完全不知道发生了什么事，因为没有收到 ACK，所以，发送方可能会悲观地认为也丢了，所以有可能也会导致 4 和 5 的重传。</p>
+<p>对此有两种选择：</p>
+<ul>
+<li>一种是仅重传超时的那个包（也就是 3 号包）</li>
+<li>另一种是重传超时包之后的所有数据包（包括超时包本身）</li>
+</ul>
+<p>这两种方式有好也有不好。第一种会节省带宽，但是慢，第二种会快一点，但是会浪费带宽，也可能会有无用功。但总体来说都不好。因为都在等 timeout，timeout 可能会很长（TCP 是怎么动态地计算出 timeout 的，会在下篇中说，也可以参看本站的《<a href="/2021/11/09/tcpip-chong-chuan-hua-dong-chuang-kou-yu-yong-sai-kong-zhi/">重传滑动窗口与拥塞控制</a>》）。</p>
+<h3 id="快速重传机制"><a href="#快速重传机制" class="headerlink" title="快速重传机制"></a>快速重传机制</h3><p>于是，TCP 引入了一种叫 Fast Retransmit 的算法，不以时间驱动，而以数据驱动重传。也就是说，如果包没有连续到达，就 ACK 最后那个可能被丢了的包；如果发送方连续收到 3 次相同的 ACK，就重传。Fast Retransmit 的好处是不用等 timeout 了再重传。</p>
+<p>比如：如果发送方发出了 1、2、3、4、5 份数据，第一份先送到了，于是就 ACK 回 2；结果 2 因为某些原因没收到，3 到达了，于是还是 ACK 回 2；后面的 4 和 5 都到了，但是还是 ACK 回 2，因为 2 还是没有收到。于是发送端收到了三个 ACK=2 的确认，知道了 2 还没有到，于是就马上重传 2。然后，接收端收到了 2，此时因为 3、4、5 都收到了，于是 ACK 回 6。示意图如下：</p>
+<p><img src="img_57.png" alt="Fast Retransmit 快速重传示意图"></p>
+<p>Fast Retransmit 只解决了一个问题，就是 timeout 的问题，它依然面临一个艰难的选择：是重传之前的一个，还是重传所有的问题。对于上面的示例来说，是重传 #2 呢，还是重传 #2、#3、#4、#5 呢？因为发送端并不清楚这连续的 3 个 ACK=2 是谁传回来的，也许发送端发了 20 份数据，是 #6、#10、#20 传来的呢。这样，发送端很有可能要重传从 2 到 20 的这堆数据（这就是某些 TCP 的实际的实现）。可见，这是一把双刃剑。</p>
+<h3 id="SACK-方法"><a href="#SACK-方法" class="headerlink" title="SACK 方法"></a>SACK 方法</h3><p>另外一种更好的方式叫：Selective Acknowledgment (SACK)（参看 RFC 2018）。这种方式需要在 TCP 头里加一个 SACK 的选项，ACK 还是 Fast Retransmit 的 ACK，SACK 则是汇报收到的数据的碎版。参看下图：</p>
+<p><img src="img_15.jpeg" alt="SACK 汇报收到的数据块示意图"></p>
+<p>图中，发送端先发出 100-299，接收端收到后回 ACK 300；接着 300-499 在路上丢了，先到的 500-699 只能随 ACK 300 一起带上 SACK=500-700；随后 700-899 也丢了，先到的 900-1099 又随 ACK 300 带上 SACK=900-1100, 500-700。对照右边的接收缓冲区可以看出来：接收端把每一个不连续的“碎块”都通过 SACK 汇报给了发送端。</p>
+<p>这样，在发送端就可以根据回传的 SACK 来知道哪些数据到了，哪些没有到——图中的 300-499 和 700-899 这两个缺口，就是真正需要重传的部分——于是就优化了 Fast Retransmit 的算法。当然，这个协议需要两边都支持，并且在建立连接时通过 TCP Options 里的 SACK-Permitted 选项完成协商。在 Linux 下，可以通过 <code>tcp_sack</code> 参数打开这个功能（Linux 2.4 后默认打开）。</p>
+<p>这里还需要注意一个问题——接收方 Reneging。所谓 Reneging 的意思就是接收方有权把已经报给发送端 SACK 里的数据给丢了。这样干是不被鼓励的，因为这个事会把问题复杂化了，但是，接收方这么做可能会有些极端情况，比如要把内存给别的更重要的东西。所以，发送方也不能完全依赖 SACK，还是要依赖 ACK，并维护 Time-Out，如果后续的 ACK 没有增长，那么还是要把 SACK 的东西重传。另外，接收端这边永远不能把 SACK 的包标记为 Ack。</p>
+<p>注意：SACK 会消费发送方的资源。试想，如果一个攻击者给数据发送方发一堆 SACK 的选项，这会导致发送方开始要重传甚至遍历已经发出的数据，这会消耗很多发送端的资源。详细的东西请参看《TCP SACK 的性能权衡》。</p>
+<h3 id="Duplicate-SACK——重复收到数据的问题"><a href="#Duplicate-SACK——重复收到数据的问题" class="headerlink" title="Duplicate SACK——重复收到数据的问题"></a>Duplicate SACK——重复收到数据的问题</h3><p>Duplicate SACK 又称 D-SACK，其主要使用了 SACK 来告诉发送方有哪些数据被重复接收了，RFC 2883 里有详细描述和示例。</p>
+<p>D-SACK 的判断方法是：接收方观察到，SACK 的第一个段所描述的字节范围，其左侧起点小于当前 ACK 所指向的序号——也就是说这段数据其实已经 ACK 过了，又被重复接收了一遍，那么这个 SACK 就是 D-SACK。下面举几个例子（来源于 RFC 2883）：表中每列分别是发送端的发送情况、接收端的接收情况、以及回给发送端的 ACK（含 SACK 块），下划线标出的就是 D-SACK 块。</p>
+<h4 id="示例一：ACK-丢包"><a href="#示例一：ACK-丢包" class="headerlink" title="示例一：ACK 丢包"></a>示例一：ACK 丢包</h4><p>下面的示例中，丢了两个 ACK，所以，发送端重传了第一个数据包（3000-3499），于是接收端发现重复收到，于是回了一个 SACK=3000-3500。因为 ACK 都到了 4000，意味着收到了 4000 之前的所有数据，所以这个 SACK 就是 D-SACK——旨在告诉发送端我收到了重复的数据，而且我们的发送端还知道，数据包没有丢，丢的是 ACK 包。</p>
+<pre class="line-numbers language-text"><code class="language-text">Transmitted    Received    ACK Sent
+Segment        Segment     (Including SACK Blocks)
+
+3000-3499      3000-3499   3500 (ACK dropped)
+3500-3999      3500-3999   4000 (ACK dropped)
+3000-3499      3000-3499   4000, SACK=3000-3500
+                                      ---------<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="示例二：网络延误"><a href="#示例二：网络延误" class="headerlink" title="示例二：网络延误"></a>示例二：网络延误</h4><p>下面的示例中，网络包（1000-1499）被网络给延误了，导致发送方没有收到 ACK，而后面到达的三个包触发了“Fast Retransmit 算法”，所以重传。但重传时，被延误的包又到了，所以，回了一个 SACK=1000-1500。因为 ACK 已到了 3000，所以，这个 SACK 是 D-SACK——标识收到了重复的包。</p>
+<p>这个案例下，发送端知道之前因为“Fast Retransmit 算法”触发的重传不是因为发出去的包丢了，也不是因为回应的 ACK 包丢了，而是因为网络延时了。</p>
+<pre class="line-numbers language-text"><code class="language-text">Transmitted    Received    ACK Sent
+Segment        Segment     (Including SACK Blocks)
+
+500-999        500-999     1000
+1000-1499      (delayed)
+1500-1999      1500-1999   1000, SACK=1500-2000
+2000-2499      2000-2499   1000, SACK=1500-2500
+2500-2999      2500-2999   1000, SACK=1500-3000
+1000-1499      1000-1499   3000
+               1000-1499   3000, SACK=1000-1500
+                                      ---------<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可见，引入了 D-SACK，有这么几个好处：</p>
+<ol>
+<li>可以让发送方知道，是发出去的包丢了，还是回来的 ACK 包丢了。</li>
+<li>可以让发送方知道，是不是自己的 timeout 设置得太小，导致了不必要的重传。</li>
+<li>可以让发送方知道，网络上是否出现了先发的包后到的情况（又称 reordering）。</li>
+<li>可以让发送方知道，网络上是不是把数据包给复制了。</li>
+</ol>
+<p>知道这些东西可以很好地帮助 TCP 了解网络情况，从而可以更好地做网络上的流控。</p>
+<p>Linux 下的 <code>tcp_dsack</code> 参数用于开启这个功能（Linux 2.4 后默认打开）。</p>
+<p>好了，上篇就到这里结束了。如果你觉得我写得还比较浅显易懂，那么，欢迎移步看下篇《TCP 的那些事儿（下）》。</p>
+<p>（上篇完）</p>
+
+            </div>
+            <hr />
+
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《TCP 的那些事儿：协议头部与可靠传输》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2021/08/17/tcpip-tcp-de-na-xie-shi-er/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                吴杭沉
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div id="giscus-card" class="card giscus-card" data-aos="fade-up">
+    <div class="card-content">
+        <div class="giscus"></div>
+    </div>
+</div>
+
+<script>
+    // 懒加载：滚动到评论区可见时才请求 giscus.app，
+    // 避免 giscus.app 不可达时阻塞页面加载
+    (function () {
+        var card = document.getElementById('giscus-card');
+        var holder = card ? card.querySelector('.giscus') : null;
+        if (!card || !holder) { return; }
+
+        var loaded = false;
+        function loadGiscus() {
+            if (loaded) { return; }
+            loaded = true;
+            var s = document.createElement('script');
+            s.src = 'https://giscus.app/client.js';
+            s.async = true;
+            s.crossOrigin = 'anonymous';
+            s.setAttribute('data-repo', 'wuhangchen/wuhangchen.github.io');
+            s.setAttribute('data-repo-id', 'R_kgDOMPl9sA');
+            s.setAttribute('data-category', 'Announcements');
+            s.setAttribute('data-category-id', 'DIC_kwDOMPl9sM4DDr8I');
+            s.setAttribute('data-mapping', 'pathname');
+            s.setAttribute('data-strict', '0');
+            s.setAttribute('data-reactions-enabled', '1');
+            s.setAttribute('data-emit-metadata', '0');
+            s.setAttribute('data-input-position', 'bottom');
+            s.setAttribute('data-theme', 'preferred_color_scheme');
+            s.setAttribute('data-lang', 'zh-CN');
+            holder.appendChild(s);
+        }
+
+        if (!('IntersectionObserver' in window)) {
+            // 旧浏览器直接降级为页面加载完成后加载
+            window.addEventListener('load', loadGiscus);
+            return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+            if (entries[0].isIntersecting) {
+                loadGiscus();
+                io.disconnect();
+            }
+        });
+        io.observe(card);
+    })();
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2021/08/24/tcpip-tcpkeepalive/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/bing-20260921.jpg" class="responsive-img" alt="TCP KeepAlive 机制详解">
+                        
+                        <span class="card-title">TCP KeepAlive 机制详解</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+TCP Keep-Alive 的原理一个 TCP 连接上，如果通信双方都不向对方发送数据，那么 TCP 连接就不会有任何数据交换。
+假设应用程序是一个 web 服务器，客户端发出三次握手（关于握手与挥手的详细过程，可以参看本站的《三次握手
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2021-08-24
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/TCP-IP/" class="post-category" target="_blank">
+                                    TCP/IP
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/TCP-IP/" target="_blank">
+                        <span class="chip bg-color">TCP/IP</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2021/08/10/tcpip-tcp-yu-udp/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="TCP 与 UDP：传输层两大协议对比">
+                        
+                        <span class="card-title">TCP 与 UDP：传输层两大协议对比</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            前言网络层只把分组发送到目的主机，但是真正通信的并不是主机而是主机中的进程。传输层提供了进程间的逻辑通信，传输层向高层用户屏蔽了下面网络层的核心细节，使应用程序看起来像是在两个传输层实体之间有一条端到端的逻辑通信信道。
+1、UDP 和 TC
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2021-08-10
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/TCP-IP/" class="post-category" target="_blank">
+                                    TCP/IP
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/TCP-IP/" target="_blank">
+                        <span class="chip bg-color">TCP/IP</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 吴杭沉的博客<br />'
+            + '作者: 吴杭沉<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { bodyElement.removeChild(newdiv); }, 200);
+    });
+</script>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+	            fixPostCardWidth('artDetail', 'giscus-card');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy; 2017-2024 Wuhangchen. 版权所有
+
+            
+            &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+            <span class="white-color">484.3k</span>
+            
+
+            <br>
+            <span id="sitetime"></span>
+
+            
+            
+            <br>
+            
+            <span id="busuanzi_container_site_pv" style='display:none'>
+                <i class="fa fa-heart-o"></i>
+                本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv" style='display:none'>
+                人次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+            </span>
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:codewu1996@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);
+        var fixTries = 0;
+        var pvcountOffset = 80000;
+        var uvcountOffset = 20000;
+
+        function fixCount() {
+            // 本地环境不加载不蒜子时避免无限轮询：最多等待 10 秒
+            if (++fixTries > 200) {
+                clearInterval(int);
+                return;
+            }
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int);
+            }
+        }
+    });
+</script>
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2017, 09, 11, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    siteTime();
+</script>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "Σ(っ °Д °;)っ喔哟，崩溃啦！", clearTimeout(st)) : (document.title = "φ(゜▽゜*)♪咦，又好了！", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) })
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    
+    <script src="/libs/others/clicklove.js"></script>
+    
+
+    
+    <script>
+        // 本地调试（localhost/127.0.0.1）不加载不蒜子：
+        // 不蒜子按 Referer 计数，所有开发者本地环境的 localhost 计数是共用的，数值严重失真
+        if (!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) {
+            var bsz = document.createElement('script');
+            bsz.src = '/libs/others/busuanzi.pure.mini.js';
+            bsz.async = true;
+            document.body.appendChild(bsz);
+        }
+    </script>
+    
+
+    <!-- 雪花特效 -->
+    
+    <script type="text/javascript" src="/libs/others/snow.js"></script>
+    
+
+</body>
+
+</html>

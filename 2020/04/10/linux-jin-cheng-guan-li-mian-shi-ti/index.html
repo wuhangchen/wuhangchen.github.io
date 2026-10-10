@@ -252,7 +252,7 @@ $ ps -aux
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/bing-20260908.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/bing-20260927.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -266,8 +266,8 @@ $ ps -aux
     </div>
     
     <div class="bing-copyright">
-        <a href="https://www.bing.com/search?q=%E5%8D%B0%E5%BA%A6%E5%8D%A1%E7%BA%B3%E5%A1%94%E5%85%8B%E9%82%A6%E5%AE%89%E7%A7%91%E6%8B%89&form=hpcapt&mkt=zh-cn" target="_blank" rel="noopener">
-        图源:必应每日壁纸 &middot; 安科拉附近的加比特凯尼海滩，卡纳塔克邦，印度 (© Amith Nag Photography/Getty Images)
+        <a href="https://www.bing.com/search?q=%E5%8D%B0%E5%BA%A6%E6%8B%89%E8%B4%BE%E6%96%AF%E5%9D%A6%E9%82%A6%E6%96%8B%E6%B5%A6%E5%B0%94%E7%90%A5%E7%8F%80%E5%A0%A1&form=hpcapt&mkt=zh-cn" target="_blank" rel="noopener">
+        图源:必应每日壁纸 &middot; 斋浦尔附近琥珀堡内的 Sattais Katcheri 大厅，拉贾斯坦邦，印度 (© R.M. Nunes/Getty Images)
         </a>
     </div>
     
@@ -604,7 +604,7 @@ $ <span class="token function">jobs</span>
 $ <span class="token function">jobs</span>
 <span class="token punctuation">[</span>1<span class="token punctuation">]</span>+ Running <span class="token function">sleep</span> 100 <span class="token operator">&amp;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <p><strong>注意</strong>：以前用 <code>curl</code> 时容易忘记给 URL 加引号。如果是 GET 请求且带参数，一般是下面这种形式——参数分隔符 <code>&amp;</code> 会被误认为是后台执行符号：</p>
-<pre class="line-numbers language-text"><code class="language-text">http://127.0.0.1/query?name=coding3min&passwd=abc<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-text"><code class="language-text">http://127.0.0.1/query?name=coding3min&amp;passwd=abc<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>最后，进程管理中如何干掉一个进程就不必多说了——可以发送信号，也可以直接 kill，最好是通过守护进程来管理。</p>
 <h2 id="拓展知识点：守护进程"><a href="#拓展知识点：守护进程" class="headerlink" title="拓展知识点：守护进程"></a>拓展知识点：守护进程</h2><p>最不想遇到的事就是进程挂掉——一个告警电话打过来，半夜爬起来手动启动进程。所以进程自动拉起很重要。</p>
 <p>常用的方案有：<code>systemctl</code>、<code>supervisorctl</code>，或者自己写 crontab 定时任务，也可以上 k8s、或简单点的 docker-compose。k8s 不仅支持进程自动拉起，还能维护多副本——配置好副本数，挂掉一个会自动恢复；其中的 HPA 支持弹性伸缩，可以根据进程占用情况自动增减副本数量。</p>
@@ -743,33 +743,38 @@ $ <span class="token function">jobs</span>
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/04/16/tcp-wei-shi-me-xu-yao-time-wait/">
+                <a href="/2020/04/22/linux-jin-cheng-yu-nei-cun-guan-li/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="TCP为什么需要TIME_WAIT">
+                        <img src="/medias/featureimages/bing-20260919.jpg" class="responsive-img" alt="Linux 进程与内存管理">
                         
-                        <span class="card-title">TCP为什么需要TIME_WAIT</span>
+                        <span class="card-title">Linux 进程与内存管理</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
-问题背景下图所示的状态机展示了通信双方建立 TCP 连接之后的状态转换过程（图片来源: tcpipguide.com）。
-通信双方主动发起关闭连接的一端，存在 TIME_WAIT 状态，被动接受关闭连接的一端，会进入 CLOSE_WAIT
+                            在讨论 Linux 的性能问题时，我们常常会遇到这样一些问题：
+
+Linux 能否满足硬实时的需求？
+多核环境下多线程如何执行？
+系统的内存究竟耗到哪里去了？
+我写的应用程序究竟耗了多少内存？
+什么是内存泄漏？如何判定内存是否真的泄漏？
+C
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2020-04-16
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2020-04-22
                         </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/TCP-IP/" class="post-category" target="_blank">
-                                    TCP/IP
+                            <a href="/categories/Linux/" class="post-category" target="_blank">
+                                    Linux
                                 </a>
                             
                             
@@ -779,8 +784,8 @@ $ <span class="token function">jobs</span>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/TCP-IP/" target="_blank">
-                        <span class="chip bg-color">TCP/IP</span>
+                    <a href="/tags/Linux/" target="_blank">
+                        <span class="chip bg-color">Linux</span>
                     </a>
                     
                 </div>
@@ -794,27 +799,33 @@ $ <span class="token function">jobs</span>
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/04/02/shen-ru-jie-xi-grpc-de-chong-lian-ji-zhi/">
+                <a href="/2020/03/29/linux-jin-cheng-xian-cheng-mo-xing/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/27.jpg" class="responsive-img" alt="深入解析 gRPC 的重连机制">
+                        <img src="/medias/featureimages/bing-20260913.jpg" class="responsive-img" alt="Linux 进程与线程模型">
                         
-                        <span class="card-title">深入解析 gRPC 的重连机制</span>
+                        <span class="card-title">Linux 进程与线程模型</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            gRPC 的重连机制是确保客户端在连接断开后能够自动重新连接到服务器的一种机制，对于分布式系统和微服务架构中的高可用性和容错性至关重要。
-什么是 gRPC 重连机制gRPC 重连机制是指在客户端与服务器之间的连接断开后，客户端自动尝试重新建
+                            UNIX 的传统倾向于把一个任务交给一个进程全权受理。但一个任务内部往往不止一个执行流——就像公司里所有人做同一件事，每个人只负责一部分，粒度减小后各事情可以同时进行，同时大家又共享着所有资源。于是就有了线程：线程就是共享资源的不同的执行流
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-04-02
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-03-29
                             </span>
                         <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Linux/" class="post-category" target="_blank">
+                                    Linux
+                                </a>
+                            
                             
                         </span>
                     </div>
@@ -822,8 +833,8 @@ $ <span class="token function">jobs</span>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/gRPC/" target="_blank">
-                        <span class="chip bg-color">gRPC</span>
+                    <a href="/tags/Linux/" target="_blank">
+                        <span class="chip bg-color">Linux</span>
                     </a>
                     
                 </div>
@@ -979,7 +990,7 @@ $ <span class="token function">jobs</span>
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">189.8k</span>
+            <span class="white-color">484.3k</span>
             
 
             <br>
@@ -1014,15 +1025,7 @@ $ <span class="token function">jobs</span>
 
 
 
-    <a href="https://zhihu.com/people/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
-        <i class="fa fa-inverse">知</i>
-    </a>
 
-
-
-    <a href="http://wpa.qq.com/msgrd?v=3&uin=1714593434&site=qq&menu=yes" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
-        <i class="fa fa-qq"></i>
-    </a>
 
 
 

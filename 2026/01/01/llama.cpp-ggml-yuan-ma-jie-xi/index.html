@@ -249,7 +249,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/bing-20260913.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/bing-20261004.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -263,8 +263,8 @@
     </div>
     
     <div class="bing-copyright">
-        <a href="https://www.bing.com/search?q=%E5%9C%B0%E8%82%A4&form=hpcapt&mkt=zh-cn" target="_blank" rel="noopener">
-        图源:必应每日壁纸 &middot; 地肤田，中国 (© lingqi xie/Getty Images)
+        <a href="https://www.bing.com/search?q=%E4%B8%96%E7%95%8C%E6%95%99%E5%B8%88%E6%97%A5&form=hpcapt&mkt=zh-cn" target="_blank" rel="noopener">
+        图源:必应每日壁纸 &middot; 南极洲的阿德利企鹅 (© Otto Plantema/Minden Pictures)
         </a>
     </div>
     
@@ -468,7 +468,7 @@
 地址:  0x1000  0x1004  0x1008  0x100C  0x1010  0x1014
 值:    1.0     2.0     3.0     4.0     5.0     6.0
 
-ne[0]=3, ne[1]=2       ← "3列2行"
+ne[0]=3, ne[1]=2       ← &quot;3列2行&quot;
 nb[0]=4                ← sizeof(float) = 4 字节
 nb[1]=12               ← nb[0] × ne[0] = 4 × 3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>访问任意元素 M[第i行][第j列] 的通用公式：</p>
@@ -592,8 +592,8 @@ result<span class="token operator">-</span><span class="token operator">></span>
 <pre class="line-numbers language-text"><code class="language-text">第 1 遍：遍历 context，算总数据大小 = 122 MB
 第 2 遍：分配 buffer = malloc(122MB) 或 cudaMalloc(122MB)
 第 3 遍：逐个 tensor，在 buffer 里线性分配空间
-         tensor->data = buffer_base + offset
-         tensor->buffer = buf
+         tensor-&gt;data = buffer_base + offset
+         tensor-&gt;buffer = buf
 第 4 遍：从 GGUF 文件拷贝权重值到 buffer（或用 mmap，不拷贝）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><strong>设计原则：张量的”身份证”（结构体）和”身体”（权重数据）是分离的</strong>——结构体在 CPU 的 Arena 里，数据可能在 GPU 显存里。两者通过 tensor-&gt;data 和 tensor-&gt;buffer 指针连接。</p>
 <h3 id="2-4-mmap（内存映射）——100GB-模型”瞬间”加载"><a href="#2-4-mmap（内存映射）——100GB-模型”瞬间”加载" class="headerlink" title="2.4 mmap（内存映射）——100GB 模型”瞬间”加载"></a>2.4 mmap（内存映射）——100GB 模型”瞬间”加载</h3><p>这可能是 GGML 最被低估的性能特性。llama.cpp 默认使用 mmap 来”加载”模型。</p>
@@ -807,21 +807,21 @@ out:   use_count=0（最终输出）<span aria-hidden="true" class="line-numbers
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><strong>相邻合并是反碎片化的关键。</strong> 如果连续三个中间结果先后被释放，它们不会变成三个小碎片——而是自动合成一个大块，可以被后续的大 tensor 使用。</p>
 <h3 id="5-4-完整追踪——三分三释，峰值-16B"><a href="#5-4-完整追踪——三分三释，峰值-16B" class="headerlink" title="5.4 完整追踪——三分三释，峰值 16B"></a>5.4 完整追踪——三分三释，峰值 16B</h3><p>以 relu(Wx+b) 为例，每个中间结果是 2 个 float（8 字节）。初始 Galloc：64KB 全空，n_free = 0。</p>
-<pre class="line-numbers language-text"><code class="language-text">T1: alloc 8B → 没有空闲块 → 从末尾分配 → wx->data = offset 0
+<pre class="line-numbers language-text"><code class="language-text">T1: alloc 8B → 没有空闲块 → 从末尾分配 → wx-&gt;data = offset 0
     空闲列表: []  (空)
     已用: [0, 8) = wx
 
-T2: alloc 8B → 没有空闲块 → 从末尾分配 → wx+b->data = offset 8
+T2: alloc 8B → 没有空闲块 → 从末尾分配 → wx+b-&gt;data = offset 8
     空闲列表: []
     已用: [0, 8) = wx, [8, 16) = wx+b
     节点 wx+b 执行完毕:
-      wx->use_count: 1 → 0 → ♻ free(offset 0, size 8)
+      wx-&gt;use_count: 1 → 0 → ♻ free(offset 0, size 8)
     空闲列表: [{0, 8}]   ← wx 的 8 字节被回收
     已用: [8, 16) = wx+b
 
 T3: alloc 8B → best-fit:
-     遍历空闲列表[{0, 8}]: 8 >= 8 → 命中！完美匹配！
-     out->data = offset 0  ★ 复用！
+     遍历空闲列表[{0, 8}]: 8 &gt;= 8 → 命中！完美匹配！
+     out-&gt;data = offset 0  ★ 复用！
      空闲列表: []  (刚好用完了)
      已用: [0, 8) = out, [8, 16) = wx+b<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>3 次分配，峰值内存 16 字节（而非 24 字节），1 次复用。对于 287 个节点，这个效果被放大几百倍——compute buffer 通常只需要几十 MB，而不是几百 MB。</p>
@@ -1067,7 +1067,7 @@ cplan<span class="token punctuation">.</span>work_size <span class="token operat
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/24.jpg" class="responsive-img" alt="llama.cpp 源码解析（二）：GGUF 格式与模型加载——从磁盘文件到内存张量">
+                        <img src="/medias/featureimages/bing-20260923.jpg" class="responsive-img" alt="llama.cpp 源码解析（二）：GGUF 格式与模型加载——从磁盘文件到内存张量">
                         
                         <span class="card-title">llama.cpp 源码解析（二）：GGUF 格式与模型加载——从磁盘文件到内存张量</span>
                     </div>
@@ -1113,31 +1113,33 @@ cplan<span class="token punctuation">.</span>work_size <span class="token operat
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/01/31/c-qbreakpad/">
+                <a href="/2025/12/25/llama.cpp-xi-lie-dao-du/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/bing-20260907.jpg" class="responsive-img" alt="qBreakpad 踩坑记：ARM 平台崩溃转储收集">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="llama.cpp 系列导读：源码解析三部曲">
                         
-                        <span class="card-title">qBreakpad 踩坑记：ARM 平台崩溃转储收集</span>
+                        <span class="card-title">llama.cpp 系列导读：源码解析三部曲</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            在 ARM 嵌入式平台上，程序崩溃后往往只留下一句模糊的报错，日志里很难定位到崩溃现场。qBreakpad 是基于 google-breakpad 封装的 Qt 库，可以在程序崩溃时自动生成 dump 文件，方便事后用符号文件还原调用栈。本
+                            想读懂 llama.cpp，最好的路径是从底往上：先看它如何设计推理引擎（GGML），再看模型如何从磁盘走进内存（GGUF），最后看它如何把推理搬到局域网的另一台机器上（RPC）。3 篇文章按发文时间顺序读即是推荐阅读顺序。
+全系列
+lla
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2021-01-31
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2025-12-25
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C/" class="post-category" target="_blank">
-                                    C++
+                            <a href="/categories/llama-cpp/" class="post-category" target="_blank">
+                                    llama.cpp
                                 </a>
                             
                             
@@ -1147,8 +1149,8 @@ cplan<span class="token punctuation">.</span>work_size <span class="token operat
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
+                    <a href="/tags/llama-cpp/" target="_blank">
+                        <span class="chip bg-color">llama.cpp</span>
                     </a>
                     
                 </div>
@@ -1304,7 +1306,7 @@ cplan<span class="token punctuation">.</span>work_size <span class="token operat
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">189.8k</span>
+            <span class="white-color">484.3k</span>
             
 
             <br>
@@ -1339,15 +1341,7 @@ cplan<span class="token punctuation">.</span>work_size <span class="token operat
 
 
 
-    <a href="https://zhihu.com/people/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
-        <i class="fa fa-inverse">知</i>
-    </a>
 
-
-
-    <a href="http://wpa.qq.com/msgrd?v=3&uin=1714593434&site=qq&menu=yes" class="tooltipped" target="_blank" data-tooltip="访问我的知乎" data-position="top" data-delay="50">
-        <i class="fa fa-qq"></i>
-    </a>
 
 
 

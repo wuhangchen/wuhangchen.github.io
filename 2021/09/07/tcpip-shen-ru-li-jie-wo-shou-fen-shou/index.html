@@ -1,0 +1,1161 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="深入理解 TCP 握手与分手, C++ Linux PRC Go Docker">
+    <meta name="baidu-site-verification" content="fmlEuI34ir">
+    <meta name="google-site-verification" content="yCy2azpds5XSuGZvis6OuA-XIGF5GuGpYRAaGfD6o48">
+    <meta name="360-site-verification" content="b7c11a830ef90fd1464ad6206bb7b6e7">
+    <meta name="description" content="
+记得刚毕业找工作面试的时候，经常会被问到：你知道“3 次握手，4 次挥手”吗？这时候我会“胸有成竹”地“背诵”前期准备好的“答案”，第一次怎么怎么，第二次……答完就没有下文了，面试官貌似也没有深入下去的意思，深入下去我也不懂，皆大欢喜！
+">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>深入理解 TCP 握手与分手 | 吴杭沉的博客</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+    <style type="text/css">
+        
+    </style>
+
+    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?ce84511d3df71640a9378a69f6293044";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    
+        <script>
+            (function(){
+                var bp = document.createElement('script');
+                var curProtocol = window.location.protocol.split(':')[0];
+                if (curProtocol === 'https') {
+                    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+                }
+                else {
+                    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+                }
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(bp, s);
+            })();
+        </script>
+    
+
+    <script>
+        (function(){
+        var src = "https://jspassport.ssl.qhimg.com/11.0.1.js?d182b3f28525f2db83acfaaf6e696dba";
+        document.write('<script src="' + src + '" id="sozz"><\/script>');
+        })();
+    </script>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body>
+
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">吴杭沉的博客</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fa fa-navicon"></i></a>
+<ul class="right">
+    
+    <li class="hide-on-med-and-down">
+        <a href="/" class="waves-effect waves-light">
+            
+            <i class="fa fa-home"></i>
+            
+            <span>首页</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/tags" class="waves-effect waves-light">
+            
+            <i class="fa fa-tags"></i>
+            
+            <span>标签</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/categories" class="waves-effect waves-light">
+            
+            <i class="fa fa-bookmark"></i>
+            
+            <span>分类</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/archives" class="waves-effect waves-light">
+            
+            <i class="fa fa-archive"></i>
+            
+            <span>归档</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/about" class="waves-effect waves-light">
+            
+            <i class="fa fa-user-circle-o"></i>
+            
+            <span>关于</span>
+        </a>
+    </li>
+    
+    <li class="hide-on-med-and-down">
+        <a href="/contact" class="waves-effect waves-light">
+            
+            <i class="fa fa-comments"></i>
+            
+            <span>留言板</span>
+        </a>
+    </li>
+    
+    <li>
+        <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+            <i id="searchIcon" class="fa fa-search" title="搜索"></i>
+        </a>
+    </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">吴杭沉的博客</div>
+        <div class="logo-desc">
+            
+            善良比聪明更重要
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li>
+            <a href="/" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-home"></i>
+                
+                首页
+            </a>
+        </li>
+        
+        <li>
+            <a href="/tags" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-tags"></i>
+                
+                标签
+            </a>
+        </li>
+        
+        <li>
+            <a href="/categories" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-bookmark"></i>
+                
+                分类
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-archive"></i>
+                
+                归档
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-user-circle-o"></i>
+                
+                关于
+            </a>
+        </li>
+        
+        <li>
+            <a href="/contact" class="waves-effect waves-light">
+                
+                <i class="fa fa-fw fa-comments"></i>
+                
+                留言板
+            </a>
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <div class="description center-align post-title">
+                        深入理解 TCP 握手与分手
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                        <a href="/tags/TCP-IP/" target="_blank">
+                            <span class="chip bg-color">TCP/IP</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+                        <a href="/categories/TCP-IP/" class="post-category" target="_blank">
+                            TCP/IP
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                <div class="post-date info-break-policy">
+                    <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2021-09-07
+                </div>
+
+                <div class="post-author info-break-policy">
+                    <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
+                    
+                    吴杭沉
+                    
+                </div>
+
+                
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    6.5k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    24 分
+                </div>
+                
+                
+
+                
+                <div id="busuanzi_container_page_pv" class="info-break-policy" style='display:none'>
+                    <i class="fa fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                    <span id="busuanzi_value_page_pv"></span>
+                </div>
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p><img src="img.png" alt="文章题图"></p>
+<p>记得刚毕业找工作面试的时候，经常会被问到：你知道“3 次握手，4 次挥手”吗？这时候我会“胸有成竹”地“背诵”前期准备好的“答案”，第一次怎么怎么，第二次……答完就没有下文了，面试官貌似也没有深入下去的意思，深入下去我也不懂，皆大欢喜！</p>
+<p>作为程序员，要有“刨根问底”的精神。知其然，更要知其所以然。这篇文章希望能抽丝剥茧，还原背后的原理。</p>
+<h2 id="什么是“3-次握手，4-次挥手”"><a href="#什么是“3-次握手，4-次挥手”" class="headerlink" title="什么是“3 次握手，4 次挥手”"></a>什么是“3 次握手，4 次挥手”</h2><p>TCP 是一种面向连接的单播协议，在发送数据前，通信双方必须在彼此间建立一条连接。所谓的“连接”，其实是客户端和服务器的内存里保存的一份关于对方的信息，如 IP 地址、端口号等。</p>
+<p>TCP 可以看成是一种字节流，它会处理 IP 层或以下的层的丢包、重复以及错误问题。在连接的建立过程中，双方需要交换一些连接的参数。这些参数可以放在 TCP 头部。</p>
+<p>TCP 提供了一种可靠、面向连接、字节流、传输层的服务，采用三次握手建立一个连接，采用 4 次挥手来关闭一个连接。</p>
+<h2 id="TCP-服务模型"><a href="#TCP-服务模型" class="headerlink" title="TCP 服务模型"></a>TCP 服务模型</h2><p>在了解了建立连接、关闭连接的“三次握手和四次挥手”后，我们再来看下 TCP 相关的东西。</p>
+<p>一个 TCP 连接由一个四元组构成，分别是两个 IP 地址和两个端口号。一个 TCP 连接通常分为三个阶段：启动、数据传输、退出（关闭）。</p>
+<p>当 TCP 接收到另一端的数据时，它会发送一个确认，但这个确认不会立即发送，一般会延迟一会儿。ACK 是累积的，一个确认字节号 N 的 ACK 表示所有直到 N 的字节（不包括 N）已经成功被接收了。这样的好处是如果一个 ACK 丢失，很可能后续的 ACK 就足以确认前面的报文段了。</p>
+<p>一个完整的 TCP 连接是双向和对称的，数据可以在两个方向上平等地流动，给上层应用程序提供一种双工服务。一旦建立了一个连接，这个连接的一个方向上的每个 TCP 报文段都包含了相反方向上的报文段的一个 ACK。</p>
+<p>序列号的作用是使得一个 TCP 接收端可丢弃重复的报文段，记录以杂乱次序到达的报文段。因为 TCP 使用 IP 来传输报文段，而 IP 不提供重复消除或者保证次序正确的功能。另一方面，TCP 是一个字节流协议，绝不会以杂乱的次序给上层程序发送数据。因此 TCP 接收端会被迫先保持大序列号的数据不交给应用程序，直到缺失的小序列号的报文段被填满。</p>
+<h2 id="TCP-头部"><a href="#TCP-头部" class="headerlink" title="TCP 头部"></a>TCP 头部</h2><p>源端口和目的端口在 TCP 层确定双方进程，序列号表示的是报文段数据中的第一个字节号，ACK 表示确认号，该确认号的发送方期待接收的下一个序列号，即最后被成功接收的数据字节序列号加 1，这个字段只有在 ACK 位被启用的时候才有效。</p>
+<p>当新建一个连接时，从客户端发送到服务端的第一个报文段的 SYN 位被启用，这称为 SYN 报文段，这时序列号字段包含了在本次连接的这个方向上要使用的第一个序列号，即初始序列号 ISN，之后发送的数据是 ISN 加 1，因此 SYN 位字段会消耗一个序列号，这意味着 SYN 段会使用重传进行可靠传输，而不消耗序列号的 ACK 则不是。</p>
+<p>头部长度（图中的数据偏移）以 32 位字为单位，也就是以 4 bytes 为单位，它只有 4 位，最大为 15，因此头部最大长度为 60 字节，而其最小为 5，也就是头部最小为 20 字节（可变选项为空）。</p>
+<p>几个常见的控制位：</p>
+<ul>
+<li><strong>ACK</strong> —— 确认，使得确认号有效</li>
+<li><strong>RST</strong> —— 重置连接（经常看到的 reset by peer 就是此字段搞的鬼）</li>
+<li><strong>SYN</strong> —— 用于初始化一个连接的序列号</li>
+<li><strong>FIN</strong> —— 该报文段的发送方已经结束向对方发送数据</li>
+</ul>
+<p>当一个连接被建立或被终止时，交换的报文段只包含 TCP 头部，而没有数据。</p>
+<h2 id="状态转换"><a href="#状态转换" class="headerlink" title="状态转换"></a>状态转换</h2><p>三次握手和四次挥手的状态转换，可以按下面的主线来看：</p>
+<ul>
+<li>建立连接：客户端依次经过 <code>CLOSED → SYN_SENT → ESTABLISHED</code>，服务端依次经过 <code>CLOSED → LISTEN → SYN_RCVD → ESTABLISHED</code></li>
+<li>关闭连接：主动关闭方依次经过 <code>FIN_WAIT_1 → FIN_WAIT_2 → TIME_WAIT → CLOSED</code>，被动关闭方依次经过 <code>CLOSE_WAIT → LAST_ACK → CLOSED</code></li>
+</ul>
+<p>完整的图解可以看本站的《<a href="/2021/08/31/tcpip-san-ci-wo-shou-yu-si-ci-hui-shou/">三次握手与四次挥手</a>》一文。</p>
+<h2 id="为什么要“三次握手，四次挥手”"><a href="#为什么要“三次握手，四次挥手”" class="headerlink" title="为什么要“三次握手，四次挥手”"></a>为什么要“三次握手，四次挥手”</h2><h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><p>换个易于理解的视角来看为什么要 3 次握手。</p>
+<p>客户端和服务端通信前要进行连接，“3 次握手”的作用就是双方都能明确自己和对方的收、发能力是正常的。</p>
+<p><strong>第一次握手</strong>：客户端发送网络包，服务端收到了。这样服务端就能得出结论：客户端的发送能力、服务端的接收能力是正常的。</p>
+<p><strong>第二次握手</strong>：服务端发包，客户端收到了。这样客户端就能得出结论：服务端的接收、发送能力，客户端的接收、发送能力是正常的。</p>
+<p>从客户端的视角来看，我接到了服务端发送过来的响应数据包，说明服务端接收到了我在第一次握手时发送的网络包，并且成功发送了响应数据包，这就说明，服务端的接收、发送能力正常。而另一方面，我收到了服务端的响应数据包，说明我第一次发送的网络包成功到达服务端，这样，我自己的发送和接收能力也是正常的。</p>
+<p><strong>第三次握手</strong>：客户端发包，服务端收到了。这样服务端就能得出结论：客户端的接收、发送能力，服务端的发送、接收能力是正常的。</p>
+<p>第一、二次握手后，服务端并不知道客户端的接收能力以及自己的发送能力是否正常。而在第三次握手时，服务端收到了客户端对第二次握手作的回应。从服务端的角度，我在第二次握手时的响应数据发送出去了，客户端接收到了。所以，我的发送能力是正常的。而客户端的接收能力也是正常的。</p>
+<p>经历了上面的三次握手过程，客户端和服务端都确认了自己的接收、发送能力是正常的。之后就可以正常通信了。</p>
+<p>每次都是接收到数据包的一方可以得到一些结论，发送的一方其实没有任何头绪。我虽然有发包的动作，但是我怎么知道我有没有发出去，而对方有没有接收到呢？</p>
+<p>而从上面的过程可以看到，最少是需要三次握手过程的。两次达不到让双方都得出自己、对方的接收、发送能力都正常的结论。其实每次收到网络包的一方至少是可以得到：对方的发送、我方的接收是正常的。而每一步都是有关联的，下一次的“响应”是由于第一次的“请求”触发，因此每次握手其实是可以得到额外的结论的。比如第三次握手时，服务端收到数据包，表面看服务端只能得到客户端的发送能力、服务端的接收能力是正常的，但是结合第二次，说明服务端在第二次发送的响应包，客户端接收到了，并且作出了响应，从而得到额外的结论：客户端的接收、服务端的发送是正常的。</p>
+<p>用表格总结一下：</p>
+<table>
+<thead>
+<tr>
+<th>握手阶段</th>
+<th>谁得出结论</th>
+<th>得出的结论</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>第一次握手</td>
+<td>服务端</td>
+<td>客户端的发送能力、服务端的接收能力是正常的</td>
+</tr>
+<tr>
+<td>第二次握手</td>
+<td>客户端</td>
+<td>服务端的接收、发送能力，客户端的接收、发送能力是正常的</td>
+</tr>
+<tr>
+<td>第三次握手</td>
+<td>服务端</td>
+<td>客户端的接收、发送能力，服务端的发送、接收能力是正常的</td>
+</tr>
+</tbody></table>
+<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><p>TCP 连接是双向传输的对等的模式，就是说双方都可以同时向对方发送或接收数据。当有一方要关闭连接时，会发送指令告知对方，我要关闭连接了。这时对方会回一个 ACK，此时一个方向的连接关闭。</p>
+<p>但是另一个方向仍然可以继续传输数据，等到发送完了所有的数据后，会发送一个 FIN 段来关闭此方向上的连接。接收方发送 ACK 确认关闭连接。</p>
+<p>注意，接收到 FIN 报文的一方只能回复一个 ACK，它是无法马上返回对方一个 FIN 报文段的。因为结束数据传输的“指令”是上层应用层给出的，我只是一个“搬运工”，我无法了解“上层的意志”。</p>
+<h2 id="“三次握手，四次挥手”怎么完成？"><a href="#“三次握手，四次挥手”怎么完成？" class="headerlink" title="“三次握手，四次挥手”怎么完成？"></a>“三次握手，四次挥手”怎么完成？</h2><p>其实 3 次握手的目的并不只是让通信双方都了解到一个连接正在建立，还在于利用数据包的选项来传输特殊的信息，交换初始序列号 ISN。</p>
+<p>3 次握手是指发送了 3 个报文段，4 次挥手是指发送了 4 个报文段。注意，SYN 和 FIN 段都是会利用重传进行可靠传输的。</p>
+<h3 id="三次握手-1"><a href="#三次握手-1" class="headerlink" title="三次握手"></a>三次握手</h3><p>三次握手交换的报文段如下：</p>
+<ol>
+<li>客户端发送一个 SYN 段，并指明客户端的初始序列号 ISN(c)</li>
+<li>服务端发送自己的 SYN 段作为应答，同样指明自己的初始序列号 ISN(s)；为了确认客户端的 SYN 段，将 ISN(c)+1 作为 ACK 数值</li>
+<li>客户端为了确认服务端的 SYN 段，将 ISN(s)+1 作为返回的 ACK 数值</li>
+</ol>
+<h3 id="四次挥手-1"><a href="#四次挥手-1" class="headerlink" title="四次挥手"></a>四次挥手</h3><ol>
+<li>客户端发送一个 FIN 段，并包含一个希望接收者看到的自己当前的序列号 K，同时还包含一个 ACK 表示确认对方最近一次发过来的数据</li>
+<li>服务端将 K 值加 1 作为 ACK 序号值，表明收到了上一个包。这时上层的应用程序会被告知另一端发起了关闭操作，通常这将引起应用程序发起自己的关闭操作</li>
+<li>服务端发起自己的 FIN 段，<code>ACK=K+1</code>，<code>Seq=L</code></li>
+<li>客户端确认，<code>ACK=L+1</code></li>
+</ol>
+<h3 id="为什么建立连接是三次握手，而关闭连接却是四次挥手呢？"><a href="#为什么建立连接是三次握手，而关闭连接却是四次挥手呢？" class="headerlink" title="为什么建立连接是三次握手，而关闭连接却是四次挥手呢？"></a>为什么建立连接是三次握手，而关闭连接却是四次挥手呢？</h3><p>这是因为服务端在 LISTEN 状态下，收到建立连接请求的 SYN 报文后，把 ACK 和 SYN 放在一个报文里发送给客户端。而关闭连接时，当收到对方的 FIN 报文时，仅仅表示对方不再发送数据了但是还能接收数据，己方是否现在关闭发送数据通道，需要上层应用来决定，因此，己方 ACK 和 FIN 一般都会分开发送。</p>
+<h2 id="“三次握手，四次挥手”进阶"><a href="#“三次握手，四次挥手”进阶" class="headerlink" title="“三次握手，四次挥手”进阶"></a>“三次握手，四次挥手”进阶</h2><h3 id="ISN"><a href="#ISN" class="headerlink" title="ISN"></a>ISN</h3><p>三次握手的一个重要功能是客户端和服务端交换 ISN（Initial Sequence Number），以便让对方知道接下来接收数据的时候如何按序列号组装数据。</p>
+<p>如果 ISN 是固定的，攻击者很容易猜出后续的确认号。</p>
+<p><code>ISN = M + F(localhost, localport, remotehost, remoteport)</code></p>
+<p>M 是一个计时器，每隔 4 微秒加 1。F 是一个 Hash 算法，根据源 IP、目的 IP、源端口、目的端口生成一个随机数值。要保证 hash 算法不能被外部轻易推算得出。</p>
+<h3 id="序列号回绕"><a href="#序列号回绕" class="headerlink" title="序列号回绕"></a>序列号回绕</h3><p>因为 ISN 是随机的，随着数据不断发送，序列号很容易增长并越过 2^31−1，甚至跨过 2^32 发生回绕。而 TCP 对于丢包和乱序等问题的判断都是依赖于序列号大小比较的，此时就出现了所谓的 TCP 序列号回绕（sequence wraparound）问题。怎么解决？</p>
+<pre class="line-numbers language-c"><code class="language-c"><span class="token comment" spellcheck="true">/** The next routines deal with comparing 32 bit unsigned ints
+ * and worry about wraparound (automatic with unsigned arithmetic).*/</span>
+<span class="token keyword">static</span> <span class="token keyword">inline</span> <span class="token keyword">int</span> <span class="token function">before</span><span class="token punctuation">(</span>__u32 seq1<span class="token punctuation">,</span> __u32 seq2<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>__s32<span class="token punctuation">)</span><span class="token punctuation">(</span>seq1 <span class="token operator">-</span> seq2<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token macro property">#<span class="token directive keyword">define</span> after(seq2, seq1)  before(seq1, seq2)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上述代码是内核中的解决回绕问题代码。s32 是有符号整型的意思，而 u32 则是无符号整型。序列号发生回绕后，序列号变小，相减之后，把结果变成有符号数了，因此结果成了负数。</p>
+<p>为便于演示，下面以 8 位无符号数为例（内核代码中实际是 32 位）：假设 seq1=255，seq2=1（seq2 是回绕后新出现的序列号，按回绕前的次序它其实比 seq1 更新）。</p>
+<pre class="line-numbers language-text"><code class="language-text">seq1 = 1111 1111
+seq2 = 0000 0001
+
+我们希望比较结果是 seq1 - seq2
+
+=  1111 1111
+-  0000 0001
+-----------
+   1111 1110<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>由于我们将结果转化成了有符号数，最高位是 1，因此结果是一个负数，负数的绝对值为 0000 0001 + 1 = 0000 0010 = 2，也就是 seq1 − seq2 = −2 &lt; 0。于是 <code>before(seq1, seq2)</code> 返回真，即 255（旧序列号）在 1（新序列号）之前——回绕发生后的大小判断依然正确。</p>
+<h3 id="SYN-Flood-攻击"><a href="#SYN-Flood-攻击" class="headerlink" title="SYN Flood 攻击"></a>SYN Flood 攻击</h3><p>最基本的 DoS 攻击就是利用合理的服务请求来占用过多的服务资源，从而使合法用户无法得到服务的响应。SYN Flood 属于 DoS 攻击的一种。</p>
+<p>如果恶意向某个服务器端口发送大量的 SYN 包，则可以使服务器打开大量的半开连接，分配 TCB（Transmission Control Block），从而消耗大量的服务器资源，同时也使得正常的连接请求无法被响应。当开放了一个 TCP 端口后，该端口就处于 Listening 状态，不停地监视发到该端口的 SYN 报文，一旦接收到 Client 发来的 SYN 报文，就需要为该请求分配一个 TCB，通常一个 TCB 至少需要 280 个字节，在某些操作系统中 TCB 甚至需要 1300 个字节，并返回一个 SYN + ACK 报文，立即转为 <code>SYN_RCVD</code>（半开连接）状态。系统会为此耗尽资源。</p>
+<p>常见的防攻击方法有：</p>
+<h4 id="无效连接的监视释放"><a href="#无效连接的监视释放" class="headerlink" title="无效连接的监视释放"></a>无效连接的监视释放</h4><p>监视系统的半开连接和不活动连接，当达到一定阈值时拆除这些连接，从而释放系统资源。这种方法对于所有的连接一视同仁，而且由于 SYN Flood 造成的半开连接数量很大，正常连接请求也被淹没在其中被这种方式误释放掉，因此这种方法属于入门级的 SYN Flood 防御方法。</p>
+<h4 id="延缓-TCB-分配方法"><a href="#延缓-TCB-分配方法" class="headerlink" title="延缓 TCB 分配方法"></a>延缓 TCB 分配方法</h4><p>消耗服务器资源主要是因为当 SYN 数据报文一到达，系统立即分配 TCB，从而占用了资源。而 SYN Flood 由于很难建立起正常连接，因此，当正常连接建立起来后再分配 TCB 则可以有效地减轻服务器资源的消耗。常见的方法是使用 Syn Cache 和 Syn Cookie 技术。</p>
+<h4 id="Syn-Cache-技术"><a href="#Syn-Cache-技术" class="headerlink" title="Syn Cache 技术"></a>Syn Cache 技术</h4><p>系统在收到一个 SYN 报文时，在一个专用 HASH 表中保存这种半连接信息，直到收到正确的回应 ACK 报文再分配 TCB。这个开销远小于 TCB 的开销。当然还需要保存序列号。</p>
+<h4 id="Syn-Cookie-技术"><a href="#Syn-Cookie-技术" class="headerlink" title="Syn Cookie 技术"></a>Syn Cookie 技术</h4><p>Syn Cookie 技术则完全不使用任何存储资源，这种方法比较巧妙，它使用一种特殊的算法生成 Sequence Number，这种算法考虑到了对方的 IP、端口、己方 IP、端口的固定信息，以及对方无法知道而己方比较固定的一些信息，如 MSS（Maximum Segment Size，最大报文段大小，指的是 TCP 报文的最大数据段长度，其中不包括 TCP 首部长度）、时间等，在收到对方的 ACK 报文后，重新计算一遍，看其是否与对方回应报文中的（Sequence Number − 1）相同，从而决定是否分配 TCB 资源。</p>
+<h4 id="使用-SYN-Proxy-防火墙"><a href="#使用-SYN-Proxy-防火墙" class="headerlink" title="使用 SYN Proxy 防火墙"></a>使用 SYN Proxy 防火墙</h4><p>一种方式是防火墙先代理客户端与服务器完成三次握手，确认了连接的有效性后，才向内部服务器发起 SYN 请求。防火墙代服务器发出的 SYN ACK 包使用的序列号为 c，而真正的服务器回应的序列号为 c′，这样，在每个数据报文经过防火墙的时候进行序列号的修改。另一种方式是防火墙确定了连接的安全后，会发出一个 safe reset 命令，client 会进行重新连接，这时出现的 SYN 报文会直接放行。这样不需要修改序列号了。但是，client 需要发起两次握手过程，因此建立连接的时间将会延长。</p>
+<h3 id="连接队列"><a href="#连接队列" class="headerlink" title="连接队列"></a>连接队列</h3><p>在外部请求到达时，被服务程序最终感知到前，连接可能处于 <code>SYN_RCVD</code> 状态或是 <code>ESTABLISHED</code> 状态，但还未被应用程序接受。</p>
+<p>对应地，服务器端也会维护两种队列：处于 <code>SYN_RCVD</code> 状态的为半连接队列，处于 <code>ESTABLISHED</code> 状态但仍未被应用程序 accept 的为全连接队列。如果这两个队列满了之后，就会出现各种丢包的情形。</p>
+<p>查看是否有连接溢出：<code>netstat -s | grep LISTEN</code>。</p>
+<h4 id="半连接队列满了"><a href="#半连接队列满了" class="headerlink" title="半连接队列满了"></a>半连接队列满了</h4><p>在三次握手协议中，服务器维护一个半连接队列，该队列为每个客户端的 SYN 包开设一个条目（服务端在接收到 SYN 包的时候，就已经创建了 request_sock 结构，存储在半连接队列中），该条目表明服务器已收到 SYN 包，并向客户发出确认，正在等待客户的确认包。这些条目所标识的连接在服务器处于 <code>SYN_RCVD</code> 状态，当服务器收到客户的确认包时，删除该条目，服务器进入 <code>ESTABLISHED</code> 状态。</p>
+<p>目前，Linux 下默认会进行 5 次重发 SYN + ACK 包，重试的间隔时间从 1s 开始，下次的重试间隔时间是前一次的双倍，5 次的重试时间间隔为 1s、2s、4s、8s、16s，总共 31s，称为指数退避。第 5 次发出后还要等 32s 才知道第 5 次也超时了，所以，总共需要 1s + 2s + 4s + 8s + 16s + 32s = 63s，TCP 才会断开这个连接。由于 SYN 超时需要 63 秒，那么就给攻击者一个攻击服务器的机会，攻击者在短时间内发送大量的 SYN 包给 Server（俗称 SYN Flood 攻击），用于耗尽 Server 的 SYN 队列。对于应对 SYN 过多的问题，Linux 提供了几个 TCP 参数：<code>tcp_syncookies</code>、<code>tcp_synack_retries</code>、<code>tcp_max_syn_backlog</code>、<code>tcp_abort_on_overflow</code> 来调整应对。</p>
+<h4 id="全连接队列满"><a href="#全连接队列满" class="headerlink" title="全连接队列满"></a>全连接队列满</h4><p>第三次握手时，server 接收到 ACK 包之后，连接会进入一个叫 accept 的队列。</p>
+<p>当 accept 队列满了之后，即使 client 继续向 server 发送 ACK 的包，也不会被响应，此时 <code>ListenOverflows</code> 加 1。同时 server 通过 <code>tcp_abort_on_overflow</code> 来决定如何返回：0 表示直接丢弃该 ACK，1 表示发送 RST 通知 client；相应的，client 则会分别返回 read timeout 或者 connection reset by peer。</p>
+<p>另外，<code>tcp_abort_on_overflow</code> 为 0 的话，server 过一段时间会再次发送 SYN + ACK 给 client（也就是重新走握手的第二步），如果 client 超时等待比较短，就很容易异常了。而客户端收到多个 SYN + ACK 包，则会认为之前的 ACK 丢包了，于是促使客户端再次发送 ACK，在 accept 队列有空闲的时候最终完成连接。若 accept 队列始终满员，则最终客户端收到 RST 包（此时服务端发送 SYN + ACK 的次数超出了 <code>tcp_synack_retries</code>）。</p>
+<p>服务端仅仅只是创建一个定时器，以固定间隔重传 SYN + ACK 到客户端。</p>
+<h4 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h4><p><strong>netstat -s 命令</strong></p>
+<pre class="line-numbers language-text"><code class="language-text">[root@server ~]# netstat -s | egrep &quot;listen|LISTEN&quot;
+667399 times the listen queue of a socket overflowed
+667399 SYNs to LISTEN sockets ignored<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>比如上面看到的 667399 times，表示全连接队列溢出的次数。隔几秒钟执行下，如果这个数字一直在增加的话，肯定全连接队列偶尔满了。</p>
+<pre class="line-numbers language-text"><code class="language-text">[root@server ~]# netstat -s | grep TCPBacklogDrop<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>查看 Accept queue 是否有溢出。</p>
+<p><strong>ss 命令</strong></p>
+<pre class="line-numbers language-text"><code class="language-text">[root@server ~]# ss -lnt
+State    Recv-Q   Send-Q   Local Address:Port   Peer Address:Port
+LISTEN   0        128      *:6379               *:*
+LISTEN   0        128      *:22                 *:*<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>如果 State 是 LISTEN 状态，Send-Q 表示该 listen 端口上全连接队列的最大长度（示例中为 128），第一列 Recv-Q 为全连接队列当前已使用的长度。非 LISTEN 状态中，Recv-Q 表示 receive queue 中的 bytes 数量；Send-Q 表示 send queue 中的 bytes 数值。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>当外部连接请求到来时，TCP 模块会首先查看 <code>tcp_max_syn_backlog</code>，如果处于 <code>SYN_RCVD</code> 状态的连接数目超过这一阈值，进入的连接会被拒绝。根据 <code>tcp_abort_on_overflow</code> 字段来决定是直接丢弃，还是直接 reset。</p>
+<p>从服务端来说，三次握手中，第一步 server 接收到 client 的 SYN 后，把相关信息放到半连接队列中，同时回复 SYN + ACK 给 client。第三步当收到客户端的 ACK，将连接加入到全连接队列。</p>
+<p>一般，全连接队列比较小，会先满，此时半连接队列还没满。如果这时收到 SYN 报文，则会进入半连接队列，没有问题。但是如果收到了三次握手中的第 3 步（ACK），则会根据 <code>tcp_abort_on_overflow</code> 字段来决定是直接丢弃，还是直接 reset。此时，客户端发送了 ACK，那么客户端认为三次握手完成，它认为服务端已经做好了接收数据的准备。但此时服务端可能因为全连接队列满了而无法将连接放入，会重新发送第 2 步的 SYN + ACK，如果这时有数据到来，服务器 TCP 模块会将数据存入队列中。一段时间后，client 端没收到回复，超时，连接异常，client 会主动关闭连接。</p>
+<h2 id="“三次握手，四次挥手”Redis-实例分析"><a href="#“三次握手，四次挥手”Redis-实例分析" class="headerlink" title="“三次握手，四次挥手”Redis 实例分析"></a>“三次握手，四次挥手”Redis 实例分析</h2><pre class="line-numbers language-bash"><code class="language-bash">tcpdump -w /tmp/a.cap port 6379 -s0<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><code>-w</code> 把数据写入文件，<code>-s0</code> 设置每个数据包的抓取字节数（默认为 68 字节），<code>-s 0</code> 表示不限制抓取长度，能抓到完整数据包。</p>
+<pre class="line-numbers language-bash"><code class="language-bash">tcpdump -r /tmp/a.cap -n -nn -A -x <span class="token operator">|</span> vim -<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>其中 <code>-x</code> 以 16 进制形式展示，便于后面分析。</p>
+<p>共收到了 7 个包。</p>
+<p>抓到的是 IP 数据包，IP 数据包分为 IP 头部和 IP 数据部分，IP 数据部分是 TCP 头部加 TCP 数据部分。IP 数据报由固定长度 20B 的首部加上可变长度部分构成。</p>
+<p>对着 IP 头部格式，来拆解数据包的具体含义。</p>
+<p>剩余的数据部分即为 TCP 协议相关的。TCP 也是 20B 固定长度 + 可变长度部分，可变长度部分主要是 TCP 的选项（Options）字段。</p>
+<pre class="line-numbers language-text"><code class="language-text">10:55:45.662077 IP dev2.39070 &gt; dev.6379: Flags [S], seq 4133153791, win 29200, options [mss 1460,sackOK,TS val 2959270704 ecr 0,nop,wscale 7], length 0
+        0x0000:  4500 003c 08cf 4000 3606 14a5 0ab3 b561
+        0x0010:  0a60 5cd4 989e 18eb f65a ebff 0000 0000
+        0x0020:  a002 7210 872f 0000 0204 05b4 0402 080a
+        0x0030:  b062 e330 0000 0000 0103 0307<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>对照十六进制拆解几个关键字段：IP 首部的 <code>4</code> 和 <code>5</code> 表示 IPv4、首部 20 字节，总长度 <code>0x003c</code> 即 60 字节；TCP 部分源端口 <code>0x989e</code> 即 39070，目的端口 <code>0x18eb</code> 即 6379，数据偏移与标志位合为 <code>0xa002</code>——高 4 位 <code>a</code> 表示 TCP 首部 40 字节（含选项），低 12 位 <code>0x002</code> 即 SYN 置位。这样第一个包分析完了：dev2 向 dev 发送 SYN 请求，也就是三次握手中的第一次了，SYN <code>seq(c)=4133153791</code>。</p>
+<p>第二个包，dev 响应连接，ack=4133153792，表明 dev 下次准备接收这个序号的包，用于 TCP 字节流的顺序控制。dev（也就是 server 端）的初始序号为 seq=4264776963，syn=1。SYN <code>ack=seq(c)+1</code>，<code>seq(s)=4264776963</code>。</p>
+<p>第三个包，client 发包确认，这里使用了相对值应答。seq=4133153792，等于第二个包的 ack。ack=4264776964。<code>ack=seq(s)+1</code>，<code>seq=seq(c)+1</code>。至此，三次握手完成。接下来就是发送 ping 和 pong 的数据了。</p>
+<p>接着第四个包。</p>
+<pre class="line-numbers language-text"><code class="language-text">10:55:48.090073 IP dev2.39070 &gt; dev.6379: Flags [P.], seq 1:15, ack 1, win 229, options [nop,nop,TS val 2959273132 ecr 3132256230], length 14
+        0x0000:  4500 0042 08d1 4000 3606 149d 0ab3 b561
+        0x0010:  0a60 5cd4 989e 18eb f65a ec00 fe33 5504
+        0x0020:  8018 00e5 4b5f 0000 0101 080a b062 ecac
+        0x0030:  bab2 6fe6 2a31 0d0a 2434 0d0a 7069 6e67
+        0x0040:  0d0a<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>TCP 首部长度为 32B，可选长度为 12B。IP 报文的总长度为 66B，首部长度为 20B，因此 TCP 数据部分长度为 14B。seq=<code>0xf65a ec00</code>=4133153792，ACK、PSH。数据部分为 2a31 0d0a 2434 0d0a 7069 6e67 0d0a。</p>
+<pre class="line-numbers language-text"><code class="language-text">0x2a31          -&gt; *1
+0x0d0a          -&gt; \r\n
+0x2434          -&gt; $4
+0x0d0a          -&gt; \r\n
+0x7069 0x6e67   -&gt; ping
+0x0d0a          -&gt; \r\n<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>dev2 向 dev 发送了 ping 数据，第四个包完毕。</p>
+<p>第五个包，dev 向 dev2 发送 ack 响应。序列号为 <code>0xfe33 5504</code>=4264776964，ack 确认号为 <code>0xf65a ec0e</code>=4133153806=(4133153792+14)。</p>
+<p>第六个包，dev 向 dev2 响应 pong 消息。序列号 fe33 5504，确认号 f65a ec0e，TCP 头部可选长度为 12B，IP 数据报总长度为 59B，首部长度为 20B，因此 TCP 数据长度为 7B。数据部分 2b50 4f4e 470d 0a，翻译过来就是 +PONG。</p>
+<p>最后第七个包，则是 dev2 对 +PONG 的 ACK 确认，七个包的来龙去脉就都对上了。至此，Redis 客户端和 Server 端从三次握手到数据交互的过程分析完毕。</p>
+
+            </div>
+            <hr />
+
+            
+
+            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
+</div>
+
+<script src="/libs/share/js/social-share.min.js"></script>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        <p class="reprint-tip">
+            <i class="fa fa-exclamation-triangle"></i>&nbsp;&nbsp;
+            <span>转载规则</span>
+        </p>
+        
+            <div class="center-align">
+                <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                    <img alt=""
+                         style="border-width:0"
+                         src="https://i.creativecommons.org/l/by/4.0/88x31.png"/>
+                </a>
+            </div>
+            <br/>
+            <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
+                  property="dct:title" rel="dct:type">
+                    《深入理解 TCP 握手与分手》
+                </span> 由
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2021/09/07/tcpip-shen-ru-li-jie-wo-shou-fen-shou/" property="cc:attributionName"
+               rel="cc:attributionURL">
+                吴杭沉
+            </a> 采用
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
+                知识共享署名 4.0 国际许可协议
+            </a>进行许可。
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div id="giscus-card" class="card giscus-card" data-aos="fade-up">
+    <div class="card-content">
+        <div class="giscus"></div>
+    </div>
+</div>
+
+<script>
+    // 懒加载：滚动到评论区可见时才请求 giscus.app，
+    // 避免 giscus.app 不可达时阻塞页面加载
+    (function () {
+        var card = document.getElementById('giscus-card');
+        var holder = card ? card.querySelector('.giscus') : null;
+        if (!card || !holder) { return; }
+
+        var loaded = false;
+        function loadGiscus() {
+            if (loaded) { return; }
+            loaded = true;
+            var s = document.createElement('script');
+            s.src = 'https://giscus.app/client.js';
+            s.async = true;
+            s.crossOrigin = 'anonymous';
+            s.setAttribute('data-repo', 'wuhangchen/wuhangchen.github.io');
+            s.setAttribute('data-repo-id', 'R_kgDOMPl9sA');
+            s.setAttribute('data-category', 'Announcements');
+            s.setAttribute('data-category-id', 'DIC_kwDOMPl9sM4DDr8I');
+            s.setAttribute('data-mapping', 'pathname');
+            s.setAttribute('data-strict', '0');
+            s.setAttribute('data-reactions-enabled', '1');
+            s.setAttribute('data-emit-metadata', '0');
+            s.setAttribute('data-input-position', 'bottom');
+            s.setAttribute('data-theme', 'preferred_color_scheme');
+            s.setAttribute('data-lang', 'zh-CN');
+            holder.appendChild(s);
+        }
+
+        if (!('IntersectionObserver' in window)) {
+            // 旧浏览器直接降级为页面加载完成后加载
+            window.addEventListener('load', loadGiscus);
+            return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+            if (entries[0].isIntersecting) {
+                loadGiscus();
+                io.disconnect();
+            }
+        });
+        io.observe(card);
+    })();
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2021/09/14/tcpip-ke-hu-duan-duan-kou-fu-yong/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/bing-20260922.jpg" class="responsive-img" alt="客户端端口可以重复使用吗？">
+                        
+                        <span class="card-title">客户端端口可以重复使用吗？</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+1：关于临时端口号临时端口号（Ephemeral Port Number），又称为短暂端口号，是由网络通信中的客户端在发起连接时动态分配的端口号。这些端口号通常在传输控制协议（TCP）或用户数据报协议（UDP）会话中使用，用于客户端与服务
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2021-09-14
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/TCP-IP/" class="post-category" target="_blank">
+                                    TCP/IP
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/TCP-IP/" target="_blank">
+                        <span class="chip bg-color">TCP/IP</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2021/08/31/tcpip-san-ci-wo-shou-yu-si-ci-hui-shou/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/bing-20260914.jpg" class="responsive-img" alt="TCP 三次握手与四次挥手">
+                        
+                        <span class="card-title">TCP 三次握手与四次挥手</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            不管面试 Java、C/C++、Python 等开发岗位，TCP 的知识点可以说是必问的了。
+任 TCP 虐我千百遍，我仍待 TCP 如初恋。
+遥想小林当年校招时常因 TCP 面试题被刷，真是又爱又恨……
+过去不会没关系，今天就让我们来消除
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2021-08-31
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/TCP-IP/" class="post-category" target="_blank">
+                                    TCP/IP
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/TCP-IP/" target="_blank">
+                        <span class="chip bg-color">TCP/IP</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 吴杭沉的博客<br />'
+            + '作者: 吴杭沉<br />'
+            + '链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () { bodyElement.removeChild(newdiv); }, 200);
+    });
+</script>
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+	            fixPostCardWidth('artDetail', 'giscus-card');
+        });
+        
+    });
+</script>
+    
+
+</main>
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align">
+        <div class="col s12 m8 l8 copy-right">
+            &copy; 2017-2024 Wuhangchen. 版权所有
+
+            
+            &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
+            <span class="white-color">484.3k</span>
+            
+
+            <br>
+            <span id="sitetime"></span>
+
+            
+            
+            <br>
+            
+            <span id="busuanzi_container_site_pv" style='display:none'>
+                <i class="fa fa-heart-o"></i>
+                本站总访问量 <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv" style='display:none'>
+                人次,&nbsp;访客数 <span id="busuanzi_value_site_uv" class="white-color"></span> 人.
+            </span>
+            
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/wuhangchen" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fa fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:codewu1996@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fa fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fa fa-rss"></i>
+    </a>
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+    $(document).ready(function () {
+
+        var int = setInterval(fixCount, 50);
+        var fixTries = 0;
+        var pvcountOffset = 80000;
+        var uvcountOffset = 20000;
+
+        function fixCount() {
+            // 本地环境不加载不蒜子时避免无限轮询：最多等待 10 秒
+            if (++fixTries > 200) {
+                clearInterval(int);
+                return;
+            }
+            if (document.getElementById("busuanzi_container_site_pv").style.display != "none") {
+                $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + pvcountOffset);
+                clearInterval(int);
+            }
+            if ($("#busuanzi_container_site_pv").css("display") != "none") {
+                $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + uvcountOffset); // 加上初始数据 
+                clearInterval(int);
+            }
+        }
+    });
+</script>
+
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+        year - 作为date对象的年份，为4位年份值
+        month - 0-11之间的整数，做为date对象的月份
+        day - 1-31之间的整数，做为date对象的天数
+        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+        minutes - 0-59之间的整数，做为date对象的分钟数
+        seconds - 0-59之间的整数，做为date对象的秒数
+        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        var t1 = Date.UTC(2017, 09, 11, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "本站已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/
+    siteTime();
+</script>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fa fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "Σ(っ °Д °;)っ喔哟，崩溃啦！", clearTimeout(st)) : (document.title = "φ(゜▽゜*)♪咦，又好了！", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) })
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+
+    
+    <script src="/libs/others/clicklove.js"></script>
+    
+
+    
+    <script>
+        // 本地调试（localhost/127.0.0.1）不加载不蒜子：
+        // 不蒜子按 Referer 计数，所有开发者本地环境的 localhost 计数是共用的，数值严重失真
+        if (!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) {
+            var bsz = document.createElement('script');
+            bsz.src = '/libs/others/busuanzi.pure.mini.js';
+            bsz.async = true;
+            document.body.appendChild(bsz);
+        }
+    </script>
+    
+
+    <!-- 雪花特效 -->
+    
+    <script type="text/javascript" src="/libs/others/snow.js"></script>
+    
+
+</body>
+
+</html>
